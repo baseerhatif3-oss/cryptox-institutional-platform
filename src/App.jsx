@@ -18,19 +18,17 @@ import Wallet from "./pages/Wallet";
 import Transactions from "./pages/Transactions";
 
 function App() {
-  const userInfo = JSON.parse(
-    localStorage.getItem("userInfo")
+  const user = JSON.parse(
+    localStorage.getItem("user")
   );
 
   return (
     <BrowserRouter>
       <Routes>
-        {/* REGISTER */}
-
         <Route
           path="/"
           element={
-            userInfo ? (
+            user ? (
               <Navigate to="/dashboard" />
             ) : (
               <Register />
@@ -38,12 +36,10 @@ function App() {
           }
         />
 
-        {/* LOGIN */}
-
         <Route
           path="/login"
           element={
-            userInfo ? (
+            user ? (
               <Navigate to="/dashboard" />
             ) : (
               <Login />
@@ -51,12 +47,10 @@ function App() {
           }
         />
 
-        {/* DASHBOARD */}
-
         <Route
           path="/dashboard"
           element={
-            userInfo ? (
+            user ? (
               <Dashboard />
             ) : (
               <Navigate to="/login" />
@@ -64,12 +58,10 @@ function App() {
           }
         />
 
-        {/* PORTFOLIO */}
-
         <Route
           path="/portfolio"
           element={
-            userInfo ? (
+            user ? (
               <Portfolio />
             ) : (
               <Navigate to="/login" />
@@ -77,12 +69,10 @@ function App() {
           }
         />
 
-        {/* WALLET */}
-
         <Route
           path="/wallet"
           element={
-            userInfo ? (
+            user ? (
               <Wallet />
             ) : (
               <Navigate to="/login" />
@@ -90,12 +80,10 @@ function App() {
           }
         />
 
-        {/* TRANSACTIONS */}
-
         <Route
           path="/transactions"
           element={
-            userInfo ? (
+            user ? (
               <Transactions />
             ) : (
               <Navigate to="/login" />
