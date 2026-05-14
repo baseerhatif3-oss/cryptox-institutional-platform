@@ -1,4 +1,8 @@
 function Dashboard() {
+  const user = JSON.parse(
+    localStorage.getItem("userInfo")
+  );
+
   return (
     <div
       style={{
@@ -6,12 +10,32 @@ function Dashboard() {
         background: "#0f172a",
         color: "white",
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        fontSize: "40px",
       }}
     >
-      Dashboard Working ✅
+      <h1>
+        Dashboard Working ✅
+      </h1>
+
+      <p>
+        Welcome{" "}
+        {user?.name}
+      </p>
+
+      <button
+        onClick={() => {
+          localStorage.removeItem(
+            "userInfo"
+          );
+
+          window.location.href =
+            "/";
+        }}
+      >
+        Logout
+      </button>
     </div>
   );
 }

@@ -6,20 +6,12 @@ import {
 } from "react-router-dom";
 
 import Login from "./pages/Login";
-
 import Register from "./pages/Register";
-
 import Dashboard from "./pages/Dashboard";
-
-import Portfolio from "./pages/Portfolio";
-
-import Wallet from "./pages/Wallet";
-
-import Transactions from "./pages/Transactions";
 
 function App() {
   const user = JSON.parse(
-    localStorage.getItem("user")
+    localStorage.getItem("userInfo")
   );
 
   return (
@@ -29,22 +21,18 @@ function App() {
           path="/"
           element={
             user ? (
-              <Navigate to="/dashboard" />
+              <Navigate
+                to="/dashboard"
+              />
             ) : (
-              <Register />
+              <Login />
             )
           }
         />
 
         <Route
-          path="/login"
-          element={
-            user ? (
-              <Navigate to="/dashboard" />
-            ) : (
-              <Login />
-            )
-          }
+          path="/register"
+          element={<Register />}
         />
 
         <Route
@@ -53,40 +41,7 @@ function App() {
             user ? (
               <Dashboard />
             ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-
-        <Route
-          path="/portfolio"
-          element={
-            user ? (
-              <Portfolio />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-
-        <Route
-          path="/wallet"
-          element={
-            user ? (
-              <Wallet />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-
-        <Route
-          path="/transactions"
-          element={
-            user ? (
-              <Transactions />
-            ) : (
-              <Navigate to="/login" />
+              <Navigate to="/" />
             )
           }
         />
