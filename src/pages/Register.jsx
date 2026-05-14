@@ -1,92 +1,107 @@
 import { useState } from "react";
 
-export default function Register() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
-
-  const [loading, setLoading] = useState(false);
+function Register() {
+  const [formData, setFormData] =
+    useState({
+      name: "",
+      email: "",
+      password: "",
+    });
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]:
+        e.target.value,
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (
+    e
+  ) => {
     e.preventDefault();
 
     try {
-      setLoading(true);
+      const response =
+        await fetch(
+          "https://crypto-platform-backend-d2az.onrender.com/api/auth/register",
+          {
+            method: "POST",
 
-      const response = await fetch(
-        "https://crypto-platform-backend-d2az.onrender.com/api/auth/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+
+            body: JSON.stringify(
+              formData
+            ),
+          }
+        );
+
+      const data =
+        await response.json();
+
+      localStorage.setItem(
+        "userInfo",
+        JSON.stringify(data)
       );
 
-      const data = await response.json();
+      alert(
+        "Registration Successful"
+      );
 
-      if (!response.ok) {
-        throw new Error(data.message || "Register Failed");
-      }
-
-      alert("Registration Successful");
-
-      localStorage.setItem("user", JSON.stringify(data));
-
-      window.location.href = "/dashboard";
+      window.location.href =
+        "/dashboard";
     } catch (error) {
-      alert(error.message);
-    } finally {
-      setLoading(false);
+      alert(
+        "Register Failed"
+      );
     }
   };
 
   return (
-    <div className="auth-container">
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <h1>Create Account</h1>
+    <div>
+      <h1>Register</h1>
 
+      <form
+        onSubmit={
+          handleSubmit
+        }
+      >
         <input
           type="text"
           name="name"
           placeholder="Name"
-          value={formData.name}
-          onChange={handleChange}
-          required
+          onChange={
+            handleChange
+          }
         />
 
         <input
           type="email"
           name="email"
           placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
+          onChange={
+            handleChange
+          }
         />
 
         <input
           type="password"
           name="password"
           placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
+          onChange={
+            handleChange
+          }
         />
 
         <button type="submit">
-          {loading ? "Loading..." : "Register"}
+          Register
         </button>
       </form>
     </div>
   );
 }
+
+export default Register;
