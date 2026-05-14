@@ -10,9 +10,10 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 
 function App() {
-  const user = JSON.parse(
-    localStorage.getItem("userInfo")
-  );
+  const user =
+    localStorage.getItem(
+      "userInfo"
+    );
 
   return (
     <BrowserRouter>
@@ -21,13 +22,16 @@ function App() {
           path="/"
           element={
             user ? (
-              <Navigate
-                to="/dashboard"
-              />
+              <Navigate to="/dashboard" />
             ) : (
               <Login />
             )
           }
+        />
+
+        <Route
+          path="/login"
+          element={<Login />}
         />
 
         <Route
@@ -41,7 +45,7 @@ function App() {
             user ? (
               <Dashboard />
             ) : (
-              <Navigate to="/" />
+              <Navigate to="/login" />
             )
           }
         />
