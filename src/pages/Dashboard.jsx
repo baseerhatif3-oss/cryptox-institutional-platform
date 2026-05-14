@@ -1,4 +1,9 @@
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import axios from "axios";
 
 import TradingViewWidget from "react-tradingview-widget";
 
@@ -10,49 +15,124 @@ function Dashboard() {
   const [btcPrice, setBtcPrice] =
     useState(0);
 
-  const [ethPrice, setEthPrice] =
-    useState(0);
+  const [wallet, setWallet] =
+    useState({
+      BTC: 0,
+      USDT: 0,
+    });
 
-  const [btcChange, setBtcChange] =
-    useState(0);
-
-  const [ethChange, setEthChange] =
-    useState(0);
+  const [amount, setAmount] =
+    useState("");
 
   useEffect(() => {
-    fetchMarketData();
+    fetchBTCPrice();
+
+    fetchWallet();
   }, []);
 
-  const fetchMarketData =
+  /* BTC PRICE */
+
+  const fetchBTCPrice =
+    async () => {
+      const response =
+        await fetch(
+          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+        );
+
+      const data =
+        await response.json();
+
+      setBtcPrice(
+        data.bitcoin.usd
+      );
+    };
+
+  /* WALLET */
+
+  const fetchWallet =
     async () => {
       try {
-        const response =
-          await fetch(
-            "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true"
+        const config = {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        };
+
+        const { data } =
+          await axios.get(
+            "https://crypto-platform-backend-d2az.onrender.com/api/trade/wallet",
+            config
           );
 
-        const data =
-          await response.json();
-
-        setBtcPrice(
-          data.bitcoin.usd
-        );
-
-        setEthPrice(
-          data.ethereum.usd
-        );
-
-        setBtcChange(
-          data.bitcoin
-            .usd_24h_change
-        );
-
-        setEthChange(
-          data.ethereum
-            .usd_24h_change
-        );
+        setWallet(data);
       } catch (error) {
         console.log(error);
+      }
+    };
+
+  /* BUY BTC */
+
+  const buyBTC =
+    async () => {
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        };
+
+        await axios.post(
+          "https://crypto-platform-backend-d2az.onrender.com/api/trade/buy",
+          {
+            amount:
+              Number(amount),
+            price: btcPrice,
+          },
+          config
+        );
+
+        alert(
+          "BTC Purchased"
+        );
+
+        fetchWallet();
+      } catch (error) {
+        alert(
+          error.response.data
+            .message
+        );
+      }
+    };
+
+  /* SELL BTC */
+
+  const sellBTC =
+    async () => {
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        };
+
+        await axios.post(
+          "https://crypto-platform-backend-d2az.onrender.com/api/trade/sell",
+          {
+            amount:
+              Number(amount),
+            price: btcPrice,
+          },
+          config
+        );
+
+        alert("BTC Sold");
+
+        fetchWallet();
+      } catch (error) {
+        alert(
+          error.response.data
+            .message
+        );
       }
     };
 
@@ -66,7 +146,7 @@ function Dashboard() {
         fontFamily: "Arial",
       }}
     >
-      {/* TOP BAR */}
+      {/* TOP */}
 
       <div
         style={{
@@ -83,8 +163,8 @@ function Dashboard() {
           </h1>
 
           <p>
-            Welcome back,{" "}
-            {user?.name}
+            Welcome{" "}
+            {user.name}
           </p>
         </div>
 
@@ -97,22 +177,13 @@ function Dashboard() {
             window.location.href =
               "/";
           }}
-          style={{
-            background:
-              "#dc2626",
-            border: "none",
-            padding:
-              "12px 20px",
-            borderRadius: "10px",
-            color: "white",
-            cursor: "pointer",
-          }}
+          style={logoutBtn}
         >
           Logout
         </button>
       </div>
 
-      {/* MARKET CARDS */}
+      {/* WALLET */}
 
       <div
         style={{
@@ -120,73 +191,99 @@ function Dashboard() {
           gridTemplateColumns:
             "repeat(auto-fit,minmax(250px,1fr))",
           gap: "20px",
-          marginBottom: "40px",
+          marginBottom: "30px",
         }}
       >
+        {/* USDT */}
+
+        <div style={card}>
+          <h2>
+            USDT Balance
+          </h2>
+
+          <h1>
+            $
+            {wallet.USDT?.toFixed(
+              2
+            )}
+          </h1>
+        </div>
+
         {/* BTC */}
 
         <div style={card}>
-          <h2>Bitcoin</h2>
+          <h2>
+            BTC Holdings
+          </h2>
+
+          <h1>
+            {wallet.BTC?.toFixed(
+              6
+            )}{" "}
+            BTC
+          </h1>
+        </div>
+
+        {/* BTC PRICE */}
+
+        <div style={card}>
+          <h2>
+            BTC Price
+          </h2>
 
           <h1>
             $
             {btcPrice.toLocaleString()}
           </h1>
-
-          <p
-            style={{
-              color:
-                btcChange > 0
-                  ? "#22c55e"
-                  : "#ef4444",
-            }}
-          >
-            {btcChange.toFixed(
-              2
-            )}
-            %
-          </p>
         </div>
+      </div>
 
-        {/* ETH */}
+      {/* BUY/SELL */}
 
-        <div style={card}>
-          <h2>Ethereum</h2>
+      <div
+        style={{
+          background: "#0f172a",
+          padding: "30px",
+          borderRadius: "20px",
+          marginBottom: "30px",
+        }}
+      >
+        <h2>
+          Trade Bitcoin
+        </h2>
 
-          <h1>
-            $
-            {ethPrice.toLocaleString()}
-          </h1>
+        <input
+          type="number"
+          placeholder="BTC Amount"
+          value={amount}
+          onChange={(e) =>
+            setAmount(
+              e.target.value
+            )
+          }
+          style={input}
+        />
 
-          <p
-            style={{
-              color:
-                ethChange > 0
-                  ? "#22c55e"
-                  : "#ef4444",
-            }}
+        <div
+          style={{
+            display: "flex",
+            gap: "20px",
+            marginTop: "20px",
+          }}
+        >
+          <button
+            onClick={buyBTC}
+            style={buyBtn}
           >
-            {ethChange.toFixed(
-              2
-            )}
-            %
-          </p>
-        </div>
+            Buy BTC
+          </button>
 
-        {/* PORTFOLIO */}
-
-        <div style={card}>
-          <h2>Portfolio</h2>
-
-          <h1>$12,450</h1>
-
-          <p
-            style={{
-              color: "#22c55e",
-            }}
+          <button
+            onClick={sellBTC}
+            style={sellBtn}
           >
-            +12.4%
-          </p>
+            Sell BTC
+          </button>
         </div>
       </div>
 
@@ -195,14 +292,13 @@ function Dashboard() {
       <div
         style={{
           background: "#0f172a",
-          borderRadius: "20px",
           padding: "20px",
+          borderRadius: "20px",
         }}
       >
         <TradingViewWidget
           symbol="BINANCE:BTCUSDT"
           theme="dark"
-          locale="en"
           autosize
         />
       </div>
@@ -210,10 +306,47 @@ function Dashboard() {
   );
 }
 
+/* STYLES */
+
 const card = {
   background: "#0f172a",
   padding: "25px",
   borderRadius: "20px",
+};
+
+const input = {
+  width: "100%",
+  padding: "15px",
+  borderRadius: "10px",
+  border: "none",
+  marginTop: "20px",
+};
+
+const buyBtn = {
+  background: "#22c55e",
+  border: "none",
+  padding: "14px 20px",
+  borderRadius: "10px",
+  color: "white",
+  cursor: "pointer",
+};
+
+const sellBtn = {
+  background: "#ef4444",
+  border: "none",
+  padding: "14px 20px",
+  borderRadius: "10px",
+  color: "white",
+  cursor: "pointer",
+};
+
+const logoutBtn = {
+  background: "#ef4444",
+  border: "none",
+  padding: "12px 20px",
+  borderRadius: "10px",
+  color: "white",
+  cursor: "pointer",
 };
 
 export default Dashboard;
