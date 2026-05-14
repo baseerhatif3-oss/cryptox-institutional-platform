@@ -51,8 +51,9 @@ function Register() {
         "Registration Successful"
       );
 
-      window.location.href =
-        "/dashboard";
+      window.location.replace(
+        "/dashboard"
+      );
     } catch (error) {
       alert(
         "Register Failed"
@@ -61,14 +62,41 @@ function Register() {
   };
 
   return (
-    <div>
-      <h1>Register</h1>
-
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#020b24",
+        display: "flex",
+        justifyContent:
+          "center",
+        alignItems: "center",
+      }}
+    >
       <form
         onSubmit={
           handleSubmit
         }
+        style={{
+          background: "#111c3d",
+          padding: "40px",
+          borderRadius: "10px",
+          width: "350px",
+          display: "flex",
+          flexDirection:
+            "column",
+          gap: "15px",
+        }}
       >
+        <h1
+          style={{
+            color: "#d4a017",
+            textAlign:
+              "center",
+          }}
+        >
+          Create Account
+        </h1>
+
         <input
           type="text"
           name="name"
@@ -76,6 +104,9 @@ function Register() {
           onChange={
             handleChange
           }
+          style={{
+            padding: "12px",
+          }}
         />
 
         <input
@@ -85,6 +116,9 @@ function Register() {
           onChange={
             handleChange
           }
+          style={{
+            padding: "12px",
+          }}
         />
 
         <input
@@ -94,9 +128,23 @@ function Register() {
           onChange={
             handleChange
           }
+          style={{
+            padding: "12px",
+          }}
         />
 
-        <button type="submit">
+        <button
+          type="submit"
+          style={{
+            padding: "12px",
+            background:
+              "#d4a017",
+            border: "none",
+            cursor: "pointer",
+            fontWeight:
+              "bold",
+          }}
+        >
           Register
         </button>
       </form>

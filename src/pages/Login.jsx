@@ -39,8 +39,9 @@ function Login() {
         "Login Successful"
       );
 
-      window.location.href =
-        "/dashboard";
+      window.location.replace(
+        "/dashboard"
+      );
     } catch (error) {
       alert(
         error.response?.data
@@ -51,14 +52,41 @@ function Login() {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#020b24",
+        display: "flex",
+        justifyContent:
+          "center",
+        alignItems: "center",
+      }}
+    >
       <form
         onSubmit={
           handleSubmit
         }
+        style={{
+          background: "#111c3d",
+          padding: "40px",
+          borderRadius: "10px",
+          width: "350px",
+          display: "flex",
+          flexDirection:
+            "column",
+          gap: "15px",
+        }}
       >
+        <h1
+          style={{
+            color: "#d4a017",
+            textAlign:
+              "center",
+          }}
+        >
+          Login
+        </h1>
+
         <input
           type="email"
           name="email"
@@ -66,6 +94,9 @@ function Login() {
           onChange={
             handleChange
           }
+          style={{
+            padding: "12px",
+          }}
         />
 
         <input
@@ -75,9 +106,23 @@ function Login() {
           onChange={
             handleChange
           }
+          style={{
+            padding: "12px",
+          }}
         />
 
-        <button type="submit">
+        <button
+          type="submit"
+          style={{
+            padding: "12px",
+            background:
+              "#d4a017",
+            border: "none",
+            cursor: "pointer",
+            fontWeight:
+              "bold",
+          }}
+        >
           Login
         </button>
       </form>
