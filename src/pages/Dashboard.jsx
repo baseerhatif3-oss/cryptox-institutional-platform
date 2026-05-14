@@ -1,30 +1,8 @@
-import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
+import React from "react";
+
 import DashboardLayout from "../layouts/DashboardLayout";
 
-const socket = io(
-  "https://crypto-platform-backend-d2az.onrender.com"
-);
-
 function Dashboard() {
-  const [price, setPrice] =
-    useState(0);
-
-  useEffect(() => {
-    socket.on(
-      "price-update",
-      (data) => {
-        setPrice(data.price);
-      }
-    );
-
-    return () => {
-      socket.off(
-        "price-update"
-      );
-    };
-  }, []);
-
   return (
     <DashboardLayout>
       <div
@@ -33,15 +11,13 @@ function Dashboard() {
         }}
       >
         <h1>
-          BTC/USDT Live Price
+          Crypto Dashboard
         </h1>
 
-        <h2>
-          $
-          {price
-            ? price.toLocaleString()
-            : "Loading..."}
-        </h2>
+        <p>
+          Exchange is running
+          successfully.
+        </p>
       </div>
     </DashboardLayout>
   );
