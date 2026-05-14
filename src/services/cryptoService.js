@@ -1,14 +1,71 @@
-import axios from "axios";
+import API from "./api";
 
-const API_URL =
-  "https://api.coingecko.com/api/v3";
+/* REGISTER */
 
-export const getCryptoPrices =
-  async () => {
-    const response =
-      await axios.get(
-        `${API_URL}/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true`
-      );
+export const registerUser = async (userData) => {
+  const response = await API.post("/auth/register", userData);
+  return response.data;
+};
 
-    return response.data;
-  };
+/* LOGIN */
+
+export const loginUser = async (userData) => {
+  const response = await API.post("/auth/login", userData);
+  return response.data;
+};
+
+/* WALLET */
+
+export const getWallet = async (token) => {
+  const response = await API.get("/trade/wallet", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+};
+
+/* BUY BTC */
+
+export const buyBTC = async (amount, token) => {
+  const response = await API.post(
+    "/trade/buy",
+    { amount },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return response.data;
+};
+
+/* SELL BTC */
+
+export const sellBTC = async (amount, token) => {
+  const response = await API.post(
+    "/trade/sell",
+    { amount },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return response.data;
+};
+
+/* TRANSACTIONS */
+
+export const getTransactions = async (token) => {
+  const response = await API.get("/trade/transactions", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+};
