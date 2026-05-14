@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API = axios.create({
   baseURL:
-    "https://crypto-platform-backend.onrender.com/api",
+    "https://crypto-platform-backend-d2az.onrender.com/api",
 });
 
 API.interceptors.request.use(
