@@ -1,9 +1,5 @@
 import { useState } from "react";
 
-import axios from "axios";
-
-import { Link } from "react-router-dom";
-
 function Register() {
   const [formData, setFormData] =
     useState({
@@ -32,14 +28,41 @@ function Register() {
 
     try {
       const response =
-        await axios.post(
+        await fetch(
           "https://crypto-platform-backend.onrender.com/api/auth/register",
-          formData
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+
+            body: JSON.stringify(
+              formData
+            ),
+          }
         );
+
+      const data =
+        await response.json();
+
+      console.log(data);
+
+      if (!response.ok) {
+        alert(
+          data.message ||
+            "Register Failed"
+        );
+
+        setLoading(false);
+
+        return;
+      }
 
       localStorage.setItem(
         "userInfo",
-        JSON.stringify(response.data)
+        JSON.stringify(data)
       );
 
       window.location.href =
@@ -47,11 +70,7 @@ function Register() {
     } catch (error) {
       console.log(error);
 
-      alert(
-        error?.response?.data
-          ?.message ||
-          "Register Failed"
-      );
+      alert(error.message);
     }
 
     setLoading(false);
@@ -108,18 +127,6 @@ function Register() {
               : "Register"}
           </button>
         </form>
-
-        <p
-          style={{
-            color: "white",
-            marginTop: "20px",
-          }}
-        >
-          Already have account?{" "}
-          <Link to="/login">
-            Login
-          </Link>
-        </p>
       </div>
     </div>
   );
