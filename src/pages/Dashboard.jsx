@@ -1,25 +1,18 @@
-import React from "react";
-
-import DashboardLayout from "../layouts/DashboardLayout";
-
 function Dashboard() {
   return (
-    <DashboardLayout>
-      <div
-        style={{
-          color: "white",
-        }}
-      >
-        <h1>
-          Crypto Dashboard
-        </h1>
-
-        <p>
-          Exchange is running
-          successfully.
-        </p>
-      </div>
-    </DashboardLayout>
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#0f172a",
+        color: "white",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        fontSize: "40px",
+      }}
+    >
+      Dashboard Working ✅
+    </div>
   );
 }
 
