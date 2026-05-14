@@ -1,24 +1,19 @@
 import { useState } from "react";
 
+import axios from "axios";
+
 import { Link } from "react-router-dom";
 
-import { useNavigate } from "react-router-dom";
-
-import API from "../api";
-
 function Register() {
-  const navigate =
-    useNavigate();
-
-  const [loading, setLoading] =
-    useState(false);
-
   const [formData, setFormData] =
     useState({
       name: "",
       email: "",
       password: "",
     });
+
+  const [loading, setLoading] =
+    useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -33,30 +28,33 @@ function Register() {
   ) => {
     e.preventDefault();
 
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      const { data } =
-        await API.post(
-          "/auth/register",
+    try {
+      const response =
+        await axios.post(
+          "https://crypto-platform-backend.onrender.com/api/auth/register",
           formData
         );
 
       localStorage.setItem(
         "userInfo",
-        JSON.stringify(data)
+        JSON.stringify(response.data)
       );
 
-      navigate("/dashboard");
+      window.location.href =
+        "/dashboard";
     } catch (error) {
+      console.log(error);
+
       alert(
         error?.response?.data
           ?.message ||
           "Register Failed"
       );
-    } finally {
-      setLoading(false);
     }
+
+    setLoading(false);
   };
 
   return (
@@ -111,7 +109,12 @@ function Register() {
           </button>
         </form>
 
-        <p style={text}>
+        <p
+          style={{
+            color: "white",
+            marginTop: "20px",
+          }}
+        >
           Already have account?{" "}
           <Link to="/login">
             Login
@@ -127,7 +130,7 @@ const container = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  background: "#0f172a",
+  background: "#020617",
 };
 
 const box = {
@@ -135,8 +138,6 @@ const box = {
   padding: "40px",
   borderRadius: "20px",
   width: "350px",
-  boxShadow:
-    "0 0 20px rgba(0,0,0,0.3)",
 };
 
 const title = {
@@ -164,12 +165,6 @@ const button = {
   background: "#facc15",
   fontWeight: "bold",
   cursor: "pointer",
-};
-
-const text = {
-  color: "white",
-  marginTop: "20px",
-  textAlign: "center",
 };
 
 export default Register;
