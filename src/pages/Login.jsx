@@ -4,10 +4,7 @@ import {
 
 import axios from "axios";
 
-function Register() {
-  const [name, setName] =
-    useState("");
-
+function Login() {
   const [email, setEmail] =
     useState("");
 
@@ -28,9 +25,8 @@ function Register() {
 
         const { data } =
           await axios.post(
-            "https://crypto-platform-backend-d2az.onrender.com/api/auth/register",
+            `${import.meta.env.VITE_API_URL}/api/auth/login`,
             {
-              name,
               email,
               password,
             }
@@ -42,16 +38,18 @@ function Register() {
         );
 
         alert(
-          "Registration Successful"
+          "Login Successful"
         );
 
         window.location.href =
           "/dashboard";
       } catch (error) {
+        console.log(error);
+
         alert(
           error.response?.data
             ?.message ||
-            "Register Failed"
+            "Login Failed"
         );
       } finally {
         setLoading(false);
@@ -106,7 +104,7 @@ function Register() {
               "30px",
           }}
         >
-          Create trading account
+          Welcome back trader
         </p>
 
         <form
@@ -114,18 +112,6 @@ function Register() {
             submitHandler
           }
         >
-          <input
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) =>
-              setName(
-                e.target.value
-              )
-            }
-            style={input}
-          />
-
           <input
             type="email"
             placeholder="Email"
@@ -136,6 +122,7 @@ function Register() {
               )
             }
             style={input}
+            required
           />
 
           <input
@@ -148,6 +135,7 @@ function Register() {
               )
             }
             style={input}
+            required
           />
 
           <button
@@ -156,7 +144,7 @@ function Register() {
           >
             {loading
               ? "Loading..."
-              : "Register"}
+              : "Login"}
           </button>
         </form>
 
@@ -168,11 +156,11 @@ function Register() {
               "20px",
           }}
         >
-          Already have account?{" "}
+          Don't have account?{" "}
           <span
             onClick={() => {
               window.location.href =
-                "/login";
+                "/register";
             }}
             style={{
               color:
@@ -181,7 +169,7 @@ function Register() {
                 "pointer",
             }}
           >
-            Login
+            Register
           </span>
         </p>
       </div>
@@ -200,6 +188,7 @@ const input = {
   background: "#1e293b",
   color: "white",
   fontSize: "16px",
+  boxSizing: "border-box",
 };
 
 const button = {
@@ -213,4 +202,4 @@ const button = {
   cursor: "pointer",
 };
 
-export default Register;
+export default Login;
