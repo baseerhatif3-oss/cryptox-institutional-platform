@@ -1,12 +1,17 @@
 import axios from "axios";
 
+/* BASE URL */
+
 const API = axios.create({
   baseURL:
-    "https://crypto-platform-backend-d2az.onrender.com/api",
+    import.meta.env
+      .VITE_API_URL,
 });
 
+/* AUTO TOKEN */
+
 API.interceptors.request.use(
-  (req) => {
+  (config) => {
     const userInfo =
       JSON.parse(
         localStorage.getItem(
@@ -14,11 +19,13 @@ API.interceptors.request.use(
         )
       );
 
-    if (userInfo?.token) {
-      req.headers.Authorization = `Bearer ${userInfo.token}`;
+    if (
+      userInfo?.token
+    ) {
+      config.headers.Authorization = `Bearer ${userInfo.token}`;
     }
 
-    return req;
+    return config;
   }
 );
 
