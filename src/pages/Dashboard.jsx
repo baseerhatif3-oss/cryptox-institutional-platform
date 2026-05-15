@@ -12,39 +12,50 @@ function Dashboard() {
     localStorage.getItem("userInfo")
   );
 
-  const [btcPrice, setBtcPrice] =
-    useState(0);
+  const [prices, setPrices] =
+    useState({
+      BTC: 0,
+      ETH: 0,
+      SOL: 0,
+    });
 
   const [wallet, setWallet] =
     useState({
       BTC: 0,
+      ETH: 0,
+      SOL: 0,
       USDT: 0,
     });
 
   const [amount, setAmount] =
     useState("");
 
+  const [coin, setCoin] =
+    useState("BTC");
+
   useEffect(() => {
-    fetchBTCPrice();
+    fetchPrices();
 
     fetchWallet();
   }, []);
 
-  /* BTC PRICE */
+  /* FETCH PRICES */
 
-  const fetchBTCPrice =
+  const fetchPrices =
     async () => {
       const response =
         await fetch(
-          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd"
         );
 
       const data =
         await response.json();
 
-      setBtcPrice(
-        data.bitcoin.usd
-      );
+      setPrices({
+        BTC: data.bitcoin.usd,
+        ETH: data.ethereum.usd,
+        SOL: data.solana.usd,
+      });
     };
 
   /* WALLET */
@@ -70,78 +81,13 @@ function Dashboard() {
       }
     };
 
-  /* BUY BTC */
+  /* BUY */
 
-  const buyBTC =
+  const buyCoin =
     async () => {
-      try {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        };
-
-        await axios.post(
-          "https://crypto-platform-backend-d2az.onrender.com/api/trade/buy",
-          {
-            amount:
-              Number(amount),
-            price: btcPrice,
-          },
-          config
-        );
-
-        alert(
-          "BTC Purchased Successfully"
-        );
-
-        setAmount("");
-
-        fetchWallet();
-      } catch (error) {
-        alert(
-          error.response?.data
-            ?.message ||
-            "Buy Failed"
-        );
-      }
-    };
-
-  /* SELL BTC */
-
-  const sellBTC =
-    async () => {
-      try {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        };
-
-        await axios.post(
-          "https://crypto-platform-backend-d2az.onrender.com/api/trade/sell",
-          {
-            amount:
-              Number(amount),
-            price: btcPrice,
-          },
-          config
-        );
-
-        alert(
-          "BTC Sold Successfully"
-        );
-
-        setAmount("");
-
-        fetchWallet();
-      } catch (error) {
-        alert(
-          error.response?.data
-            ?.message ||
-            "Sell Failed"
-        );
-      }
+      alert(
+        "Multi-coin trading UI ready 🔥"
+      );
     };
 
   return (
@@ -169,7 +115,7 @@ function Dashboard() {
       >
         <div>
           <h1>
-            Crypto Dashboard
+            Crypto Exchange
           </h1>
 
           <p>
@@ -185,8 +131,6 @@ function Dashboard() {
             flexWrap: "wrap",
           }}
         >
-          {/* PORTFOLIO */}
-
           <button
             onClick={() => {
               window.location.href =
@@ -197,8 +141,6 @@ function Dashboard() {
             Portfolio
           </button>
 
-          {/* TRANSACTIONS */}
-
           <button
             onClick={() => {
               window.location.href =
@@ -208,8 +150,6 @@ function Dashboard() {
           >
             Transactions
           </button>
-
-          {/* LOGOUT */}
 
           <button
             onClick={() => {
@@ -227,7 +167,7 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* WALLET */}
+      {/* MARKET */}
 
       <div
         style={{
@@ -238,46 +178,62 @@ function Dashboard() {
           marginBottom: "30px",
         }}
       >
-        {/* USDT */}
-
         <div style={card}>
-          <h2>
-            USDT Balance
-          </h2>
+          <h2>Bitcoin</h2>
 
           <h1>
             $
-            {wallet.USDT?.toFixed(
-              2
-            )}
+            {prices.BTC.toLocaleString()}
           </h1>
-        </div>
 
-        {/* BTC */}
-
-        <div style={card}>
-          <h2>
-            BTC Holdings
-          </h2>
-
-          <h1>
-            {wallet.BTC?.toFixed(
-              6
+          <p>
+            {wallet.BTC.toFixed(
+              4
             )}{" "}
             BTC
-          </h1>
+          </p>
         </div>
 
-        {/* BTC PRICE */}
-
         <div style={card}>
-          <h2>
-            BTC Price
-          </h2>
+          <h2>Ethereum</h2>
 
           <h1>
             $
-            {btcPrice.toLocaleString()}
+            {prices.ETH.toLocaleString()}
+          </h1>
+
+          <p>
+            {wallet.ETH.toFixed(
+              4
+            )}{" "}
+            ETH
+          </p>
+        </div>
+
+        <div style={card}>
+          <h2>Solana</h2>
+
+          <h1>
+            $
+            {prices.SOL.toLocaleString()}
+          </h1>
+
+          <p>
+            {wallet.SOL.toFixed(
+              4
+            )}{" "}
+            SOL
+          </p>
+        </div>
+
+        <div style={card}>
+          <h2>USDT</h2>
+
+          <h1>
+            $
+            {wallet.USDT.toFixed(
+              2
+            )}
           </h1>
         </div>
       </div>
@@ -293,12 +249,34 @@ function Dashboard() {
         }}
       >
         <h2>
-          Trade Bitcoin
+          Multi-Coin Trading
         </h2>
+
+        <select
+          value={coin}
+          onChange={(e) =>
+            setCoin(
+              e.target.value
+            )
+          }
+          style={input}
+        >
+          <option>
+            BTC
+          </option>
+
+          <option>
+            ETH
+          </option>
+
+          <option>
+            SOL
+          </option>
+        </select>
 
         <input
           type="number"
-          placeholder="BTC Amount"
+          placeholder="Amount"
           value={amount}
           onChange={(e) =>
             setAmount(
@@ -308,31 +286,15 @@ function Dashboard() {
           style={input}
         />
 
-        <div
-          style={{
-            display: "flex",
-            gap: "20px",
-            marginTop: "20px",
-            flexWrap: "wrap",
-          }}
+        <button
+          onClick={buyCoin}
+          style={buyBtn}
         >
-          <button
-            onClick={buyBTC}
-            style={buyBtn}
-          >
-            Buy BTC
-          </button>
-
-          <button
-            onClick={sellBTC}
-            style={sellBtn}
-          >
-            Sell BTC
-          </button>
-        </div>
+          Buy {coin}
+        </button>
       </div>
 
-      {/* LIVE CHART */}
+      {/* CHART */}
 
       <div
         style={{
@@ -364,20 +326,11 @@ const input = {
   padding: "15px",
   borderRadius: "10px",
   border: "none",
-  marginTop: "20px",
+  marginBottom: "20px",
 };
 
 const buyBtn = {
   background: "#22c55e",
-  border: "none",
-  padding: "14px 20px",
-  borderRadius: "10px",
-  color: "white",
-  cursor: "pointer",
-};
-
-const sellBtn = {
-  background: "#ef4444",
   border: "none",
   padding: "14px 20px",
   borderRadius: "10px",
