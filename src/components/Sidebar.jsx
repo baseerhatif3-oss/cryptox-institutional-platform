@@ -1,73 +1,121 @@
+import { useState } from "react";
+
 function Sidebar() {
+  const [open, setOpen] =
+    useState(false);
+
   return (
-    <div
-      style={{
-        width: "250px",
-        background: "#0f172a",
-        height: "100vh",
-        padding: "30px 20px",
-        position: "fixed",
-        left: 0,
-        top: 0,
-        color: "white",
-        display: "flex",
-        flexDirection:
-          "column",
-        gap: "20px",
-      }}
-    >
-      <h1
+    <>
+      {/* MOBILE TOPBAR */}
+
+      <div
         style={{
-          marginBottom: "40px",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          background: "#0f172a",
+          padding: "15px 20px",
+          display: "flex",
+          justifyContent:
+            "space-between",
+          alignItems: "center",
+          color: "white",
+          zIndex: 1000,
         }}
       >
-        CryptoX
-      </h1>
+        <h2>CryptoX</h2>
 
-      <button
-        onClick={() => {
-          window.location.href =
-            "/dashboard";
+        <button
+          onClick={() =>
+            setOpen(!open)
+          }
+          style={{
+            background:
+              "#2563eb",
+            border: "none",
+            color: "white",
+            padding:
+              "10px 15px",
+            borderRadius: "10px",
+            cursor: "pointer",
+          }}
+        >
+          Menu
+        </button>
+      </div>
+
+      {/* SIDEBAR */}
+
+      <div
+        style={{
+          width: open
+            ? "250px"
+            : "0px",
+          overflow: "hidden",
+          background: "#0f172a",
+          height: "100vh",
+          padding: open
+            ? "80px 20px"
+            : "80px 0px",
+          position: "fixed",
+          left: 0,
+          top: 0,
+          color: "white",
+          display: "flex",
+          flexDirection:
+            "column",
+          gap: "20px",
+          transition:
+            "0.3s ease",
+          zIndex: 999,
         }}
-        style={btn}
       >
-        Dashboard
-      </button>
+        <button
+          onClick={() => {
+            window.location.href =
+              "/dashboard";
+          }}
+          style={btn}
+        >
+          Dashboard
+        </button>
 
-      <button
-        onClick={() => {
-          window.location.href =
-            "/portfolio";
-        }}
-        style={btn}
-      >
-        Portfolio
-      </button>
+        <button
+          onClick={() => {
+            window.location.href =
+              "/portfolio";
+          }}
+          style={btn}
+        >
+          Portfolio
+        </button>
 
-      <button
-        onClick={() => {
-          window.location.href =
-            "/transactions";
-        }}
-        style={btn}
-      >
-        Transactions
-      </button>
+        <button
+          onClick={() => {
+            window.location.href =
+              "/transactions";
+          }}
+          style={btn}
+        >
+          Transactions
+        </button>
 
-      <button
-        onClick={() => {
-          localStorage.removeItem(
-            "userInfo"
-          );
+        <button
+          onClick={() => {
+            localStorage.removeItem(
+              "userInfo"
+            );
 
-          window.location.href =
-            "/";
-        }}
-        style={logoutBtn}
-      >
-        Logout
-      </button>
-    </div>
+            window.location.href =
+              "/";
+          }}
+          style={logoutBtn}
+        >
+          Logout
+        </button>
+      </div>
+    </>
   );
 }
 

@@ -223,7 +223,12 @@ function Dashboard() {
       <div
         style={{
           flex: 1,
-          marginLeft: "250px",
+          marginLeft:
+            window.innerWidth >
+            768
+              ? "250px"
+              : "0px",
+          marginTop: "80px",
           padding: "30px",
           color: "white",
           fontFamily: "Arial",
