@@ -126,35 +126,31 @@ function Dashboard() {
       }
     };
 
-  /* FETCH NEWS */
+  /* NEWS */
 
   const fetchNews =
     async () => {
-      try {
-        setNews([
-          {
-            title:
-              "Bitcoin Surges Above Key Resistance",
-          },
+      setNews([
+        {
+          title:
+            "Bitcoin Surges Above Key Resistance",
+        },
 
-          {
-            title:
-              "Ethereum ETF Optimism Grows",
-          },
+        {
+          title:
+            "Ethereum ETF Optimism Grows",
+        },
 
-          {
-            title:
-              "Solana Trading Volume Explodes",
-          },
+        {
+          title:
+            "Solana Trading Volume Explodes",
+        },
 
-          {
-            title:
-              "Crypto Market Turns Bullish",
-          },
-        ]);
-      } catch (error) {
-        console.log(error);
-      }
+        {
+          title:
+            "Crypto Market Turns Bullish",
+        },
+      ]);
     };
 
   /* BUY */
@@ -253,6 +249,14 @@ function Dashboard() {
       return "BINANCE:BTCUSDT";
     };
 
+  /* LOGOS */
+
+  const logos = {
+    BTC: "₿",
+    ETH: "♦",
+    SOL: "◎",
+  };
+
   if (
     prices.BTC === null
   ) {
@@ -325,8 +329,30 @@ function Dashboard() {
             (c) => (
               <div
                 key={c}
-                style={card}
+                style={{
+                  background:
+                    "linear-gradient(135deg,#0f172a,#1e293b)",
+                  padding:
+                    "25px",
+                  borderRadius:
+                    "20px",
+                  boxShadow:
+                    "0 10px 30px rgba(0,0,0,0.3)",
+                }}
               >
+                <div
+                  style={{
+                    fontSize:
+                      "40px",
+                    marginBottom:
+                      "10px",
+                  }}
+                >
+                  {
+                    logos[c]
+                  }
+                </div>
+
                 <h2>{c}</h2>
 
                 <h1>
@@ -344,6 +370,8 @@ function Dashboard() {
                       0
                         ? "#22c55e"
                         : "#ef4444",
+                    fontWeight:
+                      "bold",
                   }}
                 >
                   {prices[
@@ -353,11 +381,31 @@ function Dashboard() {
                   )}
                   %
                 </p>
+
+                <p>
+                  Holdings:{" "}
+                  {wallet[
+                    c
+                  ].toFixed(
+                    4
+                  )}
+                </p>
               </div>
             )
           )}
 
-          <div style={card}>
+          <div
+            style={{
+              background:
+                "linear-gradient(135deg,#0f172a,#1e293b)",
+              padding:
+                "25px",
+              borderRadius:
+                "20px",
+              boxShadow:
+                "0 10px 30px rgba(0,0,0,0.3)",
+            }}
+          >
             <h2>USDT</h2>
 
             <h1>
@@ -366,6 +414,10 @@ function Dashboard() {
                 2
               )}
             </h1>
+
+            <p>
+              Stable Balance
+            </p>
           </div>
         </div>
 
@@ -527,12 +579,6 @@ function Dashboard() {
 }
 
 /* STYLES */
-
-const card = {
-  background: "#0f172a",
-  padding: "25px",
-  borderRadius: "20px",
-};
 
 const input = {
   width: "100%",
