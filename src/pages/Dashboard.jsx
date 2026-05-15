@@ -32,6 +32,9 @@ function Dashboard() {
   const [news, setNews] =
     useState([]);
 
+  const [global, setGlobal] =
+    useState(null);
+
   const [amount, setAmount] =
     useState("");
 
@@ -45,16 +48,20 @@ function Dashboard() {
 
     fetchNews();
 
+    fetchGlobal();
+
     const interval =
       setInterval(() => {
         fetchPrices();
+
+        fetchGlobal();
       }, 10000);
 
     return () =>
       clearInterval(interval);
   }, []);
 
-  /* FETCH MARKET */
+  /* MARKET */
 
   const fetchPrices =
     async () => {
@@ -103,7 +110,28 @@ function Dashboard() {
       }
     };
 
-  /* FETCH WALLET */
+  /* GLOBAL */
+
+  const fetchGlobal =
+    async () => {
+      try {
+        const response =
+          await fetch(
+            "https://api.coingecko.com/api/v3/global"
+          );
+
+        const data =
+          await response.json();
+
+        setGlobal(
+          data.data
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+  /* WALLET */
 
   const fetchWallet =
     async () => {
@@ -245,7 +273,8 @@ function Dashboard() {
     };
 
   if (
-    prices.BTC === null
+    prices.BTC === null ||
+    !global
   ) {
     return (
       <div
@@ -290,6 +319,85 @@ function Dashboard() {
           fontFamily: "Arial",
         }}
       >
+        {/* GLOBAL BAR */}
+
+        <div
+          style={{
+            background:
+              "linear-gradient(135deg,#0f172a,#1e293b)",
+            padding: "20px",
+            borderRadius:
+              "20px",
+            marginBottom:
+              "30px",
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fit,minmax(220px,1fr))",
+            gap: "20px",
+          }}
+        >
+          <div>
+            <p>
+              Market Cap
+            </p>
+
+            <h2>
+              $
+              {Math.floor(
+                global
+                  .total_market_cap
+                  .usd /
+                  1000000000
+              )}
+              B
+            </h2>
+          </div>
+
+          <div>
+            <p>
+              24h Volume
+            </p>
+
+            <h2>
+              $
+              {Math.floor(
+                global
+                  .total_volume
+                  .usd /
+                  1000000000
+              )}
+              B
+            </h2>
+          </div>
+
+          <div>
+            <p>
+              BTC Dominance
+            </p>
+
+            <h2>
+              {global.market_cap_percentage.btc.toFixed(
+                2
+              )}
+              %
+            </h2>
+          </div>
+
+          <div>
+            <p>
+              Active Coins
+            </p>
+
+            <h2>
+              {
+                global.active_cryptocurrencies
+              }
+            </h2>
+          </div>
+        </div>
+
+        {/* HEADER */}
+
         <h1>
           Trading Terminal
         </h1>
