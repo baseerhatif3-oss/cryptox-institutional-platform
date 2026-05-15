@@ -145,11 +145,6 @@ function Dashboard() {
           title:
             "Solana Trading Volume Explodes",
         },
-
-        {
-          title:
-            "Crypto Market Turns Bullish",
-        },
       ]);
     };
 
@@ -249,14 +244,6 @@ function Dashboard() {
       return "BINANCE:BTCUSDT";
     };
 
-  /* LOGOS */
-
-  const logos = {
-    BTC: "₿",
-    ETH: "♦",
-    SOL: "◎",
-  };
-
   if (
     prices.BTC === null
   ) {
@@ -304,124 +291,109 @@ function Dashboard() {
         }}
       >
         <h1>
-          Crypto Exchange
+          Trading Terminal
         </h1>
 
         <p>
-          Welcome{" "}
-          {user.name}
+          Professional crypto trading dashboard
         </p>
 
-        {/* MARKET */}
+        {/* COIN SWITCH */}
 
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns:
-              "repeat(auto-fit,minmax(250px,1fr))",
-            gap: "20px",
+            display: "flex",
+            gap: "15px",
             marginTop: "30px",
             marginBottom:
               "30px",
+            flexWrap: "wrap",
           }}
         >
           {["BTC", "ETH", "SOL"].map(
             (c) => (
-              <div
+              <button
                 key={c}
+                onClick={() =>
+                  setCoin(c)
+                }
                 style={{
-                  background:
-                    "linear-gradient(135deg,#0f172a,#1e293b)",
                   padding:
-                    "25px",
+                    "14px 24px",
                   borderRadius:
-                    "20px",
-                  boxShadow:
-                    "0 10px 30px rgba(0,0,0,0.3)",
+                    "12px",
+                  border: "none",
+                  cursor:
+                    "pointer",
+                  background:
+                    coin === c
+                      ? "#2563eb"
+                      : "#1e293b",
+                  color:
+                    "white",
+                  fontWeight:
+                    "bold",
                 }}
               >
-                <div
-                  style={{
-                    fontSize:
-                      "40px",
-                    marginBottom:
-                      "10px",
-                  }}
-                >
-                  {
-                    logos[c]
-                  }
-                </div>
-
-                <h2>{c}</h2>
-
-                <h1>
-                  $
-                  {prices[
-                    c
-                  ].price.toLocaleString()}
-                </h1>
-
-                <p
-                  style={{
-                    color:
-                      prices[c]
-                        .change >=
-                      0
-                        ? "#22c55e"
-                        : "#ef4444",
-                    fontWeight:
-                      "bold",
-                  }}
-                >
-                  {prices[
-                    c
-                  ].change.toFixed(
-                    2
-                  )}
-                  %
-                </p>
-
-                <p>
-                  Holdings:{" "}
-                  {wallet[
-                    c
-                  ].toFixed(
-                    4
-                  )}
-                </p>
-              </div>
+                {c}
+              </button>
             )
           )}
-
-          <div
-            style={{
-              background:
-                "linear-gradient(135deg,#0f172a,#1e293b)",
-              padding:
-                "25px",
-              borderRadius:
-                "20px",
-              boxShadow:
-                "0 10px 30px rgba(0,0,0,0.3)",
-            }}
-          >
-            <h2>USDT</h2>
-
-            <h1>
-              $
-              {wallet.USDT.toFixed(
-                2
-              )}
-            </h1>
-
-            <p>
-              Stable Balance
-            </p>
-          </div>
         </div>
 
-        {/* TRADING */}
+        {/* ACTIVE COIN */}
+
+        <div
+          style={{
+            background:
+              "linear-gradient(135deg,#0f172a,#1e293b)",
+            padding: "30px",
+            borderRadius:
+              "25px",
+            marginBottom:
+              "30px",
+          }}
+        >
+          <h1>
+            {coin}
+          </h1>
+
+          <h2>
+            $
+            {
+              prices[coin]
+                .price
+            }
+          </h2>
+
+          <p
+            style={{
+              color:
+                prices[coin]
+                  .change >=
+                0
+                  ? "#22c55e"
+                  : "#ef4444",
+              fontWeight:
+                "bold",
+            }}
+          >
+            {
+              prices[coin]
+                .change
+            }
+            %
+          </p>
+
+          <p>
+            Holdings:{" "}
+            {wallet[
+              coin
+            ].toFixed(4)}
+          </p>
+        </div>
+
+        {/* TRADE */}
 
         <div
           style={{
@@ -435,30 +407,8 @@ function Dashboard() {
           }}
         >
           <h2>
-            Trade Crypto
+            Trade {coin}
           </h2>
-
-          <select
-            value={coin}
-            onChange={(e) =>
-              setCoin(
-                e.target.value
-              )
-            }
-            style={input}
-          >
-            <option>
-              BTC
-            </option>
-
-            <option>
-              ETH
-            </option>
-
-            <option>
-              SOL
-            </option>
-          </select>
 
           <input
             type="number"
@@ -472,20 +422,13 @@ function Dashboard() {
             style={input}
           />
 
-          <h3>
-            Current Price: $
-            {
-              prices[coin]
-                .price
-            }
-          </h3>
-
           <div
             style={{
               display: "flex",
               gap: "20px",
               marginTop:
                 "20px",
+              flexWrap: "wrap",
             }}
           >
             <button
@@ -522,7 +465,7 @@ function Dashboard() {
           }}
         >
           <h2>
-            Crypto News
+            Market News
           </h2>
 
           <div
@@ -546,7 +489,7 @@ function Dashboard() {
                     padding:
                       "20px",
                     borderRadius:
-                      "10px",
+                      "12px",
                   }}
                 >
                   {item.title}
@@ -586,6 +529,8 @@ const input = {
   borderRadius: "10px",
   border: "none",
   marginBottom: "20px",
+  background: "#1e293b",
+  color: "white",
 };
 
 const buyBtn = {
