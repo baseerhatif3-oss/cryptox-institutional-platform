@@ -41,23 +41,61 @@ function Dashboard() {
     fetchWallet();
   }, []);
 
-  /* FETCH PRICES */
+  /* FETCH LIVE MARKET */
 
   const fetchPrices =
     async () => {
       try {
         const response =
           await fetch(
-            "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd"
+            "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana"
           );
 
         const data =
           await response.json();
 
         setPrices({
-          BTC: data.bitcoin.usd,
-          ETH: data.ethereum.usd,
-          SOL: data.solana.usd,
+          BTC: {
+            price:
+              data[0]
+                .current_price,
+
+            change:
+              data[0]
+                .price_change_percentage_24h,
+
+            marketCap:
+              data[0]
+                .market_cap,
+          },
+
+          ETH: {
+            price:
+              data[1]
+                .current_price,
+
+            change:
+              data[1]
+                .price_change_percentage_24h,
+
+            marketCap:
+              data[1]
+                .market_cap,
+          },
+
+          SOL: {
+            price:
+              data[2]
+                .current_price,
+
+            change:
+              data[2]
+                .price_change_percentage_24h,
+
+            marketCap:
+              data[2]
+                .market_cap,
+          },
         });
       } catch (error) {
         console.log(error);
@@ -105,7 +143,8 @@ function Dashboard() {
             amount:
               Number(amount),
             price:
-              prices[coin],
+              prices[coin]
+                .price,
           },
           config
         );
@@ -144,7 +183,8 @@ function Dashboard() {
             amount:
               Number(amount),
             price:
-              prices[coin],
+              prices[coin]
+                .price,
           },
           config
         );
@@ -218,7 +258,7 @@ function Dashboard() {
 
       <Sidebar />
 
-      {/* MAIN CONTENT */}
+      {/* MAIN */}
 
       <div
         style={{
@@ -251,7 +291,7 @@ function Dashboard() {
           </p>
         </div>
 
-        {/* MARKET */}
+        {/* LIVE MARKET */}
 
         <div
           style={{
@@ -263,6 +303,8 @@ function Dashboard() {
               "30px",
           }}
         >
+          {/* BTC */}
+
           <div style={card}>
             <h2>
               Bitcoin
@@ -270,16 +312,35 @@ function Dashboard() {
 
             <h1>
               $
-              {prices.BTC.toLocaleString()}
+              {prices.BTC.price.toLocaleString()}
             </h1>
 
+            <p
+              style={{
+                color:
+                  prices.BTC
+                    .change >=
+                  0
+                    ? "#22c55e"
+                    : "#ef4444",
+              }}
+            >
+              {prices.BTC.change.toFixed(
+                2
+              )}
+              %
+            </p>
+
             <p>
+              Holdings:{" "}
               {wallet.BTC.toFixed(
                 4
               )}{" "}
               BTC
             </p>
           </div>
+
+          {/* ETH */}
 
           <div style={card}>
             <h2>
@@ -288,16 +349,35 @@ function Dashboard() {
 
             <h1>
               $
-              {prices.ETH.toLocaleString()}
+              {prices.ETH.price.toLocaleString()}
             </h1>
 
+            <p
+              style={{
+                color:
+                  prices.ETH
+                    .change >=
+                  0
+                    ? "#22c55e"
+                    : "#ef4444",
+              }}
+            >
+              {prices.ETH.change.toFixed(
+                2
+              )}
+              %
+            </p>
+
             <p>
+              Holdings:{" "}
               {wallet.ETH.toFixed(
                 4
               )}{" "}
               ETH
             </p>
           </div>
+
+          {/* SOL */}
 
           <div style={card}>
             <h2>
@@ -306,16 +386,35 @@ function Dashboard() {
 
             <h1>
               $
-              {prices.SOL.toLocaleString()}
+              {prices.SOL.price.toLocaleString()}
             </h1>
 
+            <p
+              style={{
+                color:
+                  prices.SOL
+                    .change >=
+                  0
+                    ? "#22c55e"
+                    : "#ef4444",
+              }}
+            >
+              {prices.SOL.change.toFixed(
+                2
+              )}
+              %
+            </p>
+
             <p>
+              Holdings:{" "}
               {wallet.SOL.toFixed(
                 4
               )}{" "}
               SOL
             </p>
           </div>
+
+          {/* USDT */}
 
           <div style={card}>
             <h2>USDT</h2>
@@ -326,10 +425,14 @@ function Dashboard() {
                 2
               )}
             </h1>
+
+            <p>
+              Stable Balance
+            </p>
           </div>
         </div>
 
-        {/* TRADE */}
+        {/* TRADING */}
 
         <div
           style={{
@@ -384,6 +487,7 @@ function Dashboard() {
             Current Price: $
             {
               prices[coin]
+                .price
             }
           </h3>
 
