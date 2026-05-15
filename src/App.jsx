@@ -6,8 +6,12 @@ import {
 } from "react-router-dom";
 
 import Login from "./pages/Login";
+
 import Register from "./pages/Register";
+
 import Dashboard from "./pages/Dashboard";
+
+import Transactions from "./pages/Transactions";
 
 function App() {
   const user =
@@ -44,6 +48,17 @@ function App() {
           element={
             user ? (
               <Dashboard />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        <Route
+          path="/transactions"
+          element={
+            user ? (
+              <Transactions />
             ) : (
               <Navigate to="/login" />
             )
