@@ -29,6 +29,9 @@ function Dashboard() {
       USDT: 0,
     });
 
+  const [news, setNews] =
+    useState([]);
+
   const [amount, setAmount] =
     useState("");
 
@@ -40,7 +43,7 @@ function Dashboard() {
 
     fetchWallet();
 
-    /* AUTO REFRESH */
+    fetchNews();
 
     const interval =
       setInterval(() => {
@@ -51,7 +54,7 @@ function Dashboard() {
       clearInterval(interval);
   }, []);
 
-  /* FETCH LIVE MARKET */
+  /* FETCH MARKET */
 
   const fetchPrices =
     async () => {
@@ -73,10 +76,6 @@ function Dashboard() {
             change:
               data[0]
                 .price_change_percentage_24h,
-
-            marketCap:
-              data[0]
-                .market_cap,
           },
 
           ETH: {
@@ -87,10 +86,6 @@ function Dashboard() {
             change:
               data[1]
                 .price_change_percentage_24h,
-
-            marketCap:
-              data[1]
-                .market_cap,
           },
 
           SOL: {
@@ -101,10 +96,6 @@ function Dashboard() {
             change:
               data[2]
                 .price_change_percentage_24h,
-
-            marketCap:
-              data[2]
-                .market_cap,
           },
         });
       } catch (error) {
@@ -130,6 +121,37 @@ function Dashboard() {
           );
 
         setWallet(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+  /* FETCH NEWS */
+
+  const fetchNews =
+    async () => {
+      try {
+        setNews([
+          {
+            title:
+              "Bitcoin Surges Above Key Resistance",
+          },
+
+          {
+            title:
+              "Ethereum ETF Optimism Grows",
+          },
+
+          {
+            title:
+              "Solana Trading Volume Explodes",
+          },
+
+          {
+            title:
+              "Crypto Market Turns Bullish",
+          },
+        ]);
       } catch (error) {
         console.log(error);
       }
@@ -231,8 +253,6 @@ function Dashboard() {
       return "BINANCE:BTCUSDT";
     };
 
-  /* LOADING */
-
   if (
     prices.BTC === null
   ) {
@@ -248,7 +268,6 @@ function Dashboard() {
           alignItems: "center",
           color: "white",
           fontSize: "30px",
-          fontFamily: "Arial",
         }}
       >
         Loading Exchange...
@@ -264,11 +283,7 @@ function Dashboard() {
         display: "flex",
       }}
     >
-      {/* SIDEBAR */}
-
       <Sidebar />
-
-      {/* MAIN */}
 
       <div
         style={{
@@ -284,24 +299,16 @@ function Dashboard() {
           fontFamily: "Arial",
         }}
       >
-        {/* HEADER */}
+        <h1>
+          Crypto Exchange
+        </h1>
 
-        <div
-          style={{
-            marginBottom: "40px",
-          }}
-        >
-          <h1>
-            Crypto Exchange
-          </h1>
+        <p>
+          Welcome{" "}
+          {user.name}
+        </p>
 
-          <p>
-            Welcome{" "}
-            {user.name}
-          </p>
-        </div>
-
-        {/* LIVE MARKET */}
+        {/* MARKET */}
 
         <div
           style={{
@@ -309,122 +316,46 @@ function Dashboard() {
             gridTemplateColumns:
               "repeat(auto-fit,minmax(250px,1fr))",
             gap: "20px",
+            marginTop: "30px",
             marginBottom:
               "30px",
           }}
         >
-          {/* BTC */}
+          {["BTC", "ETH", "SOL"].map(
+            (c) => (
+              <div
+                key={c}
+                style={card}
+              >
+                <h2>{c}</h2>
 
-          <div style={card}>
-            <h2>
-              Bitcoin
-            </h2>
+                <h1>
+                  $
+                  {prices[
+                    c
+                  ].price.toLocaleString()}
+                </h1>
 
-            <h1>
-              $
-              {prices.BTC.price.toLocaleString()}
-            </h1>
-
-            <p
-              style={{
-                color:
-                  prices.BTC
-                    .change >=
-                  0
-                    ? "#22c55e"
-                    : "#ef4444",
-              }}
-            >
-              {prices.BTC.change.toFixed(
-                2
-              )}
-              %
-            </p>
-
-            <p>
-              Holdings:{" "}
-              {wallet.BTC.toFixed(
-                4
-              )}{" "}
-              BTC
-            </p>
-          </div>
-
-          {/* ETH */}
-
-          <div style={card}>
-            <h2>
-              Ethereum
-            </h2>
-
-            <h1>
-              $
-              {prices.ETH.price.toLocaleString()}
-            </h1>
-
-            <p
-              style={{
-                color:
-                  prices.ETH
-                    .change >=
-                  0
-                    ? "#22c55e"
-                    : "#ef4444",
-              }}
-            >
-              {prices.ETH.change.toFixed(
-                2
-              )}
-              %
-            </p>
-
-            <p>
-              Holdings:{" "}
-              {wallet.ETH.toFixed(
-                4
-              )}{" "}
-              ETH
-            </p>
-          </div>
-
-          {/* SOL */}
-
-          <div style={card}>
-            <h2>
-              Solana
-            </h2>
-
-            <h1>
-              $
-              {prices.SOL.price.toLocaleString()}
-            </h1>
-
-            <p
-              style={{
-                color:
-                  prices.SOL
-                    .change >=
-                  0
-                    ? "#22c55e"
-                    : "#ef4444",
-              }}
-            >
-              {prices.SOL.change.toFixed(
-                2
-              )}
-              %
-            </p>
-
-            <p>
-              Holdings:{" "}
-              {wallet.SOL.toFixed(
-                4
-              )}{" "}
-              SOL
-            </p>
-          </div>
-
-          {/* USDT */}
+                <p
+                  style={{
+                    color:
+                      prices[c]
+                        .change >=
+                      0
+                        ? "#22c55e"
+                        : "#ef4444",
+                  }}
+                >
+                  {prices[
+                    c
+                  ].change.toFixed(
+                    2
+                  )}
+                  %
+                </p>
+              </div>
+            )
+          )}
 
           <div style={card}>
             <h2>USDT</h2>
@@ -435,10 +366,6 @@ function Dashboard() {
                 2
               )}
             </h1>
-
-            <p>
-              Stable Balance
-            </p>
           </div>
         </div>
 
@@ -507,7 +434,6 @@ function Dashboard() {
               gap: "20px",
               marginTop:
                 "20px",
-              flexWrap: "wrap",
             }}
           >
             <button
@@ -527,6 +453,54 @@ function Dashboard() {
             >
               Sell {coin}
             </button>
+          </div>
+        </div>
+
+        {/* NEWS */}
+
+        <div
+          style={{
+            background:
+              "#0f172a",
+            padding: "30px",
+            borderRadius:
+              "20px",
+            marginBottom:
+              "30px",
+          }}
+        >
+          <h2>
+            Crypto News
+          </h2>
+
+          <div
+            style={{
+              display: "grid",
+              gap: "15px",
+              marginTop:
+                "20px",
+            }}
+          >
+            {news.map(
+              (
+                item,
+                index
+              ) => (
+                <div
+                  key={index}
+                  style={{
+                    background:
+                      "#1e293b",
+                    padding:
+                      "20px",
+                    borderRadius:
+                      "10px",
+                  }}
+                >
+                  {item.title}
+                </div>
+              )
+            )}
           </div>
         </div>
 
