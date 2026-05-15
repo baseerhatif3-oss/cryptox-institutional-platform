@@ -14,9 +14,9 @@ function Dashboard() {
 
   const [prices, setPrices] =
     useState({
-      BTC: 0,
-      ETH: 0,
-      SOL: 0,
+      BTC: null,
+      ETH: null,
+      SOL: null,
     });
 
   const [wallet, setWallet] =
@@ -43,19 +43,23 @@ function Dashboard() {
 
   const fetchPrices =
     async () => {
-      const response =
-        await fetch(
-          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd"
-        );
+      try {
+        const response =
+          await fetch(
+            "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd"
+          );
 
-      const data =
-        await response.json();
+        const data =
+          await response.json();
 
-      setPrices({
-        BTC: data.bitcoin.usd,
-        ETH: data.ethereum.usd,
-        SOL: data.solana.usd,
-      });
+        setPrices({
+          BTC: data.bitcoin.usd,
+          ETH: data.ethereum.usd,
+          SOL: data.solana.usd,
+        });
+      } catch (error) {
+        console.log(error);
+      }
     };
 
   /* FETCH WALLET */
@@ -159,7 +163,7 @@ function Dashboard() {
       }
     };
 
-  /* CHART SYMBOL */
+  /* CHART */
 
   const getChartSymbol =
     () => {
@@ -174,6 +178,31 @@ function Dashboard() {
 
       return "BINANCE:BTCUSDT";
     };
+
+  /* LOADING SCREEN */
+
+  if (
+    prices.BTC === null
+  ) {
+    return (
+      <div
+        style={{
+          background:
+            "#020617",
+          minHeight: "100vh",
+          display: "flex",
+          justifyContent:
+            "center",
+          alignItems: "center",
+          color: "white",
+          fontSize: "30px",
+          fontFamily: "Arial",
+        }}
+      >
+        Loading Exchange...
+      </div>
+    );
+  }
 
   return (
     <div
@@ -323,7 +352,7 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* TRADING */}
+      {/* TRADE */}
 
       <div
         style={{
@@ -402,7 +431,7 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* LIVE CHART */}
+      {/* CHART */}
 
       <div
         style={{
