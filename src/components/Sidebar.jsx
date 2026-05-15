@@ -22,6 +22,8 @@ function Sidebar() {
           alignItems: "center",
           color: "white",
           zIndex: 1000,
+          boxShadow:
+            "0 5px 20px rgba(0,0,0,0.3)",
         }}
       >
         <h2>CryptoX</h2>
@@ -49,28 +51,54 @@ function Sidebar() {
 
       <div
         style={{
-          width: open
-            ? "250px"
-            : "0px",
+          width:
+            window.innerWidth >
+            768
+              ? "250px"
+              : open
+              ? "250px"
+              : "0px",
+
           overflow: "hidden",
-          background: "#0f172a",
+
+          background:
+            "#0f172a",
+
           height: "100vh",
-          padding: open
-            ? "80px 20px"
-            : "80px 0px",
+
+          padding:
+            window.innerWidth >
+              768 ||
+            open
+              ? "90px 20px"
+              : "90px 0px",
+
           position: "fixed",
+
           left: 0,
+
           top: 0,
+
           color: "white",
+
           display: "flex",
+
           flexDirection:
             "column",
+
           gap: "20px",
+
           transition:
             "0.3s ease",
+
           zIndex: 999,
+
+          boxShadow:
+            "0 10px 30px rgba(0,0,0,0.4)",
         }}
       >
+        {/* DASHBOARD */}
+
         <button
           onClick={() => {
             window.location.href =
@@ -78,8 +106,10 @@ function Sidebar() {
           }}
           style={btn}
         >
-          Dashboard
+          📊 Dashboard
         </button>
+
+        {/* PORTFOLIO */}
 
         <button
           onClick={() => {
@@ -88,8 +118,22 @@ function Sidebar() {
           }}
           style={btn}
         >
-          Portfolio
+          💼 Portfolio
         </button>
+
+        {/* WALLET */}
+
+        <button
+          onClick={() => {
+            window.location.href =
+              "/wallet";
+          }}
+          style={btn}
+        >
+          👛 Wallet
+        </button>
+
+        {/* TRANSACTIONS */}
 
         <button
           onClick={() => {
@@ -98,8 +142,10 @@ function Sidebar() {
           }}
           style={btn}
         >
-          Transactions
+          📜 Transactions
         </button>
+
+        {/* LOGOUT */}
 
         <button
           onClick={() => {
@@ -112,31 +158,35 @@ function Sidebar() {
           }}
           style={logoutBtn}
         >
-          Logout
+          🚪 Logout
         </button>
       </div>
     </>
   );
 }
 
+/* STYLES */
+
 const btn = {
   background: "#1e293b",
   border: "none",
   padding: "15px",
-  borderRadius: "10px",
+  borderRadius: "12px",
   color: "white",
   cursor: "pointer",
   textAlign: "left",
+  fontSize: "16px",
 };
 
 const logoutBtn = {
   background: "#ef4444",
   border: "none",
   padding: "15px",
-  borderRadius: "10px",
+  borderRadius: "12px",
   color: "white",
   cursor: "pointer",
   textAlign: "left",
+  fontSize: "16px",
 };
 
 export default Sidebar;
