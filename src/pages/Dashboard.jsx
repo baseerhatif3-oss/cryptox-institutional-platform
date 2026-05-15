@@ -5,8 +5,6 @@ import {
 
 import axios from "axios";
 
-import TradingViewWidget from "react-tradingview-widget";
-
 import Sidebar from "../components/Sidebar";
 
 function Dashboard() {
@@ -256,9 +254,9 @@ function Dashboard() {
       }
     };
 
-  /* CHART */
+  /* SYMBOL */
 
-  const getChartSymbol =
+  const getSymbol =
     () => {
       if (coin === "BTC")
         return "BINANCE:BTCUSDT";
@@ -271,6 +269,62 @@ function Dashboard() {
 
       return "BINANCE:BTCUSDT";
     };
+
+  /* CHART */
+
+  useEffect(() => {
+    const script =
+      document.createElement(
+        "script"
+      );
+
+    script.src =
+      "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
+
+    script.type =
+      "text/javascript";
+
+    script.async = true;
+
+    script.innerHTML =
+      JSON.stringify({
+        autosize: true,
+
+        symbol:
+          getSymbol(),
+
+        interval: "15",
+
+        timezone:
+          "Etc/UTC",
+
+        theme: "dark",
+
+        style: "1",
+
+        locale: "en",
+
+        enable_publishing: false,
+
+        allow_symbol_change: true,
+
+        calendar: false,
+
+        support_host:
+          "https://www.tradingview.com",
+      });
+
+    const chart =
+      document.getElementById(
+        "tradingview_chart"
+      );
+
+    chart.innerHTML = "";
+
+    chart.appendChild(
+      script
+    );
+  }, [coin]);
 
   if (
     prices.BTC === null ||
@@ -319,7 +373,7 @@ function Dashboard() {
           fontFamily: "Arial",
         }}
       >
-        {/* GLOBAL BAR */}
+        {/* GLOBAL */}
 
         <div
           style={{
@@ -399,14 +453,14 @@ function Dashboard() {
         {/* HEADER */}
 
         <h1>
-          Trading Terminal
+          Advanced Trading Terminal
         </h1>
 
         <p>
-          Professional crypto trading dashboard
+          Professional crypto exchange dashboard
         </p>
 
-        {/* COIN SWITCH */}
+        {/* COINS */}
 
         <div
           style={{
@@ -449,7 +503,7 @@ function Dashboard() {
           )}
         </div>
 
-        {/* ACTIVE COIN */}
+        {/* ACTIVE */}
 
         <div
           style={{
@@ -607,7 +661,7 @@ function Dashboard() {
           </div>
         </div>
 
-        {/* CHART */}
+        {/* ADVANCED CHART */}
 
         <div
           style={{
@@ -616,12 +670,14 @@ function Dashboard() {
             padding: "20px",
             borderRadius:
               "20px",
+            height: "700px",
           }}
         >
-          <TradingViewWidget
-            symbol={getChartSymbol()}
-            theme="dark"
-            autosize
+          <div
+            id="tradingview_chart"
+            style={{
+              height: "100%",
+            }}
           />
         </div>
       </div>
