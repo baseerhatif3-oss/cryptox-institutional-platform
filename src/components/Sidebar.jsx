@@ -6,7 +6,7 @@ function Sidebar() {
 
   return (
     <>
-      {/* MOBILE TOPBAR */}
+      {/* TOPBAR */}
 
       <div
         style={{
@@ -22,8 +22,6 @@ function Sidebar() {
           alignItems: "center",
           color: "white",
           zIndex: 1000,
-          boxShadow:
-            "0 5px 20px rgba(0,0,0,0.3)",
         }}
       >
         <h2>CryptoX</h2>
@@ -92,13 +90,8 @@ function Sidebar() {
             "0.3s ease",
 
           zIndex: 999,
-
-          boxShadow:
-            "0 10px 30px rgba(0,0,0,0.4)",
         }}
       >
-        {/* DASHBOARD */}
-
         <button
           onClick={() => {
             window.location.href =
@@ -108,8 +101,6 @@ function Sidebar() {
         >
           📊 Dashboard
         </button>
-
-        {/* PORTFOLIO */}
 
         <button
           onClick={() => {
@@ -121,8 +112,6 @@ function Sidebar() {
           💼 Portfolio
         </button>
 
-        {/* WALLET */}
-
         <button
           onClick={() => {
             window.location.href =
@@ -132,8 +121,6 @@ function Sidebar() {
         >
           👛 Wallet
         </button>
-
-        {/* TRANSACTIONS */}
 
         <button
           onClick={() => {
@@ -145,7 +132,15 @@ function Sidebar() {
           📜 Transactions
         </button>
 
-        {/* LOGOUT */}
+        <button
+          onClick={() => {
+            window.location.href =
+              "/watchlist";
+          }}
+          style={btn}
+        >
+          ⭐ Watchlist
+        </button>
 
         <button
           onClick={() => {
@@ -165,8 +160,6 @@ function Sidebar() {
   );
 }
 
-/* STYLES */
-
 const btn = {
   background: "#1e293b",
   border: "none",
@@ -175,7 +168,6 @@ const btn = {
   color: "white",
   cursor: "pointer",
   textAlign: "left",
-  fontSize: "16px",
 };
 
 const logoutBtn = {
@@ -186,7 +178,6 @@ const logoutBtn = {
   color: "white",
   cursor: "pointer",
   textAlign: "left",
-  fontSize: "16px",
 };
 
 export default Sidebar;
