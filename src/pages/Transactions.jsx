@@ -1,11 +1,17 @@
-import React, {
+import {
   useEffect,
   useState,
 } from "react";
 
-import API from "../api";
+import axios from "axios";
+
+import Sidebar from "../components/Sidebar";
 
 function Transactions() {
+  const user = JSON.parse(
+    localStorage.getItem("userInfo")
+  );
+
   const [
     transactions,
     setTransactions,
@@ -18,15 +24,24 @@ function Transactions() {
     fetchTransactions();
   }, []);
 
+  /* FETCH */
+
   const fetchTransactions =
     async () => {
       try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        };
+
         const { data } =
-          await API.get(
-            "/trade/transactions"
+          await axios.get(
+            "https://crypto-platform-backend-d2az.onrender.com/api/trade/transactions",
+            config
           );
 
-        setTransactions(data);
+        setTransactions(data.reverse());
       } catch (error) {
         console.log(error);
       } finally {
@@ -37,166 +52,218 @@ function Transactions() {
   return (
     <div
       style={{
-        background: "#0f172a",
+        background: "#020617",
         minHeight: "100vh",
-        color: "white",
-        padding: "40px",
-        fontFamily: "Arial",
+        display: "flex",
       }}
     >
+      <Sidebar />
+
       <div
         style={{
-          display: "flex",
-          justifyContent:
-            "space-between",
-          alignItems: "center",
-          marginBottom: "30px",
-          flexWrap: "wrap",
-          gap: "20px",
+          flex: 1,
+          marginLeft:
+            window.innerWidth >
+            768
+              ? "250px"
+              : "0px",
+          marginTop: "80px",
+          padding: "30px",
+          color: "white",
+          fontFamily: "Arial",
         }}
       >
         <h1>
           Transaction History
         </h1>
 
-        <button
-          onClick={() => {
-            window.location.href =
-              "/dashboard";
-          }}
+        <p>
+          Complete trading activity
+        </p>
+
+        {/* CONTENT */}
+
+        <div
           style={{
-            background:
-              "#2563eb",
-            border: "none",
-            padding:
-              "12px 20px",
-            borderRadius: "10px",
-            color: "white",
-            cursor: "pointer",
+            marginTop: "30px",
           }}
         >
-          Dashboard
-        </button>
-      </div>
+          {loading ? (
+            <h2>
+              Loading...
+            </h2>
+          ) : transactions.length ===
+            0 ? (
+            <div style={emptyCard}>
+              No transactions found
+            </div>
+          ) : (
+            <div
+              style={{
+                display: "grid",
+                gap: "20px",
+              }}
+            >
+              {transactions.map(
+                (
+                  tx,
+                  index
+                ) => (
+                  <div
+                    key={index}
+                    style={{
+                      background:
+                        "linear-gradient(135deg,#0f172a,#1e293b)",
+                      padding:
+                        "25px",
+                      borderRadius:
+                        "20px",
+                      boxShadow:
+                        "0 10px 30px rgba(0,0,0,0.3)",
+                      border:
+                        tx.type ===
+                        "BUY"
+                          ? "1px solid #22c55e"
+                          : "1px solid #ef4444",
+                    }}
+                  >
+                    {/* TOP */}
 
-      <div
-        style={{
-          background: "#111827",
-          padding: "30px",
-          borderRadius: "20px",
-          overflowX: "auto",
-        }}
-      >
-        {loading ? (
-          <h2>Loading...</h2>
-        ) : transactions.length ===
-          0 ? (
-          <h2>
-            No transactions found
-          </h2>
-        ) : (
-          <table
-            style={{
-              width: "100%",
-              borderCollapse:
-                "collapse",
-            }}
-          >
-            <thead>
-              <tr>
-                <th style={th}>
-                  Type
-                </th>
-
-                <th style={th}>
-                  Asset
-                </th>
-
-                <th style={th}>
-                  Amount
-                </th>
-
-                <th style={th}>
-                  Price
-                </th>
-
-                <th style={th}>
-                  Total
-                </th>
-
-                <th style={th}>
-                  Date
-                </th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {transactions
-                .slice()
-                .reverse()
-                .map((tx) => (
-                  <tr key={tx._id}>
-                    <td
+                    <div
                       style={{
-                        ...td,
-                        color:
-                          tx.type ===
-                          "BUY"
-                            ? "#22c55e"
-                            : "#ef4444",
-                        fontWeight:
-                          "bold",
+                        display:
+                          "flex",
+                        justifyContent:
+                          "space-between",
+                        alignItems:
+                          "center",
+                        flexWrap:
+                          "wrap",
+                        gap: "10px",
                       }}
                     >
-                      {tx.type}
-                    </td>
+                      <h2
+                        style={{
+                          color:
+                            tx.type ===
+                            "BUY"
+                              ? "#22c55e"
+                              : "#ef4444",
+                        }}
+                      >
+                        {tx.type}
+                      </h2>
 
-                    <td style={td}>
-                      {tx.asset}
-                    </td>
+                      <p>
+                        {new Date(
+                          tx.date
+                        ).toLocaleString()}
+                      </p>
+                    </div>
 
-                    <td style={td}>
-                      {tx.amount}
-                    </td>
+                    {/* DETAILS */}
 
-                    <td style={td}>
-                      $
-                      {tx.price}
-                    </td>
+                    <div
+                      style={{
+                        display:
+                          "grid",
+                        gridTemplateColumns:
+                          "repeat(auto-fit,minmax(180px,1fr))",
+                        gap: "20px",
+                        marginTop:
+                          "20px",
+                      }}
+                    >
+                      <div>
+                        <p
+                          style={
+                            label
+                          }
+                        >
+                          Asset
+                        </p>
 
-                    <td style={td}>
-                      $
-                      {tx.total}
-                    </td>
+                        <h3>
+                          {
+                            tx.asset
+                          }
+                        </h3>
+                      </div>
 
-                    <td style={td}>
-                      {tx.date
-                        ? new Date(
-                            tx.date
-                          ).toLocaleString()
-                        : "No Date"}
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        )}
+                      <div>
+                        <p
+                          style={
+                            label
+                          }
+                        >
+                          Amount
+                        </p>
+
+                        <h3>
+                          {
+                            tx.amount
+                          }
+                        </h3>
+                      </div>
+
+                      <div>
+                        <p
+                          style={
+                            label
+                          }
+                        >
+                          Price
+                        </p>
+
+                        <h3>
+                          $
+                          {
+                            tx.price
+                          }
+                        </h3>
+                      </div>
+
+                      <div>
+                        <p
+                          style={
+                            label
+                          }
+                        >
+                          Total
+                        </p>
+
+                        <h3>
+                          $
+                          {
+                            tx.total
+                          }
+                        </h3>
+                      </div>
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
 }
 
-const th = {
-  textAlign: "left",
-  padding: "15px",
-  borderBottom:
-    "1px solid #334155",
+/* STYLES */
+
+const label = {
+  color: "#94a3b8",
+  marginBottom: "8px",
 };
 
-const td = {
-  padding: "15px",
-  borderBottom:
-    "1px solid #1e293b",
+const emptyCard = {
+  background:
+    "linear-gradient(135deg,#0f172a,#1e293b)",
+  padding: "40px",
+  borderRadius: "20px",
+  textAlign: "center",
 };
 
 export default Transactions;
