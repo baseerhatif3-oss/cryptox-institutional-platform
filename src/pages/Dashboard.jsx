@@ -58,7 +58,7 @@ function Dashboard() {
       });
     };
 
-  /* WALLET */
+  /* FETCH WALLET */
 
   const fetchWallet =
     async () => {
@@ -85,9 +85,94 @@ function Dashboard() {
 
   const buyCoin =
     async () => {
-      alert(
-        "Multi-coin trading UI ready 🔥"
-      );
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        };
+
+        await axios.post(
+          "https://crypto-platform-backend-d2az.onrender.com/api/trade/buy",
+          {
+            asset: coin,
+            amount:
+              Number(amount),
+            price:
+              prices[coin],
+          },
+          config
+        );
+
+        alert(
+          `${coin} Purchased Successfully`
+        );
+
+        setAmount("");
+
+        fetchWallet();
+      } catch (error) {
+        alert(
+          error.response?.data
+            ?.message ||
+            "Buy Failed"
+        );
+      }
+    };
+
+  /* SELL */
+
+  const sellCoin =
+    async () => {
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        };
+
+        await axios.post(
+          "https://crypto-platform-backend-d2az.onrender.com/api/trade/sell",
+          {
+            asset: coin,
+            amount:
+              Number(amount),
+            price:
+              prices[coin],
+          },
+          config
+        );
+
+        alert(
+          `${coin} Sold Successfully`
+        );
+
+        setAmount("");
+
+        fetchWallet();
+      } catch (error) {
+        alert(
+          error.response?.data
+            ?.message ||
+            "Sell Failed"
+        );
+      }
+    };
+
+  /* CHART SYMBOL */
+
+  const getChartSymbol =
+    () => {
+      if (coin === "BTC")
+        return "BINANCE:BTCUSDT";
+
+      if (coin === "ETH")
+        return "BINANCE:ETHUSDT";
+
+      if (coin === "SOL")
+        return "BINANCE:SOLUSDT";
+
+      return "BINANCE:BTCUSDT";
     };
 
   return (
@@ -238,7 +323,7 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* TRADE */}
+      {/* TRADING */}
 
       <div
         style={{
@@ -249,7 +334,7 @@ function Dashboard() {
         }}
       >
         <h2>
-          Multi-Coin Trading
+          Trade Crypto
         </h2>
 
         <select
@@ -276,7 +361,7 @@ function Dashboard() {
 
         <input
           type="number"
-          placeholder="Amount"
+          placeholder={`Amount of ${coin}`}
           value={amount}
           onChange={(e) =>
             setAmount(
@@ -286,15 +371,38 @@ function Dashboard() {
           style={input}
         />
 
-        <button
-          onClick={buyCoin}
-          style={buyBtn}
+        <h3>
+          Current Price: $
+          {
+            prices[coin]
+          }
+        </h3>
+
+        <div
+          style={{
+            display: "flex",
+            gap: "20px",
+            marginTop: "20px",
+            flexWrap: "wrap",
+          }}
         >
-          Buy {coin}
-        </button>
+          <button
+            onClick={buyCoin}
+            style={buyBtn}
+          >
+            Buy {coin}
+          </button>
+
+          <button
+            onClick={sellCoin}
+            style={sellBtn}
+          >
+            Sell {coin}
+          </button>
+        </div>
       </div>
 
-      {/* CHART */}
+      {/* LIVE CHART */}
 
       <div
         style={{
@@ -304,7 +412,7 @@ function Dashboard() {
         }}
       >
         <TradingViewWidget
-          symbol="BINANCE:BTCUSDT"
+          symbol={getChartSymbol()}
           theme="dark"
           autosize
         />
@@ -331,6 +439,15 @@ const input = {
 
 const buyBtn = {
   background: "#22c55e",
+  border: "none",
+  padding: "14px 20px",
+  borderRadius: "10px",
+  color: "white",
+  cursor: "pointer",
+};
+
+const sellBtn = {
+  background: "#ef4444",
   border: "none",
   padding: "14px 20px",
   borderRadius: "10px",
