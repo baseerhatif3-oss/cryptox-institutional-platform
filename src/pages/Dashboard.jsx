@@ -92,14 +92,17 @@ function Dashboard() {
         );
 
         alert(
-          "BTC Purchased"
+          "BTC Purchased Successfully"
         );
+
+        setAmount("");
 
         fetchWallet();
       } catch (error) {
         alert(
-          error.response.data
-            .message
+          error.response?.data
+            ?.message ||
+            "Buy Failed"
         );
       }
     };
@@ -125,13 +128,18 @@ function Dashboard() {
           config
         );
 
-        alert("BTC Sold");
+        alert(
+          "BTC Sold Successfully"
+        );
+
+        setAmount("");
 
         fetchWallet();
       } catch (error) {
         alert(
-          error.response.data
-            .message
+          error.response?.data
+            ?.message ||
+            "Sell Failed"
         );
       }
     };
@@ -146,7 +154,7 @@ function Dashboard() {
         fontFamily: "Arial",
       }}
     >
-      {/* TOP */}
+      {/* HEADER */}
 
       <div
         style={{
@@ -155,6 +163,8 @@ function Dashboard() {
             "space-between",
           alignItems: "center",
           marginBottom: "40px",
+          flexWrap: "wrap",
+          gap: "20px",
         }}
       >
         <div>
@@ -168,19 +178,36 @@ function Dashboard() {
           </p>
         </div>
 
-        <button
-          onClick={() => {
-            localStorage.removeItem(
-              "userInfo"
-            );
-
-            window.location.href =
-              "/";
+        <div
+          style={{
+            display: "flex",
+            gap: "10px",
           }}
-          style={logoutBtn}
         >
-          Logout
-        </button>
+          <button
+            onClick={() => {
+              window.location.href =
+                "/transactions";
+            }}
+            style={navBtn}
+          >
+            Transactions
+          </button>
+
+          <button
+            onClick={() => {
+              localStorage.removeItem(
+                "userInfo"
+              );
+
+              window.location.href =
+                "/";
+            }}
+            style={logoutBtn}
+          >
+            Logout
+          </button>
+        </div>
       </div>
 
       {/* WALLET */}
@@ -194,8 +221,6 @@ function Dashboard() {
           marginBottom: "30px",
         }}
       >
-        {/* USDT */}
-
         <div style={card}>
           <h2>
             USDT Balance
@@ -208,8 +233,6 @@ function Dashboard() {
             )}
           </h1>
         </div>
-
-        {/* BTC */}
 
         <div style={card}>
           <h2>
@@ -224,8 +247,6 @@ function Dashboard() {
           </h1>
         </div>
 
-        {/* BTC PRICE */}
-
         <div style={card}>
           <h2>
             BTC Price
@@ -238,7 +259,7 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* BUY/SELL */}
+      {/* TRADE */}
 
       <div
         style={{
@@ -269,6 +290,7 @@ function Dashboard() {
             display: "flex",
             gap: "20px",
             marginTop: "20px",
+            flexWrap: "wrap",
           }}
         >
           <button
@@ -287,7 +309,7 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* CHART */}
+      {/* LIVE CHART */}
 
       <div
         style={{
@@ -342,6 +364,15 @@ const sellBtn = {
 
 const logoutBtn = {
   background: "#ef4444",
+  border: "none",
+  padding: "12px 20px",
+  borderRadius: "10px",
+  color: "white",
+  cursor: "pointer",
+};
+
+const navBtn = {
+  background: "#2563eb",
   border: "none",
   padding: "12px 20px",
   borderRadius: "10px",
