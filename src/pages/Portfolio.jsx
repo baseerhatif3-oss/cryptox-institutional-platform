@@ -35,10 +35,17 @@ function Portfolio() {
       SOL: 0,
     });
 
+  const [
+    transactions,
+    setTransactions,
+  ] = useState([]);
+
   useEffect(() => {
     fetchWallet();
 
     fetchPrices();
+
+    fetchTransactions();
 
     const interval =
       setInterval(() => {
@@ -49,7 +56,7 @@ function Portfolio() {
       clearInterval(interval);
   }, []);
 
-  /* FETCH WALLET */
+  /* WALLET */
 
   const fetchWallet =
     async () => {
@@ -72,7 +79,7 @@ function Portfolio() {
       }
     };
 
-  /* FETCH PRICES */
+  /* PRICES */
 
   const fetchPrices =
     async () => {
@@ -90,6 +97,29 @@ function Portfolio() {
           ETH: data.ethereum.usd,
           SOL: data.solana.usd,
         });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+  /* TRANSACTIONS */
+
+  const fetchTransactions =
+    async () => {
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        };
+
+        const { data } =
+          await axios.get(
+            "https://crypto-platform-backend-d2az.onrender.com/api/trade/transactions",
+            config
+          );
+
+        setTransactions(data);
       } catch (error) {
         console.log(error);
       }
@@ -115,7 +145,25 @@ function Portfolio() {
     solValue +
     usdtValue;
 
-  /* CHART DATA */
+  /* INVESTED */
+
+  const totalInvested =
+    transactions
+      .filter(
+        (tx) =>
+          tx.type === "BUY"
+      )
+      .reduce(
+        (acc, tx) =>
+          acc + tx.total,
+        0
+      );
+
+  const profitLoss =
+    totalPortfolio -
+    totalInvested;
+
+  /* CHART */
 
   const data = [
     {
@@ -171,42 +219,78 @@ function Portfolio() {
         }}
       >
         <h1>
-          Portfolio
+          Portfolio Analytics
         </h1>
 
         <p>
-          Live asset allocation
+          Advanced trading overview
         </p>
 
-        {/* TOTAL */}
+        {/* OVERVIEW */}
 
         <div
           style={{
-            background:
-              "linear-gradient(135deg,#0f172a,#1e293b)",
-            padding: "40px",
-            borderRadius:
-              "25px",
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fit,minmax(250px,1fr))",
+            gap: "20px",
             marginTop: "30px",
             marginBottom:
               "30px",
           }}
         >
-          <h2>
-            Total Portfolio Value
-          </h2>
+          {/* TOTAL */}
 
-          <h1
-            style={{
-              fontSize: "55px",
-              color: "#22c55e",
-            }}
-          >
-            $
-            {totalPortfolio.toFixed(
-              2
-            )}
-          </h1>
+          <div style={card}>
+            <h2>
+              Portfolio Value
+            </h2>
+
+            <h1>
+              $
+              {totalPortfolio.toFixed(
+                2
+              )}
+            </h1>
+          </div>
+
+          {/* INVESTED */}
+
+          <div style={card}>
+            <h2>
+              Total Invested
+            </h2>
+
+            <h1>
+              $
+              {totalInvested.toFixed(
+                2
+              )}
+            </h1>
+          </div>
+
+          {/* PROFIT */}
+
+          <div style={card}>
+            <h2>
+              Profit / Loss
+            </h2>
+
+            <h1
+              style={{
+                color:
+                  profitLoss >=
+                  0
+                    ? "#22c55e"
+                    : "#ef4444",
+              }}
+            >
+              $
+              {profitLoss.toFixed(
+                2
+              )}
+            </h1>
+          </div>
         </div>
 
         {/* CHART */}
@@ -229,7 +313,7 @@ function Portfolio() {
                 "20px",
             }}
           >
-            Portfolio Allocation
+            Asset Allocation
           </h2>
 
           <ResponsiveContainer
@@ -253,7 +337,7 @@ function Portfolio() {
                     index
                   ) => (
                     <Cell
-                      key={`cell-${index}`}
+                      key={index}
                       fill={
                         COLORS[
                           index
