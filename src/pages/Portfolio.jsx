@@ -7,6 +7,14 @@ import axios from "axios";
 
 import Sidebar from "../components/Sidebar";
 
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+
 function Portfolio() {
   const user = JSON.parse(
     localStorage.getItem("userInfo")
@@ -98,11 +106,45 @@ function Portfolio() {
   const solValue =
     wallet.SOL * prices.SOL;
 
+  const usdtValue =
+    wallet.USDT;
+
   const totalPortfolio =
-    wallet.USDT +
     btcValue +
     ethValue +
-    solValue;
+    solValue +
+    usdtValue;
+
+  /* CHART DATA */
+
+  const data = [
+    {
+      name: "BTC",
+      value: btcValue,
+    },
+
+    {
+      name: "ETH",
+      value: ethValue,
+    },
+
+    {
+      name: "SOL",
+      value: solValue,
+    },
+
+    {
+      name: "USDT",
+      value: usdtValue,
+    },
+  ];
+
+  const COLORS = [
+    "#f7931a",
+    "#627eea",
+    "#14f195",
+    "#26a17b",
+  ];
 
   return (
     <div
@@ -133,7 +175,7 @@ function Portfolio() {
         </h1>
 
         <p>
-          Live asset overview
+          Live asset allocation
         </p>
 
         {/* TOTAL */}
@@ -148,8 +190,6 @@ function Portfolio() {
             marginTop: "30px",
             marginBottom:
               "30px",
-            boxShadow:
-              "0 10px 30px rgba(0,0,0,0.3)",
           }}
         >
           <h2>
@@ -169,6 +209,66 @@ function Portfolio() {
           </h1>
         </div>
 
+        {/* CHART */}
+
+        <div
+          style={{
+            background:
+              "#0f172a",
+            padding: "30px",
+            borderRadius:
+              "20px",
+            marginBottom:
+              "30px",
+            height: "400px",
+          }}
+        >
+          <h2
+            style={{
+              marginBottom:
+                "20px",
+            }}
+          >
+            Portfolio Allocation
+          </h2>
+
+          <ResponsiveContainer
+            width="100%"
+            height="100%"
+          >
+            <PieChart>
+              <Pie
+                data={data}
+                cx="50%"
+                cy="50%"
+                outerRadius={
+                  120
+                }
+                dataKey="value"
+                label
+              >
+                {data.map(
+                  (
+                    entry,
+                    index
+                  ) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={
+                        COLORS[
+                          index
+                        ]
+                      }
+                    />
+                  )
+                )}
+              </Pie>
+
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+
         {/* ASSETS */}
 
         <div
@@ -179,8 +279,6 @@ function Portfolio() {
             gap: "20px",
           }}
         >
-          {/* BTC */}
-
           <div style={card}>
             <h2>
               ₿ Bitcoin
@@ -194,14 +292,12 @@ function Portfolio() {
             </h1>
 
             <p>
-              Value: $
+              $
               {btcValue.toFixed(
                 2
               )}
             </p>
           </div>
-
-          {/* ETH */}
 
           <div style={card}>
             <h2>
@@ -216,14 +312,12 @@ function Portfolio() {
             </h1>
 
             <p>
-              Value: $
+              $
               {ethValue.toFixed(
                 2
               )}
             </p>
           </div>
-
-          {/* SOL */}
 
           <div style={card}>
             <h2>
@@ -238,14 +332,12 @@ function Portfolio() {
             </h1>
 
             <p>
-              Value: $
+              $
               {solValue.toFixed(
                 2
               )}
             </p>
           </div>
-
-          {/* USDT */}
 
           <div style={card}>
             <h2>
@@ -258,10 +350,6 @@ function Portfolio() {
                 2
               )}
             </h1>
-
-            <p>
-              Stable Balance
-            </p>
           </div>
         </div>
       </div>
@@ -276,8 +364,6 @@ const card = {
     "linear-gradient(135deg,#0f172a,#1e293b)",
   padding: "30px",
   borderRadius: "20px",
-  boxShadow:
-    "0 10px 30px rgba(0,0,0,0.3)",
 };
 
 export default Portfolio;
