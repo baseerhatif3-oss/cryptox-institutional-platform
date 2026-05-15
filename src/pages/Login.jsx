@@ -1,60 +1,51 @@
-import {
-  useState,
-} from "react";
-
+import { useState } from "react";
 import axios from "axios";
 
 function Login() {
   const [email, setEmail] =
     useState("");
 
-  const [
-    password,
-    setPassword,
-  ] = useState("");
+  const [password, setPassword] =
+    useState("");
 
   const [loading, setLoading] =
     useState(false);
 
-  const submitHandler =
-    async (e) => {
-      e.preventDefault();
+  const submitHandler = async (e) => {
+    e.preventDefault();
 
-      try {
-        setLoading(true);
+    try {
+      setLoading(true);
 
-        const { data } =
-          await axios.post(
-            `${import.meta.env.VITE_API_URL}/api/auth/login`,
-            {
-              email,
-              password,
-            }
-          );
+      const { data } = await axios.post(
+        "https://crypto-platform-backend-d2az.onrender.com/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
 
-        localStorage.setItem(
-          "userInfo",
-          JSON.stringify(data)
-        );
+      localStorage.setItem(
+        "userInfo",
+        JSON.stringify(data)
+      );
 
-        alert(
-          "Login Successful"
-        );
+      alert("Login Successful");
 
-        window.location.href =
-          "/dashboard";
-      } catch (error) {
-        console.log(error);
+      window.location.href =
+        "/dashboard";
+    } catch (error) {
+      console.log(error);
 
-        alert(
-          error.response?.data
-            ?.message ||
-            "Login Failed"
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
+      alert(
+        error.response?.data
+          ?.message ||
+          "Login Failed"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div
@@ -72,11 +63,9 @@ function Login() {
     >
       <div
         style={{
-          background:
-            "#0f172a",
+          background: "#0f172a",
           padding: "40px",
-          borderRadius:
-            "25px",
+          borderRadius: "25px",
           width: "100%",
           maxWidth: "450px",
           color: "white",
@@ -86,10 +75,8 @@ function Login() {
       >
         <h1
           style={{
-            textAlign:
-              "center",
-            marginBottom:
-              "10px",
+            textAlign: "center",
+            marginBottom: "10px",
           }}
         >
           CryptoX
@@ -97,21 +84,15 @@ function Login() {
 
         <p
           style={{
-            textAlign:
-              "center",
+            textAlign: "center",
             color: "#94a3b8",
-            marginBottom:
-              "30px",
+            marginBottom: "30px",
           }}
         >
           Welcome back trader
         </p>
 
-        <form
-          onSubmit={
-            submitHandler
-          }
-        >
+        <form onSubmit={submitHandler}>
           <input
             type="email"
             placeholder="Email"
@@ -150,10 +131,8 @@ function Login() {
 
         <p
           style={{
-            textAlign:
-              "center",
-            marginTop:
-              "20px",
+            textAlign: "center",
+            marginTop: "20px",
           }}
         >
           Don't have account?{" "}
@@ -163,10 +142,8 @@ function Login() {
                 "/register";
             }}
             style={{
-              color:
-                "#3b82f6",
-              cursor:
-                "pointer",
+              color: "#3b82f6",
+              cursor: "pointer",
             }}
           >
             Register
@@ -176,8 +153,6 @@ function Login() {
     </div>
   );
 }
-
-/* STYLES */
 
 const input = {
   width: "100%",
