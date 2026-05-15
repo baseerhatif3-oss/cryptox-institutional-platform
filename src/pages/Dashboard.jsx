@@ -182,8 +182,23 @@ function Dashboard() {
           style={{
             display: "flex",
             gap: "10px",
+            flexWrap: "wrap",
           }}
         >
+          {/* PORTFOLIO */}
+
+          <button
+            onClick={() => {
+              window.location.href =
+                "/portfolio";
+            }}
+            style={navBtn}
+          >
+            Portfolio
+          </button>
+
+          {/* TRANSACTIONS */}
+
           <button
             onClick={() => {
               window.location.href =
@@ -193,6 +208,8 @@ function Dashboard() {
           >
             Transactions
           </button>
+
+          {/* LOGOUT */}
 
           <button
             onClick={() => {
@@ -221,6 +238,8 @@ function Dashboard() {
           marginBottom: "30px",
         }}
       >
+        {/* USDT */}
+
         <div style={card}>
           <h2>
             USDT Balance
@@ -234,6 +253,8 @@ function Dashboard() {
           </h1>
         </div>
 
+        {/* BTC */}
+
         <div style={card}>
           <h2>
             BTC Holdings
@@ -246,6 +267,8 @@ function Dashboard() {
             BTC
           </h1>
         </div>
+
+        {/* BTC PRICE */}
 
         <div style={card}>
           <h2>

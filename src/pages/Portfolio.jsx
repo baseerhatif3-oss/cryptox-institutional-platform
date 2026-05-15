@@ -1,304 +1,232 @@
-import React, {
+import {
   useEffect,
   useState,
 } from "react";
 
-import API from "../api";
+import axios from "axios";
 
 function Portfolio() {
+  const user = JSON.parse(
+    localStorage.getItem("userInfo")
+  );
+
   const [wallet, setWallet] =
-    useState(null);
+    useState({
+      BTC: 0,
+      USDT: 0,
+    });
 
   const [btcPrice, setBtcPrice] =
     useState(0);
 
-  const [loading, setLoading] =
-    useState(true);
-
   useEffect(() => {
-    fetchData();
+    fetchWallet();
+
+    fetchBTCPrice();
   }, []);
 
-  /* FETCH DATA */
+  /* FETCH WALLET */
 
-  const fetchData =
+  const fetchWallet =
     async () => {
       try {
-        const walletRes =
-          await API.get(
-            "/trade/wallet"
+        const config = {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        };
+
+        const { data } =
+          await axios.get(
+            "https://crypto-platform-backend-d2az.onrender.com/api/trade/wallet",
+            config
           );
 
-        setWallet(
-          walletRes.data
-        );
-
-        const response =
-          await fetch(
-            "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
-          );
-
-        const data =
-          await response.json();
-
-        setBtcPrice(
-          data.bitcoin.usd
-        );
+        setWallet(data);
       } catch (error) {
         console.log(error);
-      } finally {
-        setLoading(false);
       }
     };
 
-  const btcValue =
-    (wallet?.BTC || 0) *
-    btcPrice;
+  /* BTC PRICE */
 
-  const totalValue =
-    (wallet?.USDT || 0) +
-    btcValue;
+  const fetchBTCPrice =
+    async () => {
+      const response =
+        await fetch(
+          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+        );
+
+      const data =
+        await response.json();
+
+      setBtcPrice(
+        data.bitcoin.usd
+      );
+    };
+
+  /* VALUES */
+
+  const btcValue =
+    wallet.BTC * btcPrice;
+
+  const totalPortfolio =
+    wallet.USDT + btcValue;
 
   return (
     <div
       style={{
-        background: "#0f172a",
+        background: "#020617",
         minHeight: "100vh",
         color: "white",
         padding: "40px",
         fontFamily: "Arial",
       }}
     >
-      <h1
+      {/* HEADER */}
+
+      <div
         style={{
+          display: "flex",
+          justifyContent:
+            "space-between",
+          alignItems: "center",
+          marginBottom: "40px",
+          flexWrap: "wrap",
+          gap: "20px",
+        }}
+      >
+        <div>
+          <h1>
+            Portfolio
+          </h1>
+
+          <p>
+            Your crypto assets
+          </p>
+        </div>
+
+        <button
+          onClick={() => {
+            window.location.href =
+              "/dashboard";
+          }}
+          style={navBtn}
+        >
+          Dashboard
+        </button>
+      </div>
+
+      {/* TOTAL VALUE */}
+
+      <div
+        style={{
+          background: "#0f172a",
+          padding: "40px",
+          borderRadius: "20px",
           marginBottom: "30px",
         }}
       >
-        Portfolio
-      </h1>
+        <h2>
+          Total Portfolio Value
+        </h2>
 
-      {loading ? (
-        <h2>Loading...</h2>
-      ) : (
-        <>
-          {/* TOTAL */}
+        <h1
+          style={{
+            fontSize: "50px",
+            color: "#22c55e",
+          }}
+        >
+          $
+          {totalPortfolio.toFixed(
+            2
+          )}
+        </h1>
+      </div>
 
-          <div
-            style={{
-              background:
-                "#111827",
-              padding: "30px",
-              borderRadius:
-                "20px",
-              marginBottom:
-                "30px",
-            }}
-          >
-            <h2>
-              Total Portfolio
-              Value
-            </h2>
+      {/* ASSETS */}
 
-            <h1
-              style={{
-                color:
-                  "#22c55e",
-                fontSize:
-                  "40px",
-              }}
-            >
-              $
-              {totalValue.toFixed(
-                2
-              )}
-            </h1>
-          </div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(auto-fit,minmax(250px,1fr))",
+          gap: "20px",
+        }}
+      >
+        {/* BTC */}
 
-          {/* CARDS */}
+        <div style={card}>
+          <h2>Bitcoin</h2>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns:
-                "repeat(auto-fit,minmax(250px,1fr))",
-              gap: "20px",
-            }}
-          >
-            {/* USDT */}
+          <h1>
+            {wallet.BTC.toFixed(
+              6
+            )}{" "}
+            BTC
+          </h1>
 
-            <div style={card}>
-              <h3>
-                USDT Balance
-              </h3>
+          <p>
+            Value: $
+            {btcValue.toFixed(
+              2
+            )}
+          </p>
+        </div>
 
-              <h1>
-                $
-                {wallet?.USDT?.toFixed(
-                  2
-                )}
-              </h1>
-            </div>
+        {/* USDT */}
 
-            {/* BTC */}
+        <div style={card}>
+          <h2>USDT</h2>
 
-            <div style={card}>
-              <h3>
-                Bitcoin Holdings
-              </h3>
+          <h1>
+            $
+            {wallet.USDT.toFixed(
+              2
+            )}
+          </h1>
 
-              <h1>
-                {wallet?.BTC?.toFixed(
-                  6
-                )}{" "}
-                BTC
-              </h1>
+          <p>
+            Stablecoin Balance
+          </p>
+        </div>
 
-              <p
-                style={{
-                  color:
-                    "#94a3b8",
-                }}
-              >
-                Value: $
-                {btcValue.toFixed(
-                  2
-                )}
-              </p>
-            </div>
+        {/* BTC PRICE */}
 
-            {/* BTC PRICE */}
+        <div style={card}>
+          <h2>
+            BTC Price
+          </h2>
 
-            <div style={card}>
-              <h3>
-                BTC Price
-              </h3>
+          <h1>
+            $
+            {btcPrice.toLocaleString()}
+          </h1>
 
-              <h1>
-                ${btcPrice}
-              </h1>
-            </div>
-          </div>
-
-          {/* TABLE */}
-
-          <div
-            style={{
-              background:
-                "#111827",
-              padding: "30px",
-              borderRadius:
-                "20px",
-              marginTop:
-                "30px",
-            }}
-          >
-            <h2>
-              Portfolio Assets
-            </h2>
-
-            <table
-              style={{
-                width: "100%",
-                marginTop:
-                  "20px",
-                borderCollapse:
-                  "collapse",
-              }}
-            >
-              <thead>
-                <tr>
-                  <th style={th}>
-                    Asset
-                  </th>
-
-                  <th style={th}>
-                    Holdings
-                  </th>
-
-                  <th style={th}>
-                    Current Price
-                  </th>
-
-                  <th style={th}>
-                    Total Value
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr>
-                  <td style={td}>
-                    Bitcoin
-                  </td>
-
-                  <td style={td}>
-                    {wallet?.BTC?.toFixed(
-                      6
-                    )}{" "}
-                    BTC
-                  </td>
-
-                  <td style={td}>
-                    ${btcPrice}
-                  </td>
-
-                  <td style={td}>
-                    $
-                    {btcValue.toFixed(
-                      2
-                    )}
-                  </td>
-                </tr>
-
-                <tr>
-                  <td style={td}>
-                    USDT
-                  </td>
-
-                  <td style={td}>
-                    $
-                    {wallet?.USDT?.toFixed(
-                      2
-                    )}
-                  </td>
-
-                  <td style={td}>
-                    $1
-                  </td>
-
-                  <td style={td}>
-                    $
-                    {wallet?.USDT?.toFixed(
-                      2
-                    )}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </>
-      )}
+          <p>
+            Live Market Price
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
 
+/* STYLES */
+
 const card = {
-  background: "#111827",
+  background: "#0f172a",
   padding: "30px",
   borderRadius: "20px",
 };
 
-const th = {
-  textAlign: "left",
-  padding: "15px",
-  borderBottom:
-    "1px solid #334155",
-};
-
-const td = {
-  padding: "15px",
-  borderBottom:
-    "1px solid #1e293b",
+const navBtn = {
+  background: "#2563eb",
+  border: "none",
+  padding: "12px 20px",
+  borderRadius: "10px",
+  color: "white",
+  cursor: "pointer",
 };
 
 export default Portfolio;
