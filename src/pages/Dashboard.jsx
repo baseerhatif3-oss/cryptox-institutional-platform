@@ -39,6 +39,16 @@ function Dashboard() {
     fetchPrices();
 
     fetchWallet();
+
+    /* AUTO REFRESH */
+
+    const interval =
+      setInterval(() => {
+        fetchPrices();
+      }, 10000);
+
+    return () =>
+      clearInterval(interval);
   }, []);
 
   /* FETCH LIVE MARKET */
