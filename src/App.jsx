@@ -19,6 +19,8 @@ import Transactions from "./pages/Transactions";
 
 import Watchlist from "./pages/Watchlist";
 
+import NotFound from "./pages/NotFound";
+
 function App() {
   const user = JSON.parse(
     localStorage.getItem(
@@ -121,6 +123,13 @@ function App() {
               <Navigate to="/login" />
             )
           }
+        />
+
+        {/* 404 */}
+
+        <Route
+          path="*"
+          element={<NotFound />}
         />
       </Routes>
     </BrowserRouter>
