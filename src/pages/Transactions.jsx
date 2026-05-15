@@ -44,13 +44,40 @@ function Transactions() {
         fontFamily: "Arial",
       }}
     >
-      <h1
+      <div
         style={{
+          display: "flex",
+          justifyContent:
+            "space-between",
+          alignItems: "center",
           marginBottom: "30px",
+          flexWrap: "wrap",
+          gap: "20px",
         }}
       >
-        Transaction History
-      </h1>
+        <h1>
+          Transaction History
+        </h1>
+
+        <button
+          onClick={() => {
+            window.location.href =
+              "/dashboard";
+          }}
+          style={{
+            background:
+              "#2563eb",
+            border: "none",
+            padding:
+              "12px 20px",
+            borderRadius: "10px",
+            color: "white",
+            cursor: "pointer",
+          }}
+        >
+          Dashboard
+        </button>
+      </div>
 
       <div
         style={{
@@ -104,8 +131,10 @@ function Transactions() {
             </thead>
 
             <tbody>
-              {transactions.map(
-                (tx) => (
+              {transactions
+                .slice()
+                .reverse()
+                .map((tx) => (
                   <tr key={tx._id}>
                     <td
                       style={{
@@ -141,13 +170,14 @@ function Transactions() {
                     </td>
 
                     <td style={td}>
-                      {new Date(
-                        tx.date
-                      ).toLocaleString()}
+                      {tx.date
+                        ? new Date(
+                            tx.date
+                          ).toLocaleString()
+                        : "No Date"}
                     </td>
                   </tr>
-                )
-              )}
+                ))}
             </tbody>
           </table>
         )}
