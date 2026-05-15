@@ -7,6 +7,8 @@ import axios from "axios";
 
 import TradingViewWidget from "react-tradingview-widget";
 
+import Sidebar from "../components/Sidebar";
+
 function Dashboard() {
   const user = JSON.parse(
     localStorage.getItem("userInfo")
@@ -179,7 +181,7 @@ function Dashboard() {
       return "BINANCE:BTCUSDT";
     };
 
-  /* LOADING SCREEN */
+  /* LOADING */
 
   if (
     prices.BTC === null
@@ -209,25 +211,31 @@ function Dashboard() {
       style={{
         background: "#020617",
         minHeight: "100vh",
-        color: "white",
-        padding: "30px",
-        fontFamily: "Arial",
+        display: "flex",
       }}
     >
-      {/* HEADER */}
+      {/* SIDEBAR */}
+
+      <Sidebar />
+
+      {/* MAIN CONTENT */}
 
       <div
         style={{
-          display: "flex",
-          justifyContent:
-            "space-between",
-          alignItems: "center",
-          marginBottom: "40px",
-          flexWrap: "wrap",
-          gap: "20px",
+          flex: 1,
+          marginLeft: "250px",
+          padding: "30px",
+          color: "white",
+          fontFamily: "Arial",
         }}
       >
-        <div>
+        {/* HEADER */}
+
+        <div
+          style={{
+            marginBottom: "40px",
+          }}
+        >
           <h1>
             Crypto Exchange
           </h1>
@@ -238,213 +246,188 @@ function Dashboard() {
           </p>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            gap: "10px",
-            flexWrap: "wrap",
-          }}
-        >
-          <button
-            onClick={() => {
-              window.location.href =
-                "/portfolio";
-            }}
-            style={navBtn}
-          >
-            Portfolio
-          </button>
-
-          <button
-            onClick={() => {
-              window.location.href =
-                "/transactions";
-            }}
-            style={navBtn}
-          >
-            Transactions
-          </button>
-
-          <button
-            onClick={() => {
-              localStorage.removeItem(
-                "userInfo"
-              );
-
-              window.location.href =
-                "/";
-            }}
-            style={logoutBtn}
-          >
-            Logout
-          </button>
-        </div>
-      </div>
-
-      {/* MARKET */}
-
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns:
-            "repeat(auto-fit,minmax(250px,1fr))",
-          gap: "20px",
-          marginBottom: "30px",
-        }}
-      >
-        <div style={card}>
-          <h2>Bitcoin</h2>
-
-          <h1>
-            $
-            {prices.BTC.toLocaleString()}
-          </h1>
-
-          <p>
-            {wallet.BTC.toFixed(
-              4
-            )}{" "}
-            BTC
-          </p>
-        </div>
-
-        <div style={card}>
-          <h2>Ethereum</h2>
-
-          <h1>
-            $
-            {prices.ETH.toLocaleString()}
-          </h1>
-
-          <p>
-            {wallet.ETH.toFixed(
-              4
-            )}{" "}
-            ETH
-          </p>
-        </div>
-
-        <div style={card}>
-          <h2>Solana</h2>
-
-          <h1>
-            $
-            {prices.SOL.toLocaleString()}
-          </h1>
-
-          <p>
-            {wallet.SOL.toFixed(
-              4
-            )}{" "}
-            SOL
-          </p>
-        </div>
-
-        <div style={card}>
-          <h2>USDT</h2>
-
-          <h1>
-            $
-            {wallet.USDT.toFixed(
-              2
-            )}
-          </h1>
-        </div>
-      </div>
-
-      {/* TRADE */}
-
-      <div
-        style={{
-          background: "#0f172a",
-          padding: "30px",
-          borderRadius: "20px",
-          marginBottom: "30px",
-        }}
-      >
-        <h2>
-          Trade Crypto
-        </h2>
-
-        <select
-          value={coin}
-          onChange={(e) =>
-            setCoin(
-              e.target.value
-            )
-          }
-          style={input}
-        >
-          <option>
-            BTC
-          </option>
-
-          <option>
-            ETH
-          </option>
-
-          <option>
-            SOL
-          </option>
-        </select>
-
-        <input
-          type="number"
-          placeholder={`Amount of ${coin}`}
-          value={amount}
-          onChange={(e) =>
-            setAmount(
-              e.target.value
-            )
-          }
-          style={input}
-        />
-
-        <h3>
-          Current Price: $
-          {
-            prices[coin]
-          }
-        </h3>
+        {/* MARKET */}
 
         <div
           style={{
-            display: "flex",
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fit,minmax(250px,1fr))",
             gap: "20px",
-            marginTop: "20px",
-            flexWrap: "wrap",
+            marginBottom:
+              "30px",
           }}
         >
-          <button
-            onClick={buyCoin}
-            style={buyBtn}
-          >
-            Buy {coin}
-          </button>
+          <div style={card}>
+            <h2>
+              Bitcoin
+            </h2>
 
-          <button
-            onClick={sellCoin}
-            style={sellBtn}
-          >
-            Sell {coin}
-          </button>
+            <h1>
+              $
+              {prices.BTC.toLocaleString()}
+            </h1>
+
+            <p>
+              {wallet.BTC.toFixed(
+                4
+              )}{" "}
+              BTC
+            </p>
+          </div>
+
+          <div style={card}>
+            <h2>
+              Ethereum
+            </h2>
+
+            <h1>
+              $
+              {prices.ETH.toLocaleString()}
+            </h1>
+
+            <p>
+              {wallet.ETH.toFixed(
+                4
+              )}{" "}
+              ETH
+            </p>
+          </div>
+
+          <div style={card}>
+            <h2>
+              Solana
+            </h2>
+
+            <h1>
+              $
+              {prices.SOL.toLocaleString()}
+            </h1>
+
+            <p>
+              {wallet.SOL.toFixed(
+                4
+              )}{" "}
+              SOL
+            </p>
+          </div>
+
+          <div style={card}>
+            <h2>USDT</h2>
+
+            <h1>
+              $
+              {wallet.USDT.toFixed(
+                2
+              )}
+            </h1>
+          </div>
         </div>
-      </div>
 
-      {/* CHART */}
+        {/* TRADE */}
 
-      <div
-        style={{
-          background: "#0f172a",
-          padding: "20px",
-          borderRadius: "20px",
-        }}
-      >
-        <TradingViewWidget
-          symbol={getChartSymbol()}
-          theme="dark"
-          autosize
-        />
+        <div
+          style={{
+            background:
+              "#0f172a",
+            padding: "30px",
+            borderRadius:
+              "20px",
+            marginBottom:
+              "30px",
+          }}
+        >
+          <h2>
+            Trade Crypto
+          </h2>
+
+          <select
+            value={coin}
+            onChange={(e) =>
+              setCoin(
+                e.target.value
+              )
+            }
+            style={input}
+          >
+            <option>
+              BTC
+            </option>
+
+            <option>
+              ETH
+            </option>
+
+            <option>
+              SOL
+            </option>
+          </select>
+
+          <input
+            type="number"
+            placeholder={`Amount of ${coin}`}
+            value={amount}
+            onChange={(e) =>
+              setAmount(
+                e.target.value
+              )
+            }
+            style={input}
+          />
+
+          <h3>
+            Current Price: $
+            {
+              prices[coin]
+            }
+          </h3>
+
+          <div
+            style={{
+              display: "flex",
+              gap: "20px",
+              marginTop:
+                "20px",
+              flexWrap: "wrap",
+            }}
+          >
+            <button
+              onClick={
+                buyCoin
+              }
+              style={buyBtn}
+            >
+              Buy {coin}
+            </button>
+
+            <button
+              onClick={
+                sellCoin
+              }
+              style={sellBtn}
+            >
+              Sell {coin}
+            </button>
+          </div>
+        </div>
+
+        {/* CHART */}
+
+        <div
+          style={{
+            background:
+              "#0f172a",
+            padding: "20px",
+            borderRadius:
+              "20px",
+          }}
+        >
+          <TradingViewWidget
+            symbol={getChartSymbol()}
+            theme="dark"
+            autosize
+          />
+        </div>
       </div>
     </div>
   );
@@ -479,24 +462,6 @@ const sellBtn = {
   background: "#ef4444",
   border: "none",
   padding: "14px 20px",
-  borderRadius: "10px",
-  color: "white",
-  cursor: "pointer",
-};
-
-const logoutBtn = {
-  background: "#ef4444",
-  border: "none",
-  padding: "12px 20px",
-  borderRadius: "10px",
-  color: "white",
-  cursor: "pointer",
-};
-
-const navBtn = {
-  background: "#2563eb",
-  border: "none",
-  padding: "12px 20px",
   borderRadius: "10px",
   color: "white",
   cursor: "pointer",

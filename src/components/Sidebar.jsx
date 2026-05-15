@@ -1,120 +1,94 @@
-import {
-  Link,
-  useLocation,
-} from "react-router-dom";
-
-import {
-  FaChartLine,
-  FaWallet,
-  FaHistory,
-  FaBitcoin,
-} from "react-icons/fa";
-
 function Sidebar() {
-  const location =
-    useLocation();
-
-  const menuItems = [
-    {
-      name: "Dashboard",
-      path: "/dashboard",
-      icon: <FaChartLine />,
-    },
-
-    {
-      name: "Portfolio",
-      path: "/portfolio",
-      icon: <FaBitcoin />,
-    },
-
-    {
-      name: "Wallet",
-      path: "/wallet",
-      icon: <FaWallet />,
-    },
-
-    {
-      name: "Transactions",
-      path: "/transactions",
-      icon: <FaHistory />,
-    },
-  ];
-
   return (
     <div
       style={{
         width: "250px",
-        background: "#111827",
-        minHeight:
-          "calc(100vh - 72px)",
+        background: "#0f172a",
+        height: "100vh",
         padding: "30px 20px",
-        borderRight:
-          "1px solid #1e293b",
+        position: "fixed",
+        left: 0,
+        top: 0,
+        color: "white",
+        display: "flex",
+        flexDirection:
+          "column",
+        gap: "20px",
       }}
     >
-      <h2
+      <h1
         style={{
-          color: "#facc15",
           marginBottom: "40px",
         }}
       >
-        Trading Panel
-      </h2>
+        CryptoX
+      </h1>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection:
-            "column",
-          gap: "15px",
+      <button
+        onClick={() => {
+          window.location.href =
+            "/dashboard";
         }}
+        style={btn}
       >
-        {menuItems.map(
-          (item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              style={{
-                textDecoration:
-                  "none",
+        Dashboard
+      </button>
 
-                background:
-                  location.pathname ===
-                  item.path
-                    ? "#22c55e"
-                    : "transparent",
+      <button
+        onClick={() => {
+          window.location.href =
+            "/portfolio";
+        }}
+        style={btn}
+      >
+        Portfolio
+      </button>
 
-                color: "white",
+      <button
+        onClick={() => {
+          window.location.href =
+            "/transactions";
+        }}
+        style={btn}
+      >
+        Transactions
+      </button>
 
-                padding:
-                  "15px 20px",
+      <button
+        onClick={() => {
+          localStorage.removeItem(
+            "userInfo"
+          );
 
-                borderRadius:
-                  "12px",
-
-                display: "flex",
-
-                alignItems:
-                  "center",
-
-                gap: "12px",
-
-                fontWeight:
-                  "bold",
-
-                transition:
-                  "0.3s",
-              }}
-            >
-              {item.icon}
-
-              {item.name}
-            </Link>
-          )
-        )}
-      </div>
+          window.location.href =
+            "/";
+        }}
+        style={logoutBtn}
+      >
+        Logout
+      </button>
     </div>
   );
 }
+
+const btn = {
+  background: "#1e293b",
+  border: "none",
+  padding: "15px",
+  borderRadius: "10px",
+  color: "white",
+  cursor: "pointer",
+  textAlign: "left",
+};
+
+const logoutBtn = {
+  background: "#ef4444",
+  border: "none",
+  padding: "15px",
+  borderRadius: "10px",
+  color: "white",
+  cursor: "pointer",
+  textAlign: "left",
+};
 
 export default Sidebar;
