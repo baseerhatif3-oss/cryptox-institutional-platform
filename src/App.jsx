@@ -14,30 +14,54 @@ import Portfolio from "./pages/Portfolio";
 import Wallet from "./pages/Wallet";
 import Transactions from "./pages/Transactions";
 import Watchlist from "./pages/Watchlist";
+
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
 const App = () => {
+  const token =
+    localStorage.getItem(
+      "token"
+    );
+
   return (
     <BrowserRouter>
       <Routes>
-        {/* AUTH */}
+        {/* LOGIN */}
 
         <Route
           path="/"
-          element={<Login />}
+          element={
+            token ? (
+              <Navigate to="/dashboard" />
+            ) : (
+              <Login />
+            )
+          }
         />
+
+        {/* REGISTER */}
 
         <Route
           path="/register"
-          element={<Register />}
+          element={
+            token ? (
+              <Navigate to="/dashboard" />
+            ) : (
+              <Register />
+            )
+          }
         />
 
-        {/* DASHBOARD LAYOUT */}
+        {/* PROTECTED */}
 
         <Route
           element={
-            <DashboardLayout />
+            token ? (
+              <DashboardLayout />
+            ) : (
+              <Navigate to="/" />
+            )
           }
         >
           <Route

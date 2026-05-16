@@ -9,53 +9,56 @@ import {
 
 import API from "../services/api";
 
+import toast from "react-hot-toast";
+
 const Login = () => {
   const navigate =
     useNavigate();
 
-  const [formData, setFormData] =
-    useState({
-      email: "",
-      password: "",
-    });
+  const [email, setEmail] =
+    useState("");
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]:
-        e.target.value,
-    });
-  };
+  const [password, setPassword] =
+    useState("");
 
   const handleLogin =
     async (e) => {
       e.preventDefault();
 
       try {
-        const res =
+        const { data } =
           await API.post(
             "/auth/login",
-            formData
+            {
+              email,
+              password,
+            }
           );
 
         localStorage.setItem(
           "token",
-          res.data.token
+          data.token
         );
 
         localStorage.setItem(
           "user",
           JSON.stringify(
-            res.data.user
+            data.user
           )
+        );
+
+        toast.success(
+          "Login successful"
         );
 
         navigate(
           "/dashboard"
         );
-      } catch (err) {
-        alert(
-          err.response?.data
+      } catch (error) {
+        console.log(error);
+
+        toast.error(
+          error?.response?.data
             ?.message ||
             "Login failed"
         );
@@ -63,68 +66,61 @@ const Login = () => {
     };
 
   return (
-    <div className="min-h-screen bg-[#020617] flex items-center justify-center px-4">
-      <div className="bg-[#0f172a] p-10 rounded-3xl w-full max-w-md border border-slate-800">
-        <h1 className="text-4xl font-bold mb-2 text-center">
-          CryptoX
+    <div className="min-h-screen bg-[#020617] flex items-center justify-center px-5">
+      <form
+        onSubmit={
+          handleLogin
+        }
+        className="bg-[#0f172a] p-10 rounded-3xl border border-slate-800 w-full max-w-md"
+      >
+        <h1 className="text-4xl font-bold text-white mb-8 text-center">
+          Login
         </h1>
 
-        <p className="text-slate-400 text-center mb-8">
-          Welcome back trader
-        </p>
-
-        <form
-          onSubmit={
-            handleLogin
-          }
-          className="space-y-5"
-        >
+        <div className="space-y-5">
           <input
             type="email"
-            name="email"
             placeholder="Email"
-            value={
-              formData.email
+            value={email}
+            onChange={(e) =>
+              setEmail(
+                e.target.value
+              )
             }
-            onChange={
-              handleChange
-            }
-            className="w-full p-4 rounded-xl bg-slate-900 border border-slate-700 outline-none"
-            required
+            className="w-full p-4 rounded-2xl bg-[#020617] border border-slate-700 text-white"
           />
 
           <input
             type="password"
-            name="password"
             placeholder="Password"
-            value={
-              formData.password
+            value={password}
+            onChange={(e) =>
+              setPassword(
+                e.target.value
+              )
             }
-            onChange={
-              handleChange
-            }
-            className="w-full p-4 rounded-xl bg-slate-900 border border-slate-700 outline-none"
-            required
+            className="w-full p-4 rounded-2xl bg-[#020617] border border-slate-700 text-white"
           />
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 transition-all p-4 rounded-xl font-bold"
+            className="w-full bg-blue-600 hover:bg-blue-700 transition-all p-4 rounded-2xl font-bold text-white"
           >
             Login
           </button>
-        </form>
 
-        <p className="text-center text-slate-400 mt-6">
-          Don't have account?{" "}
-          <Link
-            to="/register"
-            className="text-blue-500"
-          >
-            Register
-          </Link>
-        </p>
-      </div>
+          <p className="text-slate-400 text-center">
+            No account?{" "}
+
+            <Link
+              to="/register"
+              className="text-blue-500"
+            >
+              Register
+            </Link>
+          </p>
+        </div>
+      </form>
     </div>
   );
 };

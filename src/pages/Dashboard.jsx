@@ -215,4 +215,64 @@ const Dashboard = () => {
             onChange={(e) =>
               setCoin(
                 e.target.value
-             
+              )
+            }
+            className="w-full p-5 rounded-2xl bg-[#020617] border border-slate-700 text-xl outline-none"
+          >
+            <option value="BTC">
+              BTC
+            </option>
+
+            <option value="ETH">
+              ETH
+            </option>
+
+            <option value="SOL">
+              SOL
+            </option>
+          </select>
+
+          {/* AMOUNT */}
+
+          <input
+            type="number"
+            placeholder="Enter amount"
+            value={amount}
+            onChange={(e) =>
+              setAmount(
+                e.target.value
+              )
+            }
+            className="w-full p-5 rounded-2xl bg-[#020617] border border-slate-700 text-xl outline-none"
+          />
+
+          {/* ACTION BUTTONS */}
+
+          <div className="flex gap-5">
+            <button
+              onClick={handleBuy}
+              className="bg-green-500 hover:bg-green-600 transition-all px-10 py-4 rounded-2xl text-xl font-bold"
+            >
+              Buy
+            </button>
+
+            <button
+              onClick={handleSell}
+              className="bg-red-500 hover:bg-red-600 transition-all px-10 py-4 rounded-2xl text-xl font-bold"
+            >
+              Sell
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* LIVE CHART */}
+
+      <div className="bg-[#0f172a] p-5 rounded-3xl border border-slate-800">
+        <TradingViewWidget />
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;

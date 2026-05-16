@@ -21,7 +21,7 @@ import {
 
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] =
-    useState(true);
+    useState(false);
 
   const location =
     useLocation();
@@ -68,49 +68,69 @@ const DashboardLayout = () => {
     },
   ];
 
+  const logout = () => {
+    localStorage.removeItem(
+      "token"
+    );
+
+    localStorage.removeItem(
+      "user"
+    );
+
+    window.location.href =
+      "/";
+  };
+
   return (
     <div className="flex min-h-screen bg-[#020617] text-white">
+      {/* MOBILE OVERLAY */}
+
+      {sidebarOpen && (
+        <div
+          onClick={() =>
+            setSidebarOpen(false)
+          }
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+        />
+      )}
+
       {/* SIDEBAR */}
 
       <div
-        className={`bg-[#0f172a] border-r border-slate-800 transition-all duration-300 ${
+        className={`fixed lg:static z-50 top-0 left-0 h-full bg-[#0f172a] border-r border-slate-800 w-72 transform transition-transform duration-300 ${
           sidebarOpen
-            ? "w-64"
-            : "w-20"
+            ? "translate-x-0"
+            : "-translate-x-full lg:translate-x-0"
         }`}
       >
-        {/* LOGO */}
+        {/* HEADER */}
 
-        <div className="flex items-center justify-between p-5 border-b border-slate-800">
-          {sidebarOpen && (
-            <h1 className="text-3xl font-bold text-blue-500">
-              CryptoX
-            </h1>
-          )}
+        <div className="flex items-center justify-between p-6 border-b border-slate-800">
+          <h1 className="text-3xl font-bold text-blue-500">
+            CryptoX
+          </h1>
 
           <button
             onClick={() =>
-              setSidebarOpen(
-                !sidebarOpen
-              )
+              setSidebarOpen(false)
             }
+            className="lg:hidden"
           >
-            {sidebarOpen ? (
-              <X />
-            ) : (
-              <Menu />
-            )}
+            <X />
           </button>
         </div>
 
         {/* MENU */}
 
-        <div className="p-3 flex flex-col gap-3">
+        <div className="p-4 space-y-3">
           {menuItems.map(
             (item) => (
               <Link
                 key={item.name}
                 to={item.path}
+                onClick={() =>
+                  setSidebarOpen(false)
+                }
               >
                 <div
                   className={`flex items-center gap-4 p-4 rounded-2xl transition-all ${
@@ -122,11 +142,9 @@ const DashboardLayout = () => {
                 >
                   {item.icon}
 
-                  {sidebarOpen && (
-                    <span className="font-medium">
-                      {item.name}
-                    </span>
-                  )}
+                  <span className="font-medium">
+                    {item.name}
+                  </span>
                 </div>
               </Link>
             )
@@ -134,47 +152,53 @@ const DashboardLayout = () => {
 
           {/* LOGOUT */}
 
-          <div
-            onClick={() => {
-              localStorage.removeItem(
-                "token"
-              );
-
-              localStorage.removeItem(
-                "user"
-              );
-
-              window.location.href =
-                "/";
-            }}
-            className="flex items-center gap-4 p-4 rounded-2xl bg-red-500 hover:bg-red-600 transition-all cursor-pointer mt-8"
+          <button
+            onClick={logout}
+            className="w-full flex items-center gap-4 p-4 rounded-2xl bg-red-500 hover:bg-red-600 transition-all mt-10"
           >
             <LogOut size={20} />
 
-            {sidebarOpen && (
-              <span className="font-medium">
-                Logout
-              </span>
-            )}
-          </div>
+            <span className="font-medium">
+              Logout
+            </span>
+          </button>
         </div>
       </div>
 
       {/* MAIN */}
 
-      <div className="flex-1">
+      <div className="flex-1 flex flex-col">
         {/* TOPBAR */}
 
-        <div className="h-20 bg-[#0f172a] border-b border-slate-800 flex items-center px-8">
-          <h1 className="text-3xl font-bold">
+        <div className="h-20 bg-[#0f172a] border-b border-slate-800 flex items-center justify-between px-6">
+          {/* MOBILE MENU */}
+
+          <button
+            onClick={() =>
+              setSidebarOpen(true)
+            }
+            className="lg:hidden"
+          >
+            <Menu size={28} />
+          </button>
+
+          <h1 className="text-2xl md:text-3xl font-bold">
             Professional Crypto
             Exchange
           </h1>
+
+          <div className="hidden md:flex items-center gap-3">
+            <div className="w-3 h-3 rounded-full bg-green-400"></div>
+
+            <span className="text-slate-400">
+              Live Market
+            </span>
+          </div>
         </div>
 
-        {/* PAGE CONTENT */}
+        {/* CONTENT */}
 
-        <div className="p-8">
+        <div className="p-4 md:p-8">
           <Outlet />
         </div>
       </div>
