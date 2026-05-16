@@ -1,3 +1,4 @@
+import React from "react";
 import {
   BrowserRouter,
   Routes,
@@ -5,131 +6,50 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import Login from "./pages/Login";
-
-import Register from "./pages/Register";
+import DashboardLayout from "./layouts/DashboardLayout";
 
 import Dashboard from "./pages/Dashboard";
-
 import Portfolio from "./pages/Portfolio";
-
 import Wallet from "./pages/Wallet";
-
 import Transactions from "./pages/Transactions";
-
 import Watchlist from "./pages/Watchlist";
 
-import NotFound from "./pages/NotFound";
-
 function App() {
-  const user = JSON.parse(
-    localStorage.getItem(
-      "userInfo"
-    )
-  );
-
   return (
     <BrowserRouter>
       <Routes>
-        {/* HOME */}
+        <Route element={<DashboardLayout />}>
+          <Route
+            path="/dashboard"
+            element={<Dashboard />}
+          />
 
-        <Route
-          path="/"
-          element={
-            user ? (
-              <Navigate to="/dashboard" />
-            ) : (
-              <Login />
-            )
-          }
-        />
+          <Route
+            path="/portfolio"
+            element={<Portfolio />}
+          />
 
-        {/* LOGIN */}
+          <Route
+            path="/wallet"
+            element={<Wallet />}
+          />
 
-        <Route
-          path="/login"
-          element={<Login />}
-        />
+          <Route
+            path="/transactions"
+            element={<Transactions />}
+          />
 
-        {/* REGISTER */}
-
-        <Route
-          path="/register"
-          element={
-            <Register />
-          }
-        />
-
-        {/* DASHBOARD */}
-
-        <Route
-          path="/dashboard"
-          element={
-            user ? (
-              <Dashboard />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-
-        {/* PORTFOLIO */}
-
-        <Route
-          path="/portfolio"
-          element={
-            user ? (
-              <Portfolio />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-
-        {/* WALLET */}
-
-        <Route
-          path="/wallet"
-          element={
-            user ? (
-              <Wallet />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-
-        {/* TRANSACTIONS */}
-
-        <Route
-          path="/transactions"
-          element={
-            user ? (
-              <Transactions />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-
-        {/* WATCHLIST */}
-
-        <Route
-          path="/watchlist"
-          element={
-            user ? (
-              <Watchlist />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-
-        {/* 404 */}
+          <Route
+            path="/watchlist"
+            element={<Watchlist />}
+          />
+        </Route>
 
         <Route
           path="*"
-          element={<NotFound />}
+          element={
+            <Navigate to="/dashboard" />
+          }
         />
       </Routes>
     </BrowserRouter>
