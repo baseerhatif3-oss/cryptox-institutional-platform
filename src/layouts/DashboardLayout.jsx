@@ -11,6 +11,7 @@ import {
   Menu,
   X,
   LogOut,
+  User,
 } from "lucide-react";
 
 import {
@@ -25,6 +26,12 @@ const DashboardLayout = () => {
 
   const location =
     useLocation();
+
+  const user = JSON.parse(
+    localStorage.getItem(
+      "user"
+    )
+  );
 
   const menuItems = [
     {
@@ -83,7 +90,7 @@ const DashboardLayout = () => {
 
   return (
     <div className="flex min-h-screen bg-[#020617] text-white">
-      {/* MOBILE OVERLAY */}
+      {/* OVERLAY */}
 
       {sidebarOpen && (
         <div
@@ -103,7 +110,7 @@ const DashboardLayout = () => {
             : "-translate-x-full lg:translate-x-0"
         }`}
       >
-        {/* HEADER */}
+        {/* LOGO */}
 
         <div className="flex items-center justify-between p-6 border-b border-slate-800">
           <h1 className="text-3xl font-bold text-blue-500">
@@ -118,6 +125,27 @@ const DashboardLayout = () => {
           >
             <X />
           </button>
+        </div>
+
+        {/* USER PROFILE */}
+
+        <div className="p-5 border-b border-slate-800">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center">
+              <User size={28} />
+            </div>
+
+            <div>
+              <h2 className="font-bold text-lg">
+                {user?.name ||
+                  "Trader"}
+              </h2>
+
+              <p className="text-slate-400 text-sm">
+                {user?.email}
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* MENU */}
@@ -171,8 +199,6 @@ const DashboardLayout = () => {
         {/* TOPBAR */}
 
         <div className="h-20 bg-[#0f172a] border-b border-slate-800 flex items-center justify-between px-6">
-          {/* MOBILE MENU */}
-
           <button
             onClick={() =>
               setSidebarOpen(true)

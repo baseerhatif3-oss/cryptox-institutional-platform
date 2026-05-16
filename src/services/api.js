@@ -1,23 +1,17 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL:
-    "https://crypto-app-5nz8.onrender.com/api",
+  baseURL: "https://crypto-backend-dojp.onrender.com/api",
 });
 
-API.interceptors.request.use(
-  (req) => {
-    const token =
-      localStorage.getItem(
-        "token"
-      );
+API.interceptors.request.use((req) => {
+  const token = localStorage.getItem("token");
 
-    if (token) {
-      req.headers.Authorization = `Bearer ${token}`;
-    }
-
-    return req;
+  if (token) {
+    req.headers.Authorization = `Bearer ${token}`;
   }
-);
+
+  return req;
+});
 
 export default API;
