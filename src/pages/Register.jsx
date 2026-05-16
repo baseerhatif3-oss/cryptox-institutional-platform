@@ -1,6 +1,18 @@
-import { useState } from "react";
+import React, {
+  useState,
+} from "react";
 
-function Register() {
+import {
+  useNavigate,
+  Link,
+} from "react-router-dom";
+
+import API from "../services/api";
+
+const Register = () => {
+  const navigate =
+    useNavigate();
+
   const [formData, setFormData] =
     useState({
       name: "",
@@ -16,140 +28,120 @@ function Register() {
     });
   };
 
-  const handleSubmit = async (
-    e
-  ) => {
-    e.preventDefault();
+  const handleRegister =
+    async (e) => {
+      e.preventDefault();
 
-    try {
-      const response =
-        await fetch(
-          "https://crypto-platform-backend-d2az.onrender.com/api/auth/register",
-          {
-            method: "POST",
+      try {
+        const res =
+          await API.post(
+            "/auth/register",
+            formData
+          );
 
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
-
-            body: JSON.stringify(
-              formData
-            ),
-          }
+        localStorage.setItem(
+          "token",
+          res.data.token
         );
 
-      const data =
-        await response.json();
+        localStorage.setItem(
+          "user",
+          JSON.stringify(
+            res.data.user
+          )
+        );
 
-      localStorage.setItem(
-        "userInfo",
-        JSON.stringify(data)
-      );
-
-      alert(
-        "Registration Successful"
-      );
-
-      window.location.replace(
-        "/dashboard"
-      );
-    } catch (error) {
-      alert(
-        "Register Failed"
-      );
-    }
-  };
+        navigate(
+          "/dashboard"
+        );
+      } catch (err) {
+        alert(
+          err.response?.data
+            ?.message ||
+            "Register failed"
+        );
+      }
+    };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#020b24",
-        display: "flex",
-        justifyContent:
-          "center",
-        alignItems: "center",
-      }}
-    >
-      <form
-        onSubmit={
-          handleSubmit
-        }
-        style={{
-          background: "#111c3d",
-          padding: "40px",
-          borderRadius: "10px",
-          width: "350px",
-          display: "flex",
-          flexDirection:
-            "column",
-          gap: "15px",
-        }}
-      >
-        <h1
-          style={{
-            color: "#d4a017",
-            textAlign:
-              "center",
-          }}
-        >
+    <div className="min-h-screen bg-[#020617] flex items-center justify-center px-4">
+      <div className="bg-[#0f172a] p-10 rounded-3xl w-full max-w-md border border-slate-800">
+        <h1 className="text-4xl font-bold mb-2 text-center">
           Create Account
         </h1>
 
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          onChange={
-            handleChange
-          }
-          style={{
-            padding: "12px",
-          }}
-        />
+        <p className="text-slate-400 text-center mb-8">
+          Join CryptoX
+        </p>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          onChange={
-            handleChange
+        <form
+          onSubmit={
+            handleRegister
           }
-          style={{
-            padding: "12px",
-          }}
-        />
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          onChange={
-            handleChange
-          }
-          style={{
-            padding: "12px",
-          }}
-        />
-
-        <button
-          type="submit"
-          style={{
-            padding: "12px",
-            background:
-              "#d4a017",
-            border: "none",
-            cursor: "pointer",
-            fontWeight:
-              "bold",
-          }}
+          className="space-y-5"
         >
-          Register
-        </button>
-      </form>
+          <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            value={
+              formData.name
+            }
+            onChange={
+              handleChange
+            }
+            className="w-full p-4 rounded-xl bg-slate-900 border border-slate-700 outline-none"
+            required
+          />
+
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={
+              formData.email
+            }
+            onChange={
+              handleChange
+            }
+            className="w-full p-4 rounded-xl bg-slate-900 border border-slate-700 outline-none"
+            required
+          />
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={
+              formData.password
+            }
+            onChange={
+              handleChange
+            }
+            className="w-full p-4 rounded-xl bg-slate-900 border border-slate-700 outline-none"
+            required
+          />
+
+          <button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 transition-all p-4 rounded-xl font-bold"
+          >
+            Register
+          </button>
+        </form>
+
+        <p className="text-center text-slate-400 mt-6">
+          Already have account?{" "}
+          <Link
+            to="/"
+            className="text-blue-500"
+          >
+            Login
+          </Link>
+        </p>
+      </div>
     </div>
   );
-}
+};
 
 export default Register;

@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   BrowserRouter,
   Routes,
@@ -13,12 +14,32 @@ import Portfolio from "./pages/Portfolio";
 import Wallet from "./pages/Wallet";
 import Transactions from "./pages/Transactions";
 import Watchlist from "./pages/Watchlist";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
-function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<DashboardLayout />}>
+        {/* AUTH */}
+
+        <Route
+          path="/"
+          element={<Login />}
+        />
+
+        <Route
+          path="/register"
+          element={<Register />}
+        />
+
+        {/* DASHBOARD LAYOUT */}
+
+        <Route
+          element={
+            <DashboardLayout />
+          }
+        >
           <Route
             path="/dashboard"
             element={<Dashboard />}
@@ -36,7 +57,9 @@ function App() {
 
           <Route
             path="/transactions"
-            element={<Transactions />}
+            element={
+              <Transactions />
+            }
           />
 
           <Route
@@ -45,15 +68,17 @@ function App() {
           />
         </Route>
 
+        {/* FALLBACK */}
+
         <Route
           path="*"
           element={
-            <Navigate to="/dashboard" />
+            <Navigate to="/" />
           }
         />
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

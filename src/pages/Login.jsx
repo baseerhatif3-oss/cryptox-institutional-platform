@@ -1,180 +1,132 @@
-import { useState } from "react";
-import axios from "axios";
+import React, {
+  useState,
+} from "react";
 
-function Login() {
-  const [email, setEmail] =
-    useState("");
+import {
+  useNavigate,
+  Link,
+} from "react-router-dom";
 
-  const [password, setPassword] =
-    useState("");
+import API from "../services/api";
 
-  const [loading, setLoading] =
-    useState(false);
+const Login = () => {
+  const navigate =
+    useNavigate();
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
+  const [formData, setFormData] =
+    useState({
+      email: "",
+      password: "",
+    });
 
-    try {
-      setLoading(true);
-
-      const { data } = await axios.post(
-        "https://crypto-platform-backend-d2az.onrender.com/api/auth/login",
-        {
-          email,
-          password,
-        }
-      );
-
-      localStorage.setItem(
-        "userInfo",
-        JSON.stringify(data)
-      );
-
-      alert("Login Successful");
-
-      window.location.href =
-        "/dashboard";
-    } catch (error) {
-      console.log(error);
-
-      alert(
-        error.response?.data
-          ?.message ||
-          "Login Failed"
-      );
-    } finally {
-      setLoading(false);
-    }
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]:
+        e.target.value,
+    });
   };
 
+  const handleLogin =
+    async (e) => {
+      e.preventDefault();
+
+      try {
+        const res =
+          await API.post(
+            "/auth/login",
+            formData
+          );
+
+        localStorage.setItem(
+          "token",
+          res.data.token
+        );
+
+        localStorage.setItem(
+          "user",
+          JSON.stringify(
+            res.data.user
+          )
+        );
+
+        navigate(
+          "/dashboard"
+        );
+      } catch (err) {
+        alert(
+          err.response?.data
+            ?.message ||
+            "Login failed"
+        );
+      }
+    };
+
   return (
-    <div
-      style={{
-        background:
-          "linear-gradient(135deg,#020617,#0f172a)",
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent:
-          "center",
-        alignItems: "center",
-        padding: "20px",
-        fontFamily: "Arial",
-      }}
-    >
-      <div
-        style={{
-          background: "#0f172a",
-          padding: "40px",
-          borderRadius: "25px",
-          width: "100%",
-          maxWidth: "450px",
-          color: "white",
-          boxShadow:
-            "0 10px 40px rgba(0,0,0,0.4)",
-        }}
-      >
-        <h1
-          style={{
-            textAlign: "center",
-            marginBottom: "10px",
-          }}
-        >
+    <div className="min-h-screen bg-[#020617] flex items-center justify-center px-4">
+      <div className="bg-[#0f172a] p-10 rounded-3xl w-full max-w-md border border-slate-800">
+        <h1 className="text-4xl font-bold mb-2 text-center">
           CryptoX
         </h1>
 
-        <p
-          style={{
-            textAlign: "center",
-            color: "#94a3b8",
-            marginBottom: "30px",
-          }}
-        >
+        <p className="text-slate-400 text-center mb-8">
           Welcome back trader
         </p>
 
-        <form onSubmit={submitHandler}>
+        <form
+          onSubmit={
+            handleLogin
+          }
+          className="space-y-5"
+        >
           <input
             type="email"
+            name="email"
             placeholder="Email"
-            value={email}
-            onChange={(e) =>
-              setEmail(
-                e.target.value
-              )
+            value={
+              formData.email
             }
-            style={input}
+            onChange={
+              handleChange
+            }
+            className="w-full p-4 rounded-xl bg-slate-900 border border-slate-700 outline-none"
             required
           />
 
           <input
             type="password"
+            name="password"
             placeholder="Password"
-            value={password}
-            onChange={(e) =>
-              setPassword(
-                e.target.value
-              )
+            value={
+              formData.password
             }
-            style={input}
+            onChange={
+              handleChange
+            }
+            className="w-full p-4 rounded-xl bg-slate-900 border border-slate-700 outline-none"
             required
           />
 
           <button
             type="submit"
-            style={button}
+            className="w-full bg-blue-600 hover:bg-blue-700 transition-all p-4 rounded-xl font-bold"
           >
-            {loading
-              ? "Loading..."
-              : "Login"}
+            Login
           </button>
         </form>
 
-        <p
-          style={{
-            textAlign: "center",
-            marginTop: "20px",
-          }}
-        >
+        <p className="text-center text-slate-400 mt-6">
           Don't have account?{" "}
-          <span
-            onClick={() => {
-              window.location.href =
-                "/register";
-            }}
-            style={{
-              color: "#3b82f6",
-              cursor: "pointer",
-            }}
+          <Link
+            to="/register"
+            className="text-blue-500"
           >
             Register
-          </span>
+          </Link>
         </p>
       </div>
     </div>
   );
-}
-
-const input = {
-  width: "100%",
-  padding: "15px",
-  marginBottom: "20px",
-  borderRadius: "10px",
-  border: "none",
-  background: "#1e293b",
-  color: "white",
-  fontSize: "16px",
-  boxSizing: "border-box",
-};
-
-const button = {
-  width: "100%",
-  padding: "15px",
-  borderRadius: "10px",
-  border: "none",
-  background: "#2563eb",
-  color: "white",
-  fontSize: "16px",
-  cursor: "pointer",
 };
 
 export default Login;

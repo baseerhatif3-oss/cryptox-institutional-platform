@@ -1,10 +1,23 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://crypto-platform-backend-d2az.onrender.com/api",
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL:
+    "https://crypto-app-5nz8.onrender.com/api",
 });
+
+API.interceptors.request.use(
+  (req) => {
+    const token =
+      localStorage.getItem(
+        "token"
+      );
+
+    if (token) {
+      req.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return req;
+  }
+);
 
 export default API;
