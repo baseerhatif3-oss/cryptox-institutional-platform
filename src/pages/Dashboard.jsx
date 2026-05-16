@@ -1,42 +1,43 @@
-import {
+import React, {
   useEffect,
   useState,
 } from "react";
 
+import {
+  AdvancedRealTimeChart,
+} from "react-ts-tradingview-widgets";
+
 import axios from "axios";
 
-import Sidebar from "../components/Sidebar";
-
 function Dashboard() {
-  const user = JSON.parse(
-    localStorage.getItem("userInfo")
-  );
-
   const [prices, setPrices] =
     useState({
-      BTC: null,
-      ETH: null,
-      SOL: null,
+      BTC: {
+        price: 0,
+        change: 0,
+      },
+
+      ETH: {
+        price: 0,
+        change: 0,
+      },
+
+      SOL: {
+        price: 0,
+        change: 0,
+      },
     });
 
-  const [wallet, setWallet] =
-    useState({
-      BTC: 0,
-      ETH: 0,
-      SOL: 0,
-      USDT: 0,
-    });
+  const [
+    selectedCoin,
+    setSelectedCoin,
+  ] = useState("BTC");
 
   const [amount, setAmount] =
     useState("");
 
-  const [coin, setCoin] =
-    useState("BTC");
-
   useEffect(() => {
     fetchPrices();
-
-    fetchWallet();
 
     const interval =
       setInterval(() => {
@@ -52,43 +53,56 @@ function Dashboard() {
   const fetchPrices =
     async () => {
       try {
-        const response =
-          await fetch(
-            "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana"
+        const btc =
+          await axios.get(
+            "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true"
           );
 
-        const data =
-          await response.json();
+        const eth =
+          await axios.get(
+            "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd&include_24hr_change=true"
+          );
+
+        const sol =
+          await axios.get(
+            "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd&include_24hr_change=true"
+          );
 
         setPrices({
           BTC: {
             price:
-              data[0]
-                .current_price,
+              btc.data
+                .bitcoin
+                .usd,
 
             change:
-              data[0]
-                .price_change_percentage_24h,
+              btc.data
+                .bitcoin
+                .usd_24h_change,
           },
 
           ETH: {
             price:
-              data[1]
-                .current_price,
+              eth.data
+                .ethereum
+                .usd,
 
             change:
-              data[1]
-                .price_change_percentage_24h,
+              eth.data
+                .ethereum
+                .usd_24h_change,
           },
 
           SOL: {
             price:
-              data[2]
-                .current_price,
+              sol.data
+                .solana
+                .usd,
 
             change:
-              data[2]
-                .price_change_percentage_24h,
+              sol.data
+                .solana
+                .usd_24h_change,
           },
         });
       } catch (error) {
@@ -96,402 +110,374 @@ function Dashboard() {
       }
     };
 
-  /* FETCH WALLET */
+  /* TRADE */
 
-  const fetchWallet =
-    async () => {
+  const handleTrade =
+    async (type) => {
       try {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        };
-
-        const { data } =
-          await axios.get(
-            "https://crypto-platform-backend-d2az.onrender.com/api/trade/wallet",
-            config
+        const userInfo =
+          JSON.parse(
+            localStorage.getItem(
+              "userInfo"
+            )
           );
 
-        setWallet(data);
+        await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/trade/${type}`,
+          {
+            asset:
+              selectedCoin,
+
+            amount:
+              Number(amount),
+
+            price:
+              prices[
+                selectedCoin
+              ].price,
+          },
+
+          {
+            headers: {
+              Authorization: `Bearer ${userInfo.token}`,
+            },
+          }
+        );
+
+        alert(
+          `${type.toUpperCase()} Successful`
+        );
+
+        setAmount("");
       } catch (error) {
         console.log(error);
-      }
-    };
 
-  /* BUY */
-
-  const buyCoin =
-    async () => {
-      try {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        };
-
-        await axios.post(
-          "https://crypto-platform-backend-d2az.onrender.com/api/trade/buy",
-          {
-            asset: coin,
-            amount:
-              Number(amount),
-            price:
-              prices[coin]
-                .price,
-          },
-          config
-        );
-
-        alert(
-          `${coin} Purchased`
-        );
-
-        setAmount("");
-
-        fetchWallet();
-      } catch (error) {
         alert(
           error.response?.data
             ?.message ||
-            "Buy Failed"
+            "Trade Failed"
         );
       }
     };
-
-  /* SELL */
-
-  const sellCoin =
-    async () => {
-      try {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        };
-
-        await axios.post(
-          "https://crypto-platform-backend-d2az.onrender.com/api/trade/sell",
-          {
-            asset: coin,
-            amount:
-              Number(amount),
-            price:
-              prices[coin]
-                .price,
-          },
-          config
-        );
-
-        alert(
-          `${coin} Sold`
-        );
-
-        setAmount("");
-
-        fetchWallet();
-      } catch (error) {
-        alert(
-          error.response?.data
-            ?.message ||
-            "Sell Failed"
-        );
-      }
-    };
-
-  if (
-    prices.BTC === null
-  ) {
-    return (
-      <div
-        style={{
-          background:
-            "#020617",
-          minHeight: "100vh",
-          display: "flex",
-          justifyContent:
-            "center",
-          alignItems: "center",
-          color: "white",
-        }}
-      >
-        Loading...
-      </div>
-    );
-  }
 
   return (
     <div
       style={{
-        background: "#020617",
-        minHeight: "100vh",
-        display: "flex",
+        background:
+          "#020617",
+        minHeight:
+          "100vh",
+        color: "white",
+        padding: "30px",
+        fontFamily:
+          "Arial",
       }}
     >
-      <Sidebar />
+      {/* HEADER */}
+
+      <h1
+        style={{
+          fontSize: "40px",
+          marginBottom:
+            "10px",
+        }}
+      >
+        CryptoX Exchange
+      </h1>
+
+      <p
+        style={{
+          color: "#94a3b8",
+          marginBottom:
+            "40px",
+        }}
+      >
+        Professional
+        Cryptocurrency
+        Trading Platform
+      </p>
+
+      {/* MARKET CARDS */}
 
       <div
         style={{
-          flex: 1,
-          marginLeft:
-            window.innerWidth >
-            768
-              ? "250px"
-              : "0px",
-          marginTop: "80px",
-          padding: "30px",
-          color: "white",
-          fontFamily: "Arial",
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(auto-fit,minmax(250px,1fr))",
+
+          gap: "20px",
+
+          marginBottom:
+            "40px",
         }}
       >
-        <h1>
-          CryptoX Exchange
-        </h1>
+        {/* BTC */}
 
-        <p>
-          Welcome {user.name}
-        </p>
-
-        {/* MARKET */}
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns:
-              "repeat(auto-fit,minmax(250px,1fr))",
-            gap: "20px",
-            marginTop: "30px",
-            marginBottom:
-              "30px",
-          }}
-        >
-          <div style={card}>
-            <h2>
-              ₿ Bitcoin
-            </h2>
-
-            <h1>
-              $
-              {
-                prices.BTC
-                  .price
-              }
-            </h1>
-
-            <p
-              style={{
-                color:
-                  prices.BTC
-                    .change >=
-                  0
-                    ? "#22c55e"
-                    : "#ef4444",
-              }}
-            >
-              {
-                prices.BTC
-                  .change
-              }
-              %
-            </p>
-          </div>
-
-          <div style={card}>
-            <h2>
-              ♦ Ethereum
-            </h2>
-
-            <h1>
-              $
-              {
-                prices.ETH
-                  .price
-              }
-            </h1>
-
-            <p
-              style={{
-                color:
-                  prices.ETH
-                    .change >=
-                  0
-                    ? "#22c55e"
-                    : "#ef4444",
-              }}
-            >
-              {
-                prices.ETH
-                  .change
-              }
-              %
-            </p>
-          </div>
-
-          <div style={card}>
-            <h2>
-              ◎ Solana
-            </h2>
-
-            <h1>
-              $
-              {
-                prices.SOL
-                  .price
-              }
-            </h1>
-
-            <p
-              style={{
-                color:
-                  prices.SOL
-                    .change >=
-                  0
-                    ? "#22c55e"
-                    : "#ef4444",
-              }}
-            >
-              {
-                prices.SOL
-                  .change
-              }
-              %
-            </p>
-          </div>
-        </div>
-
-        {/* TRADE */}
-
-        <div
-          style={{
-            background:
-              "#0f172a",
-            padding: "30px",
-            borderRadius:
-              "20px",
-            marginBottom:
-              "30px",
-          }}
-        >
+        <div style={card}>
           <h2>
-            Trade Crypto
+            ₿ Bitcoin
           </h2>
 
-          <select
-            value={coin}
-            onChange={(e) =>
-              setCoin(
-                e.target.value
-              )
-            }
-            style={input}
-          >
-            <option>
-              BTC
-            </option>
+          <h1>
+            $
+            {prices.BTC.price}
+          </h1>
 
-            <option>
-              ETH
-            </option>
-
-            <option>
-              SOL
-            </option>
-          </select>
-
-          <input
-            type="number"
-            placeholder="Amount"
-            value={amount}
-            onChange={(e) =>
-              setAmount(
-                e.target.value
-              )
-            }
-            style={input}
-          />
-
-          <div
+          <p
             style={{
-              display: "flex",
-              gap: "20px",
+              color:
+                prices.BTC
+                  .change >=
+                0
+                  ? "#22c55e"
+                  : "#ef4444",
             }}
           >
-            <button
-              onClick={
-                buyCoin
-              }
-              style={buyBtn}
-            >
-              Buy
-            </button>
-
-            <button
-              onClick={
-                sellCoin
-              }
-              style={sellBtn}
-            >
-              Sell
-            </button>
-          </div>
+            {prices.BTC.change.toFixed(
+              2
+            )}
+            %
+          </p>
         </div>
 
-        {/* CHART */}
+        {/* ETH */}
+
+        <div style={card}>
+          <h2>
+            ♦ Ethereum
+          </h2>
+
+          <h1>
+            $
+            {prices.ETH.price}
+          </h1>
+
+          <p
+            style={{
+              color:
+                prices.ETH
+                  .change >=
+                0
+                  ? "#22c55e"
+                  : "#ef4444",
+            }}
+          >
+            {prices.ETH.change.toFixed(
+              2
+            )}
+            %
+          </p>
+        </div>
+
+        {/* SOL */}
+
+        <div style={card}>
+          <h2>
+            ◎ Solana
+          </h2>
+
+          <h1>
+            $
+            {prices.SOL.price}
+          </h1>
+
+          <p
+            style={{
+              color:
+                prices.SOL
+                  .change >=
+                0
+                  ? "#22c55e"
+                  : "#ef4444",
+            }}
+          >
+            {prices.SOL.change.toFixed(
+              2
+            )}
+            %
+          </p>
+        </div>
+      </div>
+
+      {/* TRADE SECTION */}
+
+      <div
+        style={{
+          background:
+            "#0f172a",
+
+          padding: "30px",
+
+          borderRadius:
+            "20px",
+
+          marginBottom:
+            "40px",
+        }}
+      >
+        <h2
+          style={{
+            marginBottom:
+              "20px",
+          }}
+        >
+          Trade Crypto
+        </h2>
+
+        <select
+          value={
+            selectedCoin
+          }
+          onChange={(e) =>
+            setSelectedCoin(
+              e.target.value
+            )
+          }
+          style={input}
+        >
+          <option value="BTC">
+            BTC
+          </option>
+
+          <option value="ETH">
+            ETH
+          </option>
+
+          <option value="SOL">
+            SOL
+          </option>
+        </select>
+
+        <input
+          type="number"
+          placeholder="Amount"
+          value={amount}
+          onChange={(e) =>
+            setAmount(
+              e.target.value
+            )
+          }
+          style={input}
+        />
 
         <div
           style={{
-            background:
-              "#0f172a",
-            borderRadius:
-              "20px",
-            overflow:
-              "hidden",
+            display: "flex",
+            gap: "20px",
           }}
         >
-          <iframe
-            src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview&symbol=BINANCE:BTCUSDT&interval=60&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=F1F3F6&studies=[]&theme=dark"
-            width="100%"
-            height="500"
-            frameBorder="0"
-          />
+          <button
+            onClick={() =>
+              handleTrade(
+                "buy"
+              )
+            }
+            style={buyBtn}
+          >
+            Buy
+          </button>
+
+          <button
+            onClick={() =>
+              handleTrade(
+                "sell"
+              )
+            }
+            style={sellBtn}
+          >
+            Sell
+          </button>
         </div>
+      </div>
+
+      {/* TRADINGVIEW CHART */}
+
+      <div
+        style={{
+          background:
+            "#0f172a",
+
+          borderRadius:
+            "20px",
+
+          padding: "10px",
+
+          overflow:
+            "hidden",
+        }}
+      >
+        <AdvancedRealTimeChart
+          theme="dark"
+          symbol="BINANCE:BTCUSDT"
+          autosize
+        />
       </div>
     </div>
   );
 }
 
+/* STYLES */
+
 const card = {
   background:
     "linear-gradient(135deg,#0f172a,#1e293b)",
+
   padding: "30px",
-  borderRadius: "20px",
+
+  borderRadius:
+    "20px",
 };
 
 const input = {
   width: "100%",
+
   padding: "15px",
-  borderRadius: "10px",
+
+  borderRadius:
+    "10px",
+
   border: "none",
-  marginBottom: "20px",
-  background: "#1e293b",
+
+  marginBottom:
+    "20px",
+
+  background:
+    "#1e293b",
+
   color: "white",
 };
 
 const buyBtn = {
-  background: "#22c55e",
+  background:
+    "#22c55e",
+
   border: "none",
-  padding: "14px 20px",
-  borderRadius: "10px",
+
+  padding:
+    "14px 24px",
+
+  borderRadius:
+    "10px",
+
   color: "white",
+
   cursor: "pointer",
 };
 
 const sellBtn = {
-  background: "#ef4444",
+  background:
+    "#ef4444",
+
   border: "none",
-  padding: "14px 20px",
-  borderRadius: "10px",
+
+  padding:
+    "14px 24px",
+
+  borderRadius:
+    "10px",
+
   color: "white",
+
   cursor: "pointer",
 };
 

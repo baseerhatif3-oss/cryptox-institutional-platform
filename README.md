@@ -1,94 +1,102 @@
-# CryptoX Exchange 🚀
+# 🚀 CryptoX Exchange Platform
 
-Professional Full Stack Crypto Trading Platform built using MERN Stack.
-
----
-
-# Live Demo
-
-Frontend:
-https://YOUR-VERCEL-URL.vercel.app
-
-Backend API:
-https://crypto-platform-backend-d2az.onrender.com
+A modern full-stack cryptocurrency trading platform built using the MERN stack.
 
 ---
 
-# Features
-
-## Authentication
-- User Registration
-- User Login
-- JWT Authentication
-- Protected Routes
-- Persistent Login Session
-
-## Trading System
-- Buy Crypto
-- Sell Crypto
-- Live Wallet Updates
-- Transaction History
-- Trading Dashboard
-
-## Live Market Data
-- Bitcoin Prices
-- Ethereum Prices
-- Solana Prices
-- Global Crypto Market Stats
-- BTC Dominance
-- 24h Volume
-- Live Watchlist
-
-## Portfolio Analytics
-- Portfolio Value
-- Asset Allocation Pie Chart
-- Profit / Loss Tracking
-- Wallet Overview
-
-## Trading UI
-- Advanced Trading Dashboard
-- TradingView Advanced Charts
-- Coin Switching
-- Responsive Sidebar
-- Watchlist System
-
-## UI/UX
-- Responsive Design
-- Modern Dark Theme
-- Mobile Friendly
-- Animated Loader
-- Professional Cards
-- 404 Page
-
----
-
-# Tech Stack
+# 🌐 Live Demo
 
 ## Frontend
-- React
+https://your-frontend-url.vercel.app
+
+## Backend API
+https://your-backend-url.onrender.com
+
+---
+
+# ✨ Features
+
+- 🔐 JWT Authentication
+- 📊 Live Crypto Prices
+- 📈 TradingView Charts
+- 💰 Buy/Sell System
+- 📁 Portfolio Analytics
+- 👛 Wallet Management
+- 📜 Transaction History
+- ⭐ Crypto Watchlist
+- 🌙 Modern Dark UI
+- 📱 Responsive Design
+
+---
+
+# 🛠️ Tech Stack
+
+## Frontend
+- React.js
 - Vite
 - Axios
+- React Router
 - Recharts
 - TradingView Widget
-- React Router DOM
 
 ## Backend
 - Node.js
 - Express.js
 - MongoDB
-- Mongoose
 - JWT Authentication
-
-## Deployment
-- Vercel
-- Render
-- MongoDB Atlas
+- Mongoose
 
 ---
 
-# Installation
+# 📸 Screenshots
+
+---
+
+## 🔐 Login Page
+
+![Login](./frontend/public/screenshots/login.png)
+
+---
+
+## 📊 Dashboard
+
+![Dashboard](./frontend/public/screenshots/dashboard.png)
+
+---
+
+## 📈 Trading Section
+
+![Trading](./frontend/public/screenshots/trading.png)
+
+---
+
+## 📁 Portfolio Analytics
+
+![Portfolio](./frontend/public/screenshots/portfolio.png)
+
+---
+
+## 👛 Wallet
+
+![Wallet](./frontend/public/screenshots/wallet.png)
+
+---
+
+## 📜 Transactions
+
+![Transactions](./frontend/public/screenshots/transactions.png)
+
+---
+
+## ⭐ Watchlist
+
+![Watchlist](./frontend/public/screenshots/watchlist.png)
+
+---
+
+# ⚙️ Installation
 
 ## Clone Repository
 
 ```bash
-git clone https://github.com/baseerhatif3-oss/crypto-platform.git
+git clone https://github.com/YOUR_USERNAME/crypto-platform.git
