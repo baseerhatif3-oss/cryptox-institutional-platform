@@ -1,275 +1,183 @@
-import React, {
-  useEffect,
-  useState,
-} from "react";
-
+import { useEffect, useState } from "react";
+import API from "../services/api";
 import toast from "react-hot-toast";
 
-import API from "../services/api";
-
-import TradingViewWidget from "../components/TradingViewWidget";
-
 const Dashboard = () => {
-  const [coin, setCoin] =
-    useState("BTC");
+  const [balance, setBalance] = useState(0);
+  const [coins, setCoins] = useState([]);
+  const [selectedCoin, setSelectedCoin] = useState(null);
+  const [amount, setAmount] = useState(100);
+  const [loading, setLoading] = useState(false);
 
-  const [amount, setAmount] =
-    useState("");
+  const fetchBalance = async () => {
+    try {
+      const { data } = await API.get("/balance");
+      setBalance(data.balance);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  const [prices, setPrices] =
-    useState({
-      BTC: 79000,
-      ETH: 2200,
-      SOL: 89,
-    });
+  const fetchCoins = async () => {
+    try {
+      const response = await fetch(
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd"
+      );
 
-  /* FETCH LIVE PRICES */
+      const data = await response.json();
 
-  const fetchPrices =
-    async () => {
-      try {
-        const response =
-          await fetch(
-            "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd"
-          );
-
-        const data =
-          await response.json();
-
-        setPrices({
-          BTC: data.bitcoin.usd,
-          ETH: data.ethereum.usd,
-          SOL: data.solana.usd,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
+      setCoins(data.slice(0, 20));
+      setSelectedCoin(data[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    fetchPrices();
-
-    const interval =
-      setInterval(() => {
-        fetchPrices();
-      }, 10000);
-
-    return () =>
-      clearInterval(interval);
+    fetchBalance();
+    fetchCoins();
   }, []);
 
-  /* BUY */
+  const handleTrade = async (type) => {
+    try {
+      if (!selectedCoin) return;
 
-  const handleBuy =
-    async () => {
-      try {
-        await API.post(
-          "/trade",
-          {
-            coin,
+      setLoading(true);
 
-            amount:
-              Number(amount),
+      await API.post("/trade", {
+        coinId: selectedCoin.id,
+        coinName: selectedCoin.name,
+        symbol: selectedCoin.symbol,
+        image: selectedCoin.image,
+        type,
+        amount: Number(amount),
+      });
 
-            type: "BUY",
+      toast.success(
+        type === "BUY"
+          ? "Crypto purchased successfully"
+          : "Crypto sold successfully"
+      );
 
-            price:
-              prices[coin],
-          }
-        );
+      fetchBalance();
+    } catch (error) {
+      console.log(error);
 
-        toast.success(
-          "Buy order successful"
-        );
-
-        setAmount("");
-      } catch (error) {
-        console.log(error);
-
-        toast.error(
-          error?.response?.data
-            ?.message ||
-            "Buy failed"
-        );
-      }
-    };
-
-  /* SELL */
-
-  const handleSell =
-    async () => {
-      try {
-        await API.post(
-          "/trade",
-          {
-            coin,
-
-            amount:
-              Number(amount),
-
-            type: "SELL",
-
-            price:
-              prices[coin],
-          }
-        );
-
-        toast.success(
-          "Sell order successful"
-        );
-
-        setAmount("");
-      } catch (error) {
-        console.log(error);
-
-        toast.error(
-          error?.response?.data
-            ?.message ||
-            "Sell failed"
-        );
-      }
-    };
+      toast.error(
+        error.response?.data?.message || "Trade failed"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div>
-      {/* HEADER */}
-
-      <div className="mb-10">
-        <h1 className="text-5xl font-bold">
-          CryptoX Exchange
-        </h1>
-
-        <p className="text-slate-400 mt-3 text-lg">
-          Professional cryptocurrency
-          trading platform
+    <div className="p-6 bg-slate-950 min-h-screen text-white">
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <p className="text-slate-400 mt-2">
+          Welcome to your crypto exchange dashboard.
         </p>
       </div>
 
-      {/* LIVE MARKET */}
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        {/* BTC */}
-
-        <div className="bg-[#0f172a] p-8 rounded-3xl border border-slate-800">
-          <h2 className="text-3xl font-bold">
-            ₿ Bitcoin
-          </h2>
-
-          <p className="text-5xl font-bold mt-6">
-            $
-            {prices.BTC.toLocaleString()}
-          </p>
-
-          <p className="text-green-400 mt-4 text-xl">
-            Live Market
-          </p>
-        </div>
-
-        {/* ETH */}
-
-        <div className="bg-[#0f172a] p-8 rounded-3xl border border-slate-800">
-          <h2 className="text-3xl font-bold">
-            ♦ Ethereum
-          </h2>
-
-          <p className="text-5xl font-bold mt-6">
-            $
-            {prices.ETH.toLocaleString()}
-          </p>
-
-          <p className="text-green-400 mt-4 text-xl">
-            Live Market
-          </p>
-        </div>
-
-        {/* SOL */}
-
-        <div className="bg-[#0f172a] p-8 rounded-3xl border border-slate-800">
-          <h2 className="text-3xl font-bold">
-            ◎ Solana
-          </h2>
-
-          <p className="text-5xl font-bold mt-6">
-            $
-            {prices.SOL.toLocaleString()}
-          </p>
-
-          <p className="text-green-400 mt-4 text-xl">
-            Live Market
-          </p>
-        </div>
-      </div>
-
-      {/* TRADING PANEL */}
-
-      <div className="bg-[#0f172a] p-8 rounded-3xl border border-slate-800 mb-10">
-        <h2 className="text-3xl font-bold mb-8">
-          Trade Crypto
+      <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 mb-6">
+        <h2 className="text-xl font-semibold mb-2">
+          Wallet Balance
         </h2>
 
-        <div className="space-y-5">
-          {/* COIN SELECT */}
+        <p className="text-4xl font-bold text-green-400">
+          ${balance.toFixed(2)}
+        </p>
+      </div>
 
-          <select
-            value={coin}
-            onChange={(e) =>
-              setCoin(
-                e.target.value
-              )
-            }
-            className="w-full p-5 rounded-2xl bg-[#020617] border border-slate-700 text-xl outline-none"
-          >
-            <option value="BTC">
-              BTC
-            </option>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 bg-slate-900 p-6 rounded-2xl border border-slate-800">
+          <h2 className="text-xl font-semibold mb-4">
+            Live Market
+          </h2>
 
-            <option value="ETH">
-              ETH
-            </option>
+          <div className="space-y-3 max-h-[600px] overflow-y-auto">
+            {coins.map((coin) => (
+              <div
+                key={coin.id}
+                onClick={() => setSelectedCoin(coin)}
+                className="flex items-center justify-between bg-slate-800 p-4 rounded-xl cursor-pointer hover:bg-slate-700"
+              >
+                <div className="flex items-center gap-3">
+                  <img
+                    src={coin.image}
+                    alt={coin.name}
+                    className="w-8 h-8"
+                  />
 
-            <option value="SOL">
-              SOL
-            </option>
-          </select>
+                  <div>
+                    <p className="font-semibold">{coin.name}</p>
+                    <p className="text-slate-400 text-sm uppercase">
+                      {coin.symbol}
+                    </p>
+                  </div>
+                </div>
 
-          {/* AMOUNT */}
+                <div>
+                  <p className="font-bold">
+                    ${coin.current_price}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 h-fit">
+          <h2 className="text-xl font-semibold mb-4">
+            Trade Crypto
+          </h2>
+
+          {selectedCoin && (
+            <div className="mb-4 flex items-center gap-3">
+              <img
+                src={selectedCoin.image}
+                alt={selectedCoin.name}
+                className="w-10 h-10"
+              />
+
+              <div>
+                <p className="font-semibold">
+                  {selectedCoin.name}
+                </p>
+                <p className="text-slate-400 uppercase text-sm">
+                  {selectedCoin.symbol}
+                </p>
+              </div>
+            </div>
+          )}
 
           <input
             type="number"
-            placeholder="Enter amount"
+            placeholder="Amount in USD"
             value={amount}
-            onChange={(e) =>
-              setAmount(
-                e.target.value
-              )
-            }
-            className="w-full p-5 rounded-2xl bg-[#020617] border border-slate-700 text-xl outline-none"
+            onChange={(e) => setAmount(e.target.value)}
+            className="w-full p-3 rounded-lg bg-slate-800 text-white outline-none mb-4"
           />
 
-          {/* ACTION BUTTONS */}
-
-          <div className="flex gap-5">
+          <div className="grid grid-cols-2 gap-3">
             <button
-              onClick={handleBuy}
-              className="bg-green-500 hover:bg-green-600 transition-all px-10 py-4 rounded-2xl text-xl font-bold"
+              onClick={() => handleTrade("BUY")}
+              disabled={loading}
+              className="bg-green-600 hover:bg-green-700 p-3 rounded-lg font-semibold"
             >
               Buy
             </button>
 
             <button
-              onClick={handleSell}
-              className="bg-red-500 hover:bg-red-600 transition-all px-10 py-4 rounded-2xl text-xl font-bold"
+              onClick={() => handleTrade("SELL")}
+              disabled={loading}
+              className="bg-red-600 hover:bg-red-700 p-3 rounded-lg font-semibold"
             >
               Sell
             </button>
           </div>
         </div>
-      </div>
-
-      {/* LIVE CHART */}
-
-      <div className="bg-[#0f172a] p-5 rounded-3xl border border-slate-800">
-        <TradingViewWidget />
       </div>
     </div>
   );

@@ -1,140 +1,34 @@
-import React, {
-  useEffect,
-  useState,
-} from "react";
-
+import { useEffect, useState } from "react";
 import API from "../services/api";
 
 const Wallet = () => {
-  const [balance, setBalance] =
-    useState(0);
+  const [balance, setBalance] = useState(0);
 
-  const [portfolio, setPortfolio] =
-    useState({});
-
-  const fetchWallet =
-    async () => {
+  useEffect(() => {
+    const fetchBalance = async () => {
       try {
-        // BALANCE
-
-        const balanceRes =
-          await API.get(
-            "/balance"
-          );
-
-        setBalance(
-          balanceRes.data.balance
-        );
-
-        // TRADES
-
-        const tradesRes =
-          await API.get(
-            "/trades"
-          );
-
-        const holdings = {};
-
-        tradesRes.data.forEach(
-          (trade) => {
-            if (
-              !holdings[
-                trade.coin
-              ]
-            ) {
-              holdings[
-                trade.coin
-              ] = 0;
-            }
-
-            if (
-              trade.type ===
-              "BUY"
-            ) {
-              holdings[
-                trade.coin
-              ] +=
-                trade.amount;
-            } else {
-              holdings[
-                trade.coin
-              ] -=
-                trade.amount;
-            }
-          }
-        );
-
-        setPortfolio(
-          holdings
-        );
+        const { data } = await API.get("/balance");
+        setBalance(data.balance);
       } catch (error) {
         console.log(error);
       }
     };
 
-  useEffect(() => {
-    fetchWallet();
-
-    const interval =
-      setInterval(() => {
-        fetchWallet();
-      }, 5000);
-
-    return () =>
-      clearInterval(interval);
+    fetchBalance();
   }, []);
 
   return (
-    <div>
-      {/* HEADER */}
+    <div className="p-6 bg-slate-950 min-h-screen text-white">
+      <h1 className="text-3xl font-bold mb-6">Wallet</h1>
 
-      <div className="mb-10">
-        <h1 className="text-5xl font-bold">
-          Wallet
-        </h1>
-
-        <p className="text-slate-400 mt-3">
-          Live wallet balances and
-          holdings
-        </p>
-      </div>
-
-      {/* BALANCE */}
-
-      <div className="bg-slate-900 p-8 rounded-3xl border border-slate-800 mb-10">
-        <h2 className="text-2xl text-slate-400">
+      <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 max-w-xl">
+        <h2 className="text-xl font-semibold mb-3">
           Available Balance
         </h2>
 
-        <h1 className="text-6xl font-bold mt-5 text-green-400">
-          $
-          {balance.toLocaleString()}
-        </h1>
-      </div>
-
-      {/* HOLDINGS */}
-
-      <div className="grid md:grid-cols-3 gap-6">
-        {Object.keys(
-          portfolio
-        ).map((coin) => (
-          <div
-            key={coin}
-            className="bg-slate-900 p-8 rounded-3xl border border-slate-800"
-          >
-            <h2 className="text-3xl font-bold">
-              {coin}
-            </h2>
-
-            <p className="text-5xl font-bold mt-6 text-blue-400">
-              {
-                portfolio[
-                  coin
-                ]
-              }
-            </p>
-          </div>
-        ))}
+        <p className="text-5xl font-bold text-green-400">
+          ${balance.toFixed(2)}
+        </p>
       </div>
     </div>
   );
