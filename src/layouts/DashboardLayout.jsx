@@ -12,6 +12,7 @@ import {
   User,
   LogOut,
   ClipboardList,
+  Star,
 } from "lucide-react";
 
 const DashboardLayout = () => {
@@ -63,6 +64,12 @@ const DashboardLayout = () => {
     },
 
     {
+      name: "Watchlist",
+      path: "/watchlist",
+      icon: <Star size={20} />,
+    },
+
+    {
       name: "Profile",
       path: "/profile",
       icon: <User size={20} />,
@@ -84,7 +91,8 @@ const DashboardLayout = () => {
             </h1>
 
             <p className="text-slate-400 text-sm mt-1">
-              Professional Crypto Exchange
+              Professional Crypto
+              Exchange
             </p>
           </div>
 
@@ -119,7 +127,8 @@ const DashboardLayout = () => {
             </p>
 
             <p className="text-slate-400 text-sm">
-              {user?.email || "No email"}
+              {user?.email ||
+                "No email"}
             </p>
           </div>
 

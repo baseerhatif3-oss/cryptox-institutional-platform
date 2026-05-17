@@ -15,6 +15,7 @@ import Portfolio from "./pages/Portfolio";
 import Transactions from "./pages/Transactions";
 import Profile from "./pages/Profile";
 import OpenOrders from "./pages/OpenOrders";
+import Watchlist from "./pages/Watchlist";
 
 import DashboardLayout from "./layouts/DashboardLayout";
 
@@ -76,13 +77,18 @@ function App() {
           />
 
           <Route
-            path="profile"
-            element={<Profile />}
+            path="orders"
+            element={<OpenOrders />}
           />
 
           <Route
-            path="orders"
-            element={<OpenOrders />}
+            path="watchlist"
+            element={<Watchlist />}
+          />
+
+          <Route
+            path="profile"
+            element={<Profile />}
           />
         </Route>
       </Routes>
