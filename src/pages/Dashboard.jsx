@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+
 import toast from "react-hot-toast";
 
 import API from "../services/api";
+
 import TradingChart from "../components/TradingChart";
+import LiveMarket from "../components/LiveMarket";
 
 const Dashboard = () => {
   const [balance, setBalance] = useState(0);
@@ -152,8 +155,10 @@ const Dashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
-          <div className="xl:col-span-3">
+          <div className="xl:col-span-3 space-y-6">
             <TradingChart />
+
+            <LiveMarket />
           </div>
 
           <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 h-fit">
