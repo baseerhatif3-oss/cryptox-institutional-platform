@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   TrendingUp,
   TrendingDown,
+  Wifi,
 } from "lucide-react";
 
 import AIAssistant from "../components/AIAssistant";
@@ -13,6 +14,9 @@ const Dashboard = () => {
 
   const [loading, setLoading] =
     useState(true);
+
+  const [livePrices, setLivePrices] =
+    useState({});
 
   const fetchCoins = async () => {
     try {
@@ -33,30 +37,67 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchCoins();
+  }, []);
 
+  /* =========================
+     FAKE LIVE PRICE MOVEMENT
+  ========================= */
+
+  useEffect(() => {
     const interval =
       setInterval(() => {
-        fetchCoins();
-      }, 5000);
+        setLivePrices((prev) => {
+          const updated = {
+            ...prev,
+          };
+
+          coins.forEach((coin) => {
+            const current =
+              updated[coin.id] ||
+              coin.current_price;
+
+            const randomMove =
+              (Math.random() - 0.5) *
+              current *
+              0.003;
+
+            updated[coin.id] =
+              current +
+              randomMove;
+          });
+
+          return updated;
+        });
+      }, 1500);
 
     return () =>
       clearInterval(interval);
-  }, []);
+  }, [coins]);
 
   return (
     <div className="min-h-screen bg-slate-950 text-white p-6">
       <div className="max-w-7xl mx-auto">
         {/* HEADER */}
 
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold">
-            Market Overview
-          </h1>
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-4xl font-bold">
+              Market Overview
+            </h1>
 
-          <p className="text-slate-400 mt-2">
-            Real-time cryptocurrency
-            market prices.
-          </p>
+            <p className="text-slate-400 mt-2">
+              Real-time cryptocurrency
+              market prices.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 bg-green-600 px-4 py-2 rounded-xl">
+            <Wifi size={18} />
+
+            <span className="font-semibold">
+              LIVE
+            </span>
+          </div>
         </div>
 
         {/* TOP STATS */}
@@ -69,8 +110,14 @@ const Dashboard = () => {
 
             <h2 className="text-4xl font-bold text-yellow-400">
               $
-              {coins[0]?.current_price?.toLocaleString() ||
-                "0"}
+              {livePrices[
+                coins[0]?.id
+              ]?.toLocaleString(
+                undefined,
+                {
+                  maximumFractionDigits: 2,
+                }
+              ) || "0"}
             </h2>
           </div>
 
@@ -81,8 +128,14 @@ const Dashboard = () => {
 
             <h2 className="text-4xl font-bold text-blue-400">
               $
-              {coins[1]?.current_price?.toLocaleString() ||
-                "0"}
+              {livePrices[
+                coins[1]?.id
+              ]?.toLocaleString(
+                undefined,
+                {
+                  maximumFractionDigits: 2,
+                }
+              ) || "0"}
             </h2>
           </div>
 
@@ -93,8 +146,14 @@ const Dashboard = () => {
 
             <h2 className="text-4xl font-bold text-purple-400">
               $
-              {coins[4]?.current_price?.toLocaleString() ||
-                "0"}
+              {livePrices[
+                coins[4]?.id
+              ]?.toLocaleString(
+                undefined,
+                {
+                  maximumFractionDigits: 2,
+                }
+              ) || "0"}
             </h2>
           </div>
         </div>
@@ -122,7 +181,7 @@ const Dashboard = () => {
                     </th>
 
                     <th className="text-left p-5">
-                      Price
+                      Live Price
                     </th>
 
                     <th className="text-left p-5">
@@ -140,177 +199,87 @@ const Dashboard = () => {
                 </thead>
 
                 <tbody>
-                  {coins.map((coin) => (
-                    <tr
-                      key={coin.id}
-                      className="border-b border-slate-800 hover:bg-slate-800/40 transition"
-                    >
-                      <td className="p-5">
-                        <div className="flex items-center gap-4">
-                          <img
-                            src={coin.image}
-                            alt={coin.name}
-                            className="w-10 h-10"
-                          />
+                  {coins.map((coin) => {
+                    const livePrice =
+                      livePrices[
+                        coin.id
+                      ] ||
+                      coin.current_price;
 
-                          <div>
-                            <h3 className="font-bold">
-                              {coin.symbol.toUpperCase()}
-                            </h3>
+                    return (
+                      <tr
+                        key={coin.id}
+                        className="border-b border-slate-800 hover:bg-slate-800/40 transition"
+                      >
+                        <td className="p-5">
+                          <div className="flex items-center gap-4">
+                            <img
+                              src={coin.image}
+                              alt={coin.name}
+                              className="w-10 h-10"
+                            />
 
-                            <p className="text-slate-400 text-sm">
-                              {coin.name}
-                            </p>
+                            <div>
+                              <h3 className="font-bold">
+                                {coin.symbol.toUpperCase()}
+                              </h3>
+
+                              <p className="text-slate-400 text-sm">
+                                {coin.name}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      </td>
+                        </td>
 
-                      <td className="p-5 font-bold">
-                        $
-                        {coin.current_price.toLocaleString()}
-                      </td>
-
-                      <td className="p-5">
-                        <div
-                          className={`flex items-center gap-2 font-semibold ${
-                            coin.price_change_percentage_24h >
-                            0
-                              ? "text-green-400"
-                              : "text-red-400"
-                          }`}
-                        >
-                          {coin.price_change_percentage_24h >
-                          0 ? (
-                            <TrendingUp size={18} />
-                          ) : (
-                            <TrendingDown size={18} />
+                        <td className="p-5 font-bold">
+                          $
+                          {livePrice.toLocaleString(
+                            undefined,
+                            {
+                              maximumFractionDigits: 2,
+                            }
                           )}
+                        </td>
 
-                          {coin.price_change_percentage_24h?.toFixed(
-                            2
-                          )}
-                          %
-                        </div>
-                      </td>
+                        <td className="p-5">
+                          <div
+                            className={`flex items-center gap-2 font-semibold ${
+                              coin.price_change_percentage_24h >
+                              0
+                                ? "text-green-400"
+                                : "text-red-400"
+                            }`}
+                          >
+                            {coin.price_change_percentage_24h >
+                            0 ? (
+                              <TrendingUp size={18} />
+                            ) : (
+                              <TrendingDown size={18} />
+                            )}
 
-                      <td className="p-5">
-                        $
-                        {coin.market_cap.toLocaleString()}
-                      </td>
+                            {coin.price_change_percentage_24h?.toFixed(
+                              2
+                            )}
+                            %
+                          </div>
+                        </td>
 
-                      <td className="p-5">
-                        $
-                        {coin.total_volume.toLocaleString()}
-                      </td>
-                    </tr>
-                  ))}
+                        <td className="p-5">
+                          $
+                          {coin.market_cap.toLocaleString()}
+                        </td>
+
+                        <td className="p-5">
+                          $
+                          {coin.total_volume.toLocaleString()}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
           )}
-        </div>
-
-        {/* MARKET MOVERS */}
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-          {/* TOP GAINERS */}
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <h2 className="text-2xl font-bold mb-6 text-green-400">
-              Top Gainers
-            </h2>
-
-            <div className="space-y-4">
-              {[...coins]
-                .sort(
-                  (a, b) =>
-                    b.price_change_percentage_24h -
-                    a.price_change_percentage_24h
-                )
-                .slice(0, 5)
-                .map((coin) => (
-                  <div
-                    key={coin.id}
-                    className="flex items-center justify-between bg-slate-800 rounded-2xl p-4"
-                  >
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={coin.image}
-                        alt={coin.name}
-                        className="w-10 h-10"
-                      />
-
-                      <div>
-                        <h3 className="font-bold">
-                          {coin.symbol.toUpperCase()}
-                        </h3>
-
-                        <p className="text-slate-400 text-sm">
-                          {coin.name}
-                        </p>
-                      </div>
-                    </div>
-
-                    <p className="text-green-400 font-bold">
-                      +
-                      {coin.price_change_percentage_24h?.toFixed(
-                        2
-                      )}
-                      %
-                    </p>
-                  </div>
-                ))}
-            </div>
-          </div>
-
-          {/* TOP LOSERS */}
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <h2 className="text-2xl font-bold mb-6 text-red-400">
-              Top Losers
-            </h2>
-
-            <div className="space-y-4">
-              {[...coins]
-                .sort(
-                  (a, b) =>
-                    a.price_change_percentage_24h -
-                    b.price_change_percentage_24h
-                )
-                .slice(0, 5)
-                .map((coin) => (
-                  <div
-                    key={coin.id}
-                    className="flex items-center justify-between bg-slate-800 rounded-2xl p-4"
-                  >
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={coin.image}
-                        alt={coin.name}
-                        className="w-10 h-10"
-                      />
-
-                      <div>
-                        <h3 className="font-bold">
-                          {coin.symbol.toUpperCase()}
-                        </h3>
-
-                        <p className="text-slate-400 text-sm">
-                          {coin.name}
-                        </p>
-                      </div>
-                    </div>
-
-                    <p className="text-red-400 font-bold">
-                      {coin.price_change_percentage_24h?.toFixed(
-                        2
-                      )}
-                      %
-                    </p>
-                  </div>
-                ))}
-            </div>
-          </div>
         </div>
 
         {/* AI ASSISTANT */}
