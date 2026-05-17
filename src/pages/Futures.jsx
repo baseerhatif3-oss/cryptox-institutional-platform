@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 
 import toast from "react-hot-toast";
 
+import TradingChart from "../components/TradingChart";
+
 const Futures = () => {
   const [coins, setCoins] =
     useState([]);
@@ -125,29 +127,37 @@ const Futures = () => {
     );
   };
 
+  const getTradingViewSymbol =
+    () => {
+      if (!selectedCoin)
+        return "BINANCE:BTCUSDT";
+
+      return `BINANCE:${selectedCoin.symbol.toUpperCase()}USDT`;
+    };
+
   return (
     <div className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[1700px] mx-auto">
         <div className="mb-8">
           <h1 className="text-4xl font-bold">
             Futures Trading
           </h1>
 
           <p className="text-slate-400 mt-2">
-            Trade leveraged perpetual
-            futures contracts.
+            Professional leveraged
+            derivatives trading.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-          {/* MARKET */}
+        <div className="grid grid-cols-1 2xl:grid-cols-4 gap-6">
+          {/* MARKETS */}
 
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
             <h2 className="text-2xl font-bold mb-6">
               Markets
             </h2>
 
-            <div className="space-y-3 max-h-[700px] overflow-y-auto">
+            <div className="space-y-3 max-h-[900px] overflow-y-auto">
               {coins.map((coin) => (
                 <button
                   key={coin.id}
@@ -204,6 +214,14 @@ const Futures = () => {
                 </button>
               ))}
             </div>
+          </div>
+
+          {/* CHART */}
+
+          <div className="2xl:col-span-2">
+            <TradingChart
+              symbol={getTradingViewSymbol()}
+            />
           </div>
 
           {/* TRADING PANEL */}
@@ -383,135 +401,126 @@ const Futures = () => {
               </div>
             )}
           </div>
+        </div>
 
-          {/* POSITIONS */}
+        {/* POSITIONS */}
 
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <h2 className="text-2xl font-bold mb-6">
-              Open Positions
-            </h2>
+        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 mt-6">
+          <h2 className="text-2xl font-bold mb-6">
+            Open Positions
+          </h2>
 
-            <div className="space-y-4">
-              {positions.length ===
-                0 && (
-                <div className="text-slate-400">
-                  No open positions
-                </div>
-              )}
+          <div className="space-y-4">
+            {positions.length === 0 && (
+              <div className="text-slate-400">
+                No open positions
+              </div>
+            )}
 
-              {positions.map(
-                (position) => (
-                  <div
-                    key={position.id}
-                    className="bg-slate-800 rounded-2xl p-5"
-                  >
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={
-                            position.image
-                          }
-                          alt={
-                            position.coin
-                          }
-                          className="w-10 h-10"
-                        />
+            {positions.map((position) => (
+              <div
+                key={position.id}
+                className="bg-slate-800 rounded-2xl p-5"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={position.image}
+                      alt={position.coin}
+                      className="w-10 h-10"
+                    />
 
-                        <div>
-                          <h3 className="font-bold">
-                            {
-                              position.symbol
-                            }
-                          </h3>
+                    <div>
+                      <h3 className="font-bold">
+                        {position.symbol}
+                      </h3>
 
-                          <p
-                            className={`text-sm ${
-                              position.type ===
-                              "LONG"
-                                ? "text-green-400"
-                                : "text-red-400"
-                            }`}
-                          >
-                            {
-                              position.type
-                            }
-                          </p>
-                        </div>
-                      </div>
-
-                      <button
-                        onClick={() =>
-                          closePosition(
-                            position.id
-                          )
-                        }
-                        className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-xl text-sm"
+                      <p
+                        className={`text-sm ${
+                          position.type ===
+                          "LONG"
+                            ? "text-green-400"
+                            : "text-red-400"
+                        }`}
                       >
-                        Close
-                      </button>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <p className="text-slate-400">
-                          Margin
-                        </p>
-
-                        <p>
-                          $
-                          {
-                            position.margin
-                          }
-                        </p>
-                      </div>
-
-                      <div>
-                        <p className="text-slate-400">
-                          Size
-                        </p>
-
-                        <p>
-                          $
-                          {position.size}
-                        </p>
-                      </div>
-
-                      <div>
-                        <p className="text-slate-400">
-                          Entry
-                        </p>
-
-                        <p>
-                          $
-                          {position.entry}
-                        </p>
-                      </div>
-
-                      <div>
-                        <p className="text-slate-400">
-                          PNL
-                        </p>
-
-                        <p
-                          className={
-                            Number(
-                              position.pnl
-                            ) >= 0
-                              ? "text-green-400"
-                              : "text-red-400"
-                          }
-                        >
-                          $
-                          {
-                            position.pnl
-                          }
-                        </p>
-                      </div>
+                        {position.type}
+                      </p>
                     </div>
                   </div>
-                )
-              )}
-            </div>
+
+                  <button
+                    onClick={() =>
+                      closePosition(
+                        position.id
+                      )
+                    }
+                    className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-xl text-sm"
+                  >
+                    Close
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm">
+                  <div>
+                    <p className="text-slate-400">
+                      Margin
+                    </p>
+
+                    <p>
+                      ${position.margin}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="text-slate-400">
+                      Size
+                    </p>
+
+                    <p>
+                      ${position.size}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="text-slate-400">
+                      Entry
+                    </p>
+
+                    <p>
+                      ${position.entry}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="text-slate-400">
+                      Leverage
+                    </p>
+
+                    <p>
+                      {position.leverage}x
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="text-slate-400">
+                      PNL
+                    </p>
+
+                    <p
+                      className={
+                        Number(
+                          position.pnl
+                        ) >= 0
+                          ? "text-green-400"
+                          : "text-red-400"
+                      }
+                    >
+                      ${position.pnl}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

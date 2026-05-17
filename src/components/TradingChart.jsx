@@ -2,16 +2,19 @@ import {
   AdvancedRealTimeChart,
 } from "react-ts-tradingview-widgets";
 
-const TradingChart = () => {
+const TradingChart = ({
+  symbol = "BINANCE:BTCUSDT",
+}) => {
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+    <div className="rounded-3xl overflow-hidden border border-slate-800">
       <AdvancedRealTimeChart
         theme="dark"
-        symbol="BINANCE:BTCUSDT"
+        symbol={symbol}
+        autosize
+        interval="15"
         timezone="Etc/UTC"
-        locale="en"
-        width="100%"
-        height="600"
+        hide_top_toolbar={false}
+        hide_side_toolbar={false}
         allow_symbol_change
       />
     </div>
