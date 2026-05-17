@@ -16,6 +16,8 @@ import Transactions from "./pages/Transactions";
 import Profile from "./pages/Profile";
 import OpenOrders from "./pages/OpenOrders";
 import Watchlist from "./pages/Watchlist";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 import DashboardLayout from "./layouts/DashboardLayout";
 
@@ -46,6 +48,16 @@ function App() {
         <Route
           path="/register"
           element={<Register />}
+        />
+
+        <Route
+          path="/forgot-password"
+          element={<ForgotPassword />}
+        />
+
+        <Route
+          path="/reset-password/:token"
+          element={<ResetPassword />}
         />
 
         <Route
