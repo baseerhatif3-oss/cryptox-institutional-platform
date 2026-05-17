@@ -13,6 +13,7 @@ import Dashboard from "./pages/Dashboard";
 import Wallet from "./pages/Wallet";
 import Portfolio from "./pages/Portfolio";
 import Futures from "./pages/Futures";
+import CopyTrading from "./pages/CopyTrading";
 import Transactions from "./pages/Transactions";
 import Profile from "./pages/Profile";
 import OpenOrders from "./pages/OpenOrders";
@@ -43,7 +44,7 @@ function App() {
       <Toaster position="top-right" />
 
       <Routes>
-        {/* AUTH */}
+        {/* AUTH ROUTES */}
 
         <Route
           path="/login"
@@ -65,7 +66,7 @@ function App() {
           element={<ResetPassword />}
         />
 
-        {/* DASHBOARD */}
+        {/* DASHBOARD ROUTES */}
 
         <Route
           path="/"
@@ -75,50 +76,81 @@ function App() {
             </ProtectedRoute>
           }
         >
+          {/* HOME */}
+
           <Route
             index
             element={<Dashboard />}
           />
+
+          {/* WALLET */}
 
           <Route
             path="wallet"
             element={<Wallet />}
           />
 
+          {/* PORTFOLIO */}
+
           <Route
             path="portfolio"
             element={<Portfolio />}
           />
+
+          {/* FUTURES */}
 
           <Route
             path="futures"
             element={<Futures />}
           />
 
+          {/* COPY TRADING */}
+
+          <Route
+            path="copy-trading"
+            element={
+              <CopyTrading />
+            }
+          />
+
+          {/* TRANSACTIONS */}
+
           <Route
             path="transactions"
             element={<Transactions />}
           />
+
+          {/* ORDERS */}
 
           <Route
             path="orders"
             element={<OpenOrders />}
           />
 
+          {/* WATCHLIST */}
+
           <Route
             path="watchlist"
             element={<Watchlist />}
           />
 
+          {/* ADMIN */}
+
           <Route
             path="admin"
-            element={<AdminDashboard />}
+            element={
+              <AdminDashboard />
+            }
           />
+
+          {/* KYC */}
 
           <Route
             path="kyc"
             element={<KYC />}
           />
+
+          {/* PROFILE */}
 
           <Route
             path="profile"
