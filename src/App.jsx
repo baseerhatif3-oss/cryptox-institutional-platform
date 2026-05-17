@@ -19,6 +19,7 @@ import Watchlist from "./pages/Watchlist";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import AdminDashboard from "./pages/AdminDashboard";
+import KYC from "./pages/KYC";
 
 import DashboardLayout from "./layouts/DashboardLayout";
 
@@ -41,6 +42,8 @@ function App() {
       <Toaster position="top-right" />
 
       <Routes>
+        {/* AUTH */}
+
         <Route
           path="/login"
           element={<Login />}
@@ -60,6 +63,8 @@ function App() {
           path="/reset-password/:token"
           element={<ResetPassword />}
         />
+
+        {/* DASHBOARD */}
 
         <Route
           path="/"
@@ -100,13 +105,18 @@ function App() {
           />
 
           <Route
-            path="profile"
-            element={<Profile />}
+            path="admin"
+            element={<AdminDashboard />}
           />
 
           <Route
-            path="admin"
-            element={<AdminDashboard />}
+            path="kyc"
+            element={<KYC />}
+          />
+
+          <Route
+            path="profile"
+            element={<Profile />}
           />
         </Route>
       </Routes>

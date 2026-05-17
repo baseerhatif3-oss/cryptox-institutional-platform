@@ -17,6 +17,7 @@ import {
   X,
   Bell,
   Activity,
+  ShieldCheck,
 } from "lucide-react";
 
 import { useState } from "react";
@@ -95,6 +96,14 @@ const DashboardLayout = () => {
     },
 
     {
+      name: "KYC",
+      path: "/kyc",
+      icon: (
+        <ShieldCheck size={20} />
+      ),
+    },
+
+    {
       name: "Profile",
       path: "/profile",
       icon: <User size={20} />,
@@ -145,6 +154,8 @@ const DashboardLayout = () => {
       `}
       >
         <div>
+          {/* LOGO */}
+
           <div className="p-6 border-b border-slate-800 flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-blue-500">
@@ -196,7 +207,7 @@ const DashboardLayout = () => {
           </div>
         </div>
 
-        {/* USER */}
+        {/* USER SECTION */}
 
         <div className="p-4 border-t border-slate-800">
           <div className="bg-slate-800 p-4 rounded-2xl mb-4">
@@ -260,7 +271,7 @@ const DashboardLayout = () => {
           </button>
         </div>
 
-        {/* PAGE */}
+        {/* PAGE CONTENT */}
 
         <Outlet />
       </div>
