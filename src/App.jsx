@@ -26,6 +26,8 @@ import NFTMarketplace from "./pages/NFTMarketplace";
 
 import P2PTrading from "./pages/P2PTrading";
 
+import News from "./pages/News";
+
 import Transactions from "./pages/Transactions";
 
 import Profile from "./pages/Profile";
@@ -139,7 +141,7 @@ function App() {
             element={<Staking />}
           />
 
-          {/* NFT MARKETPLACE */}
+          {/* NFT */}
 
           <Route
             path="nft-marketplace"
@@ -148,13 +150,20 @@ function App() {
             }
           />
 
-          {/* P2P TRADING */}
+          {/* P2P */}
 
           <Route
             path="p2p-trading"
             element={
               <P2PTrading />
             }
+          />
+
+          {/* NEWS */}
+
+          <Route
+            path="news"
+            element={<News />}
           />
 
           {/* TRANSACTIONS */}
@@ -164,7 +173,7 @@ function App() {
             element={<Transactions />}
           />
 
-          {/* OPEN ORDERS */}
+          {/* ORDERS */}
 
           <Route
             path="orders"

@@ -13,6 +13,7 @@ import {
   Coins,
   Image,
   Users,
+  Newspaper,
   ArrowLeftRight,
   User,
   LogOut,
@@ -102,6 +103,14 @@ const DashboardLayout = () => {
       name: "P2P Trading",
       path: "/p2p-trading",
       icon: <Users size={20} />,
+    },
+
+    {
+      name: "Crypto News",
+      path: "/news",
+      icon: (
+        <Newspaper size={20} />
+      ),
     },
 
     {
