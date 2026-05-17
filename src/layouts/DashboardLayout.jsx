@@ -9,6 +9,8 @@ import {
   Wallet,
   PieChart,
   CandlestickChart,
+  Copy,
+  Coins,
   ArrowLeftRight,
   User,
   LogOut,
@@ -77,6 +79,18 @@ const DashboardLayout = () => {
     },
 
     {
+      name: "Copy Trading",
+      path: "/copy-trading",
+      icon: <Copy size={20} />,
+    },
+
+    {
+      name: "Staking",
+      path: "/staking",
+      icon: <Coins size={20} />,
+    },
+
+    {
       name: "Transactions",
       path: "/transactions",
       icon: (
@@ -127,6 +141,8 @@ const DashboardLayout = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white flex">
+      {/* NOTIFICATIONS */}
+
       <NotificationPanel
         open={notificationOpen}
         setOpen={
@@ -189,7 +205,7 @@ const DashboardLayout = () => {
 
           {/* MENU */}
 
-          <div className="p-4 space-y-2">
+          <div className="p-4 space-y-2 overflow-y-auto max-h-[calc(100vh-220px)]">
             {menuItems.map((item) => (
               <NavLink
                 key={item.name}
@@ -232,7 +248,7 @@ const DashboardLayout = () => {
 
           <button
             onClick={handleLogout}
-            className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 py-3 rounded-xl font-semibold"
+            className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 py-3 rounded-xl font-semibold transition"
           >
             <LogOut size={18} />
 

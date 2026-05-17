@@ -9,18 +9,33 @@ import { Toaster } from "react-hot-toast";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+
 import Dashboard from "./pages/Dashboard";
+
 import Wallet from "./pages/Wallet";
+
 import Portfolio from "./pages/Portfolio";
+
 import Futures from "./pages/Futures";
+
 import CopyTrading from "./pages/CopyTrading";
+
+import Staking from "./pages/Staking";
+
 import Transactions from "./pages/Transactions";
+
 import Profile from "./pages/Profile";
+
 import OpenOrders from "./pages/OpenOrders";
+
 import Watchlist from "./pages/Watchlist";
+
 import ForgotPassword from "./pages/ForgotPassword";
+
 import ResetPassword from "./pages/ResetPassword";
+
 import AdminDashboard from "./pages/AdminDashboard";
+
 import KYC from "./pages/KYC";
 
 import DashboardLayout from "./layouts/DashboardLayout";
@@ -66,7 +81,7 @@ function App() {
           element={<ResetPassword />}
         />
 
-        {/* DASHBOARD ROUTES */}
+        {/* PROTECTED DASHBOARD */}
 
         <Route
           path="/"
@@ -113,6 +128,13 @@ function App() {
             }
           />
 
+          {/* STAKING */}
+
+          <Route
+            path="staking"
+            element={<Staking />}
+          />
+
           {/* TRANSACTIONS */}
 
           <Route
@@ -120,7 +142,7 @@ function App() {
             element={<Transactions />}
           />
 
-          {/* ORDERS */}
+          {/* OPEN ORDERS */}
 
           <Route
             path="orders"
