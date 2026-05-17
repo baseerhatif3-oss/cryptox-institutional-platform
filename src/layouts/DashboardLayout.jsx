@@ -16,6 +16,7 @@ import {
   Menu,
   X,
   Bell,
+  Activity,
 } from "lucide-react";
 
 import { useState } from "react";
@@ -88,6 +89,12 @@ const DashboardLayout = () => {
     },
 
     {
+      name: "Admin",
+      path: "/admin",
+      icon: <Activity size={20} />,
+    },
+
+    {
       name: "Profile",
       path: "/profile",
       icon: <User size={20} />,
@@ -109,6 +116,8 @@ const DashboardLayout = () => {
         }
       />
 
+      {/* MOBILE OVERLAY */}
+
       {sidebarOpen && (
         <div
           onClick={() =>
@@ -117,6 +126,8 @@ const DashboardLayout = () => {
           className="fixed inset-0 bg-black/50 z-40 lg:hidden"
         />
       )}
+
+      {/* SIDEBAR */}
 
       <div
         className={`
@@ -156,6 +167,8 @@ const DashboardLayout = () => {
             </button>
           </div>
 
+          {/* MENU */}
+
           <div className="p-4 space-y-2">
             {menuItems.map((item) => (
               <NavLink
@@ -183,6 +196,8 @@ const DashboardLayout = () => {
           </div>
         </div>
 
+        {/* USER */}
+
         <div className="p-4 border-t border-slate-800">
           <div className="bg-slate-800 p-4 rounded-2xl mb-4">
             <p className="font-semibold">
@@ -206,7 +221,11 @@ const DashboardLayout = () => {
         </div>
       </div>
 
+      {/* MAIN CONTENT */}
+
       <div className="flex-1 overflow-y-auto">
+        {/* MOBILE TOPBAR */}
+
         <div className="lg:hidden bg-slate-900 border-b border-slate-800 p-4 flex items-center justify-between sticky top-0 z-30">
           <button
             onClick={() =>
@@ -240,6 +259,8 @@ const DashboardLayout = () => {
             )}
           </button>
         </div>
+
+        {/* PAGE */}
 
         <Outlet />
       </div>

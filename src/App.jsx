@@ -18,6 +18,7 @@ import OpenOrders from "./pages/OpenOrders";
 import Watchlist from "./pages/Watchlist";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import AdminDashboard from "./pages/AdminDashboard";
 
 import DashboardLayout from "./layouts/DashboardLayout";
 
@@ -101,6 +102,11 @@ function App() {
           <Route
             path="profile"
             element={<Profile />}
+          />
+
+          <Route
+            path="admin"
+            element={<AdminDashboard />}
           />
         </Route>
       </Routes>
