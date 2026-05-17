@@ -5,6 +5,8 @@ import {
   TrendingDown,
 } from "lucide-react";
 
+import AIAssistant from "../components/AIAssistant";
+
 const Dashboard = () => {
   const [coins, setCoins] =
     useState([]);
@@ -309,6 +311,12 @@ const Dashboard = () => {
                 ))}
             </div>
           </div>
+        </div>
+
+        {/* AI ASSISTANT */}
+
+        <div className="mt-8">
+          <AIAssistant />
         </div>
       </div>
     </div>
