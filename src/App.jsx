@@ -24,6 +24,8 @@ import Staking from "./pages/Staking";
 
 import NFTMarketplace from "./pages/NFTMarketplace";
 
+import P2PTrading from "./pages/P2PTrading";
+
 import Transactions from "./pages/Transactions";
 
 import Profile from "./pages/Profile";
@@ -61,7 +63,7 @@ function App() {
       <Toaster position="top-right" />
 
       <Routes>
-        {/* AUTH ROUTES */}
+        {/* AUTH */}
 
         <Route
           path="/login"
@@ -146,6 +148,15 @@ function App() {
             }
           />
 
+          {/* P2P TRADING */}
+
+          <Route
+            path="p2p-trading"
+            element={
+              <P2PTrading />
+            }
+          />
+
           {/* TRANSACTIONS */}
 
           <Route
@@ -153,7 +164,7 @@ function App() {
             element={<Transactions />}
           />
 
-          {/* ORDERS */}
+          {/* OPEN ORDERS */}
 
           <Route
             path="orders"

@@ -12,6 +12,7 @@ import {
   Copy,
   Coins,
   Image,
+  Users,
   ArrowLeftRight,
   User,
   LogOut,
@@ -95,6 +96,12 @@ const DashboardLayout = () => {
       name: "NFT Marketplace",
       path: "/nft-marketplace",
       icon: <Image size={20} />,
+    },
+
+    {
+      name: "P2P Trading",
+      path: "/p2p-trading",
+      icon: <Users size={20} />,
     },
 
     {
@@ -239,7 +246,7 @@ const DashboardLayout = () => {
           </div>
         </div>
 
-        {/* USER SECTION */}
+        {/* USER */}
 
         <div className="p-4 border-t border-slate-800">
           <div className="bg-slate-800 p-4 rounded-2xl mb-4">
@@ -264,7 +271,7 @@ const DashboardLayout = () => {
         </div>
       </div>
 
-      {/* MAIN CONTENT */}
+      {/* MAIN */}
 
       <div className="flex-1 overflow-y-auto">
         {/* MOBILE TOPBAR */}
