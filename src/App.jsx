@@ -28,6 +28,8 @@ import P2PTrading from "./pages/P2PTrading";
 
 import News from "./pages/News";
 
+import Launchpad from "./pages/Launchpad";
+
 import Transactions from "./pages/Transactions";
 
 import Profile from "./pages/Profile";
@@ -87,7 +89,7 @@ function App() {
           element={<ResetPassword />}
         />
 
-        {/* DASHBOARD */}
+        {/* MAIN DASHBOARD */}
 
         <Route
           path="/"
@@ -97,7 +99,7 @@ function App() {
             </ProtectedRoute>
           }
         >
-          {/* HOME */}
+          {/* DASHBOARD */}
 
           <Route
             index
@@ -164,6 +166,15 @@ function App() {
           <Route
             path="news"
             element={<News />}
+          />
+
+          {/* LAUNCHPAD */}
+
+          <Route
+            path="launchpad"
+            element={
+              <Launchpad />
+            }
           />
 
           {/* TRANSACTIONS */}

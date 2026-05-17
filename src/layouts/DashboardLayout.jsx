@@ -14,6 +14,7 @@ import {
   Image,
   Users,
   Newspaper,
+  Rocket,
   ArrowLeftRight,
   User,
   LogOut,
@@ -111,6 +112,12 @@ const DashboardLayout = () => {
       icon: (
         <Newspaper size={20} />
       ),
+    },
+
+    {
+      name: "Launchpad",
+      path: "/launchpad",
+      icon: <Rocket size={20} />,
     },
 
     {
