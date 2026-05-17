@@ -15,15 +15,26 @@ import {
   Star,
   Menu,
   X,
+  Bell,
 } from "lucide-react";
 
 import { useState } from "react";
+
+import NotificationPanel from "../components/NotificationPanel";
+
+import { useNotifications } from "../context/NotificationContext";
 
 const DashboardLayout = () => {
   const navigate = useNavigate();
 
   const [sidebarOpen, setSidebarOpen] =
     useState(false);
+
+  const [notificationOpen, setNotificationOpen] =
+    useState(false);
+
+  const { notifications } =
+    useNotifications();
 
   const user = localStorage.getItem(
     "user"
@@ -91,7 +102,12 @@ const DashboardLayout = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white flex">
-      {/* MOBILE OVERLAY */}
+      <NotificationPanel
+        open={notificationOpen}
+        setOpen={
+          setNotificationOpen
+        }
+      />
 
       {sidebarOpen && (
         <div
@@ -101,8 +117,6 @@ const DashboardLayout = () => {
           className="fixed inset-0 bg-black/50 z-40 lg:hidden"
         />
       )}
-
-      {/* SIDEBAR */}
 
       <div
         className={`
@@ -192,11 +206,7 @@ const DashboardLayout = () => {
         </div>
       </div>
 
-      {/* MAIN CONTENT */}
-
       <div className="flex-1 overflow-y-auto">
-        {/* MOBILE TOPBAR */}
-
         <div className="lg:hidden bg-slate-900 border-b border-slate-800 p-4 flex items-center justify-between sticky top-0 z-30">
           <button
             onClick={() =>
@@ -210,7 +220,25 @@ const DashboardLayout = () => {
             CryptoX
           </h1>
 
-          <div />
+          <button
+            onClick={() =>
+              setNotificationOpen(
+                true
+              )
+            }
+            className="relative"
+          >
+            <Bell size={24} />
+
+            {notifications.length >
+              0 && (
+              <div className="absolute -top-2 -right-2 bg-red-500 text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                {
+                  notifications.length
+                }
+              </div>
+            )}
+          </button>
         </div>
 
         <Outlet />
