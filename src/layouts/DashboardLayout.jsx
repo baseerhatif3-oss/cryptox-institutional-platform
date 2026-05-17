@@ -11,6 +11,7 @@ import {
   CandlestickChart,
   Copy,
   Coins,
+  Image,
   ArrowLeftRight,
   User,
   LogOut,
@@ -88,6 +89,12 @@ const DashboardLayout = () => {
       name: "Staking",
       path: "/staking",
       icon: <Coins size={20} />,
+    },
+
+    {
+      name: "NFT Marketplace",
+      path: "/nft-marketplace",
+      icon: <Image size={20} />,
     },
 
     {

@@ -22,6 +22,8 @@ import CopyTrading from "./pages/CopyTrading";
 
 import Staking from "./pages/Staking";
 
+import NFTMarketplace from "./pages/NFTMarketplace";
+
 import Transactions from "./pages/Transactions";
 
 import Profile from "./pages/Profile";
@@ -81,7 +83,7 @@ function App() {
           element={<ResetPassword />}
         />
 
-        {/* PROTECTED DASHBOARD */}
+        {/* DASHBOARD */}
 
         <Route
           path="/"
@@ -135,6 +137,15 @@ function App() {
             element={<Staking />}
           />
 
+          {/* NFT MARKETPLACE */}
+
+          <Route
+            path="nft-marketplace"
+            element={
+              <NFTMarketplace />
+            }
+          />
+
           {/* TRANSACTIONS */}
 
           <Route
@@ -142,7 +153,7 @@ function App() {
             element={<Transactions />}
           />
 
-          {/* OPEN ORDERS */}
+          {/* ORDERS */}
 
           <Route
             path="orders"
