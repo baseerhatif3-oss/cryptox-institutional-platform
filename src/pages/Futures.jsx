@@ -4,6 +4,8 @@ import toast from "react-hot-toast";
 
 import TradingChart from "../components/TradingChart";
 
+import OrderBook from "../components/OrderBook";
+
 const Futures = () => {
   const [coins, setCoins] =
     useState([]);
@@ -138,6 +140,8 @@ const Futures = () => {
   return (
     <div className="min-h-screen bg-slate-950 text-white p-6">
       <div className="max-w-[1700px] mx-auto">
+        {/* HEADER */}
+
         <div className="mb-8">
           <h1 className="text-4xl font-bold">
             Futures Trading
@@ -148,6 +152,8 @@ const Futures = () => {
             derivatives trading.
           </p>
         </div>
+
+        {/* TOP GRID */}
 
         <div className="grid grid-cols-1 2xl:grid-cols-4 gap-6">
           {/* MARKETS */}
@@ -256,6 +262,8 @@ const Futures = () => {
                 </div>
 
                 <div className="space-y-5">
+                  {/* MARGIN */}
+
                   <div>
                     <label className="block mb-2 text-slate-300">
                       Margin (USDT)
@@ -273,6 +281,8 @@ const Futures = () => {
                       className="w-full bg-slate-800 p-4 rounded-xl outline-none"
                     />
                   </div>
+
+                  {/* LEVERAGE */}
 
                   <div>
                     <label className="block mb-2 text-slate-300">
@@ -312,6 +322,8 @@ const Futures = () => {
                     </select>
                   </div>
 
+                  {/* LONG SHORT */}
+
                   <div className="grid grid-cols-2 gap-4">
                     <button
                       onClick={() =>
@@ -345,6 +357,8 @@ const Futures = () => {
                       SHORT
                     </button>
                   </div>
+
+                  {/* POSITION INFO */}
 
                   <div className="bg-slate-800 rounded-2xl p-5 space-y-3">
                     <div className="flex justify-between">
@@ -383,6 +397,8 @@ const Futures = () => {
                       </span>
                     </div>
                   </div>
+
+                  {/* BUTTON */}
 
                   <button
                     onClick={
@@ -522,6 +538,12 @@ const Futures = () => {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* ORDER BOOK */}
+
+        <div className="mt-6">
+          <OrderBook />
         </div>
       </div>
     </div>
