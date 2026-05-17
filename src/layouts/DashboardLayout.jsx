@@ -1,4 +1,9 @@
-import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import {
+  Outlet,
+  NavLink,
+  useNavigate,
+} from "react-router-dom";
+
 import {
   LayoutDashboard,
   Wallet,
@@ -6,36 +11,57 @@ import {
   ArrowLeftRight,
   User,
   LogOut,
+  ClipboardList,
 } from "lucide-react";
 
 const DashboardLayout = () => {
   const navigate = useNavigate();
 
-  const user = localStorage.getItem("user")
-    ? JSON.parse(localStorage.getItem("user"))
+  const user = localStorage.getItem(
+    "user"
+  )
+    ? JSON.parse(
+        localStorage.getItem("user")
+      )
     : null;
 
   const menuItems = [
     {
       name: "Dashboard",
       path: "/",
-      icon: <LayoutDashboard size={20} />,
+      icon: (
+        <LayoutDashboard size={20} />
+      ),
     },
+
     {
       name: "Wallet",
       path: "/wallet",
       icon: <Wallet size={20} />,
     },
+
     {
       name: "Portfolio",
       path: "/portfolio",
       icon: <PieChart size={20} />,
     },
+
     {
       name: "Transactions",
       path: "/transactions",
-      icon: <ArrowLeftRight size={20} />,
+      icon: (
+        <ArrowLeftRight size={20} />
+      ),
     },
+
+    {
+      name: "Open Orders",
+      path: "/orders",
+      icon: (
+        <ClipboardList size={20} />
+      ),
+    },
+
     {
       name: "Profile",
       path: "/profile",
@@ -68,7 +94,9 @@ const DashboardLayout = () => {
                 key={item.name}
                 to={item.path}
                 end={item.path === "/"}
-                className={({ isActive }) =>
+                className={({
+                  isActive,
+                }) =>
                   `flex items-center gap-3 px-4 py-3 rounded-xl transition ${
                     isActive
                       ? "bg-blue-600 text-white"
@@ -100,6 +128,7 @@ const DashboardLayout = () => {
             className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 py-3 rounded-xl font-semibold"
           >
             <LogOut size={18} />
+
             Logout
           </button>
         </div>
