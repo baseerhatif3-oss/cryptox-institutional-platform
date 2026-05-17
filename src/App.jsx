@@ -1,108 +1,60 @@
-import React from "react";
-
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-
-import DashboardLayout from "./layouts/DashboardLayout";
-
-import Dashboard from "./pages/Dashboard";
-import Portfolio from "./pages/Portfolio";
-import Wallet from "./pages/Wallet";
-import Transactions from "./pages/Transactions";
-import Watchlist from "./pages/Watchlist";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
+import Wallet from "./pages/Wallet";
+import Portfolio from "./pages/Portfolio";
+import Transactions from "./pages/Transactions";
+import Profile from "./pages/Profile";
 
-const App = () => {
-  const token =
-    localStorage.getItem(
-      "token"
-    );
+import DashboardLayout from "./layouts/DashboardLayout";
 
+const ProtectedRoute = ({ children }) => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    return <Navigate to="/login" />;
+  }
+
+  return children;
+};
+
+function App() {
   return (
     <BrowserRouter>
+      <Toaster position="top-right" />
+
       <Routes>
-        {/* LOGIN */}
+        <Route path="/login" element={<Login />} />
+
+        <Route path="/register" element={<Register />} />
 
         <Route
           path="/"
           element={
-            token ? (
-              <Navigate to="/dashboard" />
-            ) : (
-              <Login />
-            )
-          }
-        />
-
-        {/* REGISTER */}
-
-        <Route
-          path="/register"
-          element={
-            token ? (
-              <Navigate to="/dashboard" />
-            ) : (
-              <Register />
-            )
-          }
-        />
-
-        {/* PROTECTED */}
-
-        <Route
-          element={
-            token ? (
+            <ProtectedRoute>
               <DashboardLayout />
-            ) : (
-              <Navigate to="/" />
-            )
+            </ProtectedRoute>
           }
         >
-          <Route
-            path="/dashboard"
-            element={<Dashboard />}
-          />
+          <Route index element={<Dashboard />} />
+
+          <Route path="wallet" element={<Wallet />} />
+
+          <Route path="portfolio" element={<Portfolio />} />
 
           <Route
-            path="/portfolio"
-            element={<Portfolio />}
+            path="transactions"
+            element={<Transactions />}
           />
 
-          <Route
-            path="/wallet"
-            element={<Wallet />}
-          />
-
-          <Route
-            path="/transactions"
-            element={
-              <Transactions />
-            }
-          />
-
-          <Route
-            path="/watchlist"
-            element={<Watchlist />}
-          />
+          <Route path="profile" element={<Profile />} />
         </Route>
-
-        {/* FALLBACK */}
-
-        <Route
-          path="*"
-          element={
-            <Navigate to="/" />
-          }
-        />
       </Routes>
     </BrowserRouter>
   );
-};
+}
 
 export default App;

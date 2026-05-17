@@ -1,81 +1,164 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../services/api";
+import toast from "react-hot-toast";
 
-const Portfolio = () => {
-  const [portfolio, setPortfolio] = useState([]);
+const Profile = () => {
+  const navigate = useNavigate();
+
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchPortfolio = async () => {
-      try {
-        const { data } = await API.get("/portfolio");
-        setPortfolio(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchPortfolio();
+    fetchProfile();
   }, []);
 
-  const totalValue = portfolio.reduce(
-    (acc, coin) => acc + coin.value,
-    0
-  );
+  const fetchProfile = async () => {
+    try {
+      const { data } = await API.get("/profile");
+      setProfile(data);
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to load profile");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    toast.success("Logged out successfully");
+    navigate("/login");
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+        Loading profile...
+      </div>
+    );
+  }
 
   return (
-    <div className="p-6 bg-slate-950 min-h-screen text-white">
-      <h1 className="text-3xl font-bold mb-6">
-        Portfolio
-      </h1>
+    <div className="min-h-screen bg-slate-950 text-white p-6">
+      <div className="max-w-5xl mx-auto">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold">Profile Settings</h1>
 
-      <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 mb-6">
-        <h2 className="text-xl font-semibold mb-2">
-          Total Portfolio Value
-        </h2>
+          <p className="text-slate-400 mt-2">
+            Manage your exchange account and security settings.
+          </p>
+        </div>
 
-        <p className="text-4xl font-bold text-green-400">
-          ${totalValue.toFixed(2)}
-        </p>
-      </div>
-
-      <div className="space-y-4">
-        {portfolio.map((coin) => (
-          <div
-            key={coin.coinId}
-            className="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex items-center justify-between"
-          >
-            <div className="flex items-center gap-4">
-              <img
-                src={coin.image}
-                alt={coin.coinName}
-                className="w-10 h-10"
-              />
-
-              <div>
-                <p className="font-semibold">
-                  {coin.coinName}
-                </p>
-
-                <p className="text-slate-400 uppercase text-sm">
-                  {coin.symbol}
-                </p>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+            <div className="flex flex-col items-center text-center">
+              <div className="w-24 h-24 rounded-full bg-blue-600 flex items-center justify-center text-3xl font-bold mb-4">
+                {profile?.name?.charAt(0)?.toUpperCase()}
               </div>
-            </div>
 
-            <div className="text-right">
-              <p className="font-semibold">
-                {coin.quantity.toFixed(6)}
-              </p>
+              <h2 className="text-2xl font-bold">
+                {profile?.name}
+              </h2>
 
-              <p className="text-green-400 font-bold">
-                ${coin.value.toFixed(2)}
+              <p className="text-slate-400 mt-2">
+                {profile?.email}
               </p>
             </div>
           </div>
-        ))}
+
+          <div className="lg:col-span-2 space-y-6">
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+              <h3 className="text-2xl font-semibold mb-6">
+                Account Information
+              </h3>
+
+              <div className="space-y-4">
+                <div>
+                  <p className="text-slate-400 mb-1">
+                    Full Name
+                  </p>
+
+                  <div className="bg-slate-800 p-4 rounded-xl">
+                    {profile?.name}
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-slate-400 mb-1">
+                    Email Address
+                  </p>
+
+                  <div className="bg-slate-800 p-4 rounded-xl">
+                    {profile?.email}
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-slate-400 mb-1">
+                    Wallet Balance
+                  </p>
+
+                  <div className="bg-slate-800 p-4 rounded-xl text-green-400 font-bold text-xl">
+                    ${profile?.balance?.toFixed(2)}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+              <h3 className="text-2xl font-semibold mb-6">
+                Security
+              </h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-slate-800 rounded-xl p-5">
+                  <h4 className="font-semibold mb-2">
+                    Two Factor Authentication
+                  </h4>
+
+                  <p className="text-slate-400 text-sm mb-4">
+                    Protect your account with extra security.
+                  </p>
+
+                  <button className="bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded-lg font-semibold">
+                    Coming Soon
+                  </button>
+                </div>
+
+                <div className="bg-slate-800 rounded-xl p-5">
+                  <h4 className="font-semibold mb-2">
+                    KYC Verification
+                  </h4>
+
+                  <p className="text-slate-400 text-sm mb-4">
+                    Verify identity for higher withdrawal limits.
+                  </p>
+
+                  <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-semibold">
+                    Start Verification
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+              <h3 className="text-2xl font-semibold mb-6 text-red-400">
+                Danger Zone
+              </h3>
+
+              <button
+                onClick={handleLogout}
+                className="bg-red-600 hover:bg-red-700 px-6 py-3 rounded-xl font-semibold"
+              >
+                Logout Account
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Portfolio;
+export default Profile;
