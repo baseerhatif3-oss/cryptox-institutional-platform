@@ -1,127 +1,102 @@
-import React, {
-  useState,
-} from "react";
-
-import {
-  useNavigate,
-  Link,
-} from "react-router-dom";
-
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import toast from "react-hot-toast";
 import API from "../services/api";
 
-import toast from "react-hot-toast";
-
 const Register = () => {
-  const navigate =
-    useNavigate();
+  const navigate = useNavigate();
 
-  const [name, setName] =
-    useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
-  const [email, setEmail] =
-    useState("");
+  const [loading, setLoading] = useState(false);
 
-  const [password, setPassword] =
-    useState("");
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-  const handleRegister =
-    async (e) => {
-      e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-      try {
-        await API.post(
-          "/auth/register",
-          {
-            name,
-            email,
-            password,
-          }
-        );
+    try {
+      setLoading(true);
 
-        toast.success(
-          "Registration successful"
-        );
+      await API.post("/register", formData);
 
-        navigate("/");
-      } catch (error) {
-        console.log(error);
+      toast.success("Registration successful");
 
-        toast.error(
-          error?.response?.data
-            ?.message ||
-            "Register failed"
-        );
-      }
-    };
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+
+      toast.error(
+        error.response?.data?.message || "Registration failed"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-[#020617] flex items-center justify-center px-5">
-      <form
-        onSubmit={
-          handleRegister
-        }
-        className="bg-[#0f172a] p-10 rounded-3xl border border-slate-800 w-full max-w-md"
-      >
-        <h1 className="text-4xl font-bold text-white mb-8 text-center">
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
+      <div className="bg-slate-900 p-8 rounded-2xl w-full max-w-md border border-slate-800">
+        <h1 className="text-3xl font-bold text-white mb-6 text-center">
           Register
         </h1>
 
-        <div className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) =>
-              setName(
-                e.target.value
-              )
-            }
-            className="w-full p-4 rounded-2xl bg-[#020617] border border-slate-700 text-white"
+            name="name"
+            placeholder="Full Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="w-full p-3 rounded-lg bg-slate-800 text-white outline-none"
           />
 
           <input
             type="email"
+            name="email"
             placeholder="Email"
-            value={email}
-            onChange={(e) =>
-              setEmail(
-                e.target.value
-              )
-            }
-            className="w-full p-4 rounded-2xl bg-[#020617] border border-slate-700 text-white"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="w-full p-3 rounded-lg bg-slate-800 text-white outline-none"
           />
 
           <input
             type="password"
+            name="password"
             placeholder="Password"
-            value={password}
-            onChange={(e) =>
-              setPassword(
-                e.target.value
-              )
-            }
-            className="w-full p-4 rounded-2xl bg-[#020617] border border-slate-700 text-white"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            className="w-full p-3 rounded-lg bg-slate-800 text-white outline-none"
           />
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 transition-all p-4 rounded-2xl font-bold text-white"
+            disabled={loading}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg font-semibold"
           >
-            Register
+            {loading ? "Creating account..." : "Register"}
           </button>
+        </form>
 
-          <p className="text-slate-400 text-center">
-            Already have account?{" "}
-
-            <Link
-              to="/"
-              className="text-blue-500"
-            >
-              Login
-            </Link>
-          </p>
-        </div>
-      </form>
+        <p className="text-slate-400 text-center mt-6">
+          Already have an account?{" "}
+          <Link to="/login" className="text-blue-400">
+            Login
+          </Link>
+        </p>
+      </div>
     </div>
   );
 };
