@@ -7,7 +7,6 @@ const Profile = () => {
   const navigate = useNavigate();
 
   const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchProfile();
@@ -20,39 +19,24 @@ const Profile = () => {
     } catch (error) {
       console.log(error);
       toast.error("Failed to load profile");
-    } finally {
-      setLoading(false);
     }
   };
 
   const handleLogout = () => {
     localStorage.clear();
-    toast.success("Logged out successfully");
     navigate("/login");
   };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
-        Loading profile...
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-slate-950 text-white p-6">
       <div className="max-w-5xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold">Profile Settings</h1>
-
-          <p className="text-slate-400 mt-2">
-            Manage your exchange account and security settings.
-          </p>
-        </div>
+        <h1 className="text-4xl font-bold mb-8">
+          Profile Settings
+        </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-            <div className="flex flex-col items-center text-center">
+            <div className="flex flex-col items-center">
               <div className="w-24 h-24 rounded-full bg-blue-600 flex items-center justify-center text-3xl font-bold mb-4">
                 {profile?.name?.charAt(0)?.toUpperCase()}
               </div>
@@ -75,7 +59,7 @@ const Profile = () => {
 
               <div className="space-y-4">
                 <div>
-                  <p className="text-slate-400 mb-1">
+                  <p className="text-slate-400 mb-2">
                     Full Name
                   </p>
 
@@ -85,7 +69,7 @@ const Profile = () => {
                 </div>
 
                 <div>
-                  <p className="text-slate-400 mb-1">
+                  <p className="text-slate-400 mb-2">
                     Email Address
                   </p>
 
@@ -95,11 +79,11 @@ const Profile = () => {
                 </div>
 
                 <div>
-                  <p className="text-slate-400 mb-1">
+                  <p className="text-slate-400 mb-2">
                     Wallet Balance
                   </p>
 
-                  <div className="bg-slate-800 p-4 rounded-xl text-green-400 font-bold text-xl">
+                  <div className="bg-slate-800 p-4 rounded-xl text-green-400 font-bold">
                     ${profile?.balance?.toFixed(2)}
                   </div>
                 </div>
@@ -112,41 +96,37 @@ const Profile = () => {
               </h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-slate-800 rounded-xl p-5">
+                <div className="bg-slate-800 p-5 rounded-xl">
                   <h4 className="font-semibold mb-2">
                     Two Factor Authentication
                   </h4>
 
                   <p className="text-slate-400 text-sm mb-4">
-                    Protect your account with extra security.
+                    Coming Soon
                   </p>
 
-                  <button className="bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded-lg font-semibold">
-                    Coming Soon
+                  <button className="bg-yellow-600 px-4 py-2 rounded-lg">
+                    Enable
                   </button>
                 </div>
 
-                <div className="bg-slate-800 rounded-xl p-5">
+                <div className="bg-slate-800 p-5 rounded-xl">
                   <h4 className="font-semibold mb-2">
                     KYC Verification
                   </h4>
 
                   <p className="text-slate-400 text-sm mb-4">
-                    Verify identity for higher withdrawal limits.
+                    Verify your account
                   </p>
 
-                  <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-semibold">
-                    Start Verification
+                  <button className="bg-blue-600 px-4 py-2 rounded-lg">
+                    Start
                   </button>
                 </div>
               </div>
             </div>
 
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-              <h3 className="text-2xl font-semibold mb-6 text-red-400">
-                Danger Zone
-              </h3>
-
               <button
                 onClick={handleLogout}
                 className="bg-red-600 hover:bg-red-700 px-6 py-3 rounded-xl font-semibold"
