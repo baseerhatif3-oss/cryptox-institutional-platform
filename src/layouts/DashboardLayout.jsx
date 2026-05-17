@@ -13,10 +13,17 @@ import {
   LogOut,
   ClipboardList,
   Star,
+  Menu,
+  X,
 } from "lucide-react";
+
+import { useState } from "react";
 
 const DashboardLayout = () => {
   const navigate = useNavigate();
+
+  const [sidebarOpen, setSidebarOpen] =
+    useState(false);
 
   const user = localStorage.getItem(
     "user"
@@ -78,22 +85,61 @@ const DashboardLayout = () => {
 
   const handleLogout = () => {
     localStorage.clear();
+
     navigate("/login");
   };
 
   return (
     <div className="min-h-screen bg-slate-950 text-white flex">
-      <div className="w-72 bg-slate-900 border-r border-slate-800 flex flex-col justify-between">
-        <div>
-          <div className="p-6 border-b border-slate-800">
-            <h1 className="text-3xl font-bold text-blue-500">
-              CryptoX
-            </h1>
+      {/* MOBILE OVERLAY */}
 
-            <p className="text-slate-400 text-sm mt-1">
-              Professional Crypto
-              Exchange
-            </p>
+      {sidebarOpen && (
+        <div
+          onClick={() =>
+            setSidebarOpen(false)
+          }
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+        />
+      )}
+
+      {/* SIDEBAR */}
+
+      <div
+        className={`
+        fixed lg:static top-0 left-0 z-50
+        w-72 h-screen
+        bg-slate-900 border-r border-slate-800
+        flex flex-col justify-between
+        transform transition-transform duration-300
+
+        ${
+          sidebarOpen
+            ? "translate-x-0"
+            : "-translate-x-full lg:translate-x-0"
+        }
+      `}
+      >
+        <div>
+          <div className="p-6 border-b border-slate-800 flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-blue-500">
+                CryptoX
+              </h1>
+
+              <p className="text-slate-400 text-sm mt-1">
+                Professional Crypto
+                Exchange
+              </p>
+            </div>
+
+            <button
+              onClick={() =>
+                setSidebarOpen(false)
+              }
+              className="lg:hidden"
+            >
+              <X size={26} />
+            </button>
           </div>
 
           <div className="p-4 space-y-2">
@@ -102,6 +148,9 @@ const DashboardLayout = () => {
                 key={item.name}
                 to={item.path}
                 end={item.path === "/"}
+                onClick={() =>
+                  setSidebarOpen(false)
+                }
                 className={({
                   isActive,
                 }) =>
@@ -143,7 +192,27 @@ const DashboardLayout = () => {
         </div>
       </div>
 
+      {/* MAIN CONTENT */}
+
       <div className="flex-1 overflow-y-auto">
+        {/* MOBILE TOPBAR */}
+
+        <div className="lg:hidden bg-slate-900 border-b border-slate-800 p-4 flex items-center justify-between sticky top-0 z-30">
+          <button
+            onClick={() =>
+              setSidebarOpen(true)
+            }
+          >
+            <Menu size={28} />
+          </button>
+
+          <h1 className="text-xl font-bold text-blue-500">
+            CryptoX
+          </h1>
+
+          <div />
+        </div>
+
         <Outlet />
       </div>
     </div>
