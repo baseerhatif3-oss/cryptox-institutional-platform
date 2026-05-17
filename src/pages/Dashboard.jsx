@@ -1,36 +1,16 @@
 import { useEffect, useState } from "react";
 
-import toast from "react-hot-toast";
-
-import API from "../services/api";
-
-import TradingChart from "../components/TradingChart";
-import LiveMarket from "../components/LiveMarket";
+import {
+  TrendingUp,
+  TrendingDown,
+} from "lucide-react";
 
 const Dashboard = () => {
-  const [balance, setBalance] = useState(0);
+  const [coins, setCoins] =
+    useState([]);
 
-  const [coins, setCoins] = useState([]);
-
-  const [selectedCoin, setSelectedCoin] =
-    useState(null);
-
-  const [amount, setAmount] = useState(100);
-
-  const [orderType, setOrderType] =
-    useState("MARKET");
-
-  const [targetPrice, setTargetPrice] =
-    useState("");
-
-  const fetchBalance = async () => {
-    try {
-      const { data } = await API.get("/balance");
-      setBalance(data.balance);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const [loading, setLoading] =
+    useState(true);
 
   const fetchCoins = async () => {
     try {
@@ -38,272 +18,295 @@ const Dashboard = () => {
         "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd"
       );
 
-      const data = await response.json();
+      const data =
+        await response.json();
 
-      setCoins(data.slice(0, 20));
-      setSelectedCoin(data[0]);
+      setCoins(data.slice(0, 12));
+
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    fetchBalance();
     fetchCoins();
+
+    const interval =
+      setInterval(() => {
+        fetchCoins();
+      }, 5000);
+
+    return () =>
+      clearInterval(interval);
   }, []);
-
-  const handleMarketTrade = async (
-    type
-  ) => {
-    try {
-      await API.post("/trade", {
-        coinId: selectedCoin.id,
-        coinName: selectedCoin.name,
-        symbol: selectedCoin.symbol,
-        image: selectedCoin.image,
-        type,
-        amount: Number(amount),
-      });
-
-      toast.success(
-        `${type} order executed`
-      );
-
-      fetchBalance();
-    } catch (error) {
-      console.log(error);
-
-      toast.error(
-        error.response?.data?.message ||
-          "Trade failed"
-      );
-    }
-  };
-
-  const handleLimitOrder = async (
-    type
-  ) => {
-    try {
-      await API.post("/orders", {
-        coinId: selectedCoin.id,
-        coinName: selectedCoin.name,
-        symbol: selectedCoin.symbol,
-        image: selectedCoin.image,
-        type,
-        amount: Number(amount),
-        targetPrice:
-          Number(targetPrice),
-      });
-
-      toast.success(
-        "Limit order created"
-      );
-    } catch (error) {
-      console.log(error);
-
-      toast.error(
-        error.response?.data?.message ||
-          "Order failed"
-      );
-    }
-  };
 
   return (
     <div className="min-h-screen bg-slate-950 text-white p-6">
       <div className="max-w-7xl mx-auto">
+        {/* HEADER */}
+
         <div className="mb-8">
           <h1 className="text-4xl font-bold">
-            Exchange Dashboard
+            Market Overview
           </h1>
 
           <p className="text-slate-400 mt-2">
-            Professional crypto trading
-            platform.
+            Real-time cryptocurrency
+            market prices.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+        {/* TOP STATS */}
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
             <p className="text-slate-400 mb-2">
-              Wallet Balance
+              BTC Price
             </p>
 
-            <h2 className="text-4xl font-bold text-green-400">
-              ${balance.toFixed(2)}
+            <h2 className="text-4xl font-bold text-yellow-400">
+              $
+              {coins[0]?.current_price?.toLocaleString() ||
+                "0"}
             </h2>
           </div>
 
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
             <p className="text-slate-400 mb-2">
-              Active Assets
+              ETH Price
             </p>
 
-            <h2 className="text-4xl font-bold">
-              {coins.length}
+            <h2 className="text-4xl font-bold text-blue-400">
+              $
+              {coins[1]?.current_price?.toLocaleString() ||
+                "0"}
             </h2>
           </div>
 
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
             <p className="text-slate-400 mb-2">
-              Exchange Status
+              SOL Price
             </p>
 
-            <h2 className="text-4xl font-bold text-green-400">
-              Online
+            <h2 className="text-4xl font-bold text-purple-400">
+              $
+              {coins[4]?.current_price?.toLocaleString() ||
+                "0"}
             </h2>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
-          <div className="xl:col-span-3 space-y-6">
-            <TradingChart />
+        {/* MARKET TABLE */}
 
-            <LiveMarket />
+        <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden">
+          <div className="p-6 border-b border-slate-800">
+            <h2 className="text-2xl font-bold">
+              Live Markets
+            </h2>
           </div>
 
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 h-fit">
-            <h3 className="text-2xl font-semibold mb-6">
-              Trade Panel
-            </h3>
-
-            <div className="flex gap-2 mb-4">
-              <button
-                onClick={() =>
-                  setOrderType("MARKET")
-                }
-                className={`flex-1 py-2 rounded-xl ${
-                  orderType === "MARKET"
-                    ? "bg-blue-600"
-                    : "bg-slate-800"
-                }`}
-              >
-                Market
-              </button>
-
-              <button
-                onClick={() =>
-                  setOrderType("LIMIT")
-                }
-                className={`flex-1 py-2 rounded-xl ${
-                  orderType === "LIMIT"
-                    ? "bg-blue-600"
-                    : "bg-slate-800"
-                }`}
-              >
-                Limit
-              </button>
+          {loading ? (
+            <div className="p-10 text-center text-slate-400">
+              Loading market data...
             </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-slate-800">
+                  <tr>
+                    <th className="text-left p-5">
+                      Asset
+                    </th>
 
-            {selectedCoin && (
-              <div className="flex items-center gap-3 mb-6">
-                <img
-                  src={selectedCoin.image}
-                  alt={selectedCoin.name}
-                  className="w-12 h-12"
-                />
+                    <th className="text-left p-5">
+                      Price
+                    </th>
 
-                <div>
-                  <h4 className="font-bold">
-                    {selectedCoin.name}
-                  </h4>
+                    <th className="text-left p-5">
+                      24H Change
+                    </th>
 
-                  <p className="text-slate-400 uppercase text-sm">
-                    {selectedCoin.symbol}
-                  </p>
-                </div>
-              </div>
-            )}
+                    <th className="text-left p-5">
+                      Market Cap
+                    </th>
 
-            <input
-              type="number"
-              value={amount}
-              onChange={(e) =>
-                setAmount(e.target.value)
-              }
-              className="w-full bg-slate-800 p-4 rounded-xl outline-none mb-4"
-              placeholder="Amount in USD"
-            />
+                    <th className="text-left p-5">
+                      Volume
+                    </th>
+                  </tr>
+                </thead>
 
-            {orderType === "LIMIT" && (
-              <input
-                type="number"
-                value={targetPrice}
-                onChange={(e) =>
-                  setTargetPrice(
-                    e.target.value
-                  )
-                }
-                className="w-full bg-slate-800 p-4 rounded-xl outline-none mb-4"
-                placeholder="Target Price"
-              />
-            )}
+                <tbody>
+                  {coins.map((coin) => (
+                    <tr
+                      key={coin.id}
+                      className="border-b border-slate-800 hover:bg-slate-800/40 transition"
+                    >
+                      <td className="p-5">
+                        <div className="flex items-center gap-4">
+                          <img
+                            src={coin.image}
+                            alt={coin.name}
+                            className="w-10 h-10"
+                          />
 
-            <div className="grid grid-cols-2 gap-3 mb-6">
-              <button
-                onClick={() =>
-                  orderType === "MARKET"
-                    ? handleMarketTrade(
-                        "BUY"
-                      )
-                    : handleLimitOrder(
-                        "BUY"
-                      )
-                }
-                className="bg-green-600 hover:bg-green-700 py-3 rounded-xl font-semibold"
-              >
-                Buy
-              </button>
+                          <div>
+                            <h3 className="font-bold">
+                              {coin.symbol.toUpperCase()}
+                            </h3>
 
-              <button
-                onClick={() =>
-                  orderType === "MARKET"
-                    ? handleMarketTrade(
-                        "SELL"
-                      )
-                    : handleLimitOrder(
-                        "SELL"
-                      )
-                }
-                className="bg-red-600 hover:bg-red-700 py-3 rounded-xl font-semibold"
-              >
-                Sell
-              </button>
+                            <p className="text-slate-400 text-sm">
+                              {coin.name}
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td className="p-5 font-bold">
+                        $
+                        {coin.current_price.toLocaleString()}
+                      </td>
+
+                      <td className="p-5">
+                        <div
+                          className={`flex items-center gap-2 font-semibold ${
+                            coin.price_change_percentage_24h >
+                            0
+                              ? "text-green-400"
+                              : "text-red-400"
+                          }`}
+                        >
+                          {coin.price_change_percentage_24h >
+                          0 ? (
+                            <TrendingUp size={18} />
+                          ) : (
+                            <TrendingDown size={18} />
+                          )}
+
+                          {coin.price_change_percentage_24h?.toFixed(
+                            2
+                          )}
+                          %
+                        </div>
+                      </td>
+
+                      <td className="p-5">
+                        $
+                        {coin.market_cap.toLocaleString()}
+                      </td>
+
+                      <td className="p-5">
+                        $
+                        {coin.total_volume.toLocaleString()}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
+          )}
+        </div>
 
-            <div className="space-y-3 max-h-[400px] overflow-y-auto">
-              {coins.map((coin) => (
-                <div
-                  key={coin.id}
-                  onClick={() =>
-                    setSelectedCoin(coin)
-                  }
-                  className="bg-slate-800 hover:bg-slate-700 p-3 rounded-xl cursor-pointer flex items-center justify-between"
-                >
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={coin.image}
-                      alt={coin.name}
-                      className="w-8 h-8"
-                    />
+        {/* MARKET MOVERS */}
 
-                    <div>
-                      <p className="font-semibold">
-                        {coin.name}
-                      </p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+          {/* TOP GAINERS */}
 
-                      <p className="text-slate-400 text-xs uppercase">
-                        {coin.symbol}
-                      </p>
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+            <h2 className="text-2xl font-bold mb-6 text-green-400">
+              Top Gainers
+            </h2>
+
+            <div className="space-y-4">
+              {[...coins]
+                .sort(
+                  (a, b) =>
+                    b.price_change_percentage_24h -
+                    a.price_change_percentage_24h
+                )
+                .slice(0, 5)
+                .map((coin) => (
+                  <div
+                    key={coin.id}
+                    className="flex items-center justify-between bg-slate-800 rounded-2xl p-4"
+                  >
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={coin.image}
+                        alt={coin.name}
+                        className="w-10 h-10"
+                      />
+
+                      <div>
+                        <h3 className="font-bold">
+                          {coin.symbol.toUpperCase()}
+                        </h3>
+
+                        <p className="text-slate-400 text-sm">
+                          {coin.name}
+                        </p>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="text-right">
-                    <p className="font-semibold">
-                      ${coin.current_price}
+                    <p className="text-green-400 font-bold">
+                      +
+                      {coin.price_change_percentage_24h?.toFixed(
+                        2
+                      )}
+                      %
                     </p>
                   </div>
-                </div>
-              ))}
+                ))}
+            </div>
+          </div>
+
+          {/* TOP LOSERS */}
+
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+            <h2 className="text-2xl font-bold mb-6 text-red-400">
+              Top Losers
+            </h2>
+
+            <div className="space-y-4">
+              {[...coins]
+                .sort(
+                  (a, b) =>
+                    a.price_change_percentage_24h -
+                    b.price_change_percentage_24h
+                )
+                .slice(0, 5)
+                .map((coin) => (
+                  <div
+                    key={coin.id}
+                    className="flex items-center justify-between bg-slate-800 rounded-2xl p-4"
+                  >
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={coin.image}
+                        alt={coin.name}
+                        className="w-10 h-10"
+                      />
+
+                      <div>
+                        <h3 className="font-bold">
+                          {coin.symbol.toUpperCase()}
+                        </h3>
+
+                        <p className="text-slate-400 text-sm">
+                          {coin.name}
+                        </p>
+                      </div>
+                    </div>
+
+                    <p className="text-red-400 font-bold">
+                      {coin.price_change_percentage_24h?.toFixed(
+                        2
+                      )}
+                      %
+                    </p>
+                  </div>
+                ))}
             </div>
           </div>
         </div>
