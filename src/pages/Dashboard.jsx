@@ -6,11 +6,19 @@ import TradingChart from "../components/TradingChart";
 
 const Dashboard = () => {
   const [balance, setBalance] = useState(0);
+
   const [coins, setCoins] = useState([]);
+
   const [selectedCoin, setSelectedCoin] =
     useState(null);
 
   const [amount, setAmount] = useState(100);
+
+  const [orderType, setOrderType] =
+    useState("MARKET");
+
+  const [targetPrice, setTargetPrice] =
+    useState("");
 
   const fetchBalance = async () => {
     try {
@@ -41,10 +49,10 @@ const Dashboard = () => {
     fetchCoins();
   }, []);
 
-  const handleTrade = async (type) => {
+  const handleMarketTrade = async (
+    type
+  ) => {
     try {
-      if (!selectedCoin) return;
-
       await API.post("/trade", {
         coinId: selectedCoin.id,
         coinName: selectedCoin.name,
@@ -55,9 +63,7 @@ const Dashboard = () => {
       });
 
       toast.success(
-        type === "BUY"
-          ? "Buy order executed"
-          : "Sell order executed"
+        `${type} order executed`
       );
 
       fetchBalance();
@@ -71,6 +77,34 @@ const Dashboard = () => {
     }
   };
 
+  const handleLimitOrder = async (
+    type
+  ) => {
+    try {
+      await API.post("/orders", {
+        coinId: selectedCoin.id,
+        coinName: selectedCoin.name,
+        symbol: selectedCoin.symbol,
+        image: selectedCoin.image,
+        type,
+        amount: Number(amount),
+        targetPrice:
+          Number(targetPrice),
+      });
+
+      toast.success(
+        "Limit order created"
+      );
+    } catch (error) {
+      console.log(error);
+
+      toast.error(
+        error.response?.data?.message ||
+          "Order failed"
+      );
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-950 text-white p-6">
       <div className="max-w-7xl mx-auto">
@@ -80,7 +114,8 @@ const Dashboard = () => {
           </h1>
 
           <p className="text-slate-400 mt-2">
-            Professional crypto trading platform.
+            Professional crypto trading
+            platform.
           </p>
         </div>
 
@@ -126,6 +161,34 @@ const Dashboard = () => {
               Trade Panel
             </h3>
 
+            <div className="flex gap-2 mb-4">
+              <button
+                onClick={() =>
+                  setOrderType("MARKET")
+                }
+                className={`flex-1 py-2 rounded-xl ${
+                  orderType === "MARKET"
+                    ? "bg-blue-600"
+                    : "bg-slate-800"
+                }`}
+              >
+                Market
+              </button>
+
+              <button
+                onClick={() =>
+                  setOrderType("LIMIT")
+                }
+                className={`flex-1 py-2 rounded-xl ${
+                  orderType === "LIMIT"
+                    ? "bg-blue-600"
+                    : "bg-slate-800"
+                }`}
+              >
+                Limit
+              </button>
+            </div>
+
             {selectedCoin && (
               <div className="flex items-center gap-3 mb-6">
                 <img
@@ -156,10 +219,30 @@ const Dashboard = () => {
               placeholder="Amount in USD"
             />
 
+            {orderType === "LIMIT" && (
+              <input
+                type="number"
+                value={targetPrice}
+                onChange={(e) =>
+                  setTargetPrice(
+                    e.target.value
+                  )
+                }
+                className="w-full bg-slate-800 p-4 rounded-xl outline-none mb-4"
+                placeholder="Target Price"
+              />
+            )}
+
             <div className="grid grid-cols-2 gap-3 mb-6">
               <button
                 onClick={() =>
-                  handleTrade("BUY")
+                  orderType === "MARKET"
+                    ? handleMarketTrade(
+                        "BUY"
+                      )
+                    : handleLimitOrder(
+                        "BUY"
+                      )
                 }
                 className="bg-green-600 hover:bg-green-700 py-3 rounded-xl font-semibold"
               >
@@ -168,7 +251,13 @@ const Dashboard = () => {
 
               <button
                 onClick={() =>
-                  handleTrade("SELL")
+                  orderType === "MARKET"
+                    ? handleMarketTrade(
+                        "SELL"
+                      )
+                    : handleLimitOrder(
+                        "SELL"
+                      )
                 }
                 className="bg-red-600 hover:bg-red-700 py-3 rounded-xl font-semibold"
               >

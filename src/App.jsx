@@ -1,4 +1,10 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+
 import { Toaster } from "react-hot-toast";
 
 import Login from "./pages/Login";
@@ -8,11 +14,15 @@ import Wallet from "./pages/Wallet";
 import Portfolio from "./pages/Portfolio";
 import Transactions from "./pages/Transactions";
 import Profile from "./pages/Profile";
+import OpenOrders from "./pages/OpenOrders";
 
 import DashboardLayout from "./layouts/DashboardLayout";
 
-const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem("token");
+const ProtectedRoute = ({
+  children,
+}) => {
+  const token =
+    localStorage.getItem("token");
 
   if (!token) {
     return <Navigate to="/login" />;
@@ -27,9 +37,15 @@ function App() {
       <Toaster position="top-right" />
 
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={<Login />}
+        />
 
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/register"
+          element={<Register />}
+        />
 
         <Route
           path="/"
@@ -39,18 +55,35 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route index element={<Dashboard />} />
+          <Route
+            index
+            element={<Dashboard />}
+          />
 
-          <Route path="wallet" element={<Wallet />} />
+          <Route
+            path="wallet"
+            element={<Wallet />}
+          />
 
-          <Route path="portfolio" element={<Portfolio />} />
+          <Route
+            path="portfolio"
+            element={<Portfolio />}
+          />
 
           <Route
             path="transactions"
             element={<Transactions />}
           />
 
-          <Route path="profile" element={<Profile />} />
+          <Route
+            path="profile"
+            element={<Profile />}
+          />
+
+          <Route
+            path="orders"
+            element={<OpenOrders />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>
