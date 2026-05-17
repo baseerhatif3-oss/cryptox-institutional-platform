@@ -1,86 +1,64 @@
-import React, {
-  useEffect,
-  useState,
-} from "react";
-
+import { useEffect, useState } from "react";
 import API from "../services/api";
 
 const Transactions = () => {
-  const [trades, setTrades] =
-    useState([]);
+  const [transactions, setTransactions] = useState([]);
 
-  const fetchTrades =
-    async () => {
+  useEffect(() => {
+    const fetchTransactions = async () => {
       try {
-        const { data } =
-          await API.get(
-            "/trades"
-          );
-
-        setTrades(data);
+        const { data } = await API.get("/trades");
+        setTransactions(data);
       } catch (error) {
         console.log(error);
       }
     };
 
-  useEffect(() => {
-    fetchTrades();
-
-    const interval =
-      setInterval(() => {
-        fetchTrades();
-      }, 5000);
-
-    return () =>
-      clearInterval(interval);
+    fetchTransactions();
   }, []);
 
   return (
-    <div>
-      <div className="mb-10">
-        <h1 className="text-5xl font-bold">
-          Transactions
-        </h1>
+    <div className="p-6 bg-slate-950 min-h-screen text-white">
+      <h1 className="text-3xl font-bold mb-6">
+        Transactions
+      </h1>
 
-        <p className="text-slate-400 mt-3">
-          Live trading history
-        </p>
-      </div>
-
-      <div className="space-y-5">
-        {trades.map((trade) => (
+      <div className="space-y-4">
+        {transactions.map((trade) => (
           <div
             key={trade._id}
-            className="bg-slate-900 p-6 rounded-3xl border border-slate-800"
+            className="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex items-center justify-between"
           >
-            <div className="flex justify-between items-center">
+            <div className="flex items-center gap-4">
+              <img
+                src={trade.image}
+                alt={trade.coinName}
+                className="w-10 h-10"
+              />
+
               <div>
-                <h2 className="text-2xl font-bold">
-                  {trade.coin}
-                </h2>
+                <p className="font-semibold">
+                  {trade.coinName}
+                </p>
 
-                <p
-                  className={`mt-2 ${
-                    trade.type ===
-                    "BUY"
-                      ? "text-green-400"
-                      : "text-red-400"
-                  }`}
-                >
-                  {trade.type}
+                <p className="text-slate-400 uppercase text-sm">
+                  {trade.symbol}
                 </p>
               </div>
+            </div>
 
-              <div className="text-right">
-                <h2 className="text-2xl font-bold">
-                  {trade.amount}
-                </h2>
+            <div className="text-right">
+              <p
+                className={`font-bold ${
+                  trade.type === "BUY"
+                    ? "text-green-400"
+                    : "text-red-400"
+                }`}
+              >
+                {trade.type}
+              </p>
 
-                <p className="text-slate-400 mt-2">
-                  $
-                  {trade.price.toLocaleString()}
-                </p>
-              </div>
+              <p>${trade.total.toFixed(2)}</p>
             </div>
           </div>
         ))}
