@@ -8,6 +8,7 @@ import {
   LayoutDashboard,
   Wallet,
   PieChart,
+  CandlestickChart,
   ArrowLeftRight,
   User,
   LogOut,
@@ -65,6 +66,14 @@ const DashboardLayout = () => {
       name: "Portfolio",
       path: "/portfolio",
       icon: <PieChart size={20} />,
+    },
+
+    {
+      name: "Futures",
+      path: "/futures",
+      icon: (
+        <CandlestickChart size={20} />
+      ),
     },
 
     {

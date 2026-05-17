@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Wallet from "./pages/Wallet";
 import Portfolio from "./pages/Portfolio";
+import Futures from "./pages/Futures";
 import Transactions from "./pages/Transactions";
 import Profile from "./pages/Profile";
 import OpenOrders from "./pages/OpenOrders";
@@ -87,6 +88,11 @@ function App() {
           <Route
             path="portfolio"
             element={<Portfolio />}
+          />
+
+          <Route
+            path="futures"
+            element={<Futures />}
           />
 
           <Route
