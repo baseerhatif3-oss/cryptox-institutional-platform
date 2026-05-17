@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
-import API from "../services/api";
 import toast from "react-hot-toast";
+
+import API from "../services/api";
+import TradingChart from "../components/TradingChart";
 
 const Dashboard = () => {
   const [balance, setBalance] = useState(0);
   const [coins, setCoins] = useState([]);
-  const [selectedCoin, setSelectedCoin] = useState(null);
+  const [selectedCoin, setSelectedCoin] =
+    useState(null);
+
   const [amount, setAmount] = useState(100);
-  const [loading, setLoading] = useState(false);
 
   const fetchBalance = async () => {
     try {
@@ -42,8 +45,6 @@ const Dashboard = () => {
     try {
       if (!selectedCoin) return;
 
-      setLoading(true);
-
       await API.post("/trade", {
         coinId: selectedCoin.id,
         coinName: selectedCoin.name,
@@ -55,8 +56,8 @@ const Dashboard = () => {
 
       toast.success(
         type === "BUY"
-          ? "Crypto purchased successfully"
-          : "Crypto sold successfully"
+          ? "Buy order executed"
+          : "Sell order executed"
       );
 
       fetchBalance();
@@ -64,118 +65,152 @@ const Dashboard = () => {
       console.log(error);
 
       toast.error(
-        error.response?.data?.message || "Trade failed"
+        error.response?.data?.message ||
+          "Trade failed"
       );
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
-    <div className="p-6 bg-slate-950 min-h-screen text-white">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
-        <p className="text-slate-400 mt-2">
-          Welcome to your crypto exchange dashboard.
-        </p>
-      </div>
+    <div className="min-h-screen bg-slate-950 text-white p-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold">
+            Exchange Dashboard
+          </h1>
 
-      <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 mb-6">
-        <h2 className="text-xl font-semibold mb-2">
-          Wallet Balance
-        </h2>
+          <p className="text-slate-400 mt-2">
+            Professional crypto trading platform.
+          </p>
+        </div>
 
-        <p className="text-4xl font-bold text-green-400">
-          ${balance.toFixed(2)}
-        </p>
-      </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+            <p className="text-slate-400 mb-2">
+              Wallet Balance
+            </p>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-slate-900 p-6 rounded-2xl border border-slate-800">
-          <h2 className="text-xl font-semibold mb-4">
-            Live Market
-          </h2>
+            <h2 className="text-4xl font-bold text-green-400">
+              ${balance.toFixed(2)}
+            </h2>
+          </div>
 
-          <div className="space-y-3 max-h-[600px] overflow-y-auto">
-            {coins.map((coin) => (
-              <div
-                key={coin.id}
-                onClick={() => setSelectedCoin(coin)}
-                className="flex items-center justify-between bg-slate-800 p-4 rounded-xl cursor-pointer hover:bg-slate-700"
-              >
-                <div className="flex items-center gap-3">
-                  <img
-                    src={coin.image}
-                    alt={coin.name}
-                    className="w-8 h-8"
-                  />
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+            <p className="text-slate-400 mb-2">
+              Active Assets
+            </p>
 
-                  <div>
-                    <p className="font-semibold">{coin.name}</p>
-                    <p className="text-slate-400 text-sm uppercase">
-                      {coin.symbol}
-                    </p>
-                  </div>
-                </div>
+            <h2 className="text-4xl font-bold">
+              {coins.length}
+            </h2>
+          </div>
 
-                <div>
-                  <p className="font-bold">
-                    ${coin.current_price}
-                  </p>
-                </div>
-              </div>
-            ))}
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+            <p className="text-slate-400 mb-2">
+              Exchange Status
+            </p>
+
+            <h2 className="text-4xl font-bold text-green-400">
+              Online
+            </h2>
           </div>
         </div>
 
-        <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 h-fit">
-          <h2 className="text-xl font-semibold mb-4">
-            Trade Crypto
-          </h2>
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+          <div className="xl:col-span-3">
+            <TradingChart />
+          </div>
 
-          {selectedCoin && (
-            <div className="mb-4 flex items-center gap-3">
-              <img
-                src={selectedCoin.image}
-                alt={selectedCoin.name}
-                className="w-10 h-10"
-              />
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 h-fit">
+            <h3 className="text-2xl font-semibold mb-6">
+              Trade Panel
+            </h3>
 
-              <div>
-                <p className="font-semibold">
-                  {selectedCoin.name}
-                </p>
-                <p className="text-slate-400 uppercase text-sm">
-                  {selectedCoin.symbol}
-                </p>
+            {selectedCoin && (
+              <div className="flex items-center gap-3 mb-6">
+                <img
+                  src={selectedCoin.image}
+                  alt={selectedCoin.name}
+                  className="w-12 h-12"
+                />
+
+                <div>
+                  <h4 className="font-bold">
+                    {selectedCoin.name}
+                  </h4>
+
+                  <p className="text-slate-400 uppercase text-sm">
+                    {selectedCoin.symbol}
+                  </p>
+                </div>
               </div>
+            )}
+
+            <input
+              type="number"
+              value={amount}
+              onChange={(e) =>
+                setAmount(e.target.value)
+              }
+              className="w-full bg-slate-800 p-4 rounded-xl outline-none mb-4"
+              placeholder="Amount in USD"
+            />
+
+            <div className="grid grid-cols-2 gap-3 mb-6">
+              <button
+                onClick={() =>
+                  handleTrade("BUY")
+                }
+                className="bg-green-600 hover:bg-green-700 py-3 rounded-xl font-semibold"
+              >
+                Buy
+              </button>
+
+              <button
+                onClick={() =>
+                  handleTrade("SELL")
+                }
+                className="bg-red-600 hover:bg-red-700 py-3 rounded-xl font-semibold"
+              >
+                Sell
+              </button>
             </div>
-          )}
 
-          <input
-            type="number"
-            placeholder="Amount in USD"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            className="w-full p-3 rounded-lg bg-slate-800 text-white outline-none mb-4"
-          />
+            <div className="space-y-3 max-h-[400px] overflow-y-auto">
+              {coins.map((coin) => (
+                <div
+                  key={coin.id}
+                  onClick={() =>
+                    setSelectedCoin(coin)
+                  }
+                  className="bg-slate-800 hover:bg-slate-700 p-3 rounded-xl cursor-pointer flex items-center justify-between"
+                >
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={coin.image}
+                      alt={coin.name}
+                      className="w-8 h-8"
+                    />
 
-          <div className="grid grid-cols-2 gap-3">
-            <button
-              onClick={() => handleTrade("BUY")}
-              disabled={loading}
-              className="bg-green-600 hover:bg-green-700 p-3 rounded-lg font-semibold"
-            >
-              Buy
-            </button>
+                    <div>
+                      <p className="font-semibold">
+                        {coin.name}
+                      </p>
 
-            <button
-              onClick={() => handleTrade("SELL")}
-              disabled={loading}
-              className="bg-red-600 hover:bg-red-700 p-3 rounded-lg font-semibold"
-            >
-              Sell
-            </button>
+                      <p className="text-slate-400 text-xs uppercase">
+                        {coin.symbol}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="text-right">
+                    <p className="font-semibold">
+                      ${coin.current_price}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
