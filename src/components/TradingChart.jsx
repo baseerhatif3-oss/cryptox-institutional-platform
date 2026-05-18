@@ -6,7 +6,7 @@ const TradingChart = ({
   symbol = "BINANCE:BTCUSDT",
 }) => {
   return (
-    <div className="rounded-3xl overflow-hidden border border-slate-800">
+    <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden">
       <AdvancedRealTimeChart
         theme="dark"
         symbol={symbol}
@@ -14,8 +14,9 @@ const TradingChart = ({
         interval="15"
         timezone="Etc/UTC"
         hide_top_toolbar={false}
-        hide_side_toolbar={false}
+        hide_legend={false}
         allow_symbol_change
+        withdateranges
       />
     </div>
   );

@@ -4,6 +4,8 @@ import toast from "react-hot-toast";
 
 import API from "../api/axios";
 
+import TradingChart from "../components/TradingChart";
+
 const coins = [
   {
     coin: "Bitcoin",
@@ -91,7 +93,7 @@ const Futures = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* HEADER */}
 
         <div className="mb-10">
@@ -99,9 +101,9 @@ const Futures = () => {
             Futures Trading
           </h1>
 
-          <p className="text-slate-400 mt-2">
-            Real backend-powered
-            trading engine
+          <p className="text-slate-400 mt-2 text-lg">
+            Professional crypto
+            trading terminal
           </p>
         </div>
 
@@ -139,6 +141,14 @@ const Futures = () => {
           ))}
         </div>
 
+        {/* TRADINGVIEW CHART */}
+
+        <div className="mb-10">
+          <TradingChart
+            symbol={`BINANCE:${selectedCoin.symbol}USDT`}
+          />
+        </div>
+
         {/* TRADING PANEL */}
 
         <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
@@ -150,6 +160,8 @@ const Futures = () => {
           </h2>
 
           <div className="space-y-6">
+            {/* AMOUNT */}
+
             <div>
               <label className="block mb-3 text-slate-400">
                 Amount
@@ -167,6 +179,8 @@ const Futures = () => {
                 className="w-full bg-slate-800 border border-slate-700 rounded-2xl px-5 py-4 text-white outline-none"
               />
             </div>
+
+            {/* DETAILS */}
 
             <div className="bg-slate-800 rounded-2xl p-5">
               <div className="flex justify-between mb-3">
@@ -197,6 +211,8 @@ const Futures = () => {
               </div>
             </div>
 
+            {/* BUTTONS */}
+
             <div className="grid grid-cols-2 gap-6">
               <button
                 onClick={() =>
@@ -207,7 +223,9 @@ const Futures = () => {
                 disabled={loading}
                 className="bg-green-600 hover:bg-green-700 py-5 rounded-2xl font-bold text-xl transition"
               >
-                Buy
+                {loading
+                  ? "Processing..."
+                  : "Buy"}
               </button>
 
               <button
@@ -219,7 +237,9 @@ const Futures = () => {
                 disabled={loading}
                 className="bg-red-600 hover:bg-red-700 py-5 rounded-2xl font-bold text-xl transition"
               >
-                Sell
+                {loading
+                  ? "Processing..."
+                  : "Sell"}
               </button>
             </div>
           </div>
