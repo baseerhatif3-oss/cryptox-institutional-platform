@@ -1,53 +1,42 @@
-import {
-  TrendingUp,
-  Users,
-  Copy,
-  Trophy,
-} from "lucide-react";
-
 const traders = [
   {
     id: 1,
-    name: "Alex Trader",
-    roi: "+342%",
-    followers: 12450,
-    winRate: "87%",
-    pnl: "$92,440",
-    avatar:
-      "https://i.pravatar.cc/150?img=1",
+    name: "AlphaTrader",
+    roi: "+324%",
+    winRate: "78%",
+    followers: 12842,
+    pnl: "+$182,400",
+    risk: "Medium",
   },
 
   {
     id: 2,
-    name: "Crypto King",
-    roi: "+280%",
-    followers: 9800,
-    winRate: "81%",
-    pnl: "$74,100",
-    avatar:
-      "https://i.pravatar.cc/150?img=2",
+    name: "BTCMaster",
+    roi: "+218%",
+    winRate: "71%",
+    followers: 9842,
+    pnl: "+$94,200",
+    risk: "Low",
   },
 
   {
     id: 3,
-    name: "Whale Hunter",
-    roi: "+198%",
-    followers: 6200,
-    winRate: "78%",
-    pnl: "$48,800",
-    avatar:
-      "https://i.pravatar.cc/150?img=3",
+    name: "FutureKing",
+    roi: "+492%",
+    winRate: "83%",
+    followers: 24122,
+    pnl: "+$421,000",
+    risk: "High",
   },
 
   {
     id: 4,
-    name: "Futures Pro",
-    roi: "+410%",
-    followers: 18120,
-    winRate: "92%",
-    pnl: "$131,000",
-    avatar:
-      "https://i.pravatar.cc/150?img=4",
+    name: "ETHWhale",
+    roi: "+176%",
+    winRate: "69%",
+    followers: 7140,
+    pnl: "+$52,300",
+    risk: "Medium",
   },
 ];
 
@@ -57,164 +46,153 @@ const CopyTrading = () => {
       <div className="max-w-7xl mx-auto">
         {/* HEADER */}
 
-        <div className="mb-8">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="bg-blue-600 p-4 rounded-3xl">
-              <Copy size={36} />
-            </div>
+        <div className="mb-10">
+          <h1 className="text-5xl font-bold">
+            Copy Trading
+          </h1>
 
-            <div>
-              <h1 className="text-5xl font-bold">
-                Copy Trading
-              </h1>
-
-              <p className="text-slate-400 mt-2">
-                Automatically copy top
-                crypto traders.
-              </p>
-            </div>
-          </div>
+          <p className="text-slate-400 mt-2">
+            Follow elite traders automatically
+          </p>
         </div>
 
-        {/* STATS */}
+        {/* OVERVIEW */}
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <Users
-              size={34}
-              className="text-blue-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              Total Traders
+            <p className="text-slate-400 mb-3">
+              Active Traders
             </p>
 
-            <h2 className="text-4xl font-bold mt-2">
-              1,240
+            <h2 className="text-4xl font-bold">
+              1,248
             </h2>
           </div>
 
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <TrendingUp
-              size={34}
-              className="text-green-400 mb-4"
-            />
+            <p className="text-slate-400 mb-3">
+              Total Followers
+            </p>
 
-            <p className="text-slate-400">
+            <h2 className="text-4xl font-bold">
+              182K
+            </h2>
+          </div>
+
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+            <p className="text-slate-400 mb-3">
               Avg ROI
             </p>
 
-            <h2 className="text-4xl font-bold mt-2 text-green-400">
-              +214%
+            <h2 className="text-4xl font-bold text-green-400">
+              +218%
             </h2>
           </div>
 
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <Trophy
-              size={34}
-              className="text-yellow-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              Top Trader ROI
+            <p className="text-slate-400 mb-3">
+              Platform Status
             </p>
 
-            <h2 className="text-4xl font-bold mt-2 text-yellow-400">
-              +410%
-            </h2>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <Copy
-              size={34}
-              className="text-purple-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              Active Copiers
-            </p>
-
-            <h2 className="text-4xl font-bold mt-2">
-              28K
+            <h2 className="text-4xl font-bold text-blue-400">
+              Live
             </h2>
           </div>
         </div>
 
-        {/* LEADERBOARD */}
+        {/* TRADERS */}
 
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-          <h2 className="text-3xl font-bold mb-8">
-            Top Traders
-          </h2>
-
-          <div className="space-y-5">
-            {traders.map((trader) => (
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+          {traders.map(
+            (trader) => (
               <div
                 key={trader.id}
-                className="bg-slate-800 rounded-3xl p-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6"
+                className="bg-slate-900 border border-slate-800 rounded-3xl p-8"
               >
-                {/* LEFT */}
+                {/* HEADER */}
 
-                <div className="flex items-center gap-5">
-                  <img
-                    src={trader.avatar}
-                    alt={trader.name}
-                    className="w-20 h-20 rounded-full border-4 border-slate-700"
-                  />
-
+                <div className="flex items-center justify-between mb-8">
                   <div>
-                    <h3 className="text-2xl font-bold">
-                      {trader.name}
-                    </h3>
+                    <h2 className="text-3xl font-bold">
+                      {
+                        trader.name
+                      }
+                    </h2>
 
                     <p className="text-slate-400 mt-1">
-                      {trader.followers.toLocaleString()} followers
+                      Elite Trader
                     </p>
+                  </div>
+
+                  <div className="bg-green-500/20 text-green-400 px-4 py-2 rounded-2xl font-bold">
+                    {trader.roi}
                   </div>
                 </div>
 
                 {/* STATS */}
 
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-6 flex-1">
-                  <div>
-                    <p className="text-slate-400">
-                      ROI
-                    </p>
-
-                    <p className="text-green-400 text-2xl font-bold">
-                      {trader.roi}
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="text-slate-400">
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                  <div className="bg-slate-800 rounded-2xl p-5">
+                    <p className="text-slate-400 mb-2">
                       Win Rate
                     </p>
 
-                    <p className="text-2xl font-bold">
-                      {trader.winRate}
-                    </p>
+                    <h3 className="text-2xl font-bold">
+                      {
+                        trader.winRate
+                      }
+                    </h3>
                   </div>
 
-                  <div>
-                    <p className="text-slate-400">
-                      PNL
+                  <div className="bg-slate-800 rounded-2xl p-5">
+                    <p className="text-slate-400 mb-2">
+                      Followers
                     </p>
 
-                    <p className="text-2xl font-bold">
-                      {trader.pnl}
+                    <h3 className="text-2xl font-bold">
+                      {trader.followers.toLocaleString()}
+                    </h3>
+                  </div>
+
+                  <div className="bg-slate-800 rounded-2xl p-5">
+                    <p className="text-slate-400 mb-2">
+                      Total PNL
                     </p>
+
+                    <h3 className="text-2xl font-bold text-green-400">
+                      {
+                        trader.pnl
+                      }
+                    </h3>
+                  </div>
+
+                  <div className="bg-slate-800 rounded-2xl p-5">
+                    <p className="text-slate-400 mb-2">
+                      Risk
+                    </p>
+
+                    <h3 className="text-2xl font-bold">
+                      {
+                        trader.risk
+                      }
+                    </h3>
                   </div>
                 </div>
 
-                {/* BUTTON */}
+                {/* ACTIONS */}
 
-                <button className="bg-blue-600 hover:bg-blue-700 px-8 py-4 rounded-2xl font-bold text-lg transition">
-                  Copy Trader
-                </button>
+                <div className="flex gap-4">
+                  <button className="flex-1 bg-blue-600 hover:bg-blue-700 py-4 rounded-2xl font-bold text-xl transition">
+                    Copy Trader
+                  </button>
+
+                  <button className="flex-1 bg-slate-800 hover:bg-slate-700 py-4 rounded-2xl font-bold text-xl transition">
+                    View Stats
+                  </button>
+                </div>
               </div>
-            ))}
-          </div>
+            )
+          )}
         </div>
       </div>
     </div>

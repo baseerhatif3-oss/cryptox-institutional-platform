@@ -70,6 +70,13 @@ const DashboardLayout =
             </Link>
 
             <Link
+              to="/copy-trading"
+              className="block bg-cyan-600 hover:bg-cyan-500 px-5 py-4 rounded-2xl font-semibold transition"
+            >
+              Copy Trading
+            </Link>
+
+            <Link
               to="/futures"
               className="block bg-slate-800 hover:bg-slate-700 px-5 py-4 rounded-2xl font-semibold transition"
             >

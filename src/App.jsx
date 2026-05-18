@@ -23,6 +23,8 @@ import Portfolio from "./pages/Portfolio";
 
 import AITrading from "./pages/AITrading";
 
+import CopyTrading from "./pages/CopyTrading";
+
 import Deposit from "./pages/Deposit";
 
 import Withdraw from "./pages/Withdraw";
@@ -117,6 +119,13 @@ function App() {
             path="ai-trading"
             element={
               <AITrading />
+            }
+          />
+
+          <Route
+            path="copy-trading"
+            element={
+              <CopyTrading />
             }
           />
 
