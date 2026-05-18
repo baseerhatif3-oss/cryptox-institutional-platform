@@ -45,7 +45,7 @@ const DashboardLayout =
               to="/"
               className="block bg-slate-800 hover:bg-slate-700 px-5 py-4 rounded-2xl font-semibold transition"
             >
-              Dashboard
+              Trading Terminal
             </Link>
 
             <Link
@@ -53,6 +53,13 @@ const DashboardLayout =
               className="block bg-blue-700 hover:bg-blue-600 px-5 py-4 rounded-2xl font-semibold transition"
             >
               Markets
+            </Link>
+
+            <Link
+              to="/portfolio"
+              className="block bg-purple-700 hover:bg-purple-600 px-5 py-4 rounded-2xl font-semibold transition"
+            >
+              Portfolio
             </Link>
 
             <Link
@@ -78,7 +85,7 @@ const DashboardLayout =
 
             <Link
               to="/admin"
-              className="block bg-purple-700 hover:bg-purple-600 px-5 py-4 rounded-2xl font-semibold transition"
+              className="block bg-pink-700 hover:bg-pink-600 px-5 py-4 rounded-2xl font-semibold transition"
             >
               Admin Panel
             </Link>

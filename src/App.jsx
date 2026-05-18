@@ -15,9 +15,11 @@ import Register from "./pages/Register";
 
 import Dashboard from "./pages/Dashboard";
 
+import Markets from "./pages/Markets";
+
 import Futures from "./pages/Futures";
 
-import Markets from "./pages/Markets";
+import Portfolio from "./pages/Portfolio";
 
 import Deposit from "./pages/Deposit";
 
@@ -106,6 +108,13 @@ function App() {
             path="futures"
             element={
               <Futures />
+            }
+          />
+
+          <Route
+            path="portfolio"
+            element={
+              <Portfolio />
             }
           />
 

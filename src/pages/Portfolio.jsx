@@ -11,20 +11,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import {
-  PieChart as PieChartIcon,
-  DollarSign,
-  TrendingUp,
-} from "lucide-react";
-
 import API from "../api/axios";
-
-const COLORS = [
-  "#3B82F6",
-  "#10B981",
-  "#F59E0B",
-  "#8B5CF6",
-];
 
 const Portfolio = () => {
   const [user, setUser] =
@@ -33,7 +20,7 @@ const Portfolio = () => {
   const [loading, setLoading] =
     useState(true);
 
-  const fetchPortfolio =
+  const fetchProfile =
     async () => {
       try {
         const res =
@@ -50,162 +37,152 @@ const Portfolio = () => {
     };
 
   useEffect(() => {
-    fetchPortfolio();
+    fetchProfile();
   }, []);
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white text-2xl">
-        Loading portfolio...
+      <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center text-3xl font-bold">
+        Loading Portfolio...
       </div>
     );
   }
 
-  const balances =
-    user?.balances || {};
-
-  const btcValue =
-    (balances.BTC || 0) *
-    105000;
-
-  const ethValue =
-    (balances.ETH || 0) *
-    6200;
-
-  const solValue =
-    (balances.SOL || 0) *
-    210;
-
-  const usdValue =
-    balances.USD || 0;
-
-  const totalValue =
-    btcValue +
-    ethValue +
-    solValue +
-    usdValue;
-
-  const chartData = [
+  const portfolioData = [
     {
       name: "USD",
-      value: usdValue,
+      value:
+        user?.balances?.USD ||
+        0,
     },
 
     {
       name: "BTC",
-      value: btcValue,
+      value:
+        user?.balances?.BTC ||
+        0,
     },
 
     {
       name: "ETH",
-      value: ethValue,
+      value:
+        user?.balances?.ETH ||
+        0,
     },
 
     {
       name: "SOL",
-      value: solValue,
+      value:
+        user?.balances?.SOL ||
+        0,
     },
-  ].filter(
-    (item) => item.value > 0
-  );
+  ];
+
+  const totalBalance =
+    portfolioData.reduce(
+      (acc, item) =>
+        acc + item.value,
+      0
+    );
+
+  const COLORS = [
+    "#3b82f6",
+    "#22c55e",
+    "#a855f7",
+    "#f97316",
+  ];
 
   return (
     <div className="min-h-screen bg-slate-950 text-white p-6">
       <div className="max-w-7xl mx-auto">
         {/* HEADER */}
 
-        <div className="flex items-center gap-4 mb-10">
-          <div className="bg-blue-600 p-4 rounded-3xl">
-            <PieChartIcon size={38} />
-          </div>
+        <div className="mb-10">
+          <h1 className="text-5xl font-bold">
+            Portfolio
+          </h1>
 
-          <div>
-            <h1 className="text-5xl font-bold">
-              Portfolio
-            </h1>
-
-            <p className="text-slate-400 mt-2 text-lg">
-              Real-time portfolio
-              analytics
-            </p>
-          </div>
+          <p className="text-slate-400 mt-2">
+            Wallet analytics & asset allocation
+          </p>
         </div>
 
-        {/* STATS */}
+        {/* OVERVIEW */}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <DollarSign
-              size={38}
-              className="text-green-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              Total Value
+            <p className="text-slate-400 mb-3">
+              Total Balance
             </p>
 
-            <h2 className="text-5xl font-bold mt-4">
+            <h2 className="text-4xl font-bold">
               $
-              {totalValue.toLocaleString()}
+              {totalBalance.toLocaleString()}
             </h2>
           </div>
 
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <TrendingUp
-              size={38}
-              className="text-blue-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              BTC Holdings
+            <p className="text-slate-400 mb-3">
+              Total Assets
             </p>
 
-            <h2 className="text-5xl font-bold mt-4">
-              {balances.BTC || 0}
+            <h2 className="text-4xl font-bold">
+              {
+                portfolioData.length
+              }
             </h2>
           </div>
 
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <TrendingUp
-              size={38}
-              className="text-purple-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              ETH Holdings
+            <p className="text-slate-400 mb-3">
+              24H PNL
             </p>
 
-            <h2 className="text-5xl font-bold mt-4">
-              {balances.ETH || 0}
+            <h2 className="text-4xl font-bold text-green-400">
+              +12.8%
+            </h2>
+          </div>
+
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+            <p className="text-slate-400 mb-3">
+              Account Status
+            </p>
+
+            <h2 className="text-4xl font-bold text-blue-400">
+              Active
             </h2>
           </div>
         </div>
 
-        {/* CHART + ASSETS */}
+        {/* MAIN GRID */}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* PIE CHART */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+          {/* CHART */}
 
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
             <h2 className="text-3xl font-bold mb-8">
               Asset Allocation
             </h2>
 
-            <div className="h-[400px]">
+            <div className="h-[450px]">
               <ResponsiveContainer
                 width="100%"
                 height="100%"
               >
                 <PieChart>
                   <Pie
-                    data={chartData}
+                    data={
+                      portfolioData
+                    }
                     cx="50%"
                     cy="50%"
-                    outerRadius={130}
+                    outerRadius={
+                      150
+                    }
                     dataKey="value"
                     label
                   >
-                    {chartData.map(
+                    {portfolioData.map(
                       (
                         entry,
                         index
@@ -233,54 +210,74 @@ const Portfolio = () => {
 
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
             <h2 className="text-3xl font-bold mb-8">
-              Assets
+              Wallet Balances
             </h2>
 
-            <div className="space-y-6">
-              {chartData.map(
+            <div className="space-y-5">
+              {portfolioData.map(
                 (
                   asset,
                   index
                 ) => (
                   <div
-                    key={
-                      asset.name
-                    }
+                    key={index}
                     className="bg-slate-800 rounded-2xl p-5 flex items-center justify-between"
                   >
-                    <div className="flex items-center gap-4">
-                      <div
-                        className="w-5 h-5 rounded-full"
-                        style={{
-                          backgroundColor:
-                            COLORS[
-                              index %
-                                COLORS.length
-                            ],
-                        }}
-                      />
+                    <div>
+                      <h3 className="text-2xl font-bold">
+                        {
+                          asset.name
+                        }
+                      </h3>
 
-                      <div>
-                        <h3 className="text-2xl font-bold">
-                          {
-                            asset.name
-                          }
-                        </h3>
-
-                        <p className="text-slate-400">
-                          Portfolio Asset
-                        </p>
-                      </div>
+                      <p className="text-slate-400 mt-1">
+                        Asset Balance
+                      </p>
                     </div>
 
-                    <h2 className="text-3xl font-bold">
-                      $
-                      {asset.value.toLocaleString()}
-                    </h2>
+                    <div className="text-right">
+                      <h3 className="text-2xl font-bold">
+                        {asset.value.toLocaleString()}
+                      </h3>
+                    </div>
                   </div>
                 )
               )}
             </div>
+          </div>
+        </div>
+
+        {/* EXTRA STATS */}
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+            <p className="text-slate-400 mb-3">
+              Lifetime Profit
+            </p>
+
+            <h2 className="text-3xl font-bold text-green-400">
+              +$24,500
+            </h2>
+          </div>
+
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+            <p className="text-slate-400 mb-3">
+              Total Trades
+            </p>
+
+            <h2 className="text-3xl font-bold">
+              1,284
+            </h2>
+          </div>
+
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+            <p className="text-slate-400 mb-3">
+              Win Rate
+            </p>
+
+            <h2 className="text-3xl font-bold text-blue-400">
+              68%
+            </h2>
           </div>
         </div>
       </div>
