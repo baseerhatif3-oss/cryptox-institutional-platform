@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
 
 import {
   PieChart,
@@ -8,132 +11,207 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import API from "../services/api";
+import {
+  PieChart as PieChartIcon,
+  DollarSign,
+  TrendingUp,
+} from "lucide-react";
+
+import API from "../api/axios";
 
 const COLORS = [
-  "#3b82f6",
-  "#22c55e",
-  "#eab308",
-  "#ef4444",
-  "#8b5cf6",
-  "#06b6d4",
+  "#3B82F6",
+  "#10B981",
+  "#F59E0B",
+  "#8B5CF6",
 ];
 
 const Portfolio = () => {
-  const [portfolio, setPortfolio] =
-    useState([]);
+  const [user, setUser] =
+    useState(null);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  const fetchPortfolio =
+    async () => {
+      try {
+        const res =
+          await API.get(
+            "/user/profile"
+          );
+
+        setUser(res.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
   useEffect(() => {
     fetchPortfolio();
   }, []);
 
-  const fetchPortfolio = async () => {
-    try {
-      const { data } = await API.get(
-        "/portfolio"
-      );
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white text-2xl">
+        Loading portfolio...
+      </div>
+    );
+  }
 
-      setPortfolio(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const balances =
+    user?.balances || {};
 
-  const totalValue = portfolio.reduce(
-    (acc, coin) => acc + coin.value,
-    0
-  );
+  const btcValue =
+    (balances.BTC || 0) *
+    105000;
 
-  const totalPNL = portfolio.reduce(
-    (acc, coin) => acc + coin.pnl,
-    0
+  const ethValue =
+    (balances.ETH || 0) *
+    6200;
+
+  const solValue =
+    (balances.SOL || 0) *
+    210;
+
+  const usdValue =
+    balances.USD || 0;
+
+  const totalValue =
+    btcValue +
+    ethValue +
+    solValue +
+    usdValue;
+
+  const chartData = [
+    {
+      name: "USD",
+      value: usdValue,
+    },
+
+    {
+      name: "BTC",
+      value: btcValue,
+    },
+
+    {
+      name: "ETH",
+      value: ethValue,
+    },
+
+    {
+      name: "SOL",
+      value: solValue,
+    },
+  ].filter(
+    (item) => item.value > 0
   );
 
   return (
     <div className="min-h-screen bg-slate-950 text-white p-6">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold">
-            Portfolio
-          </h1>
+        {/* HEADER */}
 
-          <p className="text-slate-400 mt-2">
-            Advanced portfolio analytics
-            and PNL tracking.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-            <p className="text-slate-400 mb-2">
-              Portfolio Value
-            </p>
-
-            <h2 className="text-3xl font-bold text-green-400">
-              ${totalValue.toFixed(2)}
-            </h2>
+        <div className="flex items-center gap-4 mb-10">
+          <div className="bg-blue-600 p-4 rounded-3xl">
+            <PieChartIcon size={38} />
           </div>
 
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-            <p className="text-slate-400 mb-2">
-              Unrealized PNL
+          <div>
+            <h1 className="text-5xl font-bold">
+              Portfolio
+            </h1>
+
+            <p className="text-slate-400 mt-2 text-lg">
+              Real-time portfolio
+              analytics
             </p>
-
-            <h2
-              className={`text-3xl font-bold ${
-                totalPNL >= 0
-                  ? "text-green-400"
-                  : "text-red-400"
-              }`}
-            >
-              ${totalPNL.toFixed(2)}
-            </h2>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-            <p className="text-slate-400 mb-2">
-              Assets
-            </p>
-
-            <h2 className="text-3xl font-bold">
-              {portfolio.length}
-            </h2>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-            <p className="text-slate-400 mb-2">
-              Exchange Status
-            </p>
-
-            <h2 className="text-3xl font-bold text-green-400">
-              Online
-            </h2>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-            <h3 className="text-2xl font-semibold mb-6">
+        {/* STATS */}
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+            <DollarSign
+              size={38}
+              className="text-green-400 mb-4"
+            />
+
+            <p className="text-slate-400">
+              Total Value
+            </p>
+
+            <h2 className="text-5xl font-bold mt-4">
+              $
+              {totalValue.toLocaleString()}
+            </h2>
+          </div>
+
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+            <TrendingUp
+              size={38}
+              className="text-blue-400 mb-4"
+            />
+
+            <p className="text-slate-400">
+              BTC Holdings
+            </p>
+
+            <h2 className="text-5xl font-bold mt-4">
+              {balances.BTC || 0}
+            </h2>
+          </div>
+
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+            <TrendingUp
+              size={38}
+              className="text-purple-400 mb-4"
+            />
+
+            <p className="text-slate-400">
+              ETH Holdings
+            </p>
+
+            <h2 className="text-5xl font-bold mt-4">
+              {balances.ETH || 0}
+            </h2>
+          </div>
+        </div>
+
+        {/* CHART + ASSETS */}
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* PIE CHART */}
+
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
+            <h2 className="text-3xl font-bold mb-8">
               Asset Allocation
-            </h3>
+            </h2>
 
-            <div className="h-[350px]">
+            <div className="h-[400px]">
               <ResponsiveContainer
                 width="100%"
                 height="100%"
               >
                 <PieChart>
                   <Pie
-                    data={portfolio}
+                    data={chartData}
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={130}
                     dataKey="value"
-                    nameKey="coinName"
-                    outerRadius={120}
                     label
                   >
-                    {portfolio.map(
-                      (entry, index) => (
+                    {chartData.map(
+                      (
+                        entry,
+                        index
+                      ) => (
                         <Cell
-                          key={index}
+                          key={`cell-${index}`}
                           fill={
                             COLORS[
                               index %
@@ -151,105 +229,58 @@ const Portfolio = () => {
             </div>
           </div>
 
-          <div className="xl:col-span-2 space-y-4">
-            {portfolio.map((coin) => (
-              <div
-                key={coin.coinId}
-                className="bg-slate-900 border border-slate-800 rounded-2xl p-5"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <img
-                      src={coin.image}
-                      alt={coin.coinName}
-                      className="w-12 h-12"
-                    />
+          {/* ASSETS */}
 
-                    <div>
-                      <h3 className="font-bold text-lg">
-                        {coin.coinName}
-                      </h3>
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
+            <h2 className="text-3xl font-bold mb-8">
+              Assets
+            </h2>
 
-                      <p className="text-slate-400 uppercase text-sm">
-                        {coin.symbol}
-                      </p>
+            <div className="space-y-6">
+              {chartData.map(
+                (
+                  asset,
+                  index
+                ) => (
+                  <div
+                    key={
+                      asset.name
+                    }
+                    className="bg-slate-800 rounded-2xl p-5 flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div
+                        className="w-5 h-5 rounded-full"
+                        style={{
+                          backgroundColor:
+                            COLORS[
+                              index %
+                                COLORS.length
+                            ],
+                        }}
+                      />
+
+                      <div>
+                        <h3 className="text-2xl font-bold">
+                          {
+                            asset.name
+                          }
+                        </h3>
+
+                        <p className="text-slate-400">
+                          Portfolio Asset
+                        </p>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="text-right">
-                    <p className="text-slate-400 text-sm">
-                      Holdings
-                    </p>
-
-                    <p className="font-bold">
-                      {coin.quantity.toFixed(
-                        6
-                      )}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-                  <div>
-                    <p className="text-slate-400 text-sm mb-1">
-                      Live Price
-                    </p>
-
-                    <p className="font-bold">
+                    <h2 className="text-3xl font-bold">
                       $
-                      {coin.livePrice.toFixed(
-                        2
-                      )}
-                    </p>
+                      {asset.value.toLocaleString()}
+                    </h2>
                   </div>
-
-                  <div>
-                    <p className="text-slate-400 text-sm mb-1">
-                      Avg Buy Price
-                    </p>
-
-                    <p className="font-bold">
-                      $
-                      {coin.averageBuyPrice.toFixed(
-                        2
-                      )}
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="text-slate-400 text-sm mb-1">
-                      Position Value
-                    </p>
-
-                    <p className="font-bold text-green-400">
-                      $
-                      {coin.value.toFixed(2)}
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="text-slate-400 text-sm mb-1">
-                      PNL
-                    </p>
-
-                    <p
-                      className={`font-bold ${
-                        coin.pnl >= 0
-                          ? "text-green-400"
-                          : "text-red-400"
-                      }`}
-                    >
-                      $
-                      {coin.pnl.toFixed(2)} (
-                      {coin.pnlPercentage.toFixed(
-                        2
-                      )}
-                      %)
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
+                )
+              )}
+            </div>
           </div>
         </div>
       </div>
