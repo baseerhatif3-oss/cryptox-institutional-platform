@@ -1,42 +1,56 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
+
 import toast from "react-hot-toast";
-import API from "../services/api";
+
+import API from "../api/axios";
 
 const Register = () => {
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
+  const [formData, setFormData] =
+    useState({
+      name: "",
+      email: "",
+      password: "",
+    });
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] =
+    useState(false);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+
+      [e.target.name]:
+        e.target.value,
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (
+    e
+  ) => {
     e.preventDefault();
 
     try {
       setLoading(true);
 
-      await API.post("/register", formData);
+      await API.post(
+        "/auth/register",
+        formData
+      );
 
-      toast.success("Registration successful");
+      toast.success(
+        "Registration successful"
+      );
 
       navigate("/login");
     } catch (error) {
-      console.log(error);
-
       toast.error(
-        error.response?.data?.message || "Registration failed"
+        error.response?.data
+          ?.message ||
+          "Register failed"
       );
     } finally {
       setLoading(false);
@@ -44,58 +58,82 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
-      <div className="bg-slate-900 p-8 rounded-2xl w-full max-w-md border border-slate-800">
-        <h1 className="text-3xl font-bold text-white mb-6 text-center">
-          Register
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6">
+      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 w-full max-w-md">
+        <h1 className="text-4xl font-bold text-white mb-2">
+          Create Account
         </h1>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <p className="text-slate-400 mb-8">
+          Join CryptoX Exchange
+        </p>
+
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-5"
+        >
           <input
             type="text"
             name="name"
             placeholder="Full Name"
-            value={formData.name}
-            onChange={handleChange}
+            value={
+              formData.name
+            }
+            onChange={
+              handleChange
+            }
             required
-            className="w-full p-3 rounded-lg bg-slate-800 text-white outline-none"
+            className="w-full bg-slate-800 border border-slate-700 rounded-2xl px-4 py-4 text-white outline-none"
           />
 
           <input
             type="email"
             name="email"
             placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
+            value={
+              formData.email
+            }
+            onChange={
+              handleChange
+            }
             required
-            className="w-full p-3 rounded-lg bg-slate-800 text-white outline-none"
+            className="w-full bg-slate-800 border border-slate-700 rounded-2xl px-4 py-4 text-white outline-none"
           />
 
           <input
             type="password"
             name="password"
             placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
+            value={
+              formData.password
+            }
+            onChange={
+              handleChange
+            }
             required
-            className="w-full p-3 rounded-lg bg-slate-800 text-white outline-none"
+            className="w-full bg-slate-800 border border-slate-700 rounded-2xl px-4 py-4 text-white outline-none"
           />
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg font-semibold"
+            className="w-full bg-blue-600 hover:bg-blue-700 py-4 rounded-2xl font-bold text-white transition"
           >
-            {loading ? "Creating account..." : "Register"}
+            {loading
+              ? "Creating Account..."
+              : "Register"}
           </button>
         </form>
 
-        <p className="text-slate-400 text-center mt-6">
-          Already have an account?{" "}
-          <Link to="/login" className="text-blue-400">
+        <div className="mt-6 text-center">
+          <Link
+            to="/login"
+            className="text-blue-400 text-sm"
+          >
+            Already have an account?
             Login
           </Link>
-        </p>
+        </div>
       </div>
     </div>
   );

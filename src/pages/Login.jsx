@@ -2,9 +2,9 @@ import { useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 
-import axios from "axios";
-
 import toast from "react-hot-toast";
+
+import API from "../api/axios";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -21,31 +21,35 @@ const Login = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
+
       [e.target.name]:
         e.target.value,
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (
+    e
+  ) => {
     e.preventDefault();
 
-    setLoading(true);
-
     try {
-      const response = await axios.post(
-        "https://crypto-backend-dojp.onrender.com/api/login",
-        formData
-      );
+      setLoading(true);
+
+      const res =
+        await API.post(
+          "/auth/login",
+          formData
+        );
 
       localStorage.setItem(
         "token",
-        response.data.token
+        res.data.token
       );
 
       localStorage.setItem(
         "user",
         JSON.stringify(
-          response.data.user
+          res.data.user
         )
       );
 
@@ -55,10 +59,9 @@ const Login = () => {
 
       navigate("/");
     } catch (error) {
-      console.log(error);
-
       toast.error(
-        error.response?.data?.message ||
+        error.response?.data
+          ?.message ||
           "Login failed"
       );
     } finally {
@@ -69,84 +72,70 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6">
       <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 w-full max-w-md">
-        <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold text-white mb-2">
-            CryptoX
-          </h1>
+        <h1 className="text-4xl font-bold text-white mb-2">
+          Welcome Back
+        </h1>
 
-          <p className="text-slate-400">
-            Professional Crypto Exchange
-          </p>
-        </div>
+        <p className="text-slate-400 mb-8">
+          Login to your account
+        </p>
 
         <form
           onSubmit={handleSubmit}
           className="space-y-5"
         >
-          <div>
-            <label className="block text-slate-300 mb-2">
-              Email
-            </label>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={
+              formData.email
+            }
+            onChange={
+              handleChange
+            }
+            required
+            className="w-full bg-slate-800 border border-slate-700 rounded-2xl px-4 py-4 text-white outline-none"
+          />
 
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter your email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full bg-slate-800 text-white p-4 rounded-xl outline-none border border-slate-700 focus:border-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-slate-300 mb-2">
-              Password
-            </label>
-
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter your password"
-              required
-              value={
-                formData.password
-              }
-              onChange={handleChange}
-              className="w-full bg-slate-800 text-white p-4 rounded-xl outline-none border border-slate-700 focus:border-blue-500"
-            />
-          </div>
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={
+              formData.password
+            }
+            onChange={
+              handleChange
+            }
+            required
+            className="w-full bg-slate-800 border border-slate-700 rounded-2xl px-4 py-4 text-white outline-none"
+          />
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 transition text-white py-4 rounded-xl font-semibold"
+            className="w-full bg-blue-600 hover:bg-blue-700 py-4 rounded-2xl font-bold text-white transition"
           >
             {loading
-              ? "Signing In..."
+              ? "Logging in..."
               : "Login"}
           </button>
         </form>
 
-        <div className="text-center mt-5">
-          <Link
-            to="/forgot-password"
-            className="text-blue-400 hover:text-blue-300"
-          >
-            Forgot Password?
-          </Link>
-        </div>
-
-        <div className="text-center mt-6">
-          <p className="text-slate-400">
-            Don&apos;t have an account?
-          </p>
-
+        <div className="mt-6 flex justify-between text-sm">
           <Link
             to="/register"
-            className="text-blue-400 hover:text-blue-300 font-semibold"
+            className="text-blue-400"
           >
             Create Account
+          </Link>
+
+          <Link
+            to="/forgot-password"
+            className="text-blue-400"
+          >
+            Forgot Password?
           </Link>
         </div>
       </div>
