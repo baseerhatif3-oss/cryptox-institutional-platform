@@ -77,6 +77,13 @@ const DashboardLayout =
             </Link>
 
             <Link
+              to="/referrals"
+              className="block bg-orange-600 hover:bg-orange-500 px-5 py-4 rounded-2xl font-semibold transition"
+            >
+              Referrals
+            </Link>
+
+            <Link
               to="/futures"
               className="block bg-slate-800 hover:bg-slate-700 px-5 py-4 rounded-2xl font-semibold transition"
             >

@@ -25,6 +25,8 @@ import AITrading from "./pages/AITrading";
 
 import CopyTrading from "./pages/CopyTrading";
 
+import Referrals from "./pages/Referrals";
+
 import Deposit from "./pages/Deposit";
 
 import Withdraw from "./pages/Withdraw";
@@ -126,6 +128,13 @@ function App() {
             path="copy-trading"
             element={
               <CopyTrading />
+            }
+          />
+
+          <Route
+            path="referrals"
+            element={
+              <Referrals />
             }
           />
 
