@@ -10,6 +10,8 @@ import OrderBook from "../components/OrderBook";
 
 import MarketTrades from "../components/MarketTrades";
 
+import OpenPositions from "../components/OpenPositions";
+
 const coins = [
   {
     coin: "Bitcoin",
@@ -30,6 +32,10 @@ const coins = [
   },
 ];
 
+const leverageOptions = [
+  1, 2, 5, 10, 20, 50,
+];
+
 const Futures = () => {
   const [selectedCoin, setSelectedCoin] =
     useState(coins[0]);
@@ -40,64 +46,122 @@ const Futures = () => {
   const [loading, setLoading] =
     useState(false);
 
-  const handleTrade = async (
-    side
-  ) => {
-    try {
-      if (
-        !amount ||
-        Number(amount) <= 0
-      ) {
-        return toast.error(
-          "Enter valid amount"
+  const [leverage, setLeverage] =
+    useState(10);
+
+  const handleSpotTrade =
+    async (side) => {
+      try {
+        if (
+          !amount ||
+          Number(amount) <= 0
+        ) {
+          return toast.error(
+            "Enter valid amount"
+          );
+        }
+
+        setLoading(true);
+
+        const res =
+          await API.post(
+            "/trade",
+            {
+              coin:
+                selectedCoin.coin,
+
+              symbol:
+                selectedCoin.symbol,
+
+              side,
+
+              amount:
+                Number(amount),
+
+              price:
+                selectedCoin.price,
+            }
+          );
+
+        toast.success(
+          `${side} order executed`
         );
+
+        console.log(
+          res.data
+        );
+
+        setAmount("");
+      } catch (error) {
+        toast.error(
+          error.response?.data
+            ?.message ||
+            "Trade failed"
+        );
+      } finally {
+        setLoading(false);
       }
+    };
 
-      setLoading(true);
+  const handleFuturesPosition =
+    async (side) => {
+      try {
+        if (
+          !amount ||
+          Number(amount) <= 0
+        ) {
+          return toast.error(
+            "Enter valid amount"
+          );
+        }
 
-      const res =
-        await API.post(
-          "/trade",
-          {
-            coin:
-              selectedCoin.coin,
+        setLoading(true);
 
-            symbol:
-              selectedCoin.symbol,
+        const res =
+          await API.post(
+            "/futures/open",
+            {
+              coin:
+                selectedCoin.coin,
 
-            side,
+              symbol:
+                selectedCoin.symbol,
 
-            amount:
-              Number(amount),
+              side,
 
-            price:
-              selectedCoin.price,
-          }
+              amount:
+                Number(amount),
+
+              leverage,
+
+              price:
+                selectedCoin.price,
+            }
+          );
+
+        toast.success(
+          `${side} position opened`
         );
 
-      toast.success(
-        `${side} order executed`
-      );
+        console.log(
+          res.data
+        );
 
-      console.log(
-        res.data
-      );
-
-      setAmount("");
-    } catch (error) {
-      toast.error(
-        error.response?.data
-          ?.message ||
-          "Trade failed"
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+        setAmount("");
+      } catch (error) {
+        toast.error(
+          error.response?.data
+            ?.message ||
+            "Failed to open position"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
 
   return (
     <div className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="max-w-[1600px] mx-auto">
+      <div className="max-w-[1700px] mx-auto">
         {/* HEADER */}
 
         <div className="mb-10">
@@ -106,7 +170,7 @@ const Futures = () => {
           </h1>
 
           <p className="text-slate-400 mt-2 text-lg">
-            Professional crypto
+            Professional derivatives
             trading terminal
           </p>
         </div>
@@ -145,9 +209,9 @@ const Futures = () => {
           ))}
         </div>
 
-        {/* TERMINAL LAYOUT */}
+        {/* TERMINAL */}
 
-        <div className="grid grid-cols-1 xl:grid-cols-4 gap-8 mb-10">
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
           {/* LEFT */}
 
           <div className="xl:col-span-3 space-y-8">
@@ -168,6 +232,10 @@ const Futures = () => {
                 symbol={`${selectedCoin.symbol.toLowerCase()}usdt`}
               />
             </div>
+
+            {/* OPEN POSITIONS */}
+
+            <OpenPositions />
           </div>
 
           {/* RIGHT PANEL */}
@@ -181,7 +249,7 @@ const Futures = () => {
             </h2>
 
             <div className="space-y-6">
-              {/* PRICE */}
+              {/* MARKET PRICE */}
 
               <div className="bg-slate-800 rounded-2xl p-5">
                 <p className="text-slate-400 mb-2">
@@ -192,6 +260,37 @@ const Futures = () => {
                   $
                   {selectedCoin.price.toLocaleString()}
                 </h2>
+              </div>
+
+              {/* LEVERAGE */}
+
+              <div>
+                <label className="block mb-3 text-slate-400">
+                  Leverage
+                </label>
+
+                <div className="grid grid-cols-3 gap-3">
+                  {leverageOptions.map(
+                    (lev) => (
+                      <button
+                        key={lev}
+                        onClick={() =>
+                          setLeverage(
+                            lev
+                          )
+                        }
+                        className={`py-3 rounded-xl font-bold transition ${
+                          leverage ===
+                          lev
+                            ? "bg-blue-600"
+                            : "bg-slate-800"
+                        }`}
+                      >
+                        {lev}x
+                      </button>
+                    )
+                  )}
+                </div>
               </div>
 
               {/* AMOUNT */}
@@ -217,12 +316,12 @@ const Futures = () => {
               {/* TOTAL */}
 
               <div className="bg-slate-800 rounded-2xl p-5">
-                <div className="flex justify-between">
+                <div className="flex justify-between mb-3">
                   <span className="text-slate-400">
-                    Order Total
+                    Position Size
                   </span>
 
-                  <span className="font-bold text-2xl">
+                  <span className="font-bold">
                     $
                     {(
                       Number(
@@ -232,39 +331,80 @@ const Futures = () => {
                     ).toLocaleString()}
                   </span>
                 </div>
+
+                <div className="flex justify-between">
+                  <span className="text-slate-400">
+                    Required Margin
+                  </span>
+
+                  <span className="font-bold text-yellow-400">
+                    $
+                    {(
+                      (Number(
+                        amount || 0
+                      ) *
+                        selectedCoin.price) /
+                      leverage
+                    ).toLocaleString()}
+                  </span>
+                </div>
               </div>
 
-              {/* BUY */}
+              {/* SPOT */}
 
-              <button
-                onClick={() =>
-                  handleTrade(
-                    "BUY"
-                  )
-                }
-                disabled={loading}
-                className="w-full bg-green-600 hover:bg-green-700 py-5 rounded-2xl font-bold text-xl transition"
-              >
-                {loading
-                  ? "Processing..."
-                  : `Buy ${selectedCoin.symbol}`}
-              </button>
+              <div className="grid grid-cols-2 gap-4">
+                <button
+                  onClick={() =>
+                    handleSpotTrade(
+                      "BUY"
+                    )
+                  }
+                  disabled={loading}
+                  className="bg-green-600 hover:bg-green-700 py-4 rounded-2xl font-bold transition"
+                >
+                  Spot Buy
+                </button>
 
-              {/* SELL */}
+                <button
+                  onClick={() =>
+                    handleSpotTrade(
+                      "SELL"
+                    )
+                  }
+                  disabled={loading}
+                  className="bg-red-600 hover:bg-red-700 py-4 rounded-2xl font-bold transition"
+                >
+                  Spot Sell
+                </button>
+              </div>
 
-              <button
-                onClick={() =>
-                  handleTrade(
-                    "SELL"
-                  )
-                }
-                disabled={loading}
-                className="w-full bg-red-600 hover:bg-red-700 py-5 rounded-2xl font-bold text-xl transition"
-              >
-                {loading
-                  ? "Processing..."
-                  : `Sell ${selectedCoin.symbol}`}
-              </button>
+              {/* FUTURES */}
+
+              <div className="grid grid-cols-2 gap-4">
+                <button
+                  onClick={() =>
+                    handleFuturesPosition(
+                      "LONG"
+                    )
+                  }
+                  disabled={loading}
+                  className="bg-emerald-600 hover:bg-emerald-700 py-5 rounded-2xl font-bold text-lg transition"
+                >
+                  Open LONG
+                </button>
+
+                <button
+                  onClick={() =>
+                    handleFuturesPosition(
+                      "SHORT"
+                    )
+                  }
+                  disabled={loading}
+                  className="bg-orange-600 hover:bg-orange-700 py-5 rounded-2xl font-bold text-lg transition"
+                >
+                  Open SHORT
+                </button>
+              </div>
             </div>
           </div>
         </div>
