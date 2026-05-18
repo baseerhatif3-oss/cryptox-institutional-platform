@@ -24,8 +24,10 @@ const DashboardLayout =
         {/* SIDEBAR */}
 
         <div className="w-72 bg-slate-900 border-r border-slate-800 p-6 flex flex-col">
+          {/* LOGO */}
+
           <div className="mb-10">
-            <h1 className="text-3xl font-bold">
+            <h1 className="text-4xl font-bold">
               CryptoX
             </h1>
 
@@ -33,6 +35,8 @@ const DashboardLayout =
               Exchange Platform
             </p>
           </div>
+
+          {/* NAVIGATION */}
 
           <nav className="space-y-4 flex-1">
             <Link
@@ -50,12 +54,21 @@ const DashboardLayout =
             </Link>
 
             <Link
+              to="/deposit"
+              className="block bg-slate-800 hover:bg-slate-700 px-5 py-4 rounded-2xl font-semibold transition"
+            >
+              Deposit Funds
+            </Link>
+
+            <Link
               to="/admin"
               className="block bg-purple-700 hover:bg-purple-600 px-5 py-4 rounded-2xl font-semibold transition"
             >
               Admin Panel
             </Link>
           </nav>
+
+          {/* LOGOUT */}
 
           <button
             onClick={logout}

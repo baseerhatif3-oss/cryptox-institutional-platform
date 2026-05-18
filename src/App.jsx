@@ -19,6 +19,8 @@ import Futures from "./pages/Futures";
 
 import Admin from "./pages/Admin";
 
+import Deposit from "./pages/Deposit";
+
 import ForgotPassword from "./pages/ForgotPassword";
 
 import ResetPassword from "./pages/ResetPassword";
@@ -72,7 +74,7 @@ function App() {
           }
         />
 
-        {/* DASHBOARD */}
+        {/* MAIN */}
 
         <Route
           path="/"
@@ -93,6 +95,13 @@ function App() {
             path="futures"
             element={
               <Futures />
+            }
+          />
+
+          <Route
+            path="deposit"
+            element={
+              <Deposit />
             }
           />
 
