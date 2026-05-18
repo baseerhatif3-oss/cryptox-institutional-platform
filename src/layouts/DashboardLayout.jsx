@@ -55,9 +55,16 @@ const DashboardLayout =
 
             <Link
               to="/deposit"
-              className="block bg-slate-800 hover:bg-slate-700 px-5 py-4 rounded-2xl font-semibold transition"
+              className="block bg-green-700 hover:bg-green-600 px-5 py-4 rounded-2xl font-semibold transition"
             >
               Deposit Funds
+            </Link>
+
+            <Link
+              to="/withdraw"
+              className="block bg-red-700 hover:bg-red-600 px-5 py-4 rounded-2xl font-semibold transition"
+            >
+              Withdraw Funds
             </Link>
 
             <Link
@@ -72,7 +79,7 @@ const DashboardLayout =
 
           <button
             onClick={logout}
-            className="mt-10 bg-red-600 hover:bg-red-700 px-5 py-4 rounded-2xl font-bold transition"
+            className="mt-10 bg-slate-800 hover:bg-slate-700 px-5 py-4 rounded-2xl font-bold transition"
           >
             Logout
           </button>

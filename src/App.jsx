@@ -17,9 +17,11 @@ import Dashboard from "./pages/Dashboard";
 
 import Futures from "./pages/Futures";
 
-import Admin from "./pages/Admin";
-
 import Deposit from "./pages/Deposit";
+
+import Withdraw from "./pages/Withdraw";
+
+import Admin from "./pages/Admin";
 
 import ForgotPassword from "./pages/ForgotPassword";
 
@@ -102,6 +104,13 @@ function App() {
             path="deposit"
             element={
               <Deposit />
+            }
+          />
+
+          <Route
+            path="withdraw"
+            element={
+              <Withdraw />
             }
           />
 
