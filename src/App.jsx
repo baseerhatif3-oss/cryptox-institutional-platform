@@ -29,6 +29,8 @@ import Referrals from "./pages/Referrals";
 
 import Staking from "./pages/Staking";
 
+import P2P from "./pages/P2P";
+
 import Deposit from "./pages/Deposit";
 
 import Withdraw from "./pages/Withdraw";
@@ -145,6 +147,11 @@ function App() {
             element={
               <Staking />
             }
+          />
+
+          <Route
+            path="p2p"
+            element={<P2P />}
           />
 
           <Route

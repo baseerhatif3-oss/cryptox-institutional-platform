@@ -25,7 +25,7 @@ const DashboardLayout =
       <div className="min-h-screen bg-slate-950 text-white flex">
         {/* SIDEBAR */}
 
-        <div className="w-72 bg-slate-900 border-r border-slate-800 p-6 flex flex-col">
+        <div className="w-72 bg-slate-900 border-r border-slate-800 p-6 flex flex-col overflow-y-auto">
           {/* LOGO */}
 
           <div className="mb-10">
@@ -88,6 +88,13 @@ const DashboardLayout =
               className="block bg-emerald-600 hover:bg-emerald-500 px-5 py-4 rounded-2xl font-semibold transition"
             >
               Staking & Earn
+            </Link>
+
+            <Link
+              to="/p2p"
+              className="block bg-indigo-600 hover:bg-indigo-500 px-5 py-4 rounded-2xl font-semibold transition"
+            >
+              P2P Marketplace
             </Link>
 
             <Link
