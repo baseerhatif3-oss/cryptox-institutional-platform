@@ -21,6 +21,8 @@ import Futures from "./pages/Futures";
 
 import Portfolio from "./pages/Portfolio";
 
+import AITrading from "./pages/AITrading";
+
 import Deposit from "./pages/Deposit";
 
 import Withdraw from "./pages/Withdraw";
@@ -105,16 +107,23 @@ function App() {
           />
 
           <Route
-            path="futures"
+            path="portfolio"
             element={
-              <Futures />
+              <Portfolio />
             }
           />
 
           <Route
-            path="portfolio"
+            path="ai-trading"
             element={
-              <Portfolio />
+              <AITrading />
+            }
+          />
+
+          <Route
+            path="futures"
+            element={
+              <Futures />
             }
           />
 

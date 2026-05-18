@@ -34,7 +34,7 @@ const DashboardLayout =
             </h1>
 
             <p className="text-slate-400 mt-2">
-              Professional Exchange
+              AI Powered Exchange
             </p>
           </div>
 
@@ -60,6 +60,13 @@ const DashboardLayout =
               className="block bg-purple-700 hover:bg-purple-600 px-5 py-4 rounded-2xl font-semibold transition"
             >
               Portfolio
+            </Link>
+
+            <Link
+              to="/ai-trading"
+              className="block bg-yellow-600 hover:bg-yellow-500 px-5 py-4 rounded-2xl font-semibold transition"
+            >
+              AI Trading
             </Link>
 
             <Link
@@ -113,7 +120,7 @@ const DashboardLayout =
               </h2>
 
               <p className="text-slate-400">
-                Advanced Trading Platform
+                Advanced AI Trading Platform
               </p>
             </div>
 
