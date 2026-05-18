@@ -6,6 +6,8 @@ import {
 
 import Notifications from "../components/Notifications";
 
+import LiveTicker from "../components/LiveTicker";
+
 const DashboardLayout =
   () => {
     const navigate =
@@ -154,6 +156,10 @@ const DashboardLayout =
 
             <Notifications />
           </div>
+
+          {/* LIVE TICKER */}
+
+          <LiveTicker />
 
           {/* PAGE */}
 
