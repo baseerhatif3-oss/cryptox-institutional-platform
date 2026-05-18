@@ -1,8 +1,8 @@
-import {
-  useState,
-} from "react";
+import { useState } from "react";
 
 import TradingChart from "../components/TradingChart";
+
+import OrderBook from "../components/OrderBook";
 
 const Dashboard = () => {
   const [pair, setPair] =
@@ -44,7 +44,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="max-w-[1700px] mx-auto">
+      <div className="max-w-[1800px] mx-auto">
         {/* HEADER */}
 
         <div className="mb-8">
@@ -53,7 +53,8 @@ const Dashboard = () => {
           </h1>
 
           <p className="text-slate-400 mt-2">
-            Professional crypto trading interface
+            Professional crypto
+            trading interface
           </p>
         </div>
 
@@ -80,20 +81,28 @@ const Dashboard = () => {
           ))}
         </div>
 
-        {/* TERMINAL */}
+        {/* MAIN GRID */}
 
-        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 2xl:grid-cols-5 gap-6">
           {/* CHART */}
 
-          <div className="xl:col-span-3 bg-slate-900 border border-slate-800 rounded-3xl p-4 h-[850px]">
+          <div className="2xl:col-span-3 bg-slate-900 border border-slate-800 rounded-3xl p-4 h-[850px]">
             <TradingChart
+              symbol={pair}
+            />
+          </div>
+
+          {/* ORDERBOOK */}
+
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 h-[850px] overflow-y-auto">
+            <OrderBook
               symbol={pair}
             />
           </div>
 
           {/* ORDER PANEL */}
 
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 h-[850px] overflow-y-auto">
             <h2 className="text-3xl font-bold mb-8">
               Quick Trade
             </h2>
@@ -170,8 +179,94 @@ const Dashboard = () => {
                     0.1%
                   </span>
                 </div>
+
+                <div className="bg-slate-800 rounded-2xl p-4 flex justify-between">
+                  <span className="text-slate-400">
+                    Leverage
+                  </span>
+
+                  <span className="font-bold">
+                    Up To 100x
+                  </span>
+                </div>
+
+                <div className="bg-slate-800 rounded-2xl p-4 flex justify-between">
+                  <span className="text-slate-400">
+                    Status
+                  </span>
+
+                  <span className="font-bold text-blue-400">
+                    Online
+                  </span>
+                </div>
               </div>
             </div>
+
+            {/* QUICK ACTIONS */}
+
+            <div className="mt-10">
+              <h3 className="text-2xl font-bold mb-6">
+                Quick Actions
+              </h3>
+
+              <div className="space-y-4">
+                <button className="w-full bg-blue-600 hover:bg-blue-700 py-4 rounded-2xl font-bold transition">
+                  Open Futures
+                </button>
+
+                <button className="w-full bg-green-600 hover:bg-green-700 py-4 rounded-2xl font-bold transition">
+                  Deposit Funds
+                </button>
+
+                <button className="w-full bg-purple-600 hover:bg-purple-700 py-4 rounded-2xl font-bold transition">
+                  Portfolio
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* FOOTER STATS */}
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+            <p className="text-slate-400 mb-3">
+              24H Volume
+            </p>
+
+            <h2 className="text-3xl font-bold">
+              $12.4B
+            </h2>
+          </div>
+
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+            <p className="text-slate-400 mb-3">
+              Open Interest
+            </p>
+
+            <h2 className="text-3xl font-bold">
+              $4.8B
+            </h2>
+          </div>
+
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+            <p className="text-slate-400 mb-3">
+              Active Traders
+            </p>
+
+            <h2 className="text-3xl font-bold">
+              182K
+            </h2>
+          </div>
+
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+            <p className="text-slate-400 mb-3">
+              Exchange Status
+            </p>
+
+            <h2 className="text-3xl font-bold text-green-400">
+              Online
+            </h2>
           </div>
         </div>
       </div>

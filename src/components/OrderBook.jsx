@@ -4,7 +4,7 @@ import {
 } from "react";
 
 const OrderBook = ({
-  symbol = "btcusdt",
+  symbol,
 }) => {
   const [bids, setBids] =
     useState([]);
@@ -12,47 +12,65 @@ const OrderBook = ({
   const [asks, setAsks] =
     useState([]);
 
-  useEffect(() => {
-    const ws =
-      new WebSocket(
-        `wss://stream.binance.com:9443/ws/${symbol}@depth20@100ms`
-      );
+  const fetchOrderBook =
+    async () => {
+      try {
+        const cleanSymbol =
+          symbol
+            .replace(
+              "BINANCE:",
+              ""
+            )
+            .replace(
+              "/",
+              ""
+            );
 
-    ws.onmessage = (event) => {
-      const data =
-        JSON.parse(
-          event.data
+        const res =
+          await fetch(
+            `https://api.binance.com/api/v3/depth?symbol=${cleanSymbol}&limit=15`
+          );
+
+        const data =
+          await res.json();
+
+        setBids(
+          data.bids || []
         );
 
-      setBids(
-        data.bids?.slice(
-          0,
-          10
-        ) || []
-      );
-
-      setAsks(
-        data.asks?.slice(
-          0,
-          10
-        ) || []
-      );
+        setAsks(
+          data.asks || []
+        );
+      } catch (error) {
+        console.log(error);
+      }
     };
 
-    return () => ws.close();
+  useEffect(() => {
+    fetchOrderBook();
+
+    const interval =
+      setInterval(() => {
+        fetchOrderBook();
+      }, 2000);
+
+    return () =>
+      clearInterval(
+        interval
+      );
   }, [symbol]);
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-      <h2 className="text-3xl font-bold mb-8 text-white">
-        Live Order Book
+    <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 h-full">
+      <h2 className="text-3xl font-bold mb-6">
+        Order Book
       </h2>
 
       <div className="grid grid-cols-2 gap-6">
         {/* BIDS */}
 
         <div>
-          <h3 className="text-green-400 font-bold text-xl mb-4">
+          <h3 className="text-green-400 font-bold mb-4">
             Bids
           </h3>
 
@@ -73,7 +91,7 @@ const OrderBook = ({
                     ).toLocaleString()}
                   </span>
 
-                  <span className="text-white">
+                  <span>
                     {Number(
                       bid[1]
                     ).toFixed(4)}
@@ -87,7 +105,7 @@ const OrderBook = ({
         {/* ASKS */}
 
         <div>
-          <h3 className="text-red-400 font-bold text-xl mb-4">
+          <h3 className="text-red-400 font-bold mb-4">
             Asks
           </h3>
 
@@ -108,7 +126,7 @@ const OrderBook = ({
                     ).toLocaleString()}
                   </span>
 
-                  <span className="text-white">
+                  <span>
                     {Number(
                       ask[1]
                     ).toFixed(4)}
