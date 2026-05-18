@@ -13,6 +13,8 @@ import Login from "./pages/Login";
 
 import Register from "./pages/Register";
 
+import VerifyOTP from "./pages/VerifyOTP";
+
 import Dashboard from "./pages/Dashboard";
 
 import Markets from "./pages/Markets";
@@ -74,6 +76,13 @@ function App() {
         <Route
           path="/register"
           element={<Register />}
+        />
+
+        <Route
+          path="/verify-otp"
+          element={
+            <VerifyOTP />
+          }
         />
 
         <Route
