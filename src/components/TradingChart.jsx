@@ -3,19 +3,18 @@ import {
 } from "react-ts-tradingview-widgets";
 
 const TradingChart = ({
-  symbol = "BINANCE:BTCUSDT",
+  symbol,
 }) => {
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden">
+    <div className="w-full h-full rounded-3xl overflow-hidden">
       <AdvancedRealTimeChart
         theme="dark"
-        symbol={symbol}
         autosize
+        symbol={symbol}
         interval="15"
         timezone="Etc/UTC"
-        hide_top_toolbar={false}
-        hide_legend={false}
-        allow_symbol_change
+        hide_side_toolbar={false}
+        allow_symbol_change={false}
         withdateranges
       />
     </div>

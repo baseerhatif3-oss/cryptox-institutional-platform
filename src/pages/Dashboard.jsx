@@ -1,307 +1,176 @@
 import {
-  useEffect,
   useState,
 } from "react";
 
-import {
-  Wallet,
-  TrendingUp,
-  Activity,
-  Bitcoin,
-} from "lucide-react";
-
-import API from "../api/axios";
-
-import LivePrices from "../components/LivePrices";
+import TradingChart from "../components/TradingChart";
 
 const Dashboard = () => {
-  const [user, setUser] =
-    useState(null);
-
-  const [trades, setTrades] =
-    useState([]);
-
-  const [loading, setLoading] =
-    useState(true);
-
-  const fetchData =
-    async () => {
-      try {
-        const [
-          profileRes,
-          tradesRes,
-        ] = await Promise.all([
-          API.get(
-            "/user/profile"
-          ),
-
-          API.get("/trades"),
-        ]);
-
-        setUser(
-          profileRes.data
-        );
-
-        setTrades(
-          tradesRes.data
-        );
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white text-2xl">
-        Loading dashboard...
-      </div>
+  const [pair, setPair] =
+    useState(
+      "BINANCE:BTCUSDT"
     );
-  }
 
-  const balances =
-    user?.balances || {};
-
-  const totalValue =
-    (balances.USD || 0) +
-    (balances.BTC || 0) *
-      105000 +
-    (balances.ETH || 0) *
-      6200 +
-    (balances.SOL || 0) *
-      210;
-
-  const marketData = [
+  const pairs = [
     {
-      coin: "Bitcoin",
-      symbol: "BTC",
-      price: 105000,
-      change: "+4.8%",
+      name: "BTC/USDT",
+      value:
+        "BINANCE:BTCUSDT",
     },
 
     {
-      coin: "Ethereum",
-      symbol: "ETH",
-      price: 6200,
-      change: "+3.2%",
+      name: "ETH/USDT",
+      value:
+        "BINANCE:ETHUSDT",
     },
 
     {
-      coin: "Solana",
-      symbol: "SOL",
-      price: 210,
-      change: "+8.4%",
+      name: "SOL/USDT",
+      value:
+        "BINANCE:SOLUSDT",
+    },
+
+    {
+      name: "BNB/USDT",
+      value:
+        "BINANCE:BNBUSDT",
+    },
+
+    {
+      name: "XRP/USDT",
+      value:
+        "BINANCE:XRPUSDT",
     },
   ];
 
   return (
     <div className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[1700px] mx-auto">
         {/* HEADER */}
 
-        <div className="mb-10">
+        <div className="mb-8">
           <h1 className="text-5xl font-bold">
-            Welcome Back
+            Trading Terminal
           </h1>
 
-          <p className="text-slate-400 mt-2 text-lg">
-            Professional crypto
-            exchange dashboard
+          <p className="text-slate-400 mt-2">
+            Professional crypto trading interface
           </p>
         </div>
 
-        {/* STATS */}
+        {/* PAIRS */}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-10">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <Wallet
-              size={38}
-              className="text-green-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              Portfolio Value
-            </p>
-
-            <h2 className="text-5xl font-bold mt-4">
-              $
-              {totalValue.toLocaleString()}
-            </h2>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <Bitcoin
-              size={38}
-              className="text-orange-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              BTC Holdings
-            </p>
-
-            <h2 className="text-5xl font-bold mt-4">
-              {balances.BTC || 0}
-            </h2>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <TrendingUp
-              size={38}
-              className="text-blue-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              Total Trades
-            </p>
-
-            <h2 className="text-5xl font-bold mt-4">
-              {trades.length}
-            </h2>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <Activity
-              size={38}
-              className="text-purple-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              Exchange Status
-            </p>
-
-            <h2 className="text-5xl font-bold mt-4 text-green-400">
-              Online
-            </h2>
-          </div>
-        </div>
-
-        {/* LIVE PRICES */}
-
-        <div className="mb-10">
-          <h2 className="text-3xl font-bold mb-6">
-            Live Market Prices
-          </h2>
-
-          <LivePrices />
-        </div>
-
-        {/* MARKET + RECENT TRADES */}
-
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-          {/* MARKET */}
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
-            <h2 className="text-3xl font-bold mb-8">
-              Market Overview
-            </h2>
-
-            <div className="space-y-5">
-              {marketData.map(
-                (market) => (
-                  <div
-                    key={
-                      market.symbol
-                    }
-                    className="bg-slate-800 rounded-2xl p-5 flex items-center justify-between"
-                  >
-                    <div>
-                      <h3 className="text-2xl font-bold">
-                        {
-                          market.coin
-                        }
-                      </h3>
-
-                      <p className="text-slate-400">
-                        {
-                          market.symbol
-                        }
-                      </p>
-                    </div>
-
-                    <div className="text-right">
-                      <h2 className="text-3xl font-bold">
-                        $
-                        {market.price.toLocaleString()}
-                      </h2>
-
-                      <p className="text-green-400 font-bold">
-                        {
-                          market.change
-                        }
-                      </p>
-                    </div>
-                  </div>
+        <div className="flex flex-wrap gap-4 mb-8">
+          {pairs.map((p) => (
+            <button
+              key={p.value}
+              onClick={() =>
+                setPair(
+                  p.value
                 )
-              )}
-            </div>
+              }
+              className={`px-5 py-3 rounded-2xl font-bold transition ${
+                pair ===
+                p.value
+                  ? "bg-blue-600"
+                  : "bg-slate-800 hover:bg-slate-700"
+              }`}
+            >
+              {p.name}
+            </button>
+          ))}
+        </div>
+
+        {/* TERMINAL */}
+
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+          {/* CHART */}
+
+          <div className="xl:col-span-3 bg-slate-900 border border-slate-800 rounded-3xl p-4 h-[850px]">
+            <TradingChart
+              symbol={pair}
+            />
           </div>
 
-          {/* RECENT TRADES */}
+          {/* ORDER PANEL */}
 
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
             <h2 className="text-3xl font-bold mb-8">
-              Recent Trades
+              Quick Trade
             </h2>
 
             <div className="space-y-5">
-              {trades.length ===
-              0 ? (
-                <div className="text-slate-400">
-                  No trades yet
+              <input
+                type="number"
+                placeholder="Amount"
+                className="w-full bg-slate-800 border border-slate-700 rounded-2xl px-5 py-4 outline-none"
+              />
+
+              <input
+                type="number"
+                placeholder="Price"
+                className="w-full bg-slate-800 border border-slate-700 rounded-2xl px-5 py-4 outline-none"
+              />
+
+              <button className="w-full bg-green-600 hover:bg-green-700 py-4 rounded-2xl font-bold text-xl transition">
+                Buy
+              </button>
+
+              <button className="w-full bg-red-600 hover:bg-red-700 py-4 rounded-2xl font-bold text-xl transition">
+                Sell
+              </button>
+            </div>
+
+            {/* MARKET INFO */}
+
+            <div className="mt-10">
+              <h3 className="text-2xl font-bold mb-6">
+                Market Stats
+              </h3>
+
+              <div className="space-y-4">
+                <div className="bg-slate-800 rounded-2xl p-4 flex justify-between">
+                  <span className="text-slate-400">
+                    Pair
+                  </span>
+
+                  <span className="font-bold">
+                    {pair.replace(
+                      "BINANCE:",
+                      ""
+                    )}
+                  </span>
                 </div>
-              ) : (
-                trades
-                  .slice(0, 5)
-                  .map(
-                    (trade) => (
-                      <div
-                        key={
-                          trade._id
-                        }
-                        className="bg-slate-800 rounded-2xl p-5 flex items-center justify-between"
-                      >
-                        <div>
-                          <h3 className="text-2xl font-bold">
-                            {
-                              trade.coin
-                            }
-                          </h3>
 
-                          <p className="text-slate-400">
-                            {
-                              trade.symbol
-                            }
-                          </p>
-                        </div>
+                <div className="bg-slate-800 rounded-2xl p-4 flex justify-between">
+                  <span className="text-slate-400">
+                    Exchange
+                  </span>
 
-                        <div className="text-right">
-                          <div
-                            className={`font-bold text-xl ${
-                              trade.side ===
-                              "BUY"
-                                ? "text-green-400"
-                                : "text-red-400"
-                            }`}
-                          >
-                            {
-                              trade.side
-                            }
-                          </div>
+                  <span className="font-bold">
+                    Binance
+                  </span>
+                </div>
 
-                          <p className="text-slate-400">
-                            $
-                            {trade.total.toLocaleString()}
-                          </p>
-                        </div>
-                      </div>
-                    )
-                  )
-              )}
+                <div className="bg-slate-800 rounded-2xl p-4 flex justify-between">
+                  <span className="text-slate-400">
+                    Market
+                  </span>
+
+                  <span className="font-bold text-green-400">
+                    Active
+                  </span>
+                </div>
+
+                <div className="bg-slate-800 rounded-2xl p-4 flex justify-between">
+                  <span className="text-slate-400">
+                    Trading Fee
+                  </span>
+
+                  <span className="font-bold">
+                    0.1%
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
