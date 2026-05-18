@@ -8,6 +8,8 @@ import TradingChart from "../components/TradingChart";
 
 import OrderBook from "../components/OrderBook";
 
+import MarketTrades from "../components/MarketTrades";
+
 const coins = [
   {
     coin: "Bitcoin",
@@ -95,7 +97,7 @@ const Futures = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[1600px] mx-auto">
         {/* HEADER */}
 
         <div className="mb-10">
@@ -143,87 +145,97 @@ const Futures = () => {
           ))}
         </div>
 
-        {/* TRADINGVIEW CHART */}
+        {/* TERMINAL LAYOUT */}
 
-        <div className="mb-10">
-          <TradingChart
-            symbol={`BINANCE:${selectedCoin.symbol}USDT`}
-          />
-        </div>
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-8 mb-10">
+          {/* LEFT */}
 
-        {/* ORDERBOOK */}
+          <div className="xl:col-span-3 space-y-8">
+            {/* CHART */}
 
-        <div className="mb-10">
-          <OrderBook
-            symbol={`${selectedCoin.symbol.toLowerCase()}usdt`}
-          />
-        </div>
+            <TradingChart
+              symbol={`BINANCE:${selectedCoin.symbol}USDT`}
+            />
 
-        {/* TRADING PANEL */}
+            {/* ORDERBOOK + MARKET TRADES */}
 
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
-          <h2 className="text-3xl font-bold mb-8">
-            Trade{" "}
-            {
-              selectedCoin.symbol
-            }
-          </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <OrderBook
+                symbol={`${selectedCoin.symbol.toLowerCase()}usdt`}
+              />
 
-          <div className="space-y-6">
-            {/* AMOUNT */}
-
-            <div>
-              <label className="block mb-3 text-slate-400">
-                Amount
-              </label>
-
-              <input
-                type="number"
-                value={amount}
-                onChange={(e) =>
-                  setAmount(
-                    e.target.value
-                  )
-                }
-                placeholder="Enter amount"
-                className="w-full bg-slate-800 border border-slate-700 rounded-2xl px-5 py-4 text-white outline-none"
+              <MarketTrades
+                symbol={`${selectedCoin.symbol.toLowerCase()}usdt`}
               />
             </div>
+          </div>
 
-            {/* DETAILS */}
+          {/* RIGHT PANEL */}
 
-            <div className="bg-slate-800 rounded-2xl p-5">
-              <div className="flex justify-between mb-3">
-                <span className="text-slate-400">
-                  Price
-                </span>
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 h-fit sticky top-6">
+            <h2 className="text-3xl font-bold mb-8">
+              Trade{" "}
+              {
+                selectedCoin.symbol
+              }
+            </h2>
 
-                <span>
+            <div className="space-y-6">
+              {/* PRICE */}
+
+              <div className="bg-slate-800 rounded-2xl p-5">
+                <p className="text-slate-400 mb-2">
+                  Market Price
+                </p>
+
+                <h2 className="text-4xl font-bold">
                   $
                   {selectedCoin.price.toLocaleString()}
-                </span>
+                </h2>
               </div>
 
-              <div className="flex justify-between">
-                <span className="text-slate-400">
-                  Total
-                </span>
+              {/* AMOUNT */}
 
-                <span className="font-bold text-xl">
-                  $
-                  {(
-                    Number(
-                      amount || 0
-                    ) *
-                    selectedCoin.price
-                  ).toLocaleString()}
-                </span>
+              <div>
+                <label className="block mb-3 text-slate-400">
+                  Amount
+                </label>
+
+                <input
+                  type="number"
+                  value={amount}
+                  onChange={(e) =>
+                    setAmount(
+                      e.target.value
+                    )
+                  }
+                  placeholder="Enter amount"
+                  className="w-full bg-slate-800 border border-slate-700 rounded-2xl px-5 py-4 text-white outline-none"
+                />
               </div>
-            </div>
 
-            {/* BUY / SELL */}
+              {/* TOTAL */}
 
-            <div className="grid grid-cols-2 gap-6">
+              <div className="bg-slate-800 rounded-2xl p-5">
+                <div className="flex justify-between">
+                  <span className="text-slate-400">
+                    Order Total
+                  </span>
+
+                  <span className="font-bold text-2xl">
+                    $
+                    {(
+                      Number(
+                        amount || 0
+                      ) *
+                      selectedCoin.price
+                    ).toLocaleString()}
+                  </span>
+                </div>
+              </div>
+
+              {/* BUY */}
+
               <button
                 onClick={() =>
                   handleTrade(
@@ -231,12 +243,14 @@ const Futures = () => {
                   )
                 }
                 disabled={loading}
-                className="bg-green-600 hover:bg-green-700 py-5 rounded-2xl font-bold text-xl transition"
+                className="w-full bg-green-600 hover:bg-green-700 py-5 rounded-2xl font-bold text-xl transition"
               >
                 {loading
                   ? "Processing..."
-                  : "Buy"}
+                  : `Buy ${selectedCoin.symbol}`}
               </button>
+
+              {/* SELL */}
 
               <button
                 onClick={() =>
@@ -245,11 +259,11 @@ const Futures = () => {
                   )
                 }
                 disabled={loading}
-                className="bg-red-600 hover:bg-red-700 py-5 rounded-2xl font-bold text-xl transition"
+                className="w-full bg-red-600 hover:bg-red-700 py-5 rounded-2xl font-bold text-xl transition"
               >
                 {loading
                   ? "Processing..."
-                  : "Sell"}
+                  : `Sell ${selectedCoin.symbol}`}
               </button>
             </div>
           </div>
