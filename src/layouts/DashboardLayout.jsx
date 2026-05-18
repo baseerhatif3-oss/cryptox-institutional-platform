@@ -84,6 +84,13 @@ const DashboardLayout =
             </Link>
 
             <Link
+              to="/staking"
+              className="block bg-emerald-600 hover:bg-emerald-500 px-5 py-4 rounded-2xl font-semibold transition"
+            >
+              Staking & Earn
+            </Link>
+
+            <Link
               to="/futures"
               className="block bg-slate-800 hover:bg-slate-700 px-5 py-4 rounded-2xl font-semibold transition"
             >

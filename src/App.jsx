@@ -27,6 +27,8 @@ import CopyTrading from "./pages/CopyTrading";
 
 import Referrals from "./pages/Referrals";
 
+import Staking from "./pages/Staking";
+
 import Deposit from "./pages/Deposit";
 
 import Withdraw from "./pages/Withdraw";
@@ -135,6 +137,13 @@ function App() {
             path="referrals"
             element={
               <Referrals />
+            }
+          />
+
+          <Route
+            path="staking"
+            element={
+              <Staking />
             }
           />
 

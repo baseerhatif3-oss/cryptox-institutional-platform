@@ -1,115 +1,38 @@
-import { useState } from "react";
-
-import {
-  Coins,
-  Lock,
-  TrendingUp,
-} from "lucide-react";
-
-import toast from "react-hot-toast";
-
 const stakingPools = [
   {
-    id: 1,
     coin: "BTC",
-    apy: "4.2%",
+    apy: "4.5%",
     duration: "30 Days",
-    min: 100,
-    color:
-      "from-yellow-500 to-orange-500",
+    min: "0.001 BTC",
+    users: "12,842",
   },
 
   {
-    id: 2,
     coin: "ETH",
     apy: "6.8%",
     duration: "60 Days",
-    min: 50,
-    color:
-      "from-blue-500 to-cyan-500",
+    min: "0.05 ETH",
+    users: "18,204",
   },
 
   {
-    id: 3,
     coin: "SOL",
-    apy: "12.4%",
-    duration: "90 Days",
-    min: 25,
-    color:
-      "from-purple-500 to-pink-500",
+    apy: "9.2%",
+    duration: "15 Days",
+    min: "2 SOL",
+    users: "9,402",
   },
 
   {
-    id: 4,
     coin: "BNB",
-    apy: "8.1%",
+    apy: "7.4%",
     duration: "45 Days",
-    min: 40,
-    color:
-      "from-amber-500 to-yellow-500",
+    min: "0.2 BNB",
+    users: "7,118",
   },
 ];
 
 const Staking = () => {
-  const [stakes, setStakes] =
-    useState(
-      JSON.parse(
-        localStorage.getItem(
-          "stakes"
-        )
-      ) || []
-    );
-
-  const handleStake = (
-    pool
-  ) => {
-    const amount = prompt(
-      `Enter amount to stake in ${pool.coin}`
-    );
-
-    if (
-      !amount ||
-      Number(amount) <= 0
-    ) {
-      return toast.error(
-        "Invalid amount"
-      );
-    }
-
-    const newStake = {
-      id: Date.now(),
-
-      coin: pool.coin,
-
-      amount,
-
-      apy: pool.apy,
-
-      duration:
-        pool.duration,
-
-      rewards: (
-        Number(amount) * 0.12
-      ).toFixed(2),
-    };
-
-    const updated = [
-      newStake,
-      ...stakes,
-    ];
-
-    setStakes(updated);
-
-    localStorage.setItem(
-      "stakes",
-      JSON.stringify(updated)
-    );
-
-    toast.success(
-      `${pool.coin} staked successfully`
-    );
-  };
-
   return (
     <div className="min-h-screen bg-slate-950 text-white p-6">
       <div className="max-w-7xl mx-auto">
@@ -117,232 +40,148 @@ const Staking = () => {
 
         <div className="mb-10">
           <h1 className="text-5xl font-bold">
-            Crypto Staking
+            Staking & Earn
           </h1>
 
-          <p className="text-slate-400 mt-3 text-lg">
-            Earn passive rewards by
-            staking your crypto assets.
+          <p className="text-slate-400 mt-2">
+            Earn passive income from your crypto assets
           </p>
         </div>
 
-        {/* STATS */}
+        {/* OVERVIEW */}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <Coins
-              size={40}
-              className="text-yellow-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              Total Staked
+            <p className="text-slate-400 mb-3">
+              Total Value Locked
             </p>
 
-            <h2 className="text-4xl font-bold mt-2">
-              $
-              {stakes
-                .reduce(
-                  (
-                    total,
-                    stake
-                  ) =>
-                    total +
-                    Number(
-                      stake.amount
-                    ),
-                  0
-                )
-                .toLocaleString()}
+            <h2 className="text-4xl font-bold">
+              $128M
             </h2>
           </div>
 
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <TrendingUp
-              size={40}
-              className="text-green-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              Estimated Rewards
+            <p className="text-slate-400 mb-3">
+              Avg APY
             </p>
 
-            <h2 className="text-4xl font-bold mt-2 text-green-400">
-              $
-              {stakes
-                .reduce(
-                  (
-                    total,
-                    stake
-                  ) =>
-                    total +
-                    Number(
-                      stake.rewards
-                    ),
-                  0
-                )
-                .toFixed(2)}
+            <h2 className="text-4xl font-bold text-green-400">
+              6.9%
             </h2>
           </div>
 
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <Lock
-              size={40}
-              className="text-blue-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              Active Stakes
+            <p className="text-slate-400 mb-3">
+              Active Stakers
             </p>
 
-            <h2 className="text-4xl font-bold mt-2">
-              {stakes.length}
+            <h2 className="text-4xl font-bold text-blue-400">
+              84K
+            </h2>
+          </div>
+
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+            <p className="text-slate-400 mb-3">
+              Rewards Paid
+            </p>
+
+            <h2 className="text-4xl font-bold text-yellow-400">
+              $18M
             </h2>
           </div>
         </div>
 
-        {/* STAKING POOLS */}
+        {/* POOLS */}
 
-        <div className="mb-12">
-          <h2 className="text-3xl font-bold mb-8">
-            Staking Pools
-          </h2>
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+          {stakingPools.map(
+            (pool, index) => (
+              <div
+                key={index}
+                className="bg-slate-900 border border-slate-800 rounded-3xl p-8"
+              >
+                {/* HEADER */}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-            {stakingPools.map(
-              (pool) => (
-                <div
-                  key={pool.id}
-                  className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden"
-                >
-                  <div
-                    className={`h-3 bg-gradient-to-r ${pool.color}`}
-                  />
-
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-6">
-                      <h3 className="text-3xl font-bold">
-                        {pool.coin}
-                      </h3>
-
-                      <div className="bg-slate-800 px-3 py-1 rounded-xl text-sm">
-                        {pool.duration}
-                      </div>
-                    </div>
-
-                    <div className="space-y-4 mb-6">
-                      <div>
-                        <p className="text-slate-400">
-                          APY
-                        </p>
-
-                        <h4 className="text-4xl font-bold text-green-400">
-                          {pool.apy}
-                        </h4>
-                      </div>
-
-                      <div>
-                        <p className="text-slate-400">
-                          Minimum Stake
-                        </p>
-
-                        <h4 className="text-xl font-bold">
-                          $
-                          {pool.min}
-                        </h4>
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={() =>
-                        handleStake(
-                          pool
-                        )
-                      }
-                      className="w-full bg-blue-600 hover:bg-blue-700 py-4 rounded-2xl font-bold transition"
-                    >
-                      Stake Now
-                    </button>
-                  </div>
-                </div>
-              )
-            )}
-          </div>
-        </div>
-
-        {/* ACTIVE STAKES */}
-
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-          <h2 className="text-3xl font-bold mb-8">
-            Active Stakes
-          </h2>
-
-          {stakes.length === 0 ? (
-            <div className="text-slate-400">
-              No active stakes yet.
-            </div>
-          ) : (
-            <div className="space-y-5">
-              {stakes.map((stake) => (
-                <div
-                  key={stake.id}
-                  className="bg-slate-800 rounded-2xl p-5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6"
-                >
+                <div className="flex items-center justify-between mb-8">
                   <div>
-                    <h3 className="text-2xl font-bold">
-                      {stake.coin}
-                    </h3>
+                    <h2 className="text-4xl font-bold">
+                      {pool.coin}
+                    </h2>
 
                     <p className="text-slate-400 mt-1">
+                      Flexible Earn Pool
+                    </p>
+                  </div>
+
+                  <div className="bg-green-500/20 text-green-400 px-5 py-3 rounded-2xl font-bold text-2xl">
+                    {pool.apy}
+                  </div>
+                </div>
+
+                {/* STATS */}
+
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                  <div className="bg-slate-800 rounded-2xl p-5">
+                    <p className="text-slate-400 mb-2">
+                      Duration
+                    </p>
+
+                    <h3 className="text-2xl font-bold">
                       {
-                        stake.duration
+                        pool.duration
                       }
-                    </p>
+                    </h3>
                   </div>
 
-                  <div>
-                    <p className="text-slate-400">
-                      Amount
+                  <div className="bg-slate-800 rounded-2xl p-5">
+                    <p className="text-slate-400 mb-2">
+                      Minimum
                     </p>
 
-                    <h4 className="text-xl font-bold">
-                      $
-                      {
-                        stake.amount
-                      }
-                    </h4>
+                    <h3 className="text-2xl font-bold">
+                      {pool.min}
+                    </h3>
                   </div>
 
-                  <div>
-                    <p className="text-slate-400">
-                      APY
+                  <div className="bg-slate-800 rounded-2xl p-5 col-span-2">
+                    <p className="text-slate-400 mb-2">
+                      Active Users
                     </p>
 
-                    <h4 className="text-xl font-bold text-green-400">
-                      {stake.apy}
-                    </h4>
+                    <h3 className="text-2xl font-bold">
+                      {pool.users}
+                    </h3>
                   </div>
+                </div>
 
-                  <div>
-                    <p className="text-slate-400">
-                      Estimated Rewards
-                    </p>
+                {/* ACTIONS */}
 
-                    <h4 className="text-xl font-bold text-yellow-400">
-                      $
-                      {
-                        stake.rewards
-                      }
-                    </h4>
-                  </div>
+                <div className="flex gap-4">
+                  <button className="flex-1 bg-green-600 hover:bg-green-700 py-4 rounded-2xl font-bold text-xl transition">
+                    Stake Now
+                  </button>
 
-                  <button className="bg-red-600 hover:bg-red-700 px-6 py-3 rounded-xl font-semibold">
-                    Unstake
+                  <button className="flex-1 bg-slate-800 hover:bg-slate-700 py-4 rounded-2xl font-bold text-xl transition">
+                    Learn More
                   </button>
                 </div>
-              ))}
-            </div>
+              </div>
+            )
           )}
+        </div>
+
+        {/* INFO */}
+
+        <div className="mt-10 bg-gradient-to-r from-green-600 to-emerald-700 rounded-3xl p-10">
+          <h2 className="text-4xl font-bold mb-4">
+            Grow Your Crypto Passively
+          </h2>
+
+          <p className="text-xl text-white/90 leading-8 max-w-4xl">
+            Stake supported cryptocurrencies and earn rewards daily.
+            Flexible and locked staking pools available with competitive APY rates.
+          </p>
         </div>
       </div>
     </div>
