@@ -4,6 +4,8 @@ import {
   useNavigate,
 } from "react-router-dom";
 
+import Notifications from "../components/Notifications";
+
 const DashboardLayout =
   () => {
     const navigate =
@@ -85,10 +87,32 @@ const DashboardLayout =
           </button>
         </div>
 
-        {/* MAIN CONTENT */}
+        {/* MAIN AREA */}
 
-        <div className="flex-1 overflow-y-auto">
-          <Outlet />
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {/* TOPBAR */}
+
+          <div className="h-24 border-b border-slate-800 bg-slate-900 px-8 flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold">
+                Crypto Exchange
+              </h2>
+
+              <p className="text-slate-400">
+                Professional Trading Platform
+              </p>
+            </div>
+
+            {/* NOTIFICATIONS */}
+
+            <Notifications />
+          </div>
+
+          {/* PAGE CONTENT */}
+
+          <div className="flex-1 overflow-y-auto">
+            <Outlet />
+          </div>
         </div>
       </div>
     );
