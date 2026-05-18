@@ -12,28 +12,7 @@ import {
 
 import API from "../api/axios";
 
-const marketData = [
-  {
-    coin: "Bitcoin",
-    symbol: "BTC",
-    price: 105000,
-    change: "+4.8%",
-  },
-
-  {
-    coin: "Ethereum",
-    symbol: "ETH",
-    price: 6200,
-    change: "+3.2%",
-  },
-
-  {
-    coin: "Solana",
-    symbol: "SOL",
-    price: 210,
-    change: "+8.4%",
-  },
-];
+import LivePrices from "../components/LivePrices";
 
 const Dashboard = () => {
   const [user, setUser] =
@@ -96,6 +75,29 @@ const Dashboard = () => {
       6200 +
     (balances.SOL || 0) *
       210;
+
+  const marketData = [
+    {
+      coin: "Bitcoin",
+      symbol: "BTC",
+      price: 105000,
+      change: "+4.8%",
+    },
+
+    {
+      coin: "Ethereum",
+      symbol: "ETH",
+      price: 6200,
+      change: "+3.2%",
+    },
+
+    {
+      coin: "Solana",
+      symbol: "SOL",
+      price: 210,
+      change: "+8.4%",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-slate-950 text-white p-6">
@@ -178,6 +180,16 @@ const Dashboard = () => {
           </div>
         </div>
 
+        {/* LIVE PRICES */}
+
+        <div className="mb-10">
+          <h2 className="text-3xl font-bold mb-6">
+            Live Market Prices
+          </h2>
+
+          <LivePrices />
+        </div>
+
         {/* MARKET + RECENT TRADES */}
 
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
@@ -185,7 +197,7 @@ const Dashboard = () => {
 
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
             <h2 className="text-3xl font-bold mb-8">
-              Live Markets
+              Market Overview
             </h2>
 
             <div className="space-y-5">
