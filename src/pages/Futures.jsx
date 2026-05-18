@@ -6,6 +6,8 @@ import API from "../api/axios";
 
 import TradingChart from "../components/TradingChart";
 
+import OrderBook from "../components/OrderBook";
+
 const coins = [
   {
     coin: "Bitcoin",
@@ -107,7 +109,7 @@ const Futures = () => {
           </p>
         </div>
 
-        {/* COINS */}
+        {/* COIN SELECTOR */}
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
           {coins.map((coin) => (
@@ -146,6 +148,14 @@ const Futures = () => {
         <div className="mb-10">
           <TradingChart
             symbol={`BINANCE:${selectedCoin.symbol}USDT`}
+          />
+        </div>
+
+        {/* ORDERBOOK */}
+
+        <div className="mb-10">
+          <OrderBook
+            symbol={`${selectedCoin.symbol.toLowerCase()}usdt`}
           />
         </div>
 
@@ -211,7 +221,7 @@ const Futures = () => {
               </div>
             </div>
 
-            {/* BUTTONS */}
+            {/* BUY / SELL */}
 
             <div className="grid grid-cols-2 gap-6">
               <button
