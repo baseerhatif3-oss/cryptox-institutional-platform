@@ -1,337 +1,77 @@
 import {
+  Link,
   Outlet,
-  NavLink,
   useNavigate,
 } from "react-router-dom";
 
-import {
-  LayoutDashboard,
-  Wallet,
-  PieChart,
-  CandlestickChart,
-  Copy,
-  Coins,
-  Image,
-  Users,
-  Newspaper,
-  Rocket,
-  ArrowLeftRight,
-  User,
-  LogOut,
-  ClipboardList,
-  Star,
-  Menu,
-  X,
-  Bell,
-  Activity,
-  ShieldCheck,
-} from "lucide-react";
+const DashboardLayout =
+  () => {
+    const navigate =
+      useNavigate();
 
-import { useState } from "react";
+    const logout = () => {
+      localStorage.removeItem(
+        "token"
+      );
 
-import NotificationPanel from "../components/NotificationPanel";
+      navigate(
+        "/login"
+      );
+    };
 
-import { useNotifications } from "../context/NotificationContext";
+    return (
+      <div className="min-h-screen bg-slate-950 text-white flex">
+        {/* SIDEBAR */}
 
-const DashboardLayout = () => {
-  const navigate = useNavigate();
+        <div className="w-72 bg-slate-900 border-r border-slate-800 p-6 flex flex-col">
+          <div className="mb-10">
+            <h1 className="text-3xl font-bold">
+              CryptoX
+            </h1>
 
-  const [sidebarOpen, setSidebarOpen] =
-    useState(false);
+            <p className="text-slate-400 mt-2">
+              Exchange Platform
+            </p>
+          </div>
 
-  const [notificationOpen, setNotificationOpen] =
-    useState(false);
-
-  const { notifications } =
-    useNotifications();
-
-  const user = localStorage.getItem(
-    "user"
-  )
-    ? JSON.parse(
-        localStorage.getItem("user")
-      )
-    : null;
-
-  const menuItems = [
-    {
-      name: "Dashboard",
-      path: "/",
-      icon: (
-        <LayoutDashboard size={20} />
-      ),
-    },
-
-    {
-      name: "Wallet",
-      path: "/wallet",
-      icon: <Wallet size={20} />,
-    },
-
-    {
-      name: "Portfolio",
-      path: "/portfolio",
-      icon: <PieChart size={20} />,
-    },
-
-    {
-      name: "Futures",
-      path: "/futures",
-      icon: (
-        <CandlestickChart size={20} />
-      ),
-    },
-
-    {
-      name: "Copy Trading",
-      path: "/copy-trading",
-      icon: <Copy size={20} />,
-    },
-
-    {
-      name: "Staking",
-      path: "/staking",
-      icon: <Coins size={20} />,
-    },
-
-    {
-      name: "NFT Marketplace",
-      path: "/nft-marketplace",
-      icon: <Image size={20} />,
-    },
-
-    {
-      name: "P2P Trading",
-      path: "/p2p-trading",
-      icon: <Users size={20} />,
-    },
-
-    {
-      name: "Crypto News",
-      path: "/news",
-      icon: (
-        <Newspaper size={20} />
-      ),
-    },
-
-    {
-      name: "Launchpad",
-      path: "/launchpad",
-      icon: <Rocket size={20} />,
-    },
-
-    {
-      name: "Transactions",
-      path: "/transactions",
-      icon: (
-        <ArrowLeftRight size={20} />
-      ),
-    },
-
-    {
-      name: "Open Orders",
-      path: "/orders",
-      icon: (
-        <ClipboardList size={20} />
-      ),
-    },
-
-    {
-      name: "Watchlist",
-      path: "/watchlist",
-      icon: <Star size={20} />,
-    },
-
-    {
-      name: "Admin",
-      path: "/admin",
-      icon: <Activity size={20} />,
-    },
-
-    {
-      name: "KYC",
-      path: "/kyc",
-      icon: (
-        <ShieldCheck size={20} />
-      ),
-    },
-
-    {
-      name: "Profile",
-      path: "/profile",
-      icon: <User size={20} />,
-    },
-  ];
-
-  const handleLogout = () => {
-    localStorage.clear();
-
-    navigate("/login");
-  };
-
-  return (
-    <div className="min-h-screen bg-slate-950 text-white flex">
-      {/* NOTIFICATIONS */}
-
-      <NotificationPanel
-        open={notificationOpen}
-        setOpen={
-          setNotificationOpen
-        }
-      />
-
-      {/* MOBILE OVERLAY */}
-
-      {sidebarOpen && (
-        <div
-          onClick={() =>
-            setSidebarOpen(false)
-          }
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-        />
-      )}
-
-      {/* SIDEBAR */}
-
-      <div
-        className={`
-        fixed lg:static top-0 left-0 z-50
-        w-72 h-screen
-        bg-slate-900 border-r border-slate-800
-        flex flex-col justify-between
-        transform transition-transform duration-300
-
-        ${
-          sidebarOpen
-            ? "translate-x-0"
-            : "-translate-x-full lg:translate-x-0"
-        }
-      `}
-      >
-        <div>
-          {/* LOGO */}
-
-          <div className="p-6 border-b border-slate-800 flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-blue-500">
-                CryptoX
-              </h1>
-
-              <p className="text-slate-400 text-sm mt-1">
-                Professional Crypto
-                Exchange
-              </p>
-            </div>
-
-            <button
-              onClick={() =>
-                setSidebarOpen(false)
-              }
-              className="lg:hidden"
+          <nav className="space-y-4 flex-1">
+            <Link
+              to="/"
+              className="block bg-slate-800 hover:bg-slate-700 px-5 py-4 rounded-2xl font-semibold transition"
             >
-              <X size={26} />
-            </button>
-          </div>
+              Dashboard
+            </Link>
 
-          {/* MENU */}
+            <Link
+              to="/futures"
+              className="block bg-slate-800 hover:bg-slate-700 px-5 py-4 rounded-2xl font-semibold transition"
+            >
+              Futures Trading
+            </Link>
 
-          <div className="p-4 space-y-2 overflow-y-auto max-h-[calc(100vh-220px)]">
-            {menuItems.map((item) => (
-              <NavLink
-                key={item.name}
-                to={item.path}
-                end={item.path === "/"}
-                onClick={() =>
-                  setSidebarOpen(false)
-                }
-                className={({
-                  isActive,
-                }) =>
-                  `flex items-center gap-3 px-4 py-3 rounded-xl transition ${
-                    isActive
-                      ? "bg-blue-600 text-white"
-                      : "hover:bg-slate-800 text-slate-300"
-                  }`
-                }
-              >
-                {item.icon}
-
-                <span>{item.name}</span>
-              </NavLink>
-            ))}
-          </div>
-        </div>
-
-        {/* USER */}
-
-        <div className="p-4 border-t border-slate-800">
-          <div className="bg-slate-800 p-4 rounded-2xl mb-4">
-            <p className="font-semibold">
-              {user?.name || "User"}
-            </p>
-
-            <p className="text-slate-400 text-sm">
-              {user?.email ||
-                "No email"}
-            </p>
-          </div>
+            <Link
+              to="/admin"
+              className="block bg-purple-700 hover:bg-purple-600 px-5 py-4 rounded-2xl font-semibold transition"
+            >
+              Admin Panel
+            </Link>
+          </nav>
 
           <button
-            onClick={handleLogout}
-            className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 py-3 rounded-xl font-semibold transition"
+            onClick={logout}
+            className="mt-10 bg-red-600 hover:bg-red-700 px-5 py-4 rounded-2xl font-bold transition"
           >
-            <LogOut size={18} />
-
             Logout
           </button>
         </div>
-      </div>
 
-      {/* MAIN */}
+        {/* MAIN CONTENT */}
 
-      <div className="flex-1 overflow-y-auto">
-        {/* MOBILE TOPBAR */}
-
-        <div className="lg:hidden bg-slate-900 border-b border-slate-800 p-4 flex items-center justify-between sticky top-0 z-30">
-          <button
-            onClick={() =>
-              setSidebarOpen(true)
-            }
-          >
-            <Menu size={28} />
-          </button>
-
-          <h1 className="text-xl font-bold text-blue-500">
-            CryptoX
-          </h1>
-
-          <button
-            onClick={() =>
-              setNotificationOpen(
-                true
-              )
-            }
-            className="relative"
-          >
-            <Bell size={24} />
-
-            {notifications.length >
-              0 && (
-              <div className="absolute -top-2 -right-2 bg-red-500 text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                {
-                  notifications.length
-                }
-              </div>
-            )}
-          </button>
+        <div className="flex-1 overflow-y-auto">
+          <Outlet />
         </div>
-
-        {/* PAGE CONTENT */}
-
-        <Outlet />
       </div>
-    </div>
-  );
-};
+    );
+  };
 
 export default DashboardLayout;

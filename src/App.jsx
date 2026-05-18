@@ -7,64 +7,43 @@ import {
 
 import { Toaster } from "react-hot-toast";
 
+import DashboardLayout from "./layouts/DashboardLayout";
+
 import Login from "./pages/Login";
+
 import Register from "./pages/Register";
 
 import Dashboard from "./pages/Dashboard";
 
-import Wallet from "./pages/Wallet";
-
-import Portfolio from "./pages/Portfolio";
-
 import Futures from "./pages/Futures";
 
-import CopyTrading from "./pages/CopyTrading";
-
-import Staking from "./pages/Staking";
-
-import NFTMarketplace from "./pages/NFTMarketplace";
-
-import P2PTrading from "./pages/P2PTrading";
-
-import News from "./pages/News";
-
-import Launchpad from "./pages/Launchpad";
-
-import Transactions from "./pages/Transactions";
-
-import Profile from "./pages/Profile";
-
-import OpenOrders from "./pages/OpenOrders";
-
-import Watchlist from "./pages/Watchlist";
+import Admin from "./pages/Admin";
 
 import ForgotPassword from "./pages/ForgotPassword";
 
 import ResetPassword from "./pages/ResetPassword";
 
-import AdminDashboard from "./pages/AdminDashboard";
-
-import KYC from "./pages/KYC";
-
-import DashboardLayout from "./layouts/DashboardLayout";
-
-const ProtectedRoute = ({
+const PrivateRoute = ({
   children,
 }) => {
   const token =
-    localStorage.getItem("token");
+    localStorage.getItem(
+      "token"
+    );
 
-  if (!token) {
-    return <Navigate to="/login" />;
-  }
-
-  return children;
+  return token ? (
+    children
+  ) : (
+    <Navigate to="/login" />
+  );
 };
 
 function App() {
   return (
     <BrowserRouter>
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+      />
 
       <Routes>
         {/* AUTH */}
@@ -81,144 +60,45 @@ function App() {
 
         <Route
           path="/forgot-password"
-          element={<ForgotPassword />}
+          element={
+            <ForgotPassword />
+          }
         />
 
         <Route
           path="/reset-password/:token"
-          element={<ResetPassword />}
+          element={
+            <ResetPassword />
+          }
         />
 
-        {/* MAIN DASHBOARD */}
+        {/* DASHBOARD */}
 
         <Route
           path="/"
           element={
-            <ProtectedRoute>
+            <PrivateRoute>
               <DashboardLayout />
-            </ProtectedRoute>
+            </PrivateRoute>
           }
         >
-          {/* DASHBOARD */}
-
           <Route
             index
-            element={<Dashboard />}
+            element={
+              <Dashboard />
+            }
           />
-
-          {/* WALLET */}
-
-          <Route
-            path="wallet"
-            element={<Wallet />}
-          />
-
-          {/* PORTFOLIO */}
-
-          <Route
-            path="portfolio"
-            element={<Portfolio />}
-          />
-
-          {/* FUTURES */}
 
           <Route
             path="futures"
-            element={<Futures />}
-          />
-
-          {/* COPY TRADING */}
-
-          <Route
-            path="copy-trading"
             element={
-              <CopyTrading />
+              <Futures />
             }
           />
-
-          {/* STAKING */}
-
-          <Route
-            path="staking"
-            element={<Staking />}
-          />
-
-          {/* NFT */}
-
-          <Route
-            path="nft-marketplace"
-            element={
-              <NFTMarketplace />
-            }
-          />
-
-          {/* P2P */}
-
-          <Route
-            path="p2p-trading"
-            element={
-              <P2PTrading />
-            }
-          />
-
-          {/* NEWS */}
-
-          <Route
-            path="news"
-            element={<News />}
-          />
-
-          {/* LAUNCHPAD */}
-
-          <Route
-            path="launchpad"
-            element={
-              <Launchpad />
-            }
-          />
-
-          {/* TRANSACTIONS */}
-
-          <Route
-            path="transactions"
-            element={<Transactions />}
-          />
-
-          {/* ORDERS */}
-
-          <Route
-            path="orders"
-            element={<OpenOrders />}
-          />
-
-          {/* WATCHLIST */}
-
-          <Route
-            path="watchlist"
-            element={<Watchlist />}
-          />
-
-          {/* ADMIN */}
 
           <Route
             path="admin"
-            element={
-              <AdminDashboard />
-            }
-          />
-
-          {/* KYC */}
-
-          <Route
-            path="kyc"
-            element={<KYC />}
-          />
-
-          {/* PROFILE */}
-
-          <Route
-            path="profile"
-            element={<Profile />}
+            element={<Admin />}
           />
         </Route>
       </Routes>
