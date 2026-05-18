@@ -17,6 +17,8 @@ import Dashboard from "./pages/Dashboard";
 
 import Futures from "./pages/Futures";
 
+import Markets from "./pages/Markets";
+
 import Deposit from "./pages/Deposit";
 
 import Withdraw from "./pages/Withdraw";
@@ -90,6 +92,13 @@ function App() {
             index
             element={
               <Dashboard />
+            }
+          />
+
+          <Route
+            path="markets"
+            element={
+              <Markets />
             }
           />
 

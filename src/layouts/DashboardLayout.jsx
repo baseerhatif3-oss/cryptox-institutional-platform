@@ -34,7 +34,7 @@ const DashboardLayout =
             </h1>
 
             <p className="text-slate-400 mt-2">
-              Exchange Platform
+              Professional Exchange
             </p>
           </div>
 
@@ -46,6 +46,13 @@ const DashboardLayout =
               className="block bg-slate-800 hover:bg-slate-700 px-5 py-4 rounded-2xl font-semibold transition"
             >
               Dashboard
+            </Link>
+
+            <Link
+              to="/markets"
+              className="block bg-blue-700 hover:bg-blue-600 px-5 py-4 rounded-2xl font-semibold transition"
+            >
+              Markets
             </Link>
 
             <Link
@@ -87,7 +94,7 @@ const DashboardLayout =
           </button>
         </div>
 
-        {/* MAIN AREA */}
+        {/* MAIN */}
 
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* TOPBAR */}
@@ -95,20 +102,18 @@ const DashboardLayout =
           <div className="h-24 border-b border-slate-800 bg-slate-900 px-8 flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-bold">
-                Crypto Exchange
+                CryptoX Exchange
               </h2>
 
               <p className="text-slate-400">
-                Professional Trading Platform
+                Advanced Trading Platform
               </p>
             </div>
-
-            {/* NOTIFICATIONS */}
 
             <Notifications />
           </div>
 
-          {/* PAGE CONTENT */}
+          {/* PAGE */}
 
           <div className="flex-1 overflow-y-auto">
             <Outlet />
