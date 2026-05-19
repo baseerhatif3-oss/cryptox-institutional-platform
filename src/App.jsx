@@ -25,6 +25,8 @@ import Portfolio from "./pages/Portfolio";
 
 import AITrading from "./pages/AITrading";
 
+import TradingBots from "./pages/TradingBots";
+
 import CopyTrading from "./pages/CopyTrading";
 
 import Referrals from "./pages/Referrals";
@@ -202,6 +204,15 @@ function App() {
             path="ai-trading"
             element={
               <AITrading />
+            }
+          />
+
+          {/* TRADING BOTS */}
+
+          <Route
+            path="trading-bots"
+            element={
+              <TradingBots />
             }
           />
 

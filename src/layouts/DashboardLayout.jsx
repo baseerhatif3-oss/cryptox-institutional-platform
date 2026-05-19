@@ -114,6 +114,13 @@ const DashboardLayout =
             </Link>
 
             <Link
+              to="/trading-bots"
+              className="block bg-violet-700 hover:bg-violet-600 px-5 py-4 rounded-2xl font-semibold transition"
+            >
+              Trading Bots
+            </Link>
+
+            <Link
               to="/copy-trading"
               className="block bg-cyan-600 hover:bg-cyan-500 px-5 py-4 rounded-2xl font-semibold transition"
             >
