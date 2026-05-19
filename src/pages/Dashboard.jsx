@@ -1,277 +1,458 @@
-import { useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
 
-import TradingChart from "../components/TradingChart";
+import axios from "axios";
 
-import OrderBook from "../components/OrderBook";
+import toast from "react-hot-toast";
 
-const Dashboard = () => {
-  const [pair, setPair] =
-    useState(
-      "BINANCE:BTCUSDT"
-    );
+const Dashboard =
+  () => {
+    const [user,
+      setUser] =
+      useState(null);
 
-  const pairs = [
-    {
-      name: "BTC/USDT",
-      value:
-        "BINANCE:BTCUSDT",
-    },
+    const [coin,
+      setCoin] =
+      useState("BTC");
 
-    {
-      name: "ETH/USDT",
-      value:
-        "BINANCE:ETHUSDT",
-    },
+    const [type,
+      setType] =
+      useState("BUY");
 
-    {
-      name: "SOL/USDT",
-      value:
-        "BINANCE:SOLUSDT",
-    },
+    const [amount,
+      setAmount] =
+      useState(0.01);
 
-    {
-      name: "BNB/USDT",
-      value:
-        "BINANCE:BNBUSDT",
-    },
+    const [price,
+      setPrice] =
+      useState(65000);
 
-    {
-      name: "XRP/USDT",
-      value:
-        "BINANCE:XRPUSDT",
-    },
-  ];
+    const [loading,
+      setLoading] =
+      useState(false);
 
-  return (
-    <div className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="max-w-[1800px] mx-auto">
-        {/* HEADER */}
+    const [trades,
+      setTrades] =
+      useState([]);
 
-        <div className="mb-8">
-          <h1 className="text-5xl font-bold">
-            Trading Terminal
-          </h1>
+    useEffect(() => {
+      fetchProfile();
 
-          <p className="text-slate-400 mt-2">
-            Professional crypto
-            trading interface
-          </p>
-        </div>
+      fetchTrades();
+    }, []);
 
-        {/* PAIRS */}
+    const token =
+      localStorage.getItem(
+        "token"
+      );
 
-        <div className="flex flex-wrap gap-4 mb-8">
-          {pairs.map((p) => (
-            <button
-              key={p.value}
-              onClick={() =>
-                setPair(
-                  p.value
-                )
+    const fetchProfile =
+      async () => {
+        try {
+          const res =
+            await axios.get(
+              "https://crypto-backend-dojp.onrender.com/api/user/profile",
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
               }
-              className={`px-5 py-3 rounded-2xl font-bold transition ${
-                pair ===
-                p.value
-                  ? "bg-blue-600"
-                  : "bg-slate-800 hover:bg-slate-700"
-              }`}
-            >
-              {p.name}
-            </button>
-          ))}
-        </div>
+            );
 
-        {/* MAIN GRID */}
+          setUser(
+            res.data
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      };
 
-        <div className="grid grid-cols-1 2xl:grid-cols-5 gap-6">
-          {/* CHART */}
+    const fetchTrades =
+      async () => {
+        try {
+          const res =
+            await axios.get(
+              "https://crypto-backend-dojp.onrender.com/api/trades",
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
 
-          <div className="2xl:col-span-3 bg-slate-900 border border-slate-800 rounded-3xl p-4 h-[850px]">
-            <TradingChart
-              symbol={pair}
-            />
+          setTrades(
+            res.data
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+    const executeTrade =
+      async () => {
+        try {
+          setLoading(true);
+
+          await axios.post(
+            "https://crypto-backend-dojp.onrender.com/api/trade",
+            {
+              type,
+              coin,
+              amount:
+                Number(
+                  amount
+                ),
+              price:
+                Number(
+                  price
+                ),
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          toast.success(
+            `${type} order executed`
+          );
+
+          fetchProfile();
+
+          fetchTrades();
+        } catch (error) {
+          console.log(error);
+
+          toast.error(
+            error.response
+              ?.data
+              ?.message ||
+              "Trade failed"
+          );
+        } finally {
+          setLoading(false);
+        }
+      };
+
+    const total =
+      amount * price;
+
+    return (
+      <div className="min-h-screen bg-slate-950 text-white p-6">
+        <div className="max-w-7xl mx-auto">
+          {/* HEADER */}
+
+          <div className="mb-10">
+            <h1 className="text-5xl font-bold">
+              Trading Terminal
+            </h1>
+
+            <p className="text-slate-400 mt-3">
+              Professional crypto exchange engine
+            </p>
           </div>
 
-          {/* ORDERBOOK */}
+          {/* BALANCES */}
 
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 h-[850px] overflow-y-auto">
-            <OrderBook
-              symbol={pair}
-            />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+            {user &&
+              Object.entries(
+                user.balances
+              ).map(
+                (
+                  [
+                    asset,
+                    balance,
+                  ]
+                ) => (
+                  <div
+                    key={asset}
+                    className="bg-slate-900 border border-slate-800 rounded-3xl p-6"
+                  >
+                    <p className="text-slate-400 mb-2">
+                      {asset}
+                    </p>
+
+                    <h2 className="text-3xl font-bold">
+                      {balance}
+                    </h2>
+                  </div>
+                )
+              )}
           </div>
 
-          {/* ORDER PANEL */}
+          {/* TRADING PANEL */}
 
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 h-[850px] overflow-y-auto">
-            <h2 className="text-3xl font-bold mb-8">
-              Quick Trade
-            </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* TRADE BOX */}
 
-            <div className="space-y-5">
-              <input
-                type="number"
-                placeholder="Amount"
-                className="w-full bg-slate-800 border border-slate-700 rounded-2xl px-5 py-4 outline-none"
-              />
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
+              <h2 className="text-3xl font-bold mb-8">
+                Execute Trade
+              </h2>
 
-              <input
-                type="number"
-                placeholder="Price"
-                className="w-full bg-slate-800 border border-slate-700 rounded-2xl px-5 py-4 outline-none"
-              />
+              {/* TYPE */}
 
-              <button className="w-full bg-green-600 hover:bg-green-700 py-4 rounded-2xl font-bold text-xl transition">
-                Buy
-              </button>
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <button
+                  onClick={() =>
+                    setType(
+                      "BUY"
+                    )
+                  }
+                  className={`py-4 rounded-2xl font-bold text-xl ${
+                    type ===
+                    "BUY"
+                      ? "bg-green-600"
+                      : "bg-slate-800"
+                  }`}
+                >
+                  BUY
+                </button>
 
-              <button className="w-full bg-red-600 hover:bg-red-700 py-4 rounded-2xl font-bold text-xl transition">
-                Sell
+                <button
+                  onClick={() =>
+                    setType(
+                      "SELL"
+                    )
+                  }
+                  className={`py-4 rounded-2xl font-bold text-xl ${
+                    type ===
+                    "SELL"
+                      ? "bg-red-600"
+                      : "bg-slate-800"
+                  }`}
+                >
+                  SELL
+                </button>
+              </div>
+
+              {/* COIN */}
+
+              <div className="mb-6">
+                <label className="block mb-3 text-slate-300">
+                  Coin
+                </label>
+
+                <select
+                  value={
+                    coin
+                  }
+                  onChange={(e) =>
+                    setCoin(
+                      e.target
+                        .value
+                    )
+                  }
+                  className="w-full bg-slate-800 border border-slate-700 rounded-2xl px-5 py-4"
+                >
+                  <option>
+                    BTC
+                  </option>
+
+                  <option>
+                    ETH
+                  </option>
+
+                  <option>
+                    SOL
+                  </option>
+                </select>
+              </div>
+
+              {/* AMOUNT */}
+
+              <div className="mb-6">
+                <label className="block mb-3 text-slate-300">
+                  Amount
+                </label>
+
+                <input
+                  type="number"
+                  value={
+                    amount
+                  }
+                  onChange={(e) =>
+                    setAmount(
+                      e.target
+                        .value
+                    )
+                  }
+                  className="w-full bg-slate-800 border border-slate-700 rounded-2xl px-5 py-4"
+                />
+              </div>
+
+              {/* PRICE */}
+
+              <div className="mb-6">
+                <label className="block mb-3 text-slate-300">
+                  Price
+                </label>
+
+                <input
+                  type="number"
+                  value={
+                    price
+                  }
+                  onChange={(e) =>
+                    setPrice(
+                      e.target
+                        .value
+                    )
+                  }
+                  className="w-full bg-slate-800 border border-slate-700 rounded-2xl px-5 py-4"
+                />
+              </div>
+
+              {/* TOTAL */}
+
+              <div className="bg-slate-800 rounded-2xl p-5 mb-8">
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-400">
+                    Total
+                  </span>
+
+                  <span className="text-2xl font-bold">
+                    $
+                    {total.toLocaleString()}
+                  </span>
+                </div>
+              </div>
+
+              {/* BUTTON */}
+
+              <button
+                onClick={
+                  executeTrade
+                }
+                disabled={
+                  loading
+                }
+                className={`w-full py-5 rounded-2xl font-bold text-2xl ${
+                  type ===
+                  "BUY"
+                    ? "bg-green-600 hover:bg-green-500"
+                    : "bg-red-600 hover:bg-red-500"
+                }`}
+              >
+                {loading
+                  ? "Processing..."
+                  : `${type} ${coin}`}
               </button>
             </div>
 
-            {/* MARKET INFO */}
+            {/* TRADE HISTORY */}
 
-            <div className="mt-10">
-              <h3 className="text-2xl font-bold mb-6">
-                Market Stats
-              </h3>
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden">
+              <div className="px-8 py-6 border-b border-slate-800">
+                <h2 className="text-3xl font-bold">
+                  Trade History
+                </h2>
+              </div>
 
-              <div className="space-y-4">
-                <div className="bg-slate-800 rounded-2xl p-4 flex justify-between">
-                  <span className="text-slate-400">
-                    Pair
-                  </span>
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-slate-800">
+                    <tr>
+                      <th className="text-left p-5">
+                        Type
+                      </th>
 
-                  <span className="font-bold">
-                    {pair.replace(
-                      "BINANCE:",
-                      ""
+                      <th className="text-left p-5">
+                        Coin
+                      </th>
+
+                      <th className="text-left p-5">
+                        Amount
+                      </th>
+
+                      <th className="text-left p-5">
+                        Price
+                      </th>
+
+                      <th className="text-left p-5">
+                        Total
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {trades.length ===
+                    0 ? (
+                      <tr>
+                        <td
+                          colSpan="5"
+                          className="p-10 text-center text-slate-400"
+                        >
+                          No trades yet
+                        </td>
+                      </tr>
+                    ) : (
+                      trades.map(
+                        (
+                          trade
+                        ) => (
+                          <tr
+                            key={
+                              trade._id
+                            }
+                            className="border-t border-slate-800"
+                          >
+                            <td className="p-5">
+                              <span
+                                className={`px-4 py-2 rounded-xl text-sm font-bold ${
+                                  trade.type ===
+                                  "BUY"
+                                    ? "bg-green-500/20 text-green-400"
+                                    : "bg-red-500/20 text-red-400"
+                                }`}
+                              >
+                                {
+                                  trade.type
+                                }
+                              </span>
+                            </td>
+
+                            <td className="p-5">
+                              {
+                                trade.coin
+                              }
+                            </td>
+
+                            <td className="p-5">
+                              {
+                                trade.amount
+                              }
+                            </td>
+
+                            <td className="p-5">
+                              $
+                              {
+                                trade.price
+                              }
+                            </td>
+
+                            <td className="p-5">
+                              $
+                              {Number(
+                                trade.total
+                              ).toLocaleString()}
+                            </td>
+                          </tr>
+                        )
+                      )
                     )}
-                  </span>
-                </div>
-
-                <div className="bg-slate-800 rounded-2xl p-4 flex justify-between">
-                  <span className="text-slate-400">
-                    Exchange
-                  </span>
-
-                  <span className="font-bold">
-                    Binance
-                  </span>
-                </div>
-
-                <div className="bg-slate-800 rounded-2xl p-4 flex justify-between">
-                  <span className="text-slate-400">
-                    Market
-                  </span>
-
-                  <span className="font-bold text-green-400">
-                    Active
-                  </span>
-                </div>
-
-                <div className="bg-slate-800 rounded-2xl p-4 flex justify-between">
-                  <span className="text-slate-400">
-                    Trading Fee
-                  </span>
-
-                  <span className="font-bold">
-                    0.1%
-                  </span>
-                </div>
-
-                <div className="bg-slate-800 rounded-2xl p-4 flex justify-between">
-                  <span className="text-slate-400">
-                    Leverage
-                  </span>
-
-                  <span className="font-bold">
-                    Up To 100x
-                  </span>
-                </div>
-
-                <div className="bg-slate-800 rounded-2xl p-4 flex justify-between">
-                  <span className="text-slate-400">
-                    Status
-                  </span>
-
-                  <span className="font-bold text-blue-400">
-                    Online
-                  </span>
-                </div>
+                  </tbody>
+                </table>
               </div>
             </div>
-
-            {/* QUICK ACTIONS */}
-
-            <div className="mt-10">
-              <h3 className="text-2xl font-bold mb-6">
-                Quick Actions
-              </h3>
-
-              <div className="space-y-4">
-                <button className="w-full bg-blue-600 hover:bg-blue-700 py-4 rounded-2xl font-bold transition">
-                  Open Futures
-                </button>
-
-                <button className="w-full bg-green-600 hover:bg-green-700 py-4 rounded-2xl font-bold transition">
-                  Deposit Funds
-                </button>
-
-                <button className="w-full bg-purple-600 hover:bg-purple-700 py-4 rounded-2xl font-bold transition">
-                  Portfolio
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* FOOTER STATS */}
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <p className="text-slate-400 mb-3">
-              24H Volume
-            </p>
-
-            <h2 className="text-3xl font-bold">
-              $12.4B
-            </h2>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <p className="text-slate-400 mb-3">
-              Open Interest
-            </p>
-
-            <h2 className="text-3xl font-bold">
-              $4.8B
-            </h2>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <p className="text-slate-400 mb-3">
-              Active Traders
-            </p>
-
-            <h2 className="text-3xl font-bold">
-              182K
-            </h2>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <p className="text-slate-400 mb-3">
-              Exchange Status
-            </p>
-
-            <h2 className="text-3xl font-bold text-green-400">
-              Online
-            </h2>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
 export default Dashboard;
