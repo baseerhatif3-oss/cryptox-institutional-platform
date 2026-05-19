@@ -3,89 +3,116 @@ import {
   useState,
 } from "react";
 
-const LiveTicker = () => {
-  const [prices, setPrices] =
-    useState({
-      BTCUSDT: 0,
-      ETHUSDT: 0,
-      SOLUSDT: 0,
-      BNBUSDT: 0,
-    });
+import axios from "axios";
 
-  useEffect(() => {
-    const socket =
-      new WebSocket(
-        "wss://stream.binance.com:9443/ws/!ticker@arr"
-      );
+const LiveTicker =
+  () => {
+    const [prices,
+      setPrices] =
+      useState([]);
 
-    socket.onmessage = (
-      event
-    ) => {
-      const data =
-        JSON.parse(
-          event.data
+    useEffect(() => {
+      fetchPrices();
+
+      const interval =
+        setInterval(
+          fetchPrices,
+          5000
         );
 
-      const updatedPrices =
-        {};
+      return () =>
+        clearInterval(
+          interval
+        );
+    }, []);
 
-      data.forEach((coin) => {
-        if (
-          [
-            "BTCUSDT",
-            "ETHUSDT",
-            "SOLUSDT",
-            "BNBUSDT",
-          ].includes(
-            coin.s
-          )
-        ) {
-          updatedPrices[
-            coin.s
-          ] = parseFloat(
-            coin.c
-          ).toFixed(2);
+    const fetchPrices =
+      async () => {
+        try {
+          const symbols =
+            [
+              "BTCUSDT",
+              "ETHUSDT",
+              "SOLUSDT",
+              "BNBUSDT",
+              "XRPUSDT",
+            ];
+
+          const requests =
+            symbols.map(
+              (
+                symbol
+              ) =>
+                axios.get(
+                  `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`
+                )
+            );
+
+          const responses =
+            await Promise.all(
+              requests
+            );
+
+          const formatted =
+            responses.map(
+              (
+                res
+              ) => ({
+                symbol:
+                  res.data.symbol.replace(
+                    "USDT",
+                    ""
+                  ),
+
+                price:
+                  Number(
+                    res.data
+                      .price
+                  ).toFixed(
+                    2
+                  ),
+              })
+            );
+
+          setPrices(
+            formatted
+          );
+        } catch (error) {
+          console.log(error);
         }
-      });
+      };
 
-      setPrices(
-        updatedPrices
-      );
-    };
+    return (
+      <div className="bg-slate-900 border-b border-slate-800 overflow-hidden">
+        <div className="flex animate-pulse whitespace-nowrap">
+          {prices.map(
+            (
+              coin
+            ) => (
+              <div
+                key={
+                  coin.symbol
+                }
+                className="px-8 py-4 border-r border-slate-800 flex items-center gap-3"
+              >
+                <span className="font-bold text-white">
+                  {
+                    coin.symbol
+                  }
+                </span>
 
-    return () =>
-      socket.close();
-  }, []);
-
-  return (
-    <div className="bg-slate-900 border-b border-slate-800 overflow-hidden">
-      <div className="flex animate-pulse whitespace-nowrap gap-10 px-8 py-3">
-        <div className="text-yellow-400 font-bold">
-          BTC:
-          $
-          {prices.BTCUSDT}
-        </div>
-
-        <div className="text-blue-400 font-bold">
-          ETH:
-          $
-          {prices.ETHUSDT}
-        </div>
-
-        <div className="text-purple-400 font-bold">
-          SOL:
-          $
-          {prices.SOLUSDT}
-        </div>
-
-        <div className="text-green-400 font-bold">
-          BNB:
-          $
-          {prices.BNBUSDT}
+                <span className="text-green-400 font-semibold">
+                  $
+                  {
+                    coin.price
+                  }
+                </span>
+              </div>
+            )
+          )}
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
 export default LiveTicker;
