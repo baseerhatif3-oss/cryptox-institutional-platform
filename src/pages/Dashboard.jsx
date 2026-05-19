@@ -7,6 +7,15 @@ import axios from "axios";
 
 import toast from "react-hot-toast";
 
+import {
+  io,
+} from "socket.io-client";
+
+const socket =
+  io(
+    "https://crypto-backend-dojp.onrender.com"
+  );
+
 const Dashboard =
   () => {
     const [user,
@@ -45,6 +54,125 @@ const Dashboard =
       setOrderType] =
       useState("MARKET");
 
+    const [livePrices,
+      setLivePrices] =
+      useState({
+        BTC:
+          "65000",
+
+        ETH:
+          "3000",
+
+        SOL:
+          "150",
+
+        XRP:
+          "0.50",
+      });
+
+    const token =
+      localStorage.getItem(
+        "token"
+      );
+
+    /* =========================
+       REALTIME SOCKETS
+    ========================= */
+
+    useEffect(() => {
+      socket.on(
+        "market_update",
+        (
+          data
+        ) => {
+          setLivePrices(
+            data
+          );
+        }
+      );
+
+      socket.on(
+        "new_trade",
+        (
+          trade
+        ) => {
+          setTrades(
+            (
+              prev
+            ) => [
+              trade,
+              ...prev,
+            ]
+          );
+        }
+      );
+
+      socket.on(
+        "new_order",
+        (
+          order
+        ) => {
+          setOrders(
+            (
+              prev
+            ) => [
+              order,
+              ...prev,
+            ]
+          );
+        }
+      );
+
+      socket.on(
+        "order_cancelled",
+        (
+          id
+        ) => {
+          setOrders(
+            (
+              prev
+            ) =>
+              prev.map(
+                (
+                  order
+                ) =>
+                  order._id ===
+                  id
+                    ? {
+                        ...order,
+
+                        status:
+                          "CANCELLED",
+                      }
+                    : order
+              )
+          );
+        }
+      );
+
+      return () => {
+        socket.off(
+          "market_update"
+        );
+
+        socket.off(
+          "new_trade"
+        );
+
+        socket.off(
+          "new_order"
+        );
+
+        socket.off(
+          "order_cancelled"
+        );
+      };
+    }, []);
+
+    /* =========================
+       FETCH DATA
+    ========================= */
+
     useEffect(() => {
       fetchProfile();
 
@@ -52,11 +180,6 @@ const Dashboard =
 
       fetchOrders();
     }, []);
-
-    const token =
-      localStorage.getItem(
-        "token"
-      );
 
     const fetchProfile =
       async () => {
@@ -121,6 +244,33 @@ const Dashboard =
         }
       };
 
+    /* =========================
+       AUTO UPDATE PRICE
+    ========================= */
+
+    useEffect(() => {
+      if (
+        livePrices[
+          coin
+        ]
+      ) {
+        setPrice(
+          Number(
+            livePrices[
+              coin
+            ]
+          )
+        );
+      }
+    }, [
+      coin,
+      livePrices,
+    ]);
+
+    /* =========================
+       LIMIT ORDER
+    ========================= */
+
     const placeLimitOrder =
       async () => {
         try {
@@ -163,6 +313,10 @@ const Dashboard =
         }
       };
 
+    /* =========================
+       CANCEL ORDER
+    ========================= */
+
     const cancelOrder =
       async (id) => {
         try {
@@ -188,6 +342,10 @@ const Dashboard =
           );
         }
       };
+
+    /* =========================
+       EXECUTE MARKET TRADE
+    ========================= */
 
     const executeTrade =
       async () => {
@@ -250,7 +408,7 @@ const Dashboard =
             </h1>
 
             <p className="text-slate-400 mt-3">
-              Professional crypto exchange engine
+              Professional realtime crypto exchange
             </p>
           </div>
 
@@ -283,10 +441,43 @@ const Dashboard =
               )}
           </div>
 
+          {/* LIVE MARKET */}
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+            {Object.entries(
+              livePrices
+            ).map(
+              (
+                [
+                  symbol,
+                  value,
+                ]
+              ) => (
+                <div
+                  key={symbol}
+                  className="bg-slate-900 border border-slate-800 rounded-3xl p-6"
+                >
+                  <p className="text-slate-400 mb-2">
+                    {symbol}
+                  </p>
+
+                  <h2 className="text-3xl font-bold text-green-400">
+                    $
+                    {value}
+                  </h2>
+
+                  <p className="text-green-400 mt-2">
+                    LIVE
+                  </p>
+                </div>
+              )
+            )}
+          </div>
+
           {/* TERMINAL */}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* TRADE BOX */}
+            {/* LEFT SIDE */}
 
             <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
               <h2 className="text-3xl font-bold mb-8">
@@ -395,6 +586,10 @@ const Dashboard =
                   <option>
                     SOL
                   </option>
+
+                  <option>
+                    XRP
+                  </option>
                 </select>
               </div>
 
@@ -452,7 +647,9 @@ const Dashboard =
 
                   <span className="text-2xl font-bold">
                     $
-                    {total.toLocaleString()}
+                    {Number(
+                      total
+                    ).toLocaleString()}
                   </span>
                 </div>
               </div>
@@ -617,13 +814,13 @@ const Dashboard =
               <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden">
                 <div className="px-8 py-6 border-b border-slate-800">
                   <h2 className="text-3xl font-bold">
-                    Trade History
+                    Live Trade Feed
                   </h2>
                 </div>
 
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto max-h-[500px] overflow-y-auto">
                   <table className="w-full">
-                    <thead className="bg-slate-800">
+                    <thead className="bg-slate-800 sticky top-0">
                       <tr>
                         <th className="text-left p-5">
                           Type
