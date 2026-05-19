@@ -3,239 +3,203 @@ import {
   useState,
 } from "react";
 
-import {
-  ArrowLeftRight,
-  TrendingUp,
-  TrendingDown,
-} from "lucide-react";
+import axios from "axios";
 
-import API from "../api/axios";
+const Transactions =
+  () => {
+    const [transactions,
+      setTransactions] =
+      useState([]);
 
-const Transactions = () => {
-  const [trades, setTrades] =
-    useState([]);
+    const [loading,
+      setLoading] =
+      useState(true);
 
-  const [loading, setLoading] =
-    useState(true);
+    useEffect(() => {
+      fetchTransactions();
+    }, []);
 
-  const fetchTrades =
-    async () => {
-      try {
-        const res =
-          await API.get(
-            "/trades"
+    const fetchTransactions =
+      async () => {
+        try {
+          const token =
+            localStorage.getItem(
+              "token"
+            );
+
+          const res =
+            await axios.get(
+              "https://crypto-backend-dojp.onrender.com/api/transactions",
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+
+          setTransactions(
+            res.data
           );
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setLoading(false);
+        }
+      };
 
-        setTrades(res.data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-  useEffect(() => {
-    fetchTrades();
-  }, []);
-
-  if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white text-2xl">
-        Loading trades...
-      </div>
-    );
-  }
+      <div className="min-h-screen bg-slate-950 text-white p-6">
+        <div className="max-w-7xl mx-auto">
+          {/* HEADER */}
 
-  return (
-    <div className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* HEADER */}
-
-        <div className="flex items-center gap-4 mb-10">
-          <div className="bg-green-600 p-4 rounded-3xl">
-            <ArrowLeftRight size={38} />
-          </div>
-
-          <div>
+          <div className="mb-10">
             <h1 className="text-5xl font-bold">
-              Trade History
+              Transaction History
             </h1>
 
-            <p className="text-slate-400 mt-2 text-lg">
-              Real completed trades
+            <p className="text-slate-400 mt-3">
+              Blockchain deposits & withdrawals
             </p>
           </div>
-        </div>
 
-        {/* STATS */}
+          {/* TABLE */}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <p className="text-slate-400">
-              Total Trades
-            </p>
-
-            <h2 className="text-5xl font-bold mt-4">
-              {trades.length}
-            </h2>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <p className="text-slate-400">
-              Buy Trades
-            </p>
-
-            <h2 className="text-5xl font-bold mt-4 text-green-400">
-              {
-                trades.filter(
-                  (t) =>
-                    t.side ===
-                    "BUY"
-                ).length
-              }
-            </h2>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <p className="text-slate-400">
-              Sell Trades
-            </p>
-
-            <h2 className="text-5xl font-bold mt-4 text-red-400">
-              {
-                trades.filter(
-                  (t) =>
-                    t.side ===
-                    "SELL"
-                ).length
-              }
-            </h2>
-          </div>
-        </div>
-
-        {/* TABLE */}
-
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-slate-800">
-                <tr>
-                  <th className="text-left p-5">
-                    Coin
-                  </th>
-
-                  <th className="text-left p-5">
-                    Side
-                  </th>
-
-                  <th className="text-left p-5">
-                    Amount
-                  </th>
-
-                  <th className="text-left p-5">
-                    Price
-                  </th>
-
-                  <th className="text-left p-5">
-                    Total
-                  </th>
-
-                  <th className="text-left p-5">
-                    Time
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {trades.length ===
-                0 ? (
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-slate-800">
                   <tr>
-                    <td
-                      colSpan="6"
-                      className="text-center p-10 text-slate-400"
-                    >
-                      No trades yet
-                    </td>
+                    <th className="text-left p-5">
+                      Type
+                    </th>
+
+                    <th className="text-left p-5">
+                      Coin
+                    </th>
+
+                    <th className="text-left p-5">
+                      Amount
+                    </th>
+
+                    <th className="text-left p-5">
+                      Status
+                    </th>
+
+                    <th className="text-left p-5">
+                      Confirmations
+                    </th>
+
+                    <th className="text-left p-5">
+                      TX Hash
+                    </th>
+
+                    <th className="text-left p-5">
+                      Date
+                    </th>
                   </tr>
-                ) : (
-                  trades.map(
-                    (trade) => (
-                      <tr
-                        key={
-                          trade._id
-                        }
-                        className="border-t border-slate-800"
+                </thead>
+
+                <tbody>
+                  {loading ? (
+                    <tr>
+                      <td
+                        colSpan="7"
+                        className="p-10 text-center text-slate-400"
                       >
-                        <td className="p-5">
-                          <div>
-                            <h3 className="font-bold text-lg">
-                              {
-                                trade.coin
-                              }
-                            </h3>
-
-                            <p className="text-slate-400 text-sm">
-                              {
-                                trade.symbol
-                              }
-                            </p>
-                          </div>
-                        </td>
-
-                        <td className="p-5">
-                          <div
-                            className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl font-bold ${
-                              trade.side ===
-                              "BUY"
-                                ? "bg-green-500/20 text-green-400"
-                                : "bg-red-500/20 text-red-400"
-                            }`}
-                          >
-                            {trade.side ===
-                            "BUY" ? (
-                              <TrendingUp size={18} />
-                            ) : (
-                              <TrendingDown size={18} />
-                            )}
-
-                            {
-                              trade.side
-                            }
-                          </div>
-                        </td>
-
-                        <td className="p-5 font-bold">
-                          {
-                            trade.amount
+                        Loading...
+                      </td>
+                    </tr>
+                  ) : transactions.length ===
+                    0 ? (
+                    <tr>
+                      <td
+                        colSpan="7"
+                        className="p-10 text-center text-slate-400"
+                      >
+                        No transactions found
+                      </td>
+                    </tr>
+                  ) : (
+                    transactions.map(
+                      (tx) => (
+                        <tr
+                          key={
+                            tx._id
                           }
-                        </td>
+                          className="border-t border-slate-800 hover:bg-slate-800/40"
+                        >
+                          <td className="p-5">
+                            <span
+                              className={`px-4 py-2 rounded-xl text-sm font-bold ${
+                                tx.type ===
+                                "DEPOSIT"
+                                  ? "bg-green-500/20 text-green-400"
+                                  : "bg-red-500/20 text-red-400"
+                              }`}
+                            >
+                              {
+                                tx.type
+                              }
+                            </span>
+                          </td>
 
-                        <td className="p-5">
-                          $
-                          {trade.price.toLocaleString()}
-                        </td>
+                          <td className="p-5 font-bold">
+                            {
+                              tx.coin
+                            }
+                          </td>
 
-                        <td className="p-5 font-bold">
-                          $
-                          {trade.total.toLocaleString()}
-                        </td>
+                          <td className="p-5">
+                            {
+                              tx.amount
+                            }
+                          </td>
 
-                        <td className="p-5 text-slate-400">
-                          {new Date(
-                            trade.createdAt
-                          ).toLocaleString()}
-                        </td>
-                      </tr>
+                          <td className="p-5">
+                            <span
+                              className={`px-4 py-2 rounded-xl text-sm font-bold ${
+                                tx.status ===
+                                "CONFIRMED"
+                                  ? "bg-blue-500/20 text-blue-400"
+                                  : "bg-yellow-500/20 text-yellow-400"
+                              }`}
+                            >
+                              {
+                                tx.status
+                              }
+                            </span>
+                          </td>
+
+                          <td className="p-5">
+                            {
+                              tx.confirmations
+                            }
+                          </td>
+
+                          <td className="p-5">
+                            <div className="max-w-[220px] truncate text-slate-400 text-sm">
+                              {
+                                tx.txHash
+                              }
+                            </div>
+                          </td>
+
+                          <td className="p-5 text-slate-400">
+                            {new Date(
+                              tx.createdAt
+                            ).toLocaleString()}
+                          </td>
+                        </tr>
+                      )
                     )
-                  )
-                )}
-              </tbody>
-            </table>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
 export default Transactions;

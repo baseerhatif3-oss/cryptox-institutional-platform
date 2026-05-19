@@ -72,6 +72,13 @@ const DashboardLayout =
             </Link>
 
             <Link
+              to="/transactions"
+              className="block bg-slate-800 hover:bg-slate-700 px-5 py-4 rounded-2xl font-semibold transition"
+            >
+              Transactions
+            </Link>
+
+            <Link
               to="/deposit"
               className="block bg-green-700 hover:bg-green-600 px-5 py-4 rounded-2xl font-semibold transition"
             >
