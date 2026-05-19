@@ -79,6 +79,13 @@ const DashboardLayout =
             </Link>
 
             <Link
+              to="/order-book"
+              className="block bg-slate-800 hover:bg-slate-700 px-5 py-4 rounded-2xl font-semibold transition"
+            >
+              Live Order Book
+            </Link>
+
+            <Link
               to="/deposit"
               className="block bg-green-700 hover:bg-green-600 px-5 py-4 rounded-2xl font-semibold transition"
             >
@@ -175,7 +182,7 @@ const DashboardLayout =
 
           <LiveTicker />
 
-          {/* PAGE */}
+          {/* PAGE CONTENT */}
 
           <div className="flex-1 overflow-y-auto">
             <Outlet />

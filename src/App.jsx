@@ -41,6 +41,8 @@ import Wallets from "./pages/Wallets";
 
 import Transactions from "./pages/Transactions";
 
+import OrderBook from "./pages/OrderBook";
+
 import Admin from "./pages/Admin";
 
 import ForgotPassword from "./pages/ForgotPassword";
@@ -103,7 +105,7 @@ function App() {
           }
         />
 
-        {/* MAIN */}
+        {/* MAIN DASHBOARD */}
 
         <Route
           path="/"
@@ -113,12 +115,16 @@ function App() {
             </PrivateRoute>
           }
         >
+          {/* DASHBOARD */}
+
           <Route
             index
             element={
               <Dashboard />
             }
           />
+
+          {/* MARKETS */}
 
           <Route
             path="markets"
@@ -127,12 +133,16 @@ function App() {
             }
           />
 
+          {/* FUTURES */}
+
           <Route
             path="futures"
             element={
               <Futures />
             }
           />
+
+          {/* PORTFOLIO */}
 
           <Route
             path="portfolio"
@@ -141,12 +151,16 @@ function App() {
             }
           />
 
+          {/* WALLETS */}
+
           <Route
             path="wallets"
             element={
               <Wallets />
             }
           />
+
+          {/* TRANSACTIONS */}
 
           <Route
             path="transactions"
@@ -155,12 +169,25 @@ function App() {
             }
           />
 
+          {/* ORDER BOOK */}
+
+          <Route
+            path="order-book"
+            element={
+              <OrderBook />
+            }
+          />
+
+          {/* DEPOSIT */}
+
           <Route
             path="deposit"
             element={
               <Deposit />
             }
           />
+
+          {/* WITHDRAW */}
 
           <Route
             path="withdraw"
@@ -169,12 +196,16 @@ function App() {
             }
           />
 
+          {/* AI TRADING */}
+
           <Route
             path="ai-trading"
             element={
               <AITrading />
             }
           />
+
+          {/* COPY TRADING */}
 
           <Route
             path="copy-trading"
@@ -183,6 +214,8 @@ function App() {
             }
           />
 
+          {/* STAKING */}
+
           <Route
             path="staking"
             element={
@@ -190,10 +223,14 @@ function App() {
             }
           />
 
+          {/* P2P */}
+
           <Route
             path="p2p"
             element={<P2P />}
           />
+
+          {/* REFERRALS */}
 
           <Route
             path="referrals"
@@ -201,6 +238,8 @@ function App() {
               <Referrals />
             }
           />
+
+          {/* ADMIN */}
 
           <Route
             path="admin"
