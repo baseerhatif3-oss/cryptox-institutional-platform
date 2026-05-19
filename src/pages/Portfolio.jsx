@@ -3,6 +3,8 @@ import {
   useState,
 } from "react";
 
+import axios from "axios";
+
 import {
   PieChart,
   Pie,
@@ -11,278 +13,261 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import API from "../api/axios";
+const COLORS = [
+  "#3b82f6",
+  "#22c55e",
+  "#f59e0b",
+  "#a855f7",
+];
 
-const Portfolio = () => {
-  const [user, setUser] =
-    useState(null);
+const Portfolio =
+  () => {
+    const [user,
+      setUser] =
+      useState(null);
 
-  const [loading, setLoading] =
-    useState(true);
+    const [loading,
+      setLoading] =
+      useState(true);
 
-  const fetchProfile =
-    async () => {
-      try {
-        const res =
-          await API.get(
-            "/user/profile"
-          );
+    useEffect(() => {
+      fetchProfile();
+    }, []);
 
-        setUser(res.data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    const fetchProfile =
+      async () => {
+        try {
+          const token =
+            localStorage.getItem(
+              "token"
+            );
 
-  useEffect(() => {
-    fetchProfile();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center text-3xl font-bold">
-        Loading Portfolio...
-      </div>
-    );
-  }
-
-  const portfolioData = [
-    {
-      name: "USD",
-      value:
-        user?.balances?.USD ||
-        0,
-    },
-
-    {
-      name: "BTC",
-      value:
-        user?.balances?.BTC ||
-        0,
-    },
-
-    {
-      name: "ETH",
-      value:
-        user?.balances?.ETH ||
-        0,
-    },
-
-    {
-      name: "SOL",
-      value:
-        user?.balances?.SOL ||
-        0,
-    },
-  ];
-
-  const totalBalance =
-    portfolioData.reduce(
-      (acc, item) =>
-        acc + item.value,
-      0
-    );
-
-  const COLORS = [
-    "#3b82f6",
-    "#22c55e",
-    "#a855f7",
-    "#f97316",
-  ];
-
-  return (
-    <div className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* HEADER */}
-
-        <div className="mb-10">
-          <h1 className="text-5xl font-bold">
-            Portfolio
-          </h1>
-
-          <p className="text-slate-400 mt-2">
-            Wallet analytics & asset allocation
-          </p>
-        </div>
-
-        {/* OVERVIEW */}
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <p className="text-slate-400 mb-3">
-              Total Balance
-            </p>
-
-            <h2 className="text-4xl font-bold">
-              $
-              {totalBalance.toLocaleString()}
-            </h2>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <p className="text-slate-400 mb-3">
-              Total Assets
-            </p>
-
-            <h2 className="text-4xl font-bold">
+          const res =
+            await axios.get(
+              "https://crypto-backend-dojp.onrender.com/api/user/profile",
               {
-                portfolioData.length
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
               }
-            </h2>
-          </div>
+            );
 
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <p className="text-slate-400 mb-3">
-              24H PNL
-            </p>
+          setUser(
+            res.data
+          );
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setLoading(false);
+        }
+      };
 
-            <h2 className="text-4xl font-bold text-green-400">
-              +12.8%
-            </h2>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <p className="text-slate-400 mb-3">
-              Account Status
-            </p>
-
-            <h2 className="text-4xl font-bold text-blue-400">
-              Active
-            </h2>
-          </div>
+    if (loading) {
+      return (
+        <div className="text-white p-10">
+          Loading...
         </div>
+      );
+    }
 
-        {/* MAIN GRID */}
+    const balances =
+      user?.balances ||
+      {};
 
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-          {/* CHART */}
+    const portfolioData =
+      [
+        {
+          name: "BTC",
+          value:
+            balances.BTC,
+        },
 
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
-            <h2 className="text-3xl font-bold mb-8">
-              Asset Allocation
-            </h2>
+        {
+          name: "ETH",
+          value:
+            balances.ETH,
+        },
 
-            <div className="h-[450px]">
-              <ResponsiveContainer
-                width="100%"
-                height="100%"
-              >
-                <PieChart>
-                  <Pie
-                    data={
-                      portfolioData
-                    }
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={
-                      150
-                    }
-                    dataKey="value"
-                    label
-                  >
-                    {portfolioData.map(
-                      (
-                        entry,
-                        index
-                      ) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={
-                            COLORS[
-                              index %
-                                COLORS.length
-                            ]
-                          }
-                        />
-                      )
-                    )}
-                  </Pie>
+        {
+          name: "SOL",
+          value:
+            balances.SOL,
+        },
 
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
+        {
+          name: "USD",
+          value:
+            balances.USD,
+        },
+      ];
+
+    const totalAssets =
+      balances.USD +
+      balances.BTC *
+        65000 +
+      balances.ETH *
+        3000 +
+      balances.SOL *
+        150;
+
+    const estimatedPNL =
+      totalAssets *
+      0.12;
+
+    return (
+      <div className="min-h-screen bg-slate-950 text-white p-6">
+        <div className="max-w-7xl mx-auto">
+          {/* HEADER */}
+
+          <div className="mb-10">
+            <h1 className="text-5xl font-bold">
+              Portfolio
+            </h1>
+
+            <p className="text-slate-400 mt-3">
+              Advanced asset analytics dashboard
+            </p>
+          </div>
+
+          {/* STATS */}
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            {/* TOTAL */}
+
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
+              <p className="text-slate-400 mb-3">
+                Total Balance
+              </p>
+
+              <h2 className="text-4xl font-bold">
+                $
+                {totalAssets.toLocaleString()}
+              </h2>
+            </div>
+
+            {/* PNL */}
+
+            <div className="bg-green-900/20 border border-green-700 rounded-3xl p-8">
+              <p className="text-green-400 mb-3">
+                Estimated Profit
+              </p>
+
+              <h2 className="text-4xl font-bold text-green-400">
+                +$
+                {estimatedPNL.toLocaleString()}
+              </h2>
+            </div>
+
+            {/* USER */}
+
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
+              <p className="text-slate-400 mb-3">
+                Account Status
+              </p>
+
+              <h2 className="text-3xl font-bold">
+                VERIFIED
+              </h2>
             </div>
           </div>
 
-          {/* ASSETS */}
+          {/* CHARTS */}
 
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
-            <h2 className="text-3xl font-bold mb-8">
-              Wallet Balances
-            </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* PIE */}
 
-            <div className="space-y-5">
-              {portfolioData.map(
-                (
-                  asset,
-                  index
-                ) => (
-                  <div
-                    key={index}
-                    className="bg-slate-800 rounded-2xl p-5 flex items-center justify-between"
-                  >
-                    <div>
-                      <h3 className="text-2xl font-bold">
-                        {
-                          asset.name
-                        }
-                      </h3>
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
+              <h2 className="text-3xl font-bold mb-8">
+                Asset Allocation
+              </h2>
 
-                      <p className="text-slate-400 mt-1">
-                        Asset Balance
-                      </p>
-                    </div>
+              <div className="h-[400px]">
+                <ResponsiveContainer
+                  width="100%"
+                  height="100%"
+                >
+                  <PieChart>
+                    <Pie
+                      data={
+                        portfolioData
+                      }
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={
+                        140
+                      }
+                      dataKey="value"
+                      label
+                    >
+                      {portfolioData.map(
+                        (
+                          entry,
+                          index
+                        ) => (
+                          <Cell
+                            key={`cell-${index}`}
+                            fill={
+                              COLORS[
+                                index %
+                                  COLORS.length
+                              ]
+                            }
+                          />
+                        )
+                      )}
+                    </Pie>
 
-                    <div className="text-right">
-                      <h3 className="text-2xl font-bold">
-                        {asset.value.toLocaleString()}
-                      </h3>
-                    </div>
-                  </div>
-                )
-              )}
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
             </div>
-          </div>
-        </div>
 
-        {/* EXTRA STATS */}
+            {/* BALANCES */}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <p className="text-slate-400 mb-3">
-              Lifetime Profit
-            </p>
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
+              <h2 className="text-3xl font-bold mb-8">
+                Asset Balances
+              </h2>
 
-            <h2 className="text-3xl font-bold text-green-400">
-              +$24,500
-            </h2>
-          </div>
+              <div className="space-y-5">
+                {Object.entries(
+                  balances
+                ).map(
+                  (
+                    [
+                      coin,
+                      amount,
+                    ]
+                  ) => (
+                    <div
+                      key={coin}
+                      className="flex items-center justify-between bg-slate-800 rounded-2xl p-5"
+                    >
+                      <div>
+                        <h3 className="text-2xl font-bold">
+                          {coin}
+                        </h3>
 
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <p className="text-slate-400 mb-3">
-              Total Trades
-            </p>
+                        <p className="text-slate-400">
+                          Asset
+                        </p>
+                      </div>
 
-            <h2 className="text-3xl font-bold">
-              1,284
-            </h2>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <p className="text-slate-400 mb-3">
-              Win Rate
-            </p>
-
-            <h2 className="text-3xl font-bold text-blue-400">
-              68%
-            </h2>
+                      <div className="text-right">
+                        <h3 className="text-2xl font-bold">
+                          {amount}
+                        </h3>
+                      </div>
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
 export default Portfolio;
