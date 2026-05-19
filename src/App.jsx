@@ -68,7 +68,7 @@ function App() {
       />
 
       <Routes>
-        {/* AUTH */}
+        {/* AUTH ROUTES */}
 
         <Route
           path="/login"
@@ -101,7 +101,7 @@ function App() {
           }
         />
 
-        {/* MAIN */}
+        {/* DASHBOARD */}
 
         <Route
           path="/"
@@ -111,12 +111,16 @@ function App() {
             </PrivateRoute>
           }
         >
+          {/* HOME */}
+
           <Route
             index
             element={
               <Dashboard />
             }
           />
+
+          {/* MARKETS */}
 
           <Route
             path="markets"
@@ -125,45 +129,7 @@ function App() {
             }
           />
 
-          <Route
-            path="portfolio"
-            element={
-              <Portfolio />
-            }
-          />
-
-          <Route
-            path="ai-trading"
-            element={
-              <AITrading />
-            }
-          />
-
-          <Route
-            path="copy-trading"
-            element={
-              <CopyTrading />
-            }
-          />
-
-          <Route
-            path="referrals"
-            element={
-              <Referrals />
-            }
-          />
-
-          <Route
-            path="staking"
-            element={
-              <Staking />
-            }
-          />
-
-          <Route
-            path="p2p"
-            element={<P2P />}
-          />
+          {/* FUTURES */}
 
           <Route
             path="futures"
@@ -172,12 +138,25 @@ function App() {
             }
           />
 
+          {/* PORTFOLIO */}
+
+          <Route
+            path="portfolio"
+            element={
+              <Portfolio />
+            }
+          />
+
+          {/* WALLET PAGE */}
+
           <Route
             path="wallets"
             element={
               <Wallets />
             }
           />
+
+          {/* DEPOSIT */}
 
           <Route
             path="deposit"
@@ -186,12 +165,59 @@ function App() {
             }
           />
 
+          {/* WITHDRAW */}
+
           <Route
             path="withdraw"
             element={
               <Withdraw />
             }
           />
+
+          {/* AI */}
+
+          <Route
+            path="ai-trading"
+            element={
+              <AITrading />
+            }
+          />
+
+          {/* COPY */}
+
+          <Route
+            path="copy-trading"
+            element={
+              <CopyTrading />
+            }
+          />
+
+          {/* STAKING */}
+
+          <Route
+            path="staking"
+            element={
+              <Staking />
+            }
+          />
+
+          {/* P2P */}
+
+          <Route
+            path="p2p"
+            element={<P2P />}
+          />
+
+          {/* REFERRALS */}
+
+          <Route
+            path="referrals"
+            element={
+              <Referrals />
+            }
+          />
+
+          {/* ADMIN */}
 
           <Route
             path="admin"
