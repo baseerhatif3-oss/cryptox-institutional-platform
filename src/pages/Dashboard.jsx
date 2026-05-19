@@ -37,10 +37,20 @@ const Dashboard =
       setTrades] =
       useState([]);
 
+    const [orders,
+      setOrders] =
+      useState([]);
+
+    const [orderType,
+      setOrderType] =
+      useState("MARKET");
+
     useEffect(() => {
       fetchProfile();
 
       fetchTrades();
+
+      fetchOrders();
     }, []);
 
     const token =
@@ -69,6 +79,27 @@ const Dashboard =
         }
       };
 
+    const fetchOrders =
+      async () => {
+        try {
+          const res =
+            await axios.get(
+              "https://crypto-backend-dojp.onrender.com/api/orders",
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+
+          setOrders(
+            res.data
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
     const fetchTrades =
       async () => {
         try {
@@ -87,6 +118,74 @@ const Dashboard =
           );
         } catch (error) {
           console.log(error);
+        }
+      };
+
+    const placeLimitOrder =
+      async () => {
+        try {
+          setLoading(true);
+
+          await axios.post(
+            "https://crypto-backend-dojp.onrender.com/api/orders",
+            {
+              type,
+              coin,
+              amount:
+                Number(
+                  amount
+                ),
+              price:
+                Number(
+                  price
+                ),
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          toast.success(
+            "Limit order created"
+          );
+
+          fetchOrders();
+        } catch (error) {
+          console.log(error);
+
+          toast.error(
+            "Failed to place order"
+          );
+        } finally {
+          setLoading(false);
+        }
+      };
+
+    const cancelOrder =
+      async (id) => {
+        try {
+          await axios.delete(
+            `https://crypto-backend-dojp.onrender.com/api/orders/${id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          toast.success(
+            "Order cancelled"
+          );
+
+          fetchOrders();
+        } catch (error) {
+          console.log(error);
+
+          toast.error(
+            "Cancel failed"
+          );
         }
       };
 
@@ -184,7 +283,7 @@ const Dashboard =
               )}
           </div>
 
-          {/* TRADING PANEL */}
+          {/* TERMINAL */}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* TRADE BOX */}
@@ -194,7 +293,7 @@ const Dashboard =
                 Execute Trade
               </h2>
 
-              {/* TYPE */}
+              {/* BUY SELL */}
 
               <div className="grid grid-cols-2 gap-4 mb-6">
                 <button
@@ -227,6 +326,42 @@ const Dashboard =
                   }`}
                 >
                   SELL
+                </button>
+              </div>
+
+              {/* ORDER TYPE */}
+
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <button
+                  onClick={() =>
+                    setOrderType(
+                      "MARKET"
+                    )
+                  }
+                  className={`py-4 rounded-2xl font-bold ${
+                    orderType ===
+                    "MARKET"
+                      ? "bg-blue-600"
+                      : "bg-slate-800"
+                  }`}
+                >
+                  MARKET
+                </button>
+
+                <button
+                  onClick={() =>
+                    setOrderType(
+                      "LIMIT"
+                    )
+                  }
+                  className={`py-4 rounded-2xl font-bold ${
+                    orderType ===
+                    "LIMIT"
+                      ? "bg-yellow-600"
+                      : "bg-slate-800"
+                  }`}
+                >
+                  LIMIT
                 </button>
               </div>
 
@@ -326,7 +461,10 @@ const Dashboard =
 
               <button
                 onClick={
-                  executeTrade
+                  orderType ===
+                  "MARKET"
+                    ? executeTrade
+                    : placeLimitOrder
                 }
                 disabled={
                   loading
@@ -340,113 +478,244 @@ const Dashboard =
               >
                 {loading
                   ? "Processing..."
-                  : `${type} ${coin}`}
+                  : orderType ===
+                    "MARKET"
+                  ? `${type} ${coin}`
+                  : `Place ${type} Order`}
               </button>
             </div>
 
-            {/* TRADE HISTORY */}
+            {/* RIGHT SIDE */}
 
-            <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden">
-              <div className="px-8 py-6 border-b border-slate-800">
-                <h2 className="text-3xl font-bold">
-                  Trade History
-                </h2>
+            <div className="space-y-8">
+              {/* OPEN ORDERS */}
+
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden">
+                <div className="px-8 py-6 border-b border-slate-800">
+                  <h2 className="text-3xl font-bold">
+                    Open Orders
+                  </h2>
+                </div>
+
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-slate-800">
+                      <tr>
+                        <th className="text-left p-5">
+                          Type
+                        </th>
+
+                        <th className="text-left p-5">
+                          Coin
+                        </th>
+
+                        <th className="text-left p-5">
+                          Amount
+                        </th>
+
+                        <th className="text-left p-5">
+                          Price
+                        </th>
+
+                        <th className="text-left p-5">
+                          Status
+                        </th>
+
+                        <th className="text-left p-5">
+                          Action
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {orders.length ===
+                      0 ? (
+                        <tr>
+                          <td
+                            colSpan="6"
+                            className="p-10 text-center text-slate-400"
+                          >
+                            No open orders
+                          </td>
+                        </tr>
+                      ) : (
+                        orders.map(
+                          (
+                            order
+                          ) => (
+                            <tr
+                              key={
+                                order._id
+                              }
+                              className="border-t border-slate-800"
+                            >
+                              <td className="p-5">
+                                <span
+                                  className={`px-4 py-2 rounded-xl text-sm font-bold ${
+                                    order.type ===
+                                    "BUY"
+                                      ? "bg-green-500/20 text-green-400"
+                                      : "bg-red-500/20 text-red-400"
+                                  }`}
+                                >
+                                  {
+                                    order.type
+                                  }
+                                </span>
+                              </td>
+
+                              <td className="p-5">
+                                {
+                                  order.coin
+                                }
+                              </td>
+
+                              <td className="p-5">
+                                {
+                                  order.amount
+                                }
+                              </td>
+
+                              <td className="p-5">
+                                $
+                                {
+                                  order.price
+                                }
+                              </td>
+
+                              <td className="p-5">
+                                <span className="px-4 py-2 rounded-xl text-sm font-bold bg-yellow-500/20 text-yellow-400">
+                                  {
+                                    order.status
+                                  }
+                                </span>
+                              </td>
+
+                              <td className="p-5">
+                                <button
+                                  onClick={() =>
+                                    cancelOrder(
+                                      order._id
+                                    )
+                                  }
+                                  className="bg-red-600 hover:bg-red-500 px-4 py-2 rounded-xl text-sm font-bold"
+                                >
+                                  Cancel
+                                </button>
+                              </td>
+                            </tr>
+                          )
+                        )
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
 
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-slate-800">
-                    <tr>
-                      <th className="text-left p-5">
-                        Type
-                      </th>
+              {/* TRADE HISTORY */}
 
-                      <th className="text-left p-5">
-                        Coin
-                      </th>
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden">
+                <div className="px-8 py-6 border-b border-slate-800">
+                  <h2 className="text-3xl font-bold">
+                    Trade History
+                  </h2>
+                </div>
 
-                      <th className="text-left p-5">
-                        Amount
-                      </th>
-
-                      <th className="text-left p-5">
-                        Price
-                      </th>
-
-                      <th className="text-left p-5">
-                        Total
-                      </th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {trades.length ===
-                    0 ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-slate-800">
                       <tr>
-                        <td
-                          colSpan="5"
-                          className="p-10 text-center text-slate-400"
-                        >
-                          No trades yet
-                        </td>
+                        <th className="text-left p-5">
+                          Type
+                        </th>
+
+                        <th className="text-left p-5">
+                          Coin
+                        </th>
+
+                        <th className="text-left p-5">
+                          Amount
+                        </th>
+
+                        <th className="text-left p-5">
+                          Price
+                        </th>
+
+                        <th className="text-left p-5">
+                          Total
+                        </th>
                       </tr>
-                    ) : (
-                      trades.map(
-                        (
-                          trade
-                        ) => (
-                          <tr
-                            key={
-                              trade._id
-                            }
-                            className="border-t border-slate-800"
+                    </thead>
+
+                    <tbody>
+                      {trades.length ===
+                      0 ? (
+                        <tr>
+                          <td
+                            colSpan="5"
+                            className="p-10 text-center text-slate-400"
                           >
-                            <td className="p-5">
-                              <span
-                                className={`px-4 py-2 rounded-xl text-sm font-bold ${
-                                  trade.type ===
-                                  "BUY"
-                                    ? "bg-green-500/20 text-green-400"
-                                    : "bg-red-500/20 text-red-400"
-                                }`}
-                              >
+                            No trades yet
+                          </td>
+                        </tr>
+                      ) : (
+                        trades.map(
+                          (
+                            trade
+                          ) => (
+                            <tr
+                              key={
+                                trade._id
+                              }
+                              className="border-t border-slate-800"
+                            >
+                              <td className="p-5">
+                                <span
+                                  className={`px-4 py-2 rounded-xl text-sm font-bold ${
+                                    trade.type ===
+                                    "BUY"
+                                      ? "bg-green-500/20 text-green-400"
+                                      : "bg-red-500/20 text-red-400"
+                                  }`}
+                                >
+                                  {
+                                    trade.type
+                                  }
+                                </span>
+                              </td>
+
+                              <td className="p-5">
                                 {
-                                  trade.type
+                                  trade.coin
                                 }
-                              </span>
-                            </td>
+                              </td>
 
-                            <td className="p-5">
-                              {
-                                trade.coin
-                              }
-                            </td>
+                              <td className="p-5">
+                                {
+                                  trade.amount
+                                }
+                              </td>
 
-                            <td className="p-5">
-                              {
-                                trade.amount
-                              }
-                            </td>
+                              <td className="p-5">
+                                $
+                                {
+                                  trade.price
+                                }
+                              </td>
 
-                            <td className="p-5">
-                              $
-                              {
-                                trade.price
-                              }
-                            </td>
-
-                            <td className="p-5">
-                              $
-                              {Number(
-                                trade.total
-                              ).toLocaleString()}
-                            </td>
-                          </tr>
+                              <td className="p-5">
+                                $
+                                {Number(
+                                  trade.total
+                                ).toLocaleString()}
+                              </td>
+                            </tr>
+                          )
                         )
-                      )
-                    )}
-                  </tbody>
-                </table>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
