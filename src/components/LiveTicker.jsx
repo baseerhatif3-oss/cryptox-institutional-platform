@@ -3,89 +3,91 @@ import {
   useState,
 } from "react";
 
-import axios from "axios";
+import {
+  io,
+} from "socket.io-client";
+
+const socket =
+  io(
+    "https://crypto-backend-dojp.onrender.com"
+  );
 
 const LiveTicker =
   () => {
     const [prices,
       setPrices] =
-      useState([]);
+      useState({
+        BTC:
+          "0.00",
+
+        ETH:
+          "0.00",
+
+        SOL:
+          "0.00",
+
+        XRP:
+          "0.00",
+      });
 
     useEffect(() => {
-      fetchPrices();
+      socket.on(
+        "market_update",
+        (
+          data
+        ) => {
+          setPrices(
+            data
+          );
+        }
+      );
 
-      const interval =
-        setInterval(
-          fetchPrices,
-          5000
+      return () => {
+        socket.off(
+          "market_update"
         );
-
-      return () =>
-        clearInterval(
-          interval
-        );
+      };
     }, []);
 
-    const fetchPrices =
-      async () => {
-        try {
-          const symbols =
-            [
-              "BTCUSDT",
-              "ETHUSDT",
-              "SOLUSDT",
-              "BNBUSDT",
-              "XRPUSDT",
-            ];
+    const coins =
+      [
+        {
+          symbol:
+            "BTC",
 
-          const requests =
-            symbols.map(
-              (
-                symbol
-              ) =>
-                axios.get(
-                  `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`
-                )
-            );
+          price:
+            prices.BTC,
+        },
 
-          const responses =
-            await Promise.all(
-              requests
-            );
+        {
+          symbol:
+            "ETH",
 
-          const formatted =
-            responses.map(
-              (
-                res
-              ) => ({
-                symbol:
-                  res.data.symbol.replace(
-                    "USDT",
-                    ""
-                  ),
+          price:
+            prices.ETH,
+        },
 
-                price:
-                  Number(
-                    res.data
-                      .price
-                  ).toFixed(
-                    2
-                  ),
-              })
-            );
+        {
+          symbol:
+            "SOL",
 
-          setPrices(
-            formatted
-          );
-        } catch (error) {
-          console.log(error);
-        }
-      };
+          price:
+            prices.SOL,
+        },
+
+        {
+          symbol:
+            "XRP",
+
+          price:
+            prices.XRP,
+        },
+      ];
 
     return (
       <div className="bg-slate-900 border-b border-slate-800 overflow-hidden">
-        <div className="flex animate-pulse whitespace-nowrap">
-          {prices.map(
+        <div className="flex whitespace-nowrap animate-pulse">
+          {coins.map(
             (
               coin
             ) => (
@@ -95,13 +97,39 @@ const LiveTicker =
                 }
                 className="px-8 py-4 border-r border-slate-800 flex items-center gap-3"
               >
-                <span className="font-bold text-white">
+                <span className="font-bold text-white text-lg">
                   {
                     coin.symbol
                   }
                 </span>
 
-                <span className="text-green-400 font-semibold">
+                <span className="text-green-400 font-bold text-lg">
+                  $
+                  {
+                    coin.price
+                  }
+                </span>
+              </div>
+            )
+          )}
+
+          {/* DUPLICATE FOR CONTINUOUS EFFECT */}
+
+          {coins.map(
+            (
+              coin
+            ) => (
+              <div
+                key={`duplicate-${coin.symbol}`}
+                className="px-8 py-4 border-r border-slate-800 flex items-center gap-3"
+              >
+                <span className="font-bold text-white text-lg">
+                  {
+                    coin.symbol
+                  }
+                </span>
+
+                <span className="text-green-400 font-bold text-lg">
                   $
                   {
                     coin.price
