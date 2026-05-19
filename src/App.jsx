@@ -37,6 +37,8 @@ import Deposit from "./pages/Deposit";
 
 import Withdraw from "./pages/Withdraw";
 
+import Wallets from "./pages/Wallets";
+
 import Admin from "./pages/Admin";
 
 import ForgotPassword from "./pages/ForgotPassword";
@@ -167,6 +169,13 @@ function App() {
             path="futures"
             element={
               <Futures />
+            }
+          />
+
+          <Route
+            path="wallets"
+            element={
+              <Wallets />
             }
           />
 

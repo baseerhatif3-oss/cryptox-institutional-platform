@@ -65,6 +65,34 @@ const DashboardLayout =
             </Link>
 
             <Link
+              to="/wallets"
+              className="block bg-cyan-700 hover:bg-cyan-600 px-5 py-4 rounded-2xl font-semibold transition"
+            >
+              Wallet Addresses
+            </Link>
+
+            <Link
+              to="/deposit"
+              className="block bg-green-700 hover:bg-green-600 px-5 py-4 rounded-2xl font-semibold transition"
+            >
+              Deposit Funds
+            </Link>
+
+            <Link
+              to="/withdraw"
+              className="block bg-red-700 hover:bg-red-600 px-5 py-4 rounded-2xl font-semibold transition"
+            >
+              Withdraw Funds
+            </Link>
+
+            <Link
+              to="/futures"
+              className="block bg-slate-800 hover:bg-slate-700 px-5 py-4 rounded-2xl font-semibold transition"
+            >
+              Futures Trading
+            </Link>
+
+            <Link
               to="/ai-trading"
               className="block bg-yellow-600 hover:bg-yellow-500 px-5 py-4 rounded-2xl font-semibold transition"
             >
@@ -76,13 +104,6 @@ const DashboardLayout =
               className="block bg-cyan-600 hover:bg-cyan-500 px-5 py-4 rounded-2xl font-semibold transition"
             >
               Copy Trading
-            </Link>
-
-            <Link
-              to="/referrals"
-              className="block bg-orange-600 hover:bg-orange-500 px-5 py-4 rounded-2xl font-semibold transition"
-            >
-              Referrals
             </Link>
 
             <Link
@@ -100,24 +121,10 @@ const DashboardLayout =
             </Link>
 
             <Link
-              to="/futures"
-              className="block bg-slate-800 hover:bg-slate-700 px-5 py-4 rounded-2xl font-semibold transition"
+              to="/referrals"
+              className="block bg-orange-600 hover:bg-orange-500 px-5 py-4 rounded-2xl font-semibold transition"
             >
-              Futures Trading
-            </Link>
-
-            <Link
-              to="/deposit"
-              className="block bg-green-700 hover:bg-green-600 px-5 py-4 rounded-2xl font-semibold transition"
-            >
-              Deposit Funds
-            </Link>
-
-            <Link
-              to="/withdraw"
-              className="block bg-red-700 hover:bg-red-600 px-5 py-4 rounded-2xl font-semibold transition"
-            >
-              Withdraw Funds
+              Referrals
             </Link>
 
             <Link
@@ -157,7 +164,7 @@ const DashboardLayout =
             <Notifications />
           </div>
 
-          {/* LIVE TICKER */}
+          {/* LIVE MARKET TICKER */}
 
           <LiveTicker />
 

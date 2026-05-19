@@ -1,100 +1,77 @@
-import { useEffect, useState } from "react";
-
 import {
-  Wallet as WalletIcon,
-  DollarSign,
-  Bitcoin,
-} from "lucide-react";
+  useEffect,
+  useState,
+} from "react";
 
-import API from "../api/axios";
+import axios from "axios";
 
-const Wallet = () => {
-  const [user, setUser] =
-    useState(null);
+const Wallets = () => {
+  const [wallets,
+    setWallets] =
+    useState({});
 
-  const [loading, setLoading] =
-    useState(true);
+  useEffect(() => {
+    fetchWallets();
+  }, []);
 
-  const fetchProfile =
+  const fetchWallets =
     async () => {
       try {
-        const res =
-          await API.get(
-            "/user/profile"
+        const token =
+          localStorage.getItem(
+            "token"
           );
 
-        setUser(res.data);
+        const res =
+          await axios.get(
+            "https://crypto-backend-dojp.onrender.com/api/wallets",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+        setWallets(
+          res.data
+        );
       } catch (error) {
         console.log(error);
-      } finally {
-        setLoading(false);
       }
     };
 
-  useEffect(() => {
-    fetchProfile();
-  }, []);
+  const copyAddress =
+    async (address) => {
+      await navigator.clipboard.writeText(
+        address
+      );
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white text-2xl">
-        Loading wallet...
-      </div>
-    );
-  }
+      alert(
+        "Wallet address copied!"
+      );
+    };
 
-  const balances =
-    user?.balances || {};
-
-  const assets = [
+  const coins = [
     {
-      name: "USD",
-      symbol: "USD",
-      icon: (
-        <DollarSign size={36} />
-      ),
-      balance:
-        balances.USD || 0,
-      color:
-        "from-green-500 to-emerald-600",
-    },
-
-    {
-      name: "Bitcoin",
       symbol: "BTC",
-      icon: (
-        <Bitcoin size={36} />
-      ),
-      balance:
-        balances.BTC || 0,
       color:
         "from-orange-500 to-yellow-500",
     },
 
     {
-      name: "Ethereum",
       symbol: "ETH",
-      icon: (
-        <div className="text-3xl">
-          Ξ
-        </div>
-      ),
-      balance:
-        balances.ETH || 0,
       color:
-        "from-blue-500 to-cyan-500",
+        "from-blue-500 to-indigo-500",
     },
 
     {
-      name: "Solana",
+      symbol: "USDT",
+      color:
+        "from-green-500 to-emerald-500",
+    },
+
+    {
       symbol: "SOL",
-      icon: (
-        <div className="text-3xl">
-          ◎
-        </div>
-      ),
-      balance:
-        balances.SOL || 0,
       color:
         "from-purple-500 to-pink-500",
     },
@@ -102,89 +79,85 @@ const Wallet = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* HEADER */}
 
-        <div className="mb-10 flex items-center gap-4">
-          <div className="bg-blue-600 p-4 rounded-3xl">
-            <WalletIcon size={38} />
-          </div>
+        <div className="mb-10">
+          <h1 className="text-5xl font-bold">
+            Crypto Wallets
+          </h1>
 
-          <div>
-            <h1 className="text-5xl font-bold">
-              Wallet
-            </h1>
-
-            <p className="text-slate-400 mt-2 text-lg">
-              Real-time backend wallet
-              balances
-            </p>
-          </div>
-        </div>
-
-        {/* TOTAL */}
-
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 mb-10">
-          <p className="text-slate-400 text-lg">
-            Total Portfolio Value
+          <p className="text-slate-400 mt-3">
+            Your personal deposit wallet addresses
           </p>
-
-          <h2 className="text-6xl font-bold mt-4">
-            $
-            {(
-              balances.USD || 0
-            ).toLocaleString()}
-          </h2>
         </div>
 
-        {/* ASSETS */}
+        {/* WALLETS */}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
-          {assets.map((asset) => (
-            <div
-              key={asset.symbol}
-              className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden"
-            >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {coins.map(
+            (coin) => (
               <div
-                className={`h-3 bg-gradient-to-r ${asset.color}`}
-              />
+                key={
+                  coin.symbol
+                }
+                className={`bg-gradient-to-r ${coin.color} rounded-3xl p-[1px]`}
+              >
+                <div className="bg-slate-900 rounded-3xl p-8 h-full">
+                  {/* TOP */}
 
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-8">
-                  <div
-                    className={`bg-gradient-to-r ${asset.color} p-4 rounded-2xl`}
-                  >
-                    {asset.icon}
+                  <div className="flex items-center justify-between mb-8">
+                    <div>
+                      <h2 className="text-4xl font-bold">
+                        {
+                          coin.symbol
+                        }
+                      </h2>
+
+                      <p className="text-slate-400 mt-2">
+                        Deposit Wallet
+                      </p>
+                    </div>
+
+                    <div className="text-5xl">
+                      💰
+                    </div>
                   </div>
 
-                  <div className="bg-slate-800 px-4 py-2 rounded-xl">
+                  {/* ADDRESS */}
+
+                  <div className="bg-slate-800 rounded-2xl p-5 break-all text-sm text-slate-300 mb-6">
                     {
-                      asset.symbol
+                      wallets[
+                        coin
+                          .symbol
+                      ]
                     }
                   </div>
+
+                  {/* BUTTON */}
+
+                  <button
+                    onClick={() =>
+                      copyAddress(
+                        wallets[
+                          coin
+                            .symbol
+                        ]
+                      )
+                    }
+                    className="w-full bg-blue-600 hover:bg-blue-700 transition py-4 rounded-2xl text-xl font-bold"
+                  >
+                    Copy Address
+                  </button>
                 </div>
-
-                <h3 className="text-3xl font-bold mb-2">
-                  {asset.name}
-                </h3>
-
-                <p className="text-slate-400 mb-6">
-                  Available Balance
-                </p>
-
-                <h2 className="text-5xl font-bold">
-                  {typeof asset.balance ===
-                  "number"
-                    ? asset.balance.toLocaleString()
-                    : asset.balance}
-                </h2>
               </div>
-            </div>
-          ))}
+            )
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default Wallet;
+export default Wallets;
