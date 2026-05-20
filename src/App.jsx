@@ -1,3 +1,5 @@
+import React from "react";
+
 import {
   BrowserRouter,
   Routes,
@@ -5,76 +7,37 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import { Toaster } from "react-hot-toast";
+/* LAYOUT */
 
 import DashboardLayout from "./layouts/DashboardLayout";
 
-import Login from "./pages/Login";
-
-import Register from "./pages/Register";
-
-import VerifyOTP from "./pages/VerifyOTP";
+/* PAGES */
 
 import Dashboard from "./pages/Dashboard";
-
-import Markets from "./pages/Markets";
-
+import Trading from "./pages/Trading";
 import Futures from "./pages/Futures";
-
-import Portfolio from "./pages/Portfolio";
-
-import AITrading from "./pages/AITrading";
-
-import TradingBots from "./pages/TradingBots";
-
-import CopyTrading from "./pages/CopyTrading";
-
-import Referrals from "./pages/Referrals";
-
-import Staking from "./pages/Staking";
-
-import P2P from "./pages/P2P";
-
-import Deposit from "./pages/Deposit";
-
-import Withdraw from "./pages/Withdraw";
-
 import Wallets from "./pages/Wallets";
+import Orders from "./pages/Orders";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Notifications from "./pages/Notifications";
 
-import Transactions from "./pages/Transactions";
+/* GLOBAL STYLES */
 
-import OrderBook from "./pages/OrderBook";
+import "./index.css";
 
-import Admin from "./pages/Admin";
-
-import ForgotPassword from "./pages/ForgotPassword";
-
-import ResetPassword from "./pages/ResetPassword";
-
-const PrivateRoute = ({
-  children,
-}) => {
+function App() {
   const token =
     localStorage.getItem(
       "token"
     );
 
-  return token ? (
-    children
-  ) : (
-    <Navigate to="/login" />
-  );
-};
-
-function App() {
   return (
     <BrowserRouter>
-      <Toaster
-        position="top-right"
-      />
-
       <Routes>
-        {/* AUTH */}
+        {/* =========================
+            PUBLIC ROUTES
+        ========================= */}
 
         <Route
           path="/login"
@@ -86,35 +49,20 @@ function App() {
           element={<Register />}
         />
 
-        <Route
-          path="/verify-otp"
-          element={
-            <VerifyOTP />
-          }
-        />
-
-        <Route
-          path="/forgot-password"
-          element={
-            <ForgotPassword />
-          }
-        />
-
-        <Route
-          path="/reset-password/:token"
-          element={
-            <ResetPassword />
-          }
-        />
-
-        {/* MAIN DASHBOARD */}
+        {/* =========================
+            PROTECTED ROUTES
+        ========================= */}
 
         <Route
           path="/"
           element={
-            <PrivateRoute>
+            token ? (
               <DashboardLayout />
-            </PrivateRoute>
+            ) : (
+              <Navigate
+                to="/login"
+              />
+            )
           }
         >
           {/* DASHBOARD */}
@@ -126,12 +74,19 @@ function App() {
             }
           />
 
-          {/* MARKETS */}
+          <Route
+            path="dashboard"
+            element={
+              <Dashboard />
+            }
+          />
+
+          {/* TRADING */}
 
           <Route
-            path="markets"
+            path="trading"
             element={
-              <Markets />
+              <Trading />
             }
           />
 
@@ -144,16 +99,7 @@ function App() {
             }
           />
 
-          {/* PORTFOLIO */}
-
-          <Route
-            path="portfolio"
-            element={
-              <Portfolio />
-            }
-          />
-
-          {/* WALLETS */}
+          {/* WALLET */}
 
           <Route
             path="wallets"
@@ -162,101 +108,37 @@ function App() {
             }
           />
 
-          {/* TRANSACTIONS */}
+          {/* ORDERS */}
 
           <Route
-            path="transactions"
+            path="orders"
             element={
-              <Transactions />
+              <Orders />
             }
           />
 
-          {/* ORDER BOOK */}
+          {/* NOTIFICATIONS */}
 
           <Route
-            path="order-book"
+            path="notifications"
             element={
-              <OrderBook />
+              <Notifications />
             }
-          />
-
-          {/* DEPOSIT */}
-
-          <Route
-            path="deposit"
-            element={
-              <Deposit />
-            }
-          />
-
-          {/* WITHDRAW */}
-
-          <Route
-            path="withdraw"
-            element={
-              <Withdraw />
-            }
-          />
-
-          {/* AI TRADING */}
-
-          <Route
-            path="ai-trading"
-            element={
-              <AITrading />
-            }
-          />
-
-          {/* TRADING BOTS */}
-
-          <Route
-            path="trading-bots"
-            element={
-              <TradingBots />
-            }
-          />
-
-          {/* COPY TRADING */}
-
-          <Route
-            path="copy-trading"
-            element={
-              <CopyTrading />
-            }
-          />
-
-          {/* STAKING */}
-
-          <Route
-            path="staking"
-            element={
-              <Staking />
-            }
-          />
-
-          {/* P2P */}
-
-          <Route
-            path="p2p"
-            element={<P2P />}
-          />
-
-          {/* REFERRALS */}
-
-          <Route
-            path="referrals"
-            element={
-              <Referrals />
-            }
-          />
-
-          {/* ADMIN */}
-
-          <Route
-            path="admin"
-            element={<Admin />}
           />
         </Route>
+
+        {/* =========================
+            FALLBACK
+        ========================= */}
+
+        <Route
+          path="*"
+          element={
+            <Navigate
+              to="/"
+            />
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
