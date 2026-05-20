@@ -1,7 +1,7 @@
-export default function Trading() {
+export default function Orders() {
   return (
     <div className="text-white p-6">
-      Trading Page
+      Orders Page
     </div>
   );
 }
