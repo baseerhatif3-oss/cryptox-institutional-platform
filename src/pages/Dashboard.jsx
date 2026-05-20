@@ -70,6 +70,14 @@ const Dashboard =
           "0.50",
       });
 
+    const [orderBook,
+      setOrderBook] =
+      useState({
+        buys: [],
+
+        sells: [],
+      });
+
     const token =
       localStorage.getItem(
         "token"
@@ -150,6 +158,28 @@ const Dashboard =
         }
       );
 
+      socket.on(
+        "order_filled",
+        (
+          filled
+        ) => {
+          setOrders(
+            (
+              prev
+            ) =>
+              prev.map(
+                (
+                  order
+                ) =>
+                  order._id ===
+                  filled._id
+                    ? filled
+                    : order
+              )
+          );
+        }
+      );
+
       return () => {
         socket.off(
           "market_update"
@@ -165,6 +195,10 @@ const Dashboard =
 
         socket.off(
           "order_cancelled"
+        );
+
+        socket.off(
+          "order_filled"
         );
       };
     }, []);
@@ -243,6 +277,108 @@ const Dashboard =
           console.log(error);
         }
       };
+
+    /* =========================
+       ORDERBOOK DEPTH
+    ========================= */
+
+    useEffect(() => {
+      const generateDepth =
+        () => {
+          const current =
+            Number(
+              livePrices[
+                coin
+              ]
+            );
+
+          const buys =
+            [];
+
+          const sells =
+            [];
+
+          for (
+            let i = 0;
+            i < 10;
+            i++
+          ) {
+            buys.push({
+              price: (
+                current -
+                Math.random() *
+                  500
+              ).toFixed(
+                2
+              ),
+
+              amount:
+                (
+                  Math.random() *
+                  5
+                ).toFixed(
+                  4
+                ),
+            });
+
+            sells.push({
+              price: (
+                current +
+                Math.random() *
+                  500
+              ).toFixed(
+                2
+              ),
+
+              amount:
+                (
+                  Math.random() *
+                  5
+                ).toFixed(
+                  4
+                ),
+            });
+          }
+
+          setOrderBook({
+            buys:
+              buys.sort(
+                (
+                  a,
+                  b
+                ) =>
+                  b.price -
+                  a.price
+              ),
+
+            sells:
+              sells.sort(
+                (
+                  a,
+                  b
+                ) =>
+                  a.price -
+                  b.price
+              ),
+          });
+        };
+
+      generateDepth();
+
+      const interval =
+        setInterval(
+          generateDepth,
+          2000
+        );
+
+      return () =>
+        clearInterval(
+          interval
+        );
+    }, [
+      coin,
+      livePrices,
+    ]);
 
     /* =========================
        AUTO UPDATE PRICE
@@ -344,7 +480,7 @@ const Dashboard =
       };
 
     /* =========================
-       EXECUTE MARKET TRADE
+       MARKET TRADE
     ========================= */
 
     const executeTrade =
@@ -412,35 +548,6 @@ const Dashboard =
             </p>
           </div>
 
-          {/* BALANCES */}
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
-            {user &&
-              Object.entries(
-                user.balances
-              ).map(
-                (
-                  [
-                    asset,
-                    balance,
-                  ]
-                ) => (
-                  <div
-                    key={asset}
-                    className="bg-slate-900 border border-slate-800 rounded-3xl p-6"
-                  >
-                    <p className="text-slate-400 mb-2">
-                      {asset}
-                    </p>
-
-                    <h2 className="text-3xl font-bold">
-                      {balance}
-                    </h2>
-                  </div>
-                )
-              )}
-          </div>
-
           {/* LIVE MARKET */}
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
@@ -474,9 +581,7 @@ const Dashboard =
             )}
           </div>
 
-          {/* TERMINAL */}
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* LEFT SIDE */}
 
             <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
@@ -682,6 +787,88 @@ const Dashboard =
               </button>
             </div>
 
+            {/* ORDERBOOK */}
+
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden">
+              <div className="px-8 py-6 border-b border-slate-800">
+                <h2 className="text-3xl font-bold">
+                  Market Depth
+                </h2>
+              </div>
+
+              <div className="grid grid-cols-2">
+                {/* BUY WALL */}
+
+                <div className="border-r border-slate-800">
+                  <div className="bg-green-500/10 text-green-400 font-bold px-6 py-4">
+                    BUY ORDERS
+                  </div>
+
+                  <div className="max-h-[500px] overflow-y-auto">
+                    {orderBook.buys.map(
+                      (
+                        order,
+                        index
+                      ) => (
+                        <div
+                          key={index}
+                          className="flex justify-between px-6 py-3 border-b border-slate-800"
+                        >
+                          <span className="text-green-400 font-bold">
+                            $
+                            {
+                              order.price
+                            }
+                          </span>
+
+                          <span className="text-white">
+                            {
+                              order.amount
+                            }
+                          </span>
+                        </div>
+                      )
+                    )}
+                  </div>
+                </div>
+
+                {/* SELL WALL */}
+
+                <div>
+                  <div className="bg-red-500/10 text-red-400 font-bold px-6 py-4">
+                    SELL ORDERS
+                  </div>
+
+                  <div className="max-h-[500px] overflow-y-auto">
+                    {orderBook.sells.map(
+                      (
+                        order,
+                        index
+                      ) => (
+                        <div
+                          key={index}
+                          className="flex justify-between px-6 py-3 border-b border-slate-800"
+                        >
+                          <span className="text-red-400 font-bold">
+                            $
+                            {
+                              order.price
+                            }
+                          </span>
+
+                          <span className="text-white">
+                            {
+                              order.amount
+                            }
+                          </span>
+                        </div>
+                      )
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* RIGHT SIDE */}
 
             <div className="space-y-8">
@@ -694,131 +881,7 @@ const Dashboard =
                   </h2>
                 </div>
 
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead className="bg-slate-800">
-                      <tr>
-                        <th className="text-left p-5">
-                          Type
-                        </th>
-
-                        <th className="text-left p-5">
-                          Coin
-                        </th>
-
-                        <th className="text-left p-5">
-                          Amount
-                        </th>
-
-                        <th className="text-left p-5">
-                          Price
-                        </th>
-
-                        <th className="text-left p-5">
-                          Status
-                        </th>
-
-                        <th className="text-left p-5">
-                          Action
-                        </th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {orders.length ===
-                      0 ? (
-                        <tr>
-                          <td
-                            colSpan="6"
-                            className="p-10 text-center text-slate-400"
-                          >
-                            No open orders
-                          </td>
-                        </tr>
-                      ) : (
-                        orders.map(
-                          (
-                            order
-                          ) => (
-                            <tr
-                              key={
-                                order._id
-                              }
-                              className="border-t border-slate-800"
-                            >
-                              <td className="p-5">
-                                <span
-                                  className={`px-4 py-2 rounded-xl text-sm font-bold ${
-                                    order.type ===
-                                    "BUY"
-                                      ? "bg-green-500/20 text-green-400"
-                                      : "bg-red-500/20 text-red-400"
-                                  }`}
-                                >
-                                  {
-                                    order.type
-                                  }
-                                </span>
-                              </td>
-
-                              <td className="p-5">
-                                {
-                                  order.coin
-                                }
-                              </td>
-
-                              <td className="p-5">
-                                {
-                                  order.amount
-                                }
-                              </td>
-
-                              <td className="p-5">
-                                $
-                                {
-                                  order.price
-                                }
-                              </td>
-
-                              <td className="p-5">
-                                <span className="px-4 py-2 rounded-xl text-sm font-bold bg-yellow-500/20 text-yellow-400">
-                                  {
-                                    order.status
-                                  }
-                                </span>
-                              </td>
-
-                              <td className="p-5">
-                                <button
-                                  onClick={() =>
-                                    cancelOrder(
-                                      order._id
-                                    )
-                                  }
-                                  className="bg-red-600 hover:bg-red-500 px-4 py-2 rounded-xl text-sm font-bold"
-                                >
-                                  Cancel
-                                </button>
-                              </td>
-                            </tr>
-                          )
-                        )
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              {/* TRADE HISTORY */}
-
-              <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden">
-                <div className="px-8 py-6 border-b border-slate-800">
-                  <h2 className="text-3xl font-bold">
-                    Live Trade Feed
-                  </h2>
-                </div>
-
-                <div className="overflow-x-auto max-h-[500px] overflow-y-auto">
+                <div className="overflow-x-auto max-h-[300px] overflow-y-auto">
                   <table className="w-full">
                     <thead className="bg-slate-800 sticky top-0">
                       <tr>
@@ -831,83 +894,134 @@ const Dashboard =
                         </th>
 
                         <th className="text-left p-5">
-                          Amount
-                        </th>
-
-                        <th className="text-left p-5">
-                          Price
-                        </th>
-
-                        <th className="text-left p-5">
-                          Total
+                          Status
                         </th>
                       </tr>
                     </thead>
 
                     <tbody>
-                      {trades.length ===
-                      0 ? (
-                        <tr>
-                          <td
-                            colSpan="5"
-                            className="p-10 text-center text-slate-400"
+                      {orders.map(
+                        (
+                          order
+                        ) => (
+                          <tr
+                            key={
+                              order._id
+                            }
+                            className="border-t border-slate-800"
                           >
-                            No trades yet
-                          </td>
-                        </tr>
-                      ) : (
-                        trades.map(
-                          (
-                            trade
-                          ) => (
-                            <tr
-                              key={
-                                trade._id
+                            <td className="p-5">
+                              <span
+                                className={`px-4 py-2 rounded-xl text-sm font-bold ${
+                                  order.type ===
+                                  "BUY"
+                                    ? "bg-green-500/20 text-green-400"
+                                    : "bg-red-500/20 text-red-400"
+                                }`}
+                              >
+                                {
+                                  order.type
+                                }
+                              </span>
+                            </td>
+
+                            <td className="p-5">
+                              {
+                                order.coin
                               }
-                              className="border-t border-slate-800"
-                            >
-                              <td className="p-5">
-                                <span
-                                  className={`px-4 py-2 rounded-xl text-sm font-bold ${
-                                    trade.type ===
-                                    "BUY"
-                                      ? "bg-green-500/20 text-green-400"
-                                      : "bg-red-500/20 text-red-400"
-                                  }`}
-                                >
-                                  {
-                                    trade.type
-                                  }
-                                </span>
-                              </td>
+                            </td>
 
-                              <td className="p-5">
+                            <td className="p-5">
+                              <span
+                                className={`px-4 py-2 rounded-xl text-sm font-bold ${
+                                  order.status ===
+                                  "FILLED"
+                                    ? "bg-green-500/20 text-green-400"
+                                    : order.status ===
+                                      "CANCELLED"
+                                    ? "bg-red-500/20 text-red-400"
+                                    : "bg-yellow-500/20 text-yellow-400"
+                                }`}
+                              >
                                 {
-                                  trade.coin
+                                  order.status
                                 }
-                              </td>
+                              </span>
+                            </td>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
 
-                              <td className="p-5">
+              {/* LIVE TRADES */}
+
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden">
+                <div className="px-8 py-6 border-b border-slate-800">
+                  <h2 className="text-3xl font-bold">
+                    Live Trades
+                  </h2>
+                </div>
+
+                <div className="overflow-x-auto max-h-[350px] overflow-y-auto">
+                  <table className="w-full">
+                    <thead className="bg-slate-800 sticky top-0">
+                      <tr>
+                        <th className="text-left p-5">
+                          Type
+                        </th>
+
+                        <th className="text-left p-5">
+                          Coin
+                        </th>
+
+                        <th className="text-left p-5">
+                          Price
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {trades.map(
+                        (
+                          trade
+                        ) => (
+                          <tr
+                            key={
+                              trade._id
+                            }
+                            className="border-t border-slate-800"
+                          >
+                            <td className="p-5">
+                              <span
+                                className={`px-4 py-2 rounded-xl text-sm font-bold ${
+                                  trade.type ===
+                                  "BUY"
+                                    ? "bg-green-500/20 text-green-400"
+                                    : "bg-red-500/20 text-red-400"
+                                }`}
+                              >
                                 {
-                                  trade.amount
+                                  trade.type
                                 }
-                              </td>
+                              </span>
+                            </td>
 
-                              <td className="p-5">
-                                $
-                                {
-                                  trade.price
-                                }
-                              </td>
+                            <td className="p-5">
+                              {
+                                trade.coin
+                              }
+                            </td>
 
-                              <td className="p-5">
-                                $
-                                {Number(
-                                  trade.total
-                                ).toLocaleString()}
-                              </td>
-                            </tr>
-                          )
+                            <td className="p-5 font-bold">
+                              $
+                              {Number(
+                                trade.price
+                              ).toLocaleString()}
+                            </td>
+                          </tr>
                         )
                       )}
                     </tbody>
