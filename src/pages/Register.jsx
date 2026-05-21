@@ -2,159 +2,150 @@ import React, {
   useState,
 } from "react";
 
-import axios from "axios";
+import {
+  Link,
+  useNavigate,
+} from "react-router-dom";
+
+import API from "../services/api";
 
 const Register =
   () => {
-    const [
-      name,
-      setName,
-    ] = useState("");
+    const navigate =
+      useNavigate();
 
     const [
-      email,
-      setEmail,
-    ] = useState("");
+      formData,
+      setFormData,
+    ] = useState({
+      name: "",
 
-    const [
-      password,
-      setPassword,
-    ] = useState("");
+      email: "",
 
-    const [
-      loading,
-      setLoading,
-    ] = useState(false);
+      password: "",
+    });
 
-    const handleRegister =
-      async (
-        e
-      ) => {
+    const handleChange =
+      (e) => {
+        setFormData({
+          ...formData,
+
+          [e.target.name]:
+            e.target.value,
+        });
+      };
+
+    const handleSubmit =
+      async (e) => {
         e.preventDefault();
 
         try {
-          setLoading(
-            true
-          );
-
-          const res =
-            await axios.post(
-              "https://YOUR-BACKEND-URL/api/auth/register",
-              {
-                name,
-                email,
-                password,
-              }
+          const response =
+            await API.post(
+              "/auth/register",
+              formData
             );
 
           localStorage.setItem(
             "token",
-            res.data.token
+
+            response.data
+              .token
           );
 
-          window.location.href =
-            "/dashboard";
+          navigate(
+            "/dashboard"
+          );
         } catch (error) {
+          console.log(
+            error
+          );
+
           alert(
             error.response
               ?.data
               ?.message ||
-              "Registration failed"
-          );
-        } finally {
-          setLoading(
-            false
+              "Register failed"
           );
         }
       };
 
     return (
-      <div className="min-h-screen bg-[#0b0e11] flex items-center justify-center px-4">
-        <div className="w-full max-w-md bg-[#111] border border-gray-800 rounded-3xl p-8">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-yellow-400">
-              CryptoX
-            </h1>
+      <div className="min-h-screen bg-black flex items-center justify-center px-4">
+        <div className="w-full max-w-md bg-[#0b0e11] border border-gray-800 rounded-3xl p-8">
+          <h1 className="text-4xl font-bold text-yellow-400 text-center">
+            CryptoX
+          </h1>
 
-            <p className="text-gray-400 mt-3">
-              Create Your Exchange Account
-            </p>
-          </div>
+          <p className="text-gray-400 text-center mt-3">
+            Create your account
+          </p>
 
           <form
             onSubmit={
-              handleRegister
+              handleSubmit
             }
-            className="space-y-5"
+            className="space-y-5 mt-8"
           >
             <input
               type="text"
+              name="name"
               placeholder="Full Name"
-              value={name}
-              onChange={(
-                e
-              ) =>
-                setName(
-                  e.target
-                    .value
-                )
+              value={
+                formData.name
               }
-              className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4 text-white"
+              onChange={
+                handleChange
+              }
+              className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white outline-none"
+              required
             />
 
             <input
               type="email"
-              placeholder="Email Address"
-              value={email}
-              onChange={(
-                e
-              ) =>
-                setEmail(
-                  e.target
-                    .value
-                )
+              name="email"
+              placeholder="Email"
+              value={
+                formData.email
               }
-              className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4 text-white"
+              onChange={
+                handleChange
+              }
+              className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white outline-none"
+              required
             />
 
             <input
               type="password"
+              name="password"
               placeholder="Password"
               value={
-                password
+                formData.password
               }
-              onChange={(
-                e
-              ) =>
-                setPassword(
-                  e.target
-                    .value
-                )
+              onChange={
+                handleChange
               }
-              className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4 text-white"
+              className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white outline-none"
+              required
             />
 
             <button
               type="submit"
-              disabled={
-                loading
-              }
-              className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-4 rounded-xl transition"
+              className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 rounded-xl transition"
             >
-              {loading
-                ? "Creating Account..."
-                : "Register"}
+              Register
             </button>
           </form>
 
-          <p className="text-center text-gray-400 mt-6">
-            Already have an account?{" "}
-            <a
-              href="/login"
+          <p className="text-gray-500 text-center mt-6">
+            Already have an
+            account?{" "}
+            <Link
+              to="/login"
               className="text-yellow-400"
             >
               Login
-            </a>
+            </Link>
           </p>
         </div>
       </div>
