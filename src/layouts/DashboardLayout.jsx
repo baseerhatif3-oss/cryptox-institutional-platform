@@ -65,6 +65,14 @@ const DashboardLayout =
         path:
           "/profile",
       },
+
+      {
+        name:
+          "Admin",
+
+        path:
+          "/admin",
+      },
     ];
 
     return (
@@ -84,7 +92,7 @@ const DashboardLayout =
             </p>
           </div>
 
-          {/* MENU */}
+          {/* NAVIGATION */}
 
           <nav className="flex-1 p-4 space-y-2">
             {menuItems.map(
@@ -113,7 +121,7 @@ const DashboardLayout =
             )}
           </nav>
 
-          {/* FOOTER */}
+          {/* EXCHANGE STATUS */}
 
           <div className="p-4 border-t border-gray-800">
             <div className="bg-[#111] rounded-2xl p-4">
@@ -128,11 +136,15 @@ const DashboardLayout =
                   Online
                 </span>
               </div>
+
+              <p className="text-xs text-gray-500 mt-3">
+                All systems operational
+              </p>
             </div>
           </div>
         </aside>
 
-        {/* MAIN CONTENT */}
+        {/* MAIN */}
 
         <div className="flex-1 flex flex-col">
           {/* TOPBAR */}
@@ -153,7 +165,7 @@ const DashboardLayout =
             {/* RIGHT */}
 
             <div className="flex items-center gap-4">
-              {/* LIVE STATUS */}
+              {/* LIVE MARKET */}
 
               <div className="hidden md:flex items-center gap-2 bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-2 rounded-full">
                 <div className="w-2 h-2 rounded-full bg-green-400"></div>

@@ -1,460 +1,281 @@
-import {
-  useEffect,
-  useState,
-} from "react";
-
-import axios from "axios";
-
-import toast from "react-hot-toast";
+import React from "react";
 
 const Admin =
   () => {
-    const [users,
-      setUsers] =
-      useState([]);
+    const stats = [
+      {
+        title:
+          "Total Users",
 
-    const [stats,
-      setStats] =
-      useState({
-        totalUsers: 0,
+        value:
+          "12,540",
+      },
 
-        totalTrades: 0,
+      {
+        title:
+          "24h Volume",
 
-        totalVolume: 0,
+        value:
+          "$24.8M",
+      },
 
-        totalFees: 0,
-      });
+      {
+        title:
+          "Exchange Revenue",
 
-    const [loading,
-      setLoading] =
-      useState(false);
+        value:
+          "$482,000",
+      },
 
-    const token =
-      localStorage.getItem(
-        "token"
-      );
+      {
+        title:
+          "Pending KYC",
 
-    /* =========================
-       FETCH USERS
-    ========================= */
+        value:
+          "128",
+      },
+    ];
 
-    useEffect(() => {
-      fetchUsers();
+    const users = [
+      {
+        name:
+          "Ahmed Khan",
 
-      fetchStats();
-    }, []);
+        email:
+          "ahmed@example.com",
 
-    const fetchUsers =
-      async () => {
-        try {
-          const res =
-            await axios.get(
-              "https://crypto-backend-dojp.onrender.com/api/admin/users",
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
+        status:
+          "Active",
 
-          setUsers(
-            res.data
-          );
-        } catch (error) {
-          console.log(error);
-        }
-      };
+        kyc:
+          "Verified",
+      },
 
-    /* =========================
-       FETCH STATS
-    ========================= */
+      {
+        name:
+          "Ali Raza",
 
-    const fetchStats =
-      async () => {
-        try {
-          const res =
-            await axios.get(
-              "https://crypto-backend-dojp.onrender.com/api/admin/stats",
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
+        email:
+          "ali@example.com",
 
-          setStats(
-            res.data
-          );
-        } catch (error) {
-          console.log(error);
-        }
-      };
+        status:
+          "Frozen",
 
-    /* =========================
-       FREEZE ACCOUNT
-    ========================= */
+        kyc:
+          "Pending",
+      },
 
-    const freezeUser =
-      async (id) => {
-        try {
-          setLoading(true);
+      {
+        name:
+          "Sara Noor",
 
-          await axios.post(
-            `https://crypto-backend-dojp.onrender.com/api/admin/freeze/${id}`,
-            {},
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
+        email:
+          "sara@example.com",
 
-          toast.success(
-            "Account frozen"
-          );
+        status:
+          "Active",
 
-          fetchUsers();
-        } catch (error) {
-          console.log(error);
-
-          toast.error(
-            "Freeze failed"
-          );
-        } finally {
-          setLoading(false);
-        }
-      };
-
-    /* =========================
-       UNFREEZE ACCOUNT
-    ========================= */
-
-    const unfreezeUser =
-      async (id) => {
-        try {
-          setLoading(true);
-
-          await axios.post(
-            `https://crypto-backend-dojp.onrender.com/api/admin/unfreeze/${id}`,
-            {},
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-          toast.success(
-            "Account unfrozen"
-          );
-
-          fetchUsers();
-        } catch (error) {
-          console.log(error);
-
-          toast.error(
-            "Unfreeze failed"
-          );
-        } finally {
-          setLoading(false);
-        }
-      };
-
-    /* =========================
-       ADD BALANCE
-    ========================= */
-
-    const addBalance =
-      async (
-        id,
-        asset
-      ) => {
-        const amount =
-          prompt(
-            `Enter ${asset} amount`
-          );
-
-        if (!amount)
-          return;
-
-        try {
-          await axios.post(
-            `https://crypto-backend-dojp.onrender.com/api/admin/balance/${id}`,
-            {
-              asset,
-              amount:
-                Number(
-                  amount
-                ),
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-          toast.success(
-            "Balance updated"
-          );
-
-          fetchUsers();
-        } catch (error) {
-          console.log(error);
-
-          toast.error(
-            "Balance update failed"
-          );
-        }
-      };
+        kyc:
+          "Verified",
+      },
+    ];
 
     return (
-      <div className="min-h-screen bg-slate-950 text-white p-6">
-        <div className="max-w-7xl mx-auto">
-          {/* HEADER */}
+      <div className="space-y-6">
+        {/* HEADER */}
 
-          <div className="mb-10">
-            <h1 className="text-5xl font-bold">
-              Admin Control Panel
-            </h1>
+        <div>
+          <h1 className="text-3xl font-bold">
+            Admin Dashboard
+          </h1>
 
-            <p className="text-slate-400 mt-3">
-              Professional exchange administration system
-            </p>
+          <p className="text-gray-400 mt-2">
+            Professional exchange management system
+          </p>
+        </div>
+
+        {/* STATS */}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+          {stats.map(
+            (
+              stat,
+              index
+            ) => (
+              <div
+                key={
+                  index
+                }
+                className="bg-[#111] border border-gray-800 rounded-2xl p-6"
+              >
+                <p className="text-gray-400">
+                  {
+                    stat.title
+                  }
+                </p>
+
+                <h2 className="text-3xl font-bold mt-3">
+                  {
+                    stat.value
+                  }
+                </h2>
+              </div>
+            )
+          )}
+        </div>
+
+        {/* USER TABLE */}
+
+        <div className="bg-[#111] border border-gray-800 rounded-2xl overflow-hidden">
+          <div className="p-6 border-b border-gray-800">
+            <h2 className="text-2xl font-bold">
+              User Management
+            </h2>
           </div>
 
-          {/* ANALYTICS */}
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-black">
+                <tr>
+                  <th className="text-left p-4">
+                    Name
+                  </th>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-            {/* USERS */}
+                  <th className="text-left p-4">
+                    Email
+                  </th>
 
-            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-              <p className="text-slate-400 mb-2">
-                Total Users
-              </p>
+                  <th className="text-left p-4">
+                    Status
+                  </th>
 
-              <h2 className="text-4xl font-bold">
-                {
-                  stats.totalUsers
-                }
-              </h2>
-            </div>
+                  <th className="text-left p-4">
+                    KYC
+                  </th>
 
-            {/* TRADES */}
+                  <th className="text-left p-4">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
 
-            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-              <p className="text-slate-400 mb-2">
-                Total Trades
-              </p>
-
-              <h2 className="text-4xl font-bold text-green-400">
-                {
-                  stats.totalTrades
-                }
-              </h2>
-            </div>
-
-            {/* VOLUME */}
-
-            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-              <p className="text-slate-400 mb-2">
-                Trading Volume
-              </p>
-
-              <h2 className="text-4xl font-bold text-yellow-400">
-                $
-                {Number(
-                  stats.totalVolume
-                ).toLocaleString()}
-              </h2>
-            </div>
-
-            {/* FEES */}
-
-            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-              <p className="text-slate-400 mb-2">
-                Revenue
-              </p>
-
-              <h2 className="text-4xl font-bold text-blue-400">
-                $
-                {Number(
-                  stats.totalFees
-                ).toFixed(
-                  2
-                )}
-              </h2>
-            </div>
-          </div>
-
-          {/* USERS TABLE */}
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden">
-            <div className="px-8 py-6 border-b border-slate-800">
-              <h2 className="text-3xl font-bold">
-                User Management
-              </h2>
-            </div>
-
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-slate-800">
-                  <tr>
-                    <th className="text-left p-5">
-                      Name
-                    </th>
-
-                    <th className="text-left p-5">
-                      Email
-                    </th>
-
-                    <th className="text-left p-5">
-                      USD
-                    </th>
-
-                    <th className="text-left p-5">
-                      BTC
-                    </th>
-
-                    <th className="text-left p-5">
-                      ETH
-                    </th>
-
-                    <th className="text-left p-5">
-                      Status
-                    </th>
-
-                    <th className="text-left p-5">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {users.map(
-                    (
-                      user
-                    ) => (
-                      <tr
-                        key={
-                          user._id
+              <tbody>
+                {users.map(
+                  (
+                    user,
+                    index
+                  ) => (
+                    <tr
+                      key={
+                        index
+                      }
+                      className="border-t border-gray-800"
+                    >
+                      <td className="p-4 font-semibold">
+                        {
+                          user.name
                         }
-                        className="border-t border-slate-800"
-                      >
-                        <td className="p-5 font-bold">
+                      </td>
+
+                      <td className="p-4 text-gray-400">
+                        {
+                          user.email
+                        }
+                      </td>
+
+                      <td className="p-4">
+                        <span
+                          className={`px-3 py-1 rounded-full text-sm ${
+                            user.status ===
+                            "Active"
+                              ? "bg-green-500/20 text-green-400"
+                              : "bg-red-500/20 text-red-400"
+                          }`}
+                        >
                           {
-                            user.name
+                            user.status
                           }
-                        </td>
+                        </span>
+                      </td>
 
-                        <td className="p-5 text-slate-300">
+                      <td className="p-4">
+                        <span
+                          className={`px-3 py-1 rounded-full text-sm ${
+                            user.kyc ===
+                            "Verified"
+                              ? "bg-blue-500/20 text-blue-400"
+                              : "bg-yellow-500/20 text-yellow-400"
+                          }`}
+                        >
                           {
-                            user.email
+                            user.kyc
                           }
-                        </td>
+                        </span>
+                      </td>
 
-                        <td className="p-5">
-                          $
-                          {
-                            user
-                              .balances
-                              .USD
-                          }
-                        </td>
+                      <td className="p-4">
+                        <div className="flex gap-2">
+                          <button className="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-lg text-sm font-bold">
+                            Approve
+                          </button>
 
-                        <td className="p-5">
-                          {
-                            user
-                              .balances
-                              .BTC
-                          }
-                        </td>
+                          <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-bold">
+                            Freeze
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-                        <td className="p-5">
-                          {
-                            user
-                              .balances
-                              .ETH
-                          }
-                        </td>
+        {/* KYC PANEL */}
 
-                        <td className="p-5">
-                          <span
-                            className={`px-4 py-2 rounded-xl text-sm font-bold ${
-                              user.isFrozen
-                                ? "bg-red-500/20 text-red-400"
-                                : "bg-green-500/20 text-green-400"
-                            }`}
-                          >
-                            {user.isFrozen
-                              ? "FROZEN"
-                              : "ACTIVE"}
-                          </span>
-                        </td>
+        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+          <h2 className="text-2xl font-bold mb-6">
+            Pending KYC Requests
+          </h2>
 
-                        <td className="p-5">
-                          <div className="flex flex-wrap gap-3">
-                            {user.isFrozen ? (
-                              <button
-                                onClick={() =>
-                                  unfreezeUser(
-                                    user._id
-                                  )
-                                }
-                                disabled={
-                                  loading
-                                }
-                                className="bg-green-600 hover:bg-green-500 px-4 py-2 rounded-xl text-sm font-bold"
-                              >
-                                Unfreeze
-                              </button>
-                            ) : (
-                              <button
-                                onClick={() =>
-                                  freezeUser(
-                                    user._id
-                                  )
-                                }
-                                disabled={
-                                  loading
-                                }
-                                className="bg-red-600 hover:bg-red-500 px-4 py-2 rounded-xl text-sm font-bold"
-                              >
-                                Freeze
-                              </button>
-                            )}
+          <div className="space-y-4">
+            {[
+              "User #2481",
+              "User #2482",
+              "User #2483",
+            ].map(
+              (
+                item
+              ) => (
+                <div
+                  key={
+                    item
+                  }
+                  className="flex items-center justify-between border-b border-gray-800 pb-4"
+                >
+                  <div>
+                    <p className="font-semibold">
+                      {item}
+                    </p>
 
-                            <button
-                              onClick={() =>
-                                addBalance(
-                                  user._id,
-                                  "USD"
-                                )
-                              }
-                              className="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-xl text-sm font-bold"
-                            >
-                              Add USD
-                            </button>
+                    <p className="text-sm text-gray-400 mt-1">
+                      Submitted passport verification
+                    </p>
+                  </div>
 
-                            <button
-                              onClick={() =>
-                                addBalance(
-                                  user._id,
-                                  "BTC"
-                                )
-                              }
-                              className="bg-yellow-600 hover:bg-yellow-500 px-4 py-2 rounded-xl text-sm font-bold"
-                            >
-                              Add BTC
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    )
-                  )}
-                </tbody>
-              </table>
-            </div>
+                  <div className="flex gap-3">
+                    <button className="bg-green-500 hover:bg-green-600 text-black px-4 py-2 rounded-xl font-bold">
+                      Approve
+                    </button>
+
+                    <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl font-bold">
+                      Reject
+                    </button>
+                  </div>
+                </div>
+              )
+            )}
           </div>
         </div>
       </div>

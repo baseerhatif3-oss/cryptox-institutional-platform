@@ -20,6 +20,7 @@ import Wallets from "./pages/Wallets";
 import Orders from "./pages/Orders";
 import Notifications from "./pages/Notifications";
 import Profile from "./pages/Profile";
+import Admin from "./pages/Admin";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
@@ -133,6 +134,15 @@ function App() {
             path="profile"
             element={
               <Profile />
+            }
+          />
+
+          {/* ADMIN */}
+
+          <Route
+            path="admin"
+            element={
+              <Admin />
             }
           />
         </Route>
