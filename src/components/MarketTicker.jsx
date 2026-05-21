@@ -1,31 +1,52 @@
-import React from "react";
+import React, {
+  useEffect,
+  useState,
+} from "react";
+
+import socket from "../services/socket";
 
 const MarketTicker = () => {
-  const markets = [
-    {
-      symbol: "BTCUSDT",
-      price: "$104,250",
-      change: "+2.8%",
-    },
+  const [markets, setMarkets] =
+    useState([
+      {
+        symbol: "BTCUSDT",
+        price: 104250,
+        change: "+2.8%",
+      },
 
-    {
-      symbol: "ETHUSDT",
-      price: "$4,980",
-      change: "+1.9%",
-    },
+      {
+        symbol: "ETHUSDT",
+        price: 4980,
+        change: "+1.9%",
+      },
 
-    {
-      symbol: "SOLUSDT",
-      price: "$210",
-      change: "+6.4%",
-    },
+      {
+        symbol: "SOLUSDT",
+        price: 210,
+        change: "+6.4%",
+      },
 
-    {
-      symbol: "XRPUSDT",
-      price: "$2.41",
-      change: "+4.1%",
-    },
-  ];
+      {
+        symbol: "XRPUSDT",
+        price: 2.41,
+        change: "+4.1%",
+      },
+    ]);
+
+  useEffect(() => {
+    socket.on(
+      "marketUpdate",
+      (data) => {
+        setMarkets(data);
+      }
+    );
+
+    return () => {
+      socket.off(
+        "marketUpdate"
+      );
+    };
+  }, []);
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -42,11 +63,16 @@ const MarketTicker = () => {
             </p>
 
             <h2 className="text-2xl font-bold mt-2">
-              {market.price}
+              $
+              {Number(
+                market.price
+              ).toLocaleString()}
             </h2>
 
             <p className="text-green-400 mt-2 font-semibold">
-              {market.change}
+              {
+                market.change
+              }
             </p>
           </div>
         )
