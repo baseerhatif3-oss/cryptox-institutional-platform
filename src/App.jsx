@@ -21,6 +21,8 @@ import Orders from "./pages/Orders";
 import Notifications from "./pages/Notifications";
 import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
+import Analytics from "./pages/Analytics";
+
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
@@ -143,6 +145,15 @@ function App() {
             path="admin"
             element={
               <Admin />
+            }
+          />
+
+          {/* ANALYTICS */}
+
+          <Route
+            path="analytics"
+            element={
+              <Analytics />
             }
           />
         </Route>

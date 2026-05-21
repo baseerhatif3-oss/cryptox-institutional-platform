@@ -70,6 +70,14 @@ const DashboardLayout =
 
       {
         name:
+          "Analytics",
+
+        path:
+          "/analytics",
+      },
+
+      {
+        name:
           "Notifications",
 
         path:
@@ -198,6 +206,10 @@ const DashboardLayout =
                   Online
                 </span>
               </div>
+
+              <p className="text-xs text-gray-500 mt-3">
+                All systems operational
+              </p>
             </div>
           </div>
         </motion.aside>
