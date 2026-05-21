@@ -4,6 +4,12 @@ import React, {
 } from "react";
 
 import {
+  AdvancedRealTimeChart,
+} from "react-ts-tradingview-widgets";
+
+import MarketTicker from "../components/MarketTicker";
+
+import {
   buyCoin,
   sellCoin,
   getHistory,
@@ -124,6 +130,21 @@ const Trading = () => {
         </p>
       </div>
 
+      {/* MARKET TICKER */}
+
+      <MarketTicker />
+
+      {/* LIVE CHART */}
+
+      <div className="bg-[#111] border border-gray-800 rounded-2xl p-4">
+        <AdvancedRealTimeChart
+          theme="dark"
+          symbol={`BINANCE:${symbol}`}
+          height={500}
+          width="100%"
+        />
+      </div>
+
       {/* MAIN GRID */}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -140,9 +161,11 @@ const Trading = () => {
             </div>
           </div>
 
-          {/* SYMBOL */}
+          {/* FORM */}
 
           <div className="space-y-5">
+            {/* SYMBOL */}
+
             <div>
               <label className="text-gray-400 block mb-2">
                 Trading Pair
