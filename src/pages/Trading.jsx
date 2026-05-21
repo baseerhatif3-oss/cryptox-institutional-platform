@@ -4,273 +4,391 @@ import React, {
 } from "react";
 
 import {
-  AdvancedRealTimeChart,
-} from "react-ts-tradingview-widgets";
+  buyCoin,
+  sellCoin,
+  getHistory,
+} from "../services/tradingApi";
 
-import API from "../services/api";
+const Trading = () => {
+  const [symbol, setSymbol] =
+    useState("BTCUSDT");
 
-import socket from "../socket/socket";
+  const [price, setPrice] =
+    useState(104250);
 
-const Trading =
-  () => {
-    const [
-      prices,
-      setPrices,
-    ] = useState({});
+  const [
+    quantity,
+    setQuantity,
+  ] = useState(0.01);
 
-    const [
-      coin,
-      setCoin,
-    ] = useState("BTC");
+  const [loading, setLoading] =
+    useState(false);
 
-    const [
-      amount,
-      setAmount,
-    ] = useState("");
+  const [orders, setOrders] =
+    useState([]);
 
-    const [
-      loading,
-      setLoading,
-    ] = useState(false);
+  /* =========================
+     LOAD HISTORY
+  ========================= */
 
-    const [
-      message,
-      setMessage,
-    ] = useState("");
+  useEffect(() => {
+    fetchHistory();
+  }, []);
 
-    useEffect(() => {
-      socket.on(
-        "market_update",
-        (
-          data
-        ) => {
-          setPrices(data);
-        }
-      );
+  const fetchHistory =
+    async () => {
+      try {
+        const data =
+          await getHistory();
 
-      return () => {
-        socket.off(
-          "market_update"
+        setOrders(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+  /* =========================
+     BUY
+  ========================= */
+
+  const handleBuy =
+    async () => {
+      try {
+        setLoading(true);
+
+        await buyCoin(
+          symbol,
+          price,
+          quantity
         );
-      };
-    }, []);
 
-    const executeTrade =
-      async (
-        type
-      ) => {
-        try {
-          setLoading(
-            true
-          );
+        alert(
+          "Buy Order Executed"
+        );
 
-          setMessage("");
+        fetchHistory();
+      } catch (error) {
+        console.log(error);
 
-          const price =
-            prices[
-              coin
-            ];
+        alert(
+          "Buy Failed"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
 
-          const res =
-            await API.post(
-              "/trade",
-              {
-                type,
+  /* =========================
+     SELL
+  ========================= */
 
-                coin,
+  const handleSell =
+    async () => {
+      try {
+        setLoading(true);
 
-                amount:
-                  Number(
-                    amount
-                  ),
+        await sellCoin(
+          symbol,
+          price,
+          quantity
+        );
 
-                price,
-              }
-            );
+        alert(
+          "Sell Order Executed"
+        );
 
-          setMessage(
-            `${type} order executed successfully`
-          );
+        fetchHistory();
+      } catch (error) {
+        console.log(error);
 
-          console.log(
-            res.data
-          );
-        } catch (error) {
-          setMessage(
-            error.response
-              ?.data
-              ?.message ||
-              "Trade failed"
-          );
-        } finally {
-          setLoading(
-            false
-          );
-        }
-      };
+        alert(
+          "Sell Failed"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return (
-      <div className="space-y-6">
-        {/* HEADER */}
+  return (
+    <div className="space-y-6">
+      {/* HEADER */}
 
-        <div>
-          <h1 className="text-3xl font-bold">
-            Trading Terminal
-          </h1>
+      <div>
+        <h1 className="text-3xl font-bold">
+          Spot Trading
+        </h1>
 
-          <p className="text-gray-400 mt-2">
-            Live professional trading interface
-          </p>
-        </div>
+        <p className="text-gray-400 mt-2">
+          Professional crypto
+          trading terminal
+        </p>
+      </div>
 
-        {/* CHART */}
+      {/* MAIN GRID */}
 
-        <div className="bg-[#111] border border-gray-800 rounded-2xl overflow-hidden">
-          <AdvancedRealTimeChart
-            theme="dark"
-            symbol={`BINANCE:${coin}USDT`}
-            width="100%"
-            height={600}
-            timezone="Etc/UTC"
-            locale="en"
-            hide_top_toolbar={false}
-            hide_legend={false}
-            save_image={true}
-            interval="15"
-            range="12M"
-            allow_symbol_change={true}
-          />
-        </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* LEFT */}
 
-        {/* LIVE PRICES */}
+        <div className="lg:col-span-2 bg-[#111] border border-gray-800 rounded-2xl p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold">
+              Trading Panel
+            </h2>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {Object.entries(
-            prices
-          ).map(
-            (
-              [
-                symbol,
-                value,
-              ]
-            ) => (
-              <button
-                key={
-                  symbol
-                }
-                onClick={() =>
-                  setCoin(
-                    symbol
+            <div className="bg-green-500/10 text-green-400 px-4 py-2 rounded-xl border border-green-500/20">
+              LIVE
+            </div>
+          </div>
+
+          {/* SYMBOL */}
+
+          <div className="space-y-5">
+            <div>
+              <label className="text-gray-400 block mb-2">
+                Trading Pair
+              </label>
+
+              <select
+                value={symbol}
+                onChange={(e) =>
+                  setSymbol(
+                    e.target.value
                   )
                 }
-                className={`rounded-2xl p-5 border transition ${
-                  coin ===
-                  symbol
-                    ? "bg-yellow-500 text-black border-yellow-500"
-                    : "bg-[#111] border-gray-800 text-white"
-                }`}
+                className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white"
               >
-                <h2 className="text-xl font-bold">
-                  {symbol}
-                </h2>
+                <option>
+                  BTCUSDT
+                </option>
 
-                <p className="mt-3 text-2xl font-bold">
-                  $
-                  {Number(
-                    value
-                  ).toLocaleString()}
-                </p>
+                <option>
+                  ETHUSDT
+                </option>
+
+                <option>
+                  SOLUSDT
+                </option>
+
+                <option>
+                  XRPUSDT
+                </option>
+              </select>
+            </div>
+
+            {/* PRICE */}
+
+            <div>
+              <label className="text-gray-400 block mb-2">
+                Market Price
+              </label>
+
+              <input
+                type="number"
+                value={price}
+                onChange={(e) =>
+                  setPrice(
+                    e.target.value
+                  )
+                }
+                className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white"
+              />
+            </div>
+
+            {/* QUANTITY */}
+
+            <div>
+              <label className="text-gray-400 block mb-2">
+                Quantity
+              </label>
+
+              <input
+                type="number"
+                value={quantity}
+                onChange={(e) =>
+                  setQuantity(
+                    e.target.value
+                  )
+                }
+                className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white"
+              />
+            </div>
+
+            {/* TOTAL */}
+
+            <div className="bg-black border border-gray-800 rounded-xl p-4">
+              <p className="text-gray-400">
+                Order Total
+              </p>
+
+              <h2 className="text-3xl font-bold mt-2 text-yellow-400">
+                $
+                {(
+                  Number(price) *
+                  Number(quantity)
+                ).toLocaleString()}
+              </h2>
+            </div>
+
+            {/* BUTTONS */}
+
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                onClick={
+                  handleBuy
+                }
+                disabled={
+                  loading
+                }
+                className="bg-green-500 hover:bg-green-600 text-white font-bold py-4 rounded-xl transition"
+              >
+                {loading
+                  ? "Processing..."
+                  : "BUY"}
               </button>
-            )
-          )}
+
+              <button
+                onClick={
+                  handleSell
+                }
+                disabled={
+                  loading
+                }
+                className="bg-red-500 hover:bg-red-600 text-white font-bold py-4 rounded-xl transition"
+              >
+                {loading
+                  ? "Processing..."
+                  : "SELL"}
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* TRADE PANEL */}
+        {/* RIGHT */}
 
         <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
           <h2 className="text-2xl font-bold mb-6">
-            Execute Trade
+            Market Stats
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <input
-              type="text"
-              value={coin}
-              readOnly
-              className="bg-black border border-gray-700 rounded-xl px-4 py-4"
-            />
+          <div className="space-y-4">
+            <div className="bg-black border border-gray-800 rounded-xl p-4">
+              <p className="text-gray-400">
+                24h Volume
+              </p>
 
-            <input
-              type="number"
-              placeholder="Amount"
-              value={amount}
-              onChange={(
-                e
-              ) =>
-                setAmount(
-                  e.target
-                    .value
-                )
-              }
-              className="bg-black border border-gray-700 rounded-xl px-4 py-4"
-            />
-
-            <input
-              type="text"
-              value={`$${prices[
-                coin
-              ]?.toLocaleString()}`}
-              readOnly
-              className="bg-black border border-gray-700 rounded-xl px-4 py-4"
-            />
-          </div>
-
-          {/* BUTTONS */}
-
-          <div className="grid grid-cols-2 gap-4 mt-6">
-            <button
-              disabled={
-                loading
-              }
-              onClick={() =>
-                executeTrade(
-                  "BUY"
-                )
-              }
-              className="bg-green-500 hover:bg-green-600 text-black font-bold py-4 rounded-xl text-lg"
-            >
-              {loading
-                ? "Processing..."
-                : "BUY"}
-            </button>
-
-            <button
-              disabled={
-                loading
-              }
-              onClick={() =>
-                executeTrade(
-                  "SELL"
-                )
-              }
-              className="bg-red-500 hover:bg-red-600 text-white font-bold py-4 rounded-xl text-lg"
-            >
-              {loading
-                ? "Processing..."
-                : "SELL"}
-            </button>
-          </div>
-
-          {/* MESSAGE */}
-
-          {message && (
-            <div className="mt-6 bg-black border border-gray-800 rounded-xl p-4 text-center">
-              {message}
+              <h2 className="text-2xl font-bold mt-2">
+                $4.2B
+              </h2>
             </div>
-          )}
+
+            <div className="bg-black border border-gray-800 rounded-xl p-4">
+              <p className="text-gray-400">
+                Market Trend
+              </p>
+
+              <h2 className="text-2xl font-bold mt-2 text-green-400">
+                Bullish
+              </h2>
+            </div>
+
+            <div className="bg-black border border-gray-800 rounded-xl p-4">
+              <p className="text-gray-400">
+                Active Traders
+              </p>
+
+              <h2 className="text-2xl font-bold mt-2">
+                182,491
+              </h2>
+            </div>
+          </div>
         </div>
       </div>
-    );
-  };
+
+      {/* ORDER HISTORY */}
+
+      <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+        <h2 className="text-2xl font-bold mb-6">
+          Order History
+        </h2>
+
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="text-left border-b border-gray-800">
+                <th className="pb-4">
+                  Pair
+                </th>
+
+                <th className="pb-4">
+                  Side
+                </th>
+
+                <th className="pb-4">
+                  Price
+                </th>
+
+                <th className="pb-4">
+                  Quantity
+                </th>
+
+                <th className="pb-4">
+                  Total
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {orders.map(
+                (order) => (
+                  <tr
+                    key={
+                      order._id
+                    }
+                    className="border-b border-gray-900"
+                  >
+                    <td className="py-4">
+                      {
+                        order.symbol
+                      }
+                    </td>
+
+                    <td
+                      className={`py-4 font-bold ${
+                        order.side ===
+                        "BUY"
+                          ? "text-green-400"
+                          : "text-red-400"
+                      }`}
+                    >
+                      {
+                        order.side
+                      }
+                    </td>
+
+                    <td className="py-4">
+                      $
+                      {order.price}
+                    </td>
+
+                    <td className="py-4">
+                      {
+                        order.quantity
+                      }
+                    </td>
+
+                    <td className="py-4">
+                      $
+                      {order.total}
+                    </td>
+                  </tr>
+                )
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default Trading;
