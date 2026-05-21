@@ -1,108 +1,113 @@
-import React from "react";
+import React, {
+  useEffect,
+  useState,
+} from "react";
 
 import {
   AdvancedRealTimeChart,
 } from "react-ts-tradingview-widgets";
 
+import API from "../services/api";
+
+import socket from "../socket/socket";
+
 const Trading =
   () => {
-    const bids = [
-      {
-        price:
-          "65120",
-        amount:
-          "0.42",
-      },
+    const [
+      prices,
+      setPrices,
+    ] = useState({});
 
-      {
-        price:
-          "65110",
-        amount:
-          "0.31",
-      },
+    const [
+      coin,
+      setCoin,
+    ] = useState("BTC");
 
-      {
-        price:
-          "65100",
-        amount:
-          "0.95",
-      },
+    const [
+      amount,
+      setAmount,
+    ] = useState("");
 
-      {
-        price:
-          "65090",
-        amount:
-          "1.24",
-      },
-    ];
+    const [
+      loading,
+      setLoading,
+    ] = useState(false);
 
-    const asks = [
-      {
-        price:
-          "65130",
-        amount:
-          "0.27",
-      },
+    const [
+      message,
+      setMessage,
+    ] = useState("");
 
-      {
-        price:
-          "65140",
-        amount:
-          "0.55",
-      },
+    useEffect(() => {
+      socket.on(
+        "market_update",
+        (
+          data
+        ) => {
+          setPrices(data);
+        }
+      );
 
-      {
-        price:
-          "65150",
-        amount:
-          "0.81",
-      },
+      return () => {
+        socket.off(
+          "market_update"
+        );
+      };
+    }, []);
 
-      {
-        price:
-          "65160",
-        amount:
-          "1.12",
-      },
-    ];
+    const executeTrade =
+      async (
+        type
+      ) => {
+        try {
+          setLoading(
+            true
+          );
 
-    const trades = [
-      {
-        pair:
-          "BTC/USDT",
-        side:
-          "BUY",
-        amount:
-          "0.25",
-      },
+          setMessage("");
 
-      {
-        pair:
-          "ETH/USDT",
-        side:
-          "SELL",
-        amount:
-          "2.10",
-      },
+          const price =
+            prices[
+              coin
+            ];
 
-      {
-        pair:
-          "SOL/USDT",
-        side:
-          "BUY",
-        amount:
-          "12.5",
-      },
+          const res =
+            await API.post(
+              "/trade",
+              {
+                type,
 
-      {
-        pair:
-          "XRP/USDT",
-        side:
-          "BUY",
-        amount:
-          "420",
-      },
-    ];
+                coin,
+
+                amount:
+                  Number(
+                    amount
+                  ),
+
+                price,
+              }
+            );
+
+          setMessage(
+            `${type} order executed successfully`
+          );
+
+          console.log(
+            res.data
+          );
+        } catch (error) {
+          setMessage(
+            error.response
+              ?.data
+              ?.message ||
+              "Trade failed"
+          );
+        } finally {
+          setLoading(
+            false
+          );
+        }
+      };
 
     return (
       <div className="space-y-6">
@@ -114,7 +119,7 @@ const Trading =
           </h1>
 
           <p className="text-gray-400 mt-2">
-            Professional live trading interface
+            Live professional trading interface
           </p>
         </div>
 
@@ -123,7 +128,7 @@ const Trading =
         <div className="bg-[#111] border border-gray-800 rounded-2xl overflow-hidden">
           <AdvancedRealTimeChart
             theme="dark"
-            symbol="BINANCE:BTCUSDT"
+            symbol={`BINANCE:${coin}USDT`}
             width="100%"
             height={600}
             timezone="Etc/UTC"
@@ -137,164 +142,132 @@ const Trading =
           />
         </div>
 
-        {/* ORDERBOOK + TRADES */}
+        {/* LIVE PRICES */}
 
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-          {/* BIDS */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {Object.entries(
+            prices
+          ).map(
+            (
+              [
+                symbol,
+                value,
+              ]
+            ) => (
+              <button
+                key={
+                  symbol
+                }
+                onClick={() =>
+                  setCoin(
+                    symbol
+                  )
+                }
+                className={`rounded-2xl p-5 border transition ${
+                  coin ===
+                  symbol
+                    ? "bg-yellow-500 text-black border-yellow-500"
+                    : "bg-[#111] border-gray-800 text-white"
+                }`}
+              >
+                <h2 className="text-xl font-bold">
+                  {symbol}
+                </h2>
 
-          <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-            <h2 className="text-xl font-bold mb-4 text-green-400">
-              Buy Orders
-            </h2>
-
-            <div className="space-y-3">
-              {bids.map(
-                (
-                  bid,
-                  index
-                ) => (
-                  <div
-                    key={
-                      index
-                    }
-                    className="flex justify-between text-sm border-b border-gray-800 pb-2"
-                  >
-                    <span className="text-green-400">
-                      {
-                        bid.price
-                      }
-                    </span>
-
-                    <span>
-                      {
-                        bid.amount
-                      }
-                    </span>
-                  </div>
-                )
-              )}
-            </div>
-          </div>
-
-          {/* ASKS */}
-
-          <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-            <h2 className="text-xl font-bold mb-4 text-red-400">
-              Sell Orders
-            </h2>
-
-            <div className="space-y-3">
-              {asks.map(
-                (
-                  ask,
-                  index
-                ) => (
-                  <div
-                    key={
-                      index
-                    }
-                    className="flex justify-between text-sm border-b border-gray-800 pb-2"
-                  >
-                    <span className="text-red-400">
-                      {
-                        ask.price
-                      }
-                    </span>
-
-                    <span>
-                      {
-                        ask.amount
-                      }
-                    </span>
-                  </div>
-                )
-              )}
-            </div>
-          </div>
-
-          {/* RECENT TRADES */}
-
-          <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-            <h2 className="text-xl font-bold mb-4 text-yellow-400">
-              Recent Trades
-            </h2>
-
-            <div className="space-y-3">
-              {trades.map(
-                (
-                  trade,
-                  index
-                ) => (
-                  <div
-                    key={
-                      index
-                    }
-                    className="border-b border-gray-800 pb-2"
-                  >
-                    <div className="flex justify-between">
-                      <span>
-                        {
-                          trade.pair
-                        }
-                      </span>
-
-                      <span
-                        className={
-                          trade.side ===
-                          "BUY"
-                            ? "text-green-400"
-                            : "text-red-400"
-                        }
-                      >
-                        {
-                          trade.side
-                        }
-                      </span>
-                    </div>
-
-                    <div className="text-gray-400 text-sm mt-1">
-                      Amount:{" "}
-                      {
-                        trade.amount
-                      }
-                    </div>
-                  </div>
-                )
-              )}
-            </div>
-          </div>
+                <p className="mt-3 text-2xl font-bold">
+                  $
+                  {Number(
+                    value
+                  ).toLocaleString()}
+                </p>
+              </button>
+            )
+          )}
         </div>
 
-        {/* QUICK TRADE */}
+        {/* TRADE PANEL */}
 
         <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
           <h2 className="text-2xl font-bold mb-6">
-            Quick Trade
+            Execute Trade
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <input
               type="text"
-              placeholder="Coin"
-              className="bg-black border border-gray-700 rounded-xl px-4 py-3"
+              value={coin}
+              readOnly
+              className="bg-black border border-gray-700 rounded-xl px-4 py-4"
             />
 
             <input
               type="number"
               placeholder="Amount"
-              className="bg-black border border-gray-700 rounded-xl px-4 py-3"
+              value={amount}
+              onChange={(
+                e
+              ) =>
+                setAmount(
+                  e.target
+                    .value
+                )
+              }
+              className="bg-black border border-gray-700 rounded-xl px-4 py-4"
             />
 
             <input
-              type="number"
-              placeholder="Price"
-              className="bg-black border border-gray-700 rounded-xl px-4 py-3"
+              type="text"
+              value={`$${prices[
+                coin
+              ]?.toLocaleString()}`}
+              readOnly
+              className="bg-black border border-gray-700 rounded-xl px-4 py-4"
             />
+          </div>
 
-            <button className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold rounded-xl px-4 py-3">
-              Execute Trade
+          {/* BUTTONS */}
+
+          <div className="grid grid-cols-2 gap-4 mt-6">
+            <button
+              disabled={
+                loading
+              }
+              onClick={() =>
+                executeTrade(
+                  "BUY"
+                )
+              }
+              className="bg-green-500 hover:bg-green-600 text-black font-bold py-4 rounded-xl text-lg"
+            >
+              {loading
+                ? "Processing..."
+                : "BUY"}
+            </button>
+
+            <button
+              disabled={
+                loading
+              }
+              onClick={() =>
+                executeTrade(
+                  "SELL"
+                )
+              }
+              className="bg-red-500 hover:bg-red-600 text-white font-bold py-4 rounded-xl text-lg"
+            >
+              {loading
+                ? "Processing..."
+                : "SELL"}
             </button>
           </div>
+
+          {/* MESSAGE */}
+
+          {message && (
+            <div className="mt-6 bg-black border border-gray-800 rounded-xl p-4 text-center">
+              {message}
+            </div>
+          )}
         </div>
       </div>
     );
