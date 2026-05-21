@@ -5,9 +5,7 @@ const API = axios.create({
     "https://crypto-backend-dojp.onrender.com/api",
 });
 
-/* =========================
-   REQUEST INTERCEPTOR
-========================= */
+/* REQUEST INTERCEPTOR */
 
 API.interceptors.request.use(
   (config) => {
@@ -25,28 +23,13 @@ API.interceptors.request.use(
   }
 );
 
-/* =========================
-   RESPONSE INTERCEPTOR
-========================= */
+/* RESPONSE INTERCEPTOR */
 
 API.interceptors.response.use(
   (response) =>
     response,
 
   (error) => {
-    if (
-      error.response
-        ?.status ===
-      401
-    ) {
-      localStorage.removeItem(
-        "token"
-      );
-
-      window.location.href =
-        "/login";
-    }
-
     return Promise.reject(
       error
     );
