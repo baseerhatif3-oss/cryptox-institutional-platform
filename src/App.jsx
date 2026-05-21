@@ -18,11 +18,12 @@ import Trading from "./pages/Trading";
 import Futures from "./pages/Futures";
 import Wallets from "./pages/Wallets";
 import Orders from "./pages/Orders";
+import Notifications from "./pages/Notifications";
+import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Notifications from "./pages/Notifications";
 
-/* GLOBAL STYLES */
+/* GLOBAL CSS */
 
 import "./index.css";
 
@@ -99,7 +100,7 @@ function App() {
             }
           />
 
-          {/* WALLET */}
+          {/* WALLETS */}
 
           <Route
             path="wallets"
@@ -123,6 +124,15 @@ function App() {
             path="notifications"
             element={
               <Notifications />
+            }
+          />
+
+          {/* PROFILE */}
+
+          <Route
+            path="profile"
+            element={
+              <Profile />
             }
           />
         </Route>

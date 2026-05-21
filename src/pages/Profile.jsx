@@ -1,144 +1,183 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import API from "../services/api";
-import toast from "react-hot-toast";
+import React, {
+  useState,
+} from "react";
 
-const Profile = () => {
-  const navigate = useNavigate();
+const Profile =
+  () => {
+    const [
+      form,
+      setForm,
+    ] = useState({
+      name:
+        "Baseer Hatif",
 
-  const [profile, setProfile] = useState(null);
+      email:
+        "baseer@example.com",
 
-  useEffect(() => {
-    fetchProfile();
-  }, []);
+      phone:
+        "+92 300 0000000",
+    });
 
-  const fetchProfile = async () => {
-    try {
-      const { data } = await API.get("/profile");
-      setProfile(data);
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to load profile");
-    }
-  };
+    const [
+      password,
+      setPassword,
+    ] = useState("");
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate("/login");
-  };
+    const handleChange =
+      (e) => {
+        setForm({
+          ...form,
 
-  return (
-    <div className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="max-w-5xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8">
-          Profile Settings
-        </h1>
+          [e.target.name]:
+            e.target.value,
+        });
+      };
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-            <div className="flex flex-col items-center">
-              <div className="w-24 h-24 rounded-full bg-blue-600 flex items-center justify-center text-3xl font-bold mb-4">
-                {profile?.name?.charAt(0)?.toUpperCase()}
-              </div>
+    return (
+      <div className="space-y-6">
+        {/* HEADER */}
 
-              <h2 className="text-2xl font-bold">
-                {profile?.name}
-              </h2>
+        <div>
+          <h1 className="text-3xl font-bold">
+            Profile Settings
+          </h1>
 
-              <p className="text-slate-400 mt-2">
-                {profile?.email}
-              </p>
-            </div>
+          <p className="text-gray-400 mt-2">
+            Manage your exchange account and security
+          </p>
+        </div>
+
+        {/* PROFILE */}
+
+        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+          <h2 className="text-2xl font-bold mb-6">
+            Personal Information
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input
+              type="text"
+              name="name"
+              value={
+                form.name
+              }
+              onChange={
+                handleChange
+              }
+              placeholder="Full Name"
+              className="bg-black border border-gray-700 rounded-xl px-4 py-4"
+            />
+
+            <input
+              type="email"
+              name="email"
+              value={
+                form.email
+              }
+              onChange={
+                handleChange
+              }
+              placeholder="Email"
+              className="bg-black border border-gray-700 rounded-xl px-4 py-4"
+            />
+
+            <input
+              type="text"
+              name="phone"
+              value={
+                form.phone
+              }
+              onChange={
+                handleChange
+              }
+              placeholder="Phone Number"
+              className="bg-black border border-gray-700 rounded-xl px-4 py-4"
+            />
           </div>
 
-          <div className="lg:col-span-2 space-y-6">
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-              <h3 className="text-2xl font-semibold mb-6">
-                Account Information
-              </h3>
+          <button className="mt-6 bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 py-3 rounded-xl">
+            Save Changes
+          </button>
+        </div>
 
-              <div className="space-y-4">
-                <div>
-                  <p className="text-slate-400 mb-2">
-                    Full Name
-                  </p>
+        {/* SECURITY */}
 
-                  <div className="bg-slate-800 p-4 rounded-xl">
-                    {profile?.name}
-                  </div>
-                </div>
+        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+          <h2 className="text-2xl font-bold mb-6">
+            Security Settings
+          </h2>
 
-                <div>
-                  <p className="text-slate-400 mb-2">
-                    Email Address
-                  </p>
+          <div className="space-y-4">
+            <input
+              type="password"
+              placeholder="New Password"
+              value={
+                password
+              }
+              onChange={(
+                e
+              ) =>
+                setPassword(
+                  e.target
+                    .value
+                )
+              }
+              className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4"
+            />
 
-                  <div className="bg-slate-800 p-4 rounded-xl">
-                    {profile?.email}
-                  </div>
-                </div>
+            <button className="bg-green-500 hover:bg-green-600 text-black font-bold px-6 py-3 rounded-xl">
+              Update Password
+            </button>
+          </div>
+        </div>
 
-                <div>
-                  <p className="text-slate-400 mb-2">
-                    Wallet Balance
-                  </p>
+        {/* KYC */}
 
-                  <div className="bg-slate-800 p-4 rounded-xl text-green-400 font-bold">
-                    ${profile?.balance?.toFixed(2)}
-                  </div>
-                </div>
-              </div>
+        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div>
+              <h2 className="text-2xl font-bold">
+                KYC Verification
+              </h2>
+
+              <p className="text-gray-400 mt-2">
+                Verify your identity for full exchange access
+              </p>
             </div>
 
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-              <h3 className="text-2xl font-semibold mb-6">
-                Security
-              </h3>
+            <div className="flex items-center gap-4">
+              <span className="bg-yellow-500/20 text-yellow-400 px-4 py-2 rounded-full">
+                Pending
+              </span>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-slate-800 p-5 rounded-xl">
-                  <h4 className="font-semibold mb-2">
-                    Two Factor Authentication
-                  </h4>
-
-                  <p className="text-slate-400 text-sm mb-4">
-                    Coming Soon
-                  </p>
-
-                  <button className="bg-yellow-600 px-4 py-2 rounded-lg">
-                    Enable
-                  </button>
-                </div>
-
-                <div className="bg-slate-800 p-5 rounded-xl">
-                  <h4 className="font-semibold mb-2">
-                    KYC Verification
-                  </h4>
-
-                  <p className="text-slate-400 text-sm mb-4">
-                    Verify your account
-                  </p>
-
-                  <button className="bg-blue-600 px-4 py-2 rounded-lg">
-                    Start
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-              <button
-                onClick={handleLogout}
-                className="bg-red-600 hover:bg-red-700 px-6 py-3 rounded-xl font-semibold"
-              >
-                Logout Account
+              <button className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 py-3 rounded-xl">
+                Start Verification
               </button>
             </div>
           </div>
         </div>
+
+        {/* 2FA */}
+
+        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div>
+              <h2 className="text-2xl font-bold">
+                Two-Factor Authentication
+              </h2>
+
+              <p className="text-gray-400 mt-2">
+                Add extra security to your exchange account
+              </p>
+            </div>
+
+            <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold px-6 py-3 rounded-xl">
+              Enable 2FA
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
 export default Profile;
