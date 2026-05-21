@@ -1,18 +1,16 @@
 import axios from "axios";
 
-const API =
-  axios.create({
-    baseURL:
-      import.meta.env
-        .VITE_API_URL,
-  });
+const API = axios.create({
+  baseURL:
+    "https://crypto-backend-dojp.onrender.com/api",
+});
 
-/* REQUEST INTERCEPTOR */
+/* =========================
+   REQUEST INTERCEPTOR
+========================= */
 
 API.interceptors.request.use(
-  (
-    config
-  ) => {
+  (config) => {
     const token =
       localStorage.getItem(
         "token"
@@ -27,16 +25,15 @@ API.interceptors.request.use(
   }
 );
 
-/* RESPONSE INTERCEPTOR */
+/* =========================
+   RESPONSE INTERCEPTOR
+========================= */
 
 API.interceptors.response.use(
-  (
-    response
-  ) => response,
+  (response) =>
+    response,
 
-  (
-    error
-  ) => {
+  (error) => {
     if (
       error.response
         ?.status ===
