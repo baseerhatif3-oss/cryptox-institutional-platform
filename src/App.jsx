@@ -18,11 +18,12 @@ import Trading from "./pages/Trading";
 import Futures from "./pages/Futures";
 import Wallets from "./pages/Wallets";
 import Orders from "./pages/Orders";
-import Notifications from "./pages/Notifications";
-import Profile from "./pages/Profile";
-import Admin from "./pages/Admin";
 import Analytics from "./pages/Analytics";
 import CopyTrading from "./pages/CopyTrading";
+import Notifications from "./pages/Notifications";
+import AIAssistant from "./pages/AIAssistant";
+import Profile from "./pages/Profile";
+import Admin from "./pages/Admin";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -137,6 +138,15 @@ function App() {
             path="copy-trading"
             element={
               <CopyTrading />
+            }
+          />
+
+          {/* AI ASSISTANT */}
+
+          <Route
+            path="ai-assistant"
+            element={
+              <AIAssistant />
             }
           />
 

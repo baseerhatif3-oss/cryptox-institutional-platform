@@ -86,6 +86,14 @@ const DashboardLayout =
 
       {
         name:
+          "AI Assistant",
+
+        path:
+          "/ai-assistant",
+      },
+
+      {
+        name:
           "Notifications",
 
         path:
@@ -216,7 +224,7 @@ const DashboardLayout =
               </div>
 
               <p className="text-xs text-gray-500 mt-3">
-                All systems operational
+                AI systems operational
               </p>
             </div>
           </div>
@@ -252,7 +260,7 @@ const DashboardLayout =
                 </h2>
 
                 <p className="text-xs text-gray-500 hidden md:block">
-                  Professional Trading Platform
+                  AI-Powered Trading Platform
                 </p>
               </div>
             </div>
@@ -267,6 +275,16 @@ const DashboardLayout =
 
                 <span className="text-sm font-medium">
                   Live Market
+                </span>
+              </div>
+
+              {/* AI STATUS */}
+
+              <div className="hidden md:flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 text-blue-400 px-4 py-2 rounded-full">
+                <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></div>
+
+                <span className="text-sm font-medium">
+                  AI Active
                 </span>
               </div>
 
