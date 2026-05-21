@@ -22,6 +22,7 @@ import Notifications from "./pages/Notifications";
 import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
 import Analytics from "./pages/Analytics";
+import CopyTrading from "./pages/CopyTrading";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -121,6 +122,24 @@ function App() {
             }
           />
 
+          {/* ANALYTICS */}
+
+          <Route
+            path="analytics"
+            element={
+              <Analytics />
+            }
+          />
+
+          {/* COPY TRADING */}
+
+          <Route
+            path="copy-trading"
+            element={
+              <CopyTrading />
+            }
+          />
+
           {/* NOTIFICATIONS */}
 
           <Route
@@ -145,15 +164,6 @@ function App() {
             path="admin"
             element={
               <Admin />
-            }
-          />
-
-          {/* ANALYTICS */}
-
-          <Route
-            path="analytics"
-            element={
-              <Analytics />
             }
           />
         </Route>

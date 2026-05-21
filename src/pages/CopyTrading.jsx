@@ -1,202 +1,277 @@
-const traders = [
-  {
-    id: 1,
-    name: "AlphaTrader",
-    roi: "+324%",
-    winRate: "78%",
-    followers: 12842,
-    pnl: "+$182,400",
-    risk: "Medium",
-  },
+import React from "react";
 
-  {
-    id: 2,
-    name: "BTCMaster",
-    roi: "+218%",
-    winRate: "71%",
-    followers: 9842,
-    pnl: "+$94,200",
-    risk: "Low",
-  },
+const CopyTrading =
+  () => {
+    const traders = [
+      {
+        id: 1,
 
-  {
-    id: 3,
-    name: "FutureKing",
-    roi: "+492%",
-    winRate: "83%",
-    followers: 24122,
-    pnl: "+$421,000",
-    risk: "High",
-  },
+        name:
+          "AlphaTrader",
 
-  {
-    id: 4,
-    name: "ETHWhale",
-    roi: "+176%",
-    winRate: "69%",
-    followers: 7140,
-    pnl: "+$52,300",
-    risk: "Medium",
-  },
-];
+        roi:
+          "+248%",
 
-const CopyTrading = () => {
-  return (
-    <div className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="max-w-7xl mx-auto">
+        followers:
+          12450,
+
+        winRate:
+          "82%",
+
+        pnl:
+          "+$482K",
+      },
+
+      {
+        id: 2,
+
+        name:
+          "CryptoKing",
+
+        roi:
+          "+192%",
+
+        followers:
+          9850,
+
+        winRate:
+          "76%",
+
+        pnl:
+          "+$310K",
+      },
+
+      {
+        id: 3,
+
+        name:
+          "FutureMaster",
+
+        roi:
+          "+158%",
+
+        followers:
+          7120,
+
+        winRate:
+          "74%",
+
+        pnl:
+          "+$224K",
+      },
+
+      {
+        id: 4,
+
+        name:
+          "BTCWhale",
+
+        roi:
+          "+142%",
+
+        followers:
+          5430,
+
+        winRate:
+          "71%",
+
+        pnl:
+          "+$188K",
+      },
+    ];
+
+    return (
+      <div className="space-y-6">
         {/* HEADER */}
 
-        <div className="mb-10">
-          <h1 className="text-5xl font-bold">
+        <div>
+          <h1 className="text-3xl font-bold">
             Copy Trading
           </h1>
 
-          <p className="text-slate-400 mt-2">
-            Follow elite traders automatically
+          <p className="text-gray-400 mt-2">
+            Follow and copy professional traders
           </p>
         </div>
 
-        {/* OVERVIEW */}
+        {/* HERO */}
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <p className="text-slate-400 mb-3">
-              Active Traders
-            </p>
+        <div className="bg-gradient-to-r from-yellow-500 to-yellow-700 rounded-2xl p-8 text-black">
+          <h2 className="text-4xl font-bold">
+            Social Trading Platform
+          </h2>
 
-            <h2 className="text-4xl font-bold">
-              1,248
-            </h2>
-          </div>
+          <p className="mt-4 text-lg">
+            Automatically copy top-performing crypto traders
+          </p>
 
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <p className="text-slate-400 mb-3">
-              Total Followers
-            </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            <div>
+              <p className="text-sm font-semibold">
+                Active Traders
+              </p>
 
-            <h2 className="text-4xl font-bold">
-              182K
-            </h2>
-          </div>
+              <h3 className="text-3xl font-bold mt-2">
+                12,540
+              </h3>
+            </div>
 
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <p className="text-slate-400 mb-3">
-              Avg ROI
-            </p>
+            <div>
+              <p className="text-sm font-semibold">
+                Total Copiers
+              </p>
 
-            <h2 className="text-4xl font-bold text-green-400">
-              +218%
-            </h2>
-          </div>
+              <h3 className="text-3xl font-bold mt-2">
+                148K
+              </h3>
+            </div>
 
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <p className="text-slate-400 mb-3">
-              Platform Status
-            </p>
+            <div>
+              <p className="text-sm font-semibold">
+                Volume Copied
+              </p>
 
-            <h2 className="text-4xl font-bold text-blue-400">
-              Live
-            </h2>
+              <h3 className="text-3xl font-bold mt-2">
+                $2.4B
+              </h3>
+            </div>
           </div>
         </div>
 
-        {/* TRADERS */}
+        {/* LEADERBOARD */}
 
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-          {traders.map(
-            (trader) => (
-              <div
-                key={trader.id}
-                className="bg-slate-900 border border-slate-800 rounded-3xl p-8"
-              >
-                {/* HEADER */}
+        <div className="bg-[#111] border border-gray-800 rounded-2xl overflow-hidden">
+          <div className="p-6 border-b border-gray-800">
+            <h2 className="text-2xl font-bold">
+              Top Traders Leaderboard
+            </h2>
+          </div>
 
-                <div className="flex items-center justify-between mb-8">
-                  <div>
-                    <h2 className="text-3xl font-bold">
-                      {
-                        trader.name
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-black">
+                <tr>
+                  <th className="text-left p-4">
+                    Trader
+                  </th>
+
+                  <th className="text-left p-4">
+                    ROI
+                  </th>
+
+                  <th className="text-left p-4">
+                    Win Rate
+                  </th>
+
+                  <th className="text-left p-4">
+                    Followers
+                  </th>
+
+                  <th className="text-left p-4">
+                    Total PnL
+                  </th>
+
+                  <th className="text-left p-4">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {traders.map(
+                  (
+                    trader
+                  ) => (
+                    <tr
+                      key={
+                        trader.id
                       }
-                    </h2>
+                      className="border-t border-gray-800"
+                    >
+                      <td className="p-4">
+                        <div>
+                          <p className="font-bold text-lg">
+                            {
+                              trader.name
+                            }
+                          </p>
 
-                    <p className="text-slate-400 mt-1">
-                      Elite Trader
-                    </p>
-                  </div>
+                          <p className="text-gray-400 text-sm mt-1">
+                            Professional Trader
+                          </p>
+                        </div>
+                      </td>
 
-                  <div className="bg-green-500/20 text-green-400 px-4 py-2 rounded-2xl font-bold">
-                    {trader.roi}
-                  </div>
-                </div>
+                      <td className="p-4 text-green-400 font-bold text-lg">
+                        {
+                          trader.roi
+                        }
+                      </td>
 
-                {/* STATS */}
+                      <td className="p-4">
+                        {
+                          trader.winRate
+                        }
+                      </td>
 
-                <div className="grid grid-cols-2 gap-4 mb-8">
-                  <div className="bg-slate-800 rounded-2xl p-5">
-                    <p className="text-slate-400 mb-2">
-                      Win Rate
-                    </p>
+                      <td className="p-4">
+                        {trader.followers.toLocaleString()}
+                      </td>
 
-                    <h3 className="text-2xl font-bold">
-                      {
-                        trader.winRate
-                      }
-                    </h3>
-                  </div>
+                      <td className="p-4 text-yellow-400 font-bold">
+                        {
+                          trader.pnl
+                        }
+                      </td>
 
-                  <div className="bg-slate-800 rounded-2xl p-5">
-                    <p className="text-slate-400 mb-2">
-                      Followers
-                    </p>
+                      <td className="p-4">
+                        <button className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-5 py-2 rounded-xl transition">
+                          Copy Trader
+                        </button>
+                      </td>
+                    </tr>
+                  )
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-                    <h3 className="text-2xl font-bold">
-                      {trader.followers.toLocaleString()}
-                    </h3>
-                  </div>
+        {/* FEATURES */}
 
-                  <div className="bg-slate-800 rounded-2xl p-5">
-                    <p className="text-slate-400 mb-2">
-                      Total PNL
-                    </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+            <h3 className="text-2xl font-bold">
+              Smart Copy
+            </h3>
 
-                    <h3 className="text-2xl font-bold text-green-400">
-                      {
-                        trader.pnl
-                      }
-                    </h3>
-                  </div>
+            <p className="text-gray-400 mt-4">
+              Automatically mirror trades from elite traders in realtime.
+            </p>
+          </div>
 
-                  <div className="bg-slate-800 rounded-2xl p-5">
-                    <p className="text-slate-400 mb-2">
-                      Risk
-                    </p>
+          <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+            <h3 className="text-2xl font-bold">
+              Risk Control
+            </h3>
 
-                    <h3 className="text-2xl font-bold">
-                      {
-                        trader.risk
-                      }
-                    </h3>
-                  </div>
-                </div>
+            <p className="text-gray-400 mt-4">
+              Set stop-loss and capital allocation for safer copying.
+            </p>
+          </div>
 
-                {/* ACTIONS */}
+          <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+            <h3 className="text-2xl font-bold">
+              Verified Traders
+            </h3>
 
-                <div className="flex gap-4">
-                  <button className="flex-1 bg-blue-600 hover:bg-blue-700 py-4 rounded-2xl font-bold text-xl transition">
-                    Copy Trader
-                  </button>
-
-                  <button className="flex-1 bg-slate-800 hover:bg-slate-700 py-4 rounded-2xl font-bold text-xl transition">
-                    View Stats
-                  </button>
-                </div>
-              </div>
-            )
-          )}
+            <p className="text-gray-400 mt-4">
+              Follow verified profitable traders with transparent statistics.
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
 export default CopyTrading;
