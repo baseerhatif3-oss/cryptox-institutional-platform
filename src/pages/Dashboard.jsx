@@ -1,233 +1,208 @@
-import React, {
-  useEffect,
-  useState,
-} from "react";
+import React from "react";
 
-import API from "../services/api";
+import Portfolio from "../components/Portfolio";
 
-import socket from "../socket/socket";
+import MarketTicker from "../components/MarketTicker";
 
-const Dashboard =
-  () => {
-    const [
-      portfolio,
-      setPortfolio,
-    ] = useState(null);
+const Dashboard = () => {
+  return (
+    <div className="space-y-6">
+      {/* HEADER */}
 
-    const [
-      prices,
-      setPrices,
-    ] = useState({});
-
-    const [
-      loading,
-      setLoading,
-    ] = useState(true);
-
-    useEffect(() => {
-      fetchPortfolio();
-
-      /* SOCKET */
-
-      socket.on(
-        "market_update",
-        (
-          data
-        ) => {
-          setPrices(data);
-        }
-      );
-
-      return () => {
-        socket.off(
-          "market_update"
-        );
-      };
-    }, []);
-
-    const fetchPortfolio =
-      async () => {
-        try {
-          const res =
-            await API.get(
-              "/analytics/portfolio"
-            );
-
-          setPortfolio(
-            res.data
-              .portfolio
-          );
-        } catch (error) {
-          console.log(
-            error
-          );
-        } finally {
-          setLoading(
-            false
-          );
-        }
-      };
-
-    if (loading) {
-      return (
-        <div className="text-white">
-          Loading dashboard...
-        </div>
-      );
-    }
-
-    return (
-      <div>
-        {/* HEADER */}
-
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-4xl font-bold">
             Dashboard
           </h1>
 
           <p className="text-gray-400 mt-2">
-            Live exchange analytics
+            Professional crypto
+            exchange overview
           </p>
         </div>
 
-        {/* PORTFOLIO */}
-
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-          <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-            <p className="text-gray-400">
-              Total Balance
-            </p>
-
-            <h2 className="text-3xl font-bold mt-3">
-              $
-              {portfolio?.totalBalance?.toFixed(
-                2
-              )}
-            </h2>
-          </div>
-
-          <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-            <p className="text-gray-400">
-              Futures PnL
-            </p>
-
-            <h2 className="text-3xl font-bold mt-3 text-green-400">
-              $
-              {portfolio?.totalPnL?.toFixed(
-                2
-              )}
-            </h2>
-          </div>
-
-          <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-            <p className="text-gray-400">
-              Total Trades
-            </p>
-
-            <h2 className="text-3xl font-bold mt-3">
-              {
-                portfolio?.totalTrades
-              }
-            </h2>
-          </div>
-
-          <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-            <p className="text-gray-400">
-              Win Rate
-            </p>
-
-            <h2 className="text-3xl font-bold mt-3 text-yellow-400">
-              {
-                portfolio?.winRate
-              }
-              %
-            </h2>
-          </div>
+        <div className="bg-green-500/10 border border-green-500/20 text-green-400 px-5 py-3 rounded-2xl font-semibold">
+          LIVE MARKET
         </div>
+      </div>
 
-        {/* LIVE MARKETS */}
+      {/* MARKET TICKER */}
 
-        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6 mt-8">
-          <h2 className="text-2xl font-bold mb-6">
-            Live Markets
+      <MarketTicker />
+
+      {/* PORTFOLIO */}
+
+      <Portfolio />
+
+      {/* ANALYTICS */}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* TOTAL BALANCE */}
+
+        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+          <p className="text-gray-400">
+            Total Balance
+          </p>
+
+          <h2 className="text-4xl font-bold mt-4">
+            $10,482
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-            {Object.entries(
-              prices
-            ).map(
+          <p className="text-green-400 mt-3">
+            +12.8%
+          </p>
+        </div>
+
+        {/* DAILY PNL */}
+
+        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+          <p className="text-gray-400">
+            Daily PnL
+          </p>
+
+          <h2 className="text-4xl font-bold mt-4 text-green-400">
+            +$842
+          </h2>
+
+          <p className="text-green-400 mt-3">
+            +8.2%
+          </p>
+        </div>
+
+        {/* OPEN POSITIONS */}
+
+        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+          <p className="text-gray-400">
+            Open Positions
+          </p>
+
+          <h2 className="text-4xl font-bold mt-4">
+            12
+          </h2>
+
+          <p className="text-blue-400 mt-3">
+            Active Trades
+          </p>
+        </div>
+
+        {/* TRADING VOLUME */}
+
+        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+          <p className="text-gray-400">
+            Trading Volume
+          </p>
+
+          <h2 className="text-4xl font-bold mt-4">
+            $4.2M
+          </h2>
+
+          <p className="text-yellow-400 mt-3">
+            24H Volume
+          </p>
+        </div>
+      </div>
+
+      {/* MARKET OVERVIEW */}
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* TOP GAINERS */}
+
+        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+          <h2 className="text-2xl font-bold mb-6">
+            Top Gainers
+          </h2>
+
+          <div className="space-y-4">
+            {[
+              {
+                symbol:
+                  "SOLUSDT",
+                change:
+                  "+18.2%",
+              },
+
+              {
+                symbol:
+                  "DOGEUSDT",
+                change:
+                  "+12.4%",
+              },
+
+              {
+                symbol:
+                  "AVAXUSDT",
+                change:
+                  "+9.8%",
+              },
+
+              {
+                symbol:
+                  "XRPUSDT",
+                change:
+                  "+7.1%",
+              },
+            ].map(
               (
-                [
-                  coin,
-                  price,
-                ]
+                coin,
+                index
               ) => (
                 <div
-                  key={coin}
-                  className="bg-black border border-gray-800 rounded-xl p-5"
+                  key={index}
+                  className="flex items-center justify-between bg-black border border-gray-800 rounded-xl px-5 py-4"
                 >
-                  <h3 className="text-xl font-bold">
-                    {coin}
-                    /USDT
+                  <h3 className="font-bold">
+                    {
+                      coin.symbol
+                    }
                   </h3>
 
-                  <p className="text-3xl font-bold text-green-400 mt-4">
-                    $
-                    {Number(
-                      price
-                    ).toLocaleString()}
+                  <p className="text-green-400 font-bold">
+                    {
+                      coin.change
+                    }
                   </p>
-
-                  <div className="text-sm text-gray-400 mt-2">
-                    Live Binance Feed
-                  </div>
                 </div>
               )
             )}
           </div>
         </div>
 
-        {/* ASSETS */}
+        {/* MARKET NEWS */}
 
-        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6 mt-8">
+        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
           <h2 className="text-2xl font-bold mb-6">
-            Portfolio Assets
+            Market News
           </h2>
 
           <div className="space-y-4">
-            {Object.entries(
-              portfolio?.assets ||
-                {}
-            ).map(
+            {[
+              "Bitcoin breaks above major resistance level",
+
+              "Ethereum futures volume hits all-time high",
+
+              "Institutional investors increase crypto exposure",
+
+              "Solana ecosystem sees massive growth",
+            ].map(
               (
-                [
-                  coin,
-                  value,
-                ]
+                news,
+                index
               ) => (
                 <div
-                  key={coin}
-                  className="flex justify-between border-b border-gray-800 pb-3"
+                  key={index}
+                  className="bg-black border border-gray-800 rounded-xl px-5 py-4"
                 >
-                  <span>
-                    {coin}
-                  </span>
-
-                  <span className="font-bold">
-                    $
-                    {Number(
-                      value
-                    ).toFixed(
-                      2
-                    )}
-                  </span>
+                  <p className="text-gray-300">
+                    {news}
+                  </p>
                 </div>
               )
             )}
           </div>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
+};
 
 export default Dashboard;
