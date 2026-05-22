@@ -2,309 +2,274 @@ import React, {
   useState,
 } from "react";
 
-const Futures =
-  () => {
-    const [
-      leverage,
-      setLeverage,
-    ] = useState(10);
+import {
+  AdvancedRealTimeChart,
+} from "react-ts-tradingview-widgets";
 
-    const positions = [
-      {
-        pair:
-          "BTCUSDT",
+const Futures = () => {
+  const [symbol, setSymbol] =
+    useState("BTCUSDT");
 
-        side:
-          "LONG",
+  const [leverage, setLeverage] =
+    useState(10);
 
-        entry:
-          "64850",
+  const [side, setSide] =
+    useState("LONG");
 
-        pnl:
-          "+$1,240",
+  const [entryPrice, setEntryPrice] =
+    useState(104250);
 
-        leverage:
-          "20x",
-      },
+  const [quantity, setQuantity] =
+    useState(0.01);
 
-      {
-        pair:
-          "ETHUSDT",
+  /* PNL */
 
-        side:
-          "SHORT",
+  const pnl =
+    (
+      Math.random() *
+      1000
+    ).toFixed(2);
 
-        entry:
-          "2980",
+  return (
+    <div className="space-y-6">
+      {/* HEADER */}
 
-        pnl:
-          "-$210",
+      <div>
+        <h1 className="text-4xl font-bold">
+          Futures Trading
+        </h1>
 
-        leverage:
-          "10x",
-      },
-    ];
+        <p className="text-gray-400 mt-2">
+          Trade perpetual futures
+          contracts with leverage
+        </p>
+      </div>
 
-    return (
-      <div className="space-y-6">
-        {/* HEADER */}
+      {/* CHART */}
 
-        <div>
-          <h1 className="text-3xl font-bold">
-            Futures Trading
-          </h1>
+      <div className="bg-[#111] border border-gray-800 rounded-2xl p-4">
+        <AdvancedRealTimeChart
+          theme="dark"
+          symbol={`BINANCE:${symbol}`}
+          height={500}
+          width="100%"
+        />
+      </div>
 
-          <p className="text-gray-400 mt-2">
-            Professional leveraged trading terminal
-          </p>
-        </div>
+      {/* MAIN GRID */}
 
-        {/* FUTURES PANEL */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* LEFT */}
 
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-          {/* POSITION FORM */}
+        <div className="lg:col-span-2 bg-[#111] border border-gray-800 rounded-2xl p-6">
+          <h2 className="text-2xl font-bold mb-6">
+            Futures Panel
+          </h2>
 
-          <div className="xl:col-span-2 bg-[#111] border border-gray-800 rounded-2xl p-6">
-            <h2 className="text-2xl font-bold mb-6">
-              Open Position
-            </h2>
+          <div className="space-y-5">
+            {/* PAIR */}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block mb-2 text-gray-400">
+                Trading Pair
+              </label>
+
+              <select
+                value={symbol}
+                onChange={(e) =>
+                  setSymbol(
+                    e.target.value
+                  )
+                }
+                className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3"
+              >
+                <option>
+                  BTCUSDT
+                </option>
+
+                <option>
+                  ETHUSDT
+                </option>
+
+                <option>
+                  SOLUSDT
+                </option>
+              </select>
+            </div>
+
+            {/* LEVERAGE */}
+
+            <div>
+              <label className="block mb-2 text-gray-400">
+                Leverage
+              </label>
+
               <input
-                type="text"
-                placeholder="Trading Pair"
-                className="bg-black border border-gray-700 rounded-xl px-4 py-3"
+                type="range"
+                min="1"
+                max="125"
+                value={leverage}
+                onChange={(e) =>
+                  setLeverage(
+                    e.target.value
+                  )
+                }
+                className="w-full"
               />
 
-              <input
-                type="number"
-                placeholder="Margin (USDT)"
-                className="bg-black border border-gray-700 rounded-xl px-4 py-3"
-              />
-
-              <input
-                type="number"
-                placeholder="Entry Price"
-                className="bg-black border border-gray-700 rounded-xl px-4 py-3"
-              />
-
-              <div className="bg-black border border-gray-700 rounded-xl px-4 py-3">
-                <label className="text-gray-400 text-sm">
-                  Leverage:{" "}
-                  {
-                    leverage
-                  }
-                  x
-                </label>
-
-                <input
-                  type="range"
-                  min="1"
-                  max="125"
-                  value={
-                    leverage
-                  }
-                  onChange={(
-                    e
-                  ) =>
-                    setLeverage(
-                      e.target
-                        .value
-                    )
-                  }
-                  className="w-full mt-2"
-                />
+              <div className="mt-2 text-yellow-400 font-bold text-2xl">
+                {leverage}x
               </div>
             </div>
 
-            {/* LIQUIDATION */}
+            {/* ENTRY */}
 
-            <div className="mt-6 bg-black border border-gray-800 rounded-xl p-4">
-              <div className="flex justify-between">
-                <span className="text-gray-400">
-                  Estimated Liquidation
-                </span>
+            <div>
+              <label className="block mb-2 text-gray-400">
+                Entry Price
+              </label>
 
-                <span className="text-red-400 font-bold">
-                  $61,240
-                </span>
-              </div>
-
-              <div className="flex justify-between mt-3">
-                <span className="text-gray-400">
-                  Estimated Fees
-                </span>
-
-                <span className="text-yellow-400 font-bold">
-                  $12.40
-                </span>
-              </div>
+              <input
+                type="number"
+                value={entryPrice}
+                onChange={(e) =>
+                  setEntryPrice(
+                    e.target.value
+                  )
+                }
+                className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3"
+              />
             </div>
 
-            {/* BUTTONS */}
+            {/* QUANTITY */}
 
-            <div className="grid grid-cols-2 gap-4 mt-6">
-              <button className="bg-green-500 hover:bg-green-600 text-black font-bold py-4 rounded-xl text-lg">
+            <div>
+              <label className="block mb-2 text-gray-400">
+                Quantity
+              </label>
+
+              <input
+                type="number"
+                value={quantity}
+                onChange={(e) =>
+                  setQuantity(
+                    e.target.value
+                  )
+                }
+                className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3"
+              />
+            </div>
+
+            {/* SIDE */}
+
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                onClick={() =>
+                  setSide("LONG")
+                }
+                className={`py-4 rounded-xl font-bold ${
+                  side === "LONG"
+                    ? "bg-green-500"
+                    : "bg-black border border-gray-700"
+                }`}
+              >
                 LONG
               </button>
 
-              <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-4 rounded-xl text-lg">
+              <button
+                onClick={() =>
+                  setSide("SHORT")
+                }
+                className={`py-4 rounded-xl font-bold ${
+                  side === "SHORT"
+                    ? "bg-red-500"
+                    : "bg-black border border-gray-700"
+                }`}
+              >
                 SHORT
               </button>
             </div>
-          </div>
 
-          {/* MARKET STATS */}
+            {/* OPEN POSITION */}
 
-          <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-            <h2 className="text-2xl font-bold mb-6">
-              Futures Stats
-            </h2>
-
-            <div className="space-y-5">
-              <div className="flex justify-between">
-                <span className="text-gray-400">
-                  Funding Rate
-                </span>
-
-                <span className="text-green-400">
-                  +0.012%
-                </span>
-              </div>
-
-              <div className="flex justify-between">
-                <span className="text-gray-400">
-                  Open Interest
-                </span>
-
-                <span>
-                  $2.4B
-                </span>
-              </div>
-
-              <div className="flex justify-between">
-                <span className="text-gray-400">
-                  24h Volume
-                </span>
-
-                <span>
-                  $18.9B
-                </span>
-              </div>
-
-              <div className="flex justify-between">
-                <span className="text-gray-400">
-                  Top Trader Ratio
-                </span>
-
-                <span className="text-yellow-400">
-                  68% Long
-                </span>
-              </div>
-            </div>
+            <button
+              className={`w-full py-4 rounded-xl font-bold text-white ${
+                side === "LONG"
+                  ? "bg-green-500 hover:bg-green-600"
+                  : "bg-red-500 hover:bg-red-600"
+              }`}
+            >
+              Open {side} Position
+            </button>
           </div>
         </div>
 
-        {/* OPEN POSITIONS */}
+        {/* RIGHT */}
 
         <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
           <h2 className="text-2xl font-bold mb-6">
-            Open Positions
+            Position Info
           </h2>
 
           <div className="space-y-4">
-            {positions.map(
-              (
-                pos,
-                index
-              ) => (
-                <div
-                  key={
-                    index
-                  }
-                  className="grid grid-cols-2 md:grid-cols-5 gap-4 border-b border-gray-800 pb-4"
-                >
-                  <div>
-                    <p className="text-gray-400 text-sm">
-                      Pair
-                    </p>
+            <div className="bg-black border border-gray-800 rounded-xl p-5">
+              <p className="text-gray-400">
+                Position Size
+              </p>
 
-                    <p className="font-bold">
-                      {
-                        pos.pair
-                      }
-                    </p>
-                  </div>
+              <h2 className="text-3xl font-bold mt-3">
+                $
+                {(
+                  entryPrice *
+                  quantity *
+                  leverage
+                ).toLocaleString()}
+              </h2>
+            </div>
 
-                  <div>
-                    <p className="text-gray-400 text-sm">
-                      Side
-                    </p>
+            <div className="bg-black border border-gray-800 rounded-xl p-5">
+              <p className="text-gray-400">
+                Unrealized PnL
+              </p>
 
-                    <p
-                      className={
-                        pos.side ===
-                        "LONG"
-                          ? "text-green-400 font-bold"
-                          : "text-red-400 font-bold"
-                      }
-                    >
-                      {
-                        pos.side
-                      }
-                    </p>
-                  </div>
+              <h2 className="text-3xl font-bold text-green-400 mt-3">
+                +${pnl}
+              </h2>
+            </div>
 
-                  <div>
-                    <p className="text-gray-400 text-sm">
-                      Entry
-                    </p>
+            <div className="bg-black border border-gray-800 rounded-xl p-5">
+              <p className="text-gray-400">
+                Liquidation Price
+              </p>
 
-                    <p>
-                      {
-                        pos.entry
-                      }
-                    </p>
-                  </div>
+              <h2 className="text-3xl font-bold text-red-400 mt-3">
+                $
+                {(
+                  entryPrice *
+                  0.9
+                ).toFixed(2)}
+              </h2>
+            </div>
 
-                  <div>
-                    <p className="text-gray-400 text-sm">
-                      PnL
-                    </p>
+            <div className="bg-black border border-gray-800 rounded-xl p-5">
+              <p className="text-gray-400">
+                Margin Used
+              </p>
 
-                    <p
-                      className={
-                        pos.pnl.startsWith(
-                          "+"
-                        )
-                          ? "text-green-400 font-bold"
-                          : "text-red-400 font-bold"
-                      }
-                    >
-                      {
-                        pos.pnl
-                      }
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="text-gray-400 text-sm">
-                      Leverage
-                    </p>
-
-                    <p className="text-yellow-400 font-bold">
-                      {
-                        pos.leverage
-                      }
-                    </p>
-                  </div>
-                </div>
-              )
-            )}
+              <h2 className="text-3xl font-bold text-yellow-400 mt-3">
+                $
+                {(
+                  (entryPrice *
+                    quantity) /
+                  leverage
+                ).toFixed(2)}
+              </h2>
+            </div>
           </div>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
+};
 
 export default Futures;

@@ -7,42 +7,42 @@ import {
   Navigate,
 } from "react-router-dom";
 
-/* LAYOUT */
+/* =========================
+   LAYOUT
+========================= */
 
 import DashboardLayout from "./layouts/DashboardLayout";
 
-/* PAGES */
-
-import Dashboard from "./pages/Dashboard";
-import Trading from "./pages/Trading";
-import Futures from "./pages/Futures";
-import Wallets from "./pages/Wallets";
-import Orders from "./pages/Orders";
-import Analytics from "./pages/Analytics";
-import CopyTrading from "./pages/CopyTrading";
-import Notifications from "./pages/Notifications";
-import AIAssistant from "./pages/AIAssistant";
-import Profile from "./pages/Profile";
-import Admin from "./pages/Admin";
+/* =========================
+   AUTH PAGES
+========================= */
 
 import Login from "./pages/Login";
+
 import Register from "./pages/Register";
 
-/* GLOBAL CSS */
+/* =========================
+   MAIN PAGES
+========================= */
 
-import "./index.css";
+import Dashboard from "./pages/Dashboard";
+
+import Trading from "./pages/Trading";
+
+import Futures from "./pages/Futures";
+
+import Profile from "./pages/Profile";
+
+/* =========================
+   APP
+========================= */
 
 function App() {
-  const token =
-    localStorage.getItem(
-      "token"
-    );
-
   return (
     <BrowserRouter>
       <Routes>
         {/* =========================
-            PUBLIC ROUTES
+            AUTH ROUTES
         ========================= */}
 
         <Route
@@ -56,19 +56,13 @@ function App() {
         />
 
         {/* =========================
-            PROTECTED ROUTES
+            DASHBOARD LAYOUT
         ========================= */}
 
         <Route
           path="/"
           element={
-            token ? (
-              <DashboardLayout />
-            ) : (
-              <Navigate
-                to="/login"
-              />
-            )
+            <DashboardLayout />
           }
         >
           {/* DASHBOARD */}
@@ -80,14 +74,7 @@ function App() {
             }
           />
 
-          <Route
-            path="dashboard"
-            element={
-              <Dashboard />
-            }
-          />
-
-          {/* TRADING */}
+          {/* SPOT TRADING */}
 
           <Route
             path="trading"
@@ -105,75 +92,12 @@ function App() {
             }
           />
 
-          {/* WALLETS */}
-
-          <Route
-            path="wallets"
-            element={
-              <Wallets />
-            }
-          />
-
-          {/* ORDERS */}
-
-          <Route
-            path="orders"
-            element={
-              <Orders />
-            }
-          />
-
-          {/* ANALYTICS */}
-
-          <Route
-            path="analytics"
-            element={
-              <Analytics />
-            }
-          />
-
-          {/* COPY TRADING */}
-
-          <Route
-            path="copy-trading"
-            element={
-              <CopyTrading />
-            }
-          />
-
-          {/* AI ASSISTANT */}
-
-          <Route
-            path="ai-assistant"
-            element={
-              <AIAssistant />
-            }
-          />
-
-          {/* NOTIFICATIONS */}
-
-          <Route
-            path="notifications"
-            element={
-              <Notifications />
-            }
-          />
-
           {/* PROFILE */}
 
           <Route
             path="profile"
             element={
               <Profile />
-            }
-          />
-
-          {/* ADMIN */}
-
-          <Route
-            path="admin"
-            element={
-              <Admin />
             }
           />
         </Route>
@@ -185,9 +109,7 @@ function App() {
         <Route
           path="*"
           element={
-            <Navigate
-              to="/"
-            />
+            <Navigate to="/" />
           }
         />
       </Routes>
