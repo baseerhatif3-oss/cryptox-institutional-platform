@@ -35,6 +35,8 @@ import Wallet from "./pages/Wallet";
 
 import Transactions from "./pages/Transactions";
 
+import Admin from "./pages/Admin";
+
 import Profile from "./pages/Profile";
 
 /* =========================
@@ -111,6 +113,15 @@ function App() {
             path="transactions"
             element={
               <Transactions />
+            }
+          />
+
+          {/* ADMIN */}
+
+          <Route
+            path="admin"
+            element={
+              <Admin />
             }
           />
 

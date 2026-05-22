@@ -1,285 +1,257 @@
-import React from "react";
+import React, {
+  useEffect,
+  useState,
+} from "react";
 
-const Admin =
-  () => {
-    const stats = [
-      {
-        title:
-          "Total Users",
+import axios from "axios";
 
-        value:
-          "12,540",
-      },
+const Admin = () => {
+  const [users, setUsers] =
+    useState([]);
 
-      {
-        title:
-          "24h Volume",
+  const [
+    transactions,
+    setTransactions,
+  ] = useState([]);
 
-        value:
-          "$24.8M",
-      },
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-      {
-        title:
-          "Exchange Revenue",
+  const fetchData =
+    async () => {
+      try {
+        const usersRes =
+          await axios.get(
+            "https://crypto-backend-dojp.onrender.com/api/user/all"
+          );
 
-        value:
-          "$482,000",
-      },
+        setUsers(
+          usersRes.data.users ||
+            []
+        );
 
-      {
-        title:
-          "Pending KYC",
+        const txRes =
+          await axios.get(
+            "https://crypto-backend-dojp.onrender.com/api/transactions/admin/all"
+          );
 
-        value:
-          "128",
-      },
-    ];
+        setTransactions(
+          txRes.data
+            .transactions ||
+            []
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-    const users = [
-      {
-        name:
-          "Ahmed Khan",
+  const totalVolume =
+    transactions.reduce(
+      (
+        total,
+        tx
+      ) =>
+        total +
+        Number(
+          tx.amount || 0
+        ),
+      0
+    );
 
-        email:
-          "ahmed@example.com",
+  return (
+    <div className="space-y-6">
+      {/* HEADER */}
 
-        status:
-          "Active",
+      <div>
+        <h1 className="text-4xl font-bold">
+          Admin Panel
+        </h1>
 
-        kyc:
-          "Verified",
-      },
+        <p className="text-gray-400 mt-2">
+          Exchange management
+          dashboard
+        </p>
+      </div>
 
-      {
-        name:
-          "Ali Raza",
+      {/* STATS */}
 
-        email:
-          "ali@example.com",
-
-        status:
-          "Frozen",
-
-        kyc:
-          "Pending",
-      },
-
-      {
-        name:
-          "Sara Noor",
-
-        email:
-          "sara@example.com",
-
-        status:
-          "Active",
-
-        kyc:
-          "Verified",
-      },
-    ];
-
-    return (
-      <div className="space-y-6">
-        {/* HEADER */}
-
-        <div>
-          <h1 className="text-3xl font-bold">
-            Admin Dashboard
-          </h1>
-
-          <p className="text-gray-400 mt-2">
-            Professional exchange management system
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+          <p className="text-gray-400">
+            Total Users
           </p>
+
+          <h2 className="text-4xl font-bold mt-3">
+            {users.length}
+          </h2>
         </div>
-
-        {/* STATS */}
-
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-          {stats.map(
-            (
-              stat,
-              index
-            ) => (
-              <div
-                key={
-                  index
-                }
-                className="bg-[#111] border border-gray-800 rounded-2xl p-6"
-              >
-                <p className="text-gray-400">
-                  {
-                    stat.title
-                  }
-                </p>
-
-                <h2 className="text-3xl font-bold mt-3">
-                  {
-                    stat.value
-                  }
-                </h2>
-              </div>
-            )
-          )}
-        </div>
-
-        {/* USER TABLE */}
-
-        <div className="bg-[#111] border border-gray-800 rounded-2xl overflow-hidden">
-          <div className="p-6 border-b border-gray-800">
-            <h2 className="text-2xl font-bold">
-              User Management
-            </h2>
-          </div>
-
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-black">
-                <tr>
-                  <th className="text-left p-4">
-                    Name
-                  </th>
-
-                  <th className="text-left p-4">
-                    Email
-                  </th>
-
-                  <th className="text-left p-4">
-                    Status
-                  </th>
-
-                  <th className="text-left p-4">
-                    KYC
-                  </th>
-
-                  <th className="text-left p-4">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {users.map(
-                  (
-                    user,
-                    index
-                  ) => (
-                    <tr
-                      key={
-                        index
-                      }
-                      className="border-t border-gray-800"
-                    >
-                      <td className="p-4 font-semibold">
-                        {
-                          user.name
-                        }
-                      </td>
-
-                      <td className="p-4 text-gray-400">
-                        {
-                          user.email
-                        }
-                      </td>
-
-                      <td className="p-4">
-                        <span
-                          className={`px-3 py-1 rounded-full text-sm ${
-                            user.status ===
-                            "Active"
-                              ? "bg-green-500/20 text-green-400"
-                              : "bg-red-500/20 text-red-400"
-                          }`}
-                        >
-                          {
-                            user.status
-                          }
-                        </span>
-                      </td>
-
-                      <td className="p-4">
-                        <span
-                          className={`px-3 py-1 rounded-full text-sm ${
-                            user.kyc ===
-                            "Verified"
-                              ? "bg-blue-500/20 text-blue-400"
-                              : "bg-yellow-500/20 text-yellow-400"
-                          }`}
-                        >
-                          {
-                            user.kyc
-                          }
-                        </span>
-                      </td>
-
-                      <td className="p-4">
-                        <div className="flex gap-2">
-                          <button className="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-lg text-sm font-bold">
-                            Approve
-                          </button>
-
-                          <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-bold">
-                            Freeze
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* KYC PANEL */}
 
         <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-          <h2 className="text-2xl font-bold mb-6">
-            Pending KYC Requests
+          <p className="text-gray-400">
+            Transactions
+          </p>
+
+          <h2 className="text-4xl font-bold mt-3">
+            {
+              transactions.length
+            }
           </h2>
+        </div>
 
-          <div className="space-y-4">
-            {[
-              "User #2481",
-              "User #2482",
-              "User #2483",
-            ].map(
-              (
-                item
-              ) => (
-                <div
-                  key={
-                    item
-                  }
-                  className="flex items-center justify-between border-b border-gray-800 pb-4"
-                >
-                  <div>
-                    <p className="font-semibold">
-                      {item}
-                    </p>
+        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+          <p className="text-gray-400">
+            Trading Volume
+          </p>
 
-                    <p className="text-sm text-gray-400 mt-1">
-                      Submitted passport verification
-                    </p>
-                  </div>
-
-                  <div className="flex gap-3">
-                    <button className="bg-green-500 hover:bg-green-600 text-black px-4 py-2 rounded-xl font-bold">
-                      Approve
-                    </button>
-
-                    <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl font-bold">
-                      Reject
-                    </button>
-                  </div>
-                </div>
-              )
+          <h2 className="text-4xl font-bold mt-3">
+            $
+            {totalVolume.toFixed(
+              2
             )}
-          </div>
+          </h2>
+        </div>
+
+        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+          <p className="text-gray-400">
+            Exchange Status
+          </p>
+
+          <h2 className="text-3xl font-bold text-green-400 mt-3">
+            ONLINE
+          </h2>
         </div>
       </div>
-    );
-  };
+
+      {/* USERS */}
+
+      <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+        <h2 className="text-2xl font-bold mb-6">
+          Users
+        </h2>
+
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-gray-800">
+                <th className="text-left pb-4">
+                  Name
+                </th>
+
+                <th className="text-left pb-4">
+                  Email
+                </th>
+
+                <th className="text-left pb-4">
+                  Joined
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {users.map(
+                (user) => (
+                  <tr
+                    key={
+                      user._id
+                    }
+                    className="border-b border-gray-900"
+                  >
+                    <td className="py-4">
+                      {
+                        user.name
+                      }
+                    </td>
+
+                    <td className="py-4">
+                      {
+                        user.email
+                      }
+                    </td>
+
+                    <td className="py-4">
+                      {new Date(
+                        user.createdAt
+                      ).toLocaleDateString()}
+                    </td>
+                  </tr>
+                )
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* TRANSACTIONS */}
+
+      <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+        <h2 className="text-2xl font-bold mb-6">
+          Recent Transactions
+        </h2>
+
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-gray-800">
+                <th className="text-left pb-4">
+                  Type
+                </th>
+
+                <th className="text-left pb-4">
+                  Asset
+                </th>
+
+                <th className="text-left pb-4">
+                  Amount
+                </th>
+
+                <th className="text-left pb-4">
+                  Status
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {transactions
+                .slice(0, 10)
+                .map((tx) => (
+                  <tr
+                    key={
+                      tx._id
+                    }
+                    className="border-b border-gray-900"
+                  >
+                    <td className="py-4">
+                      {
+                        tx.type
+                      }
+                    </td>
+
+                    <td className="py-4">
+                      {
+                        tx.asset
+                      }
+                    </td>
+
+                    <td className="py-4">
+                      {
+                        tx.amount
+                      }
+                    </td>
+
+                    <td className="py-4 text-green-400">
+                      {
+                        tx.status
+                      }
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default Admin;
