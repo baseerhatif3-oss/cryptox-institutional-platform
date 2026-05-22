@@ -9,6 +9,10 @@ import {
 
 import MarketTicker from "../components/MarketTicker";
 
+import OrderBook from "../components/OrderBook";
+
+import LiveTrades from "../components/LiveTrades";
+
 import {
   buyCoin,
   sellCoin,
@@ -34,7 +38,7 @@ const Trading = () => {
     useState([]);
 
   /* =========================
-     LOAD HISTORY
+     LOAD ORDER HISTORY
   ========================= */
 
   useEffect(() => {
@@ -54,7 +58,7 @@ const Trading = () => {
     };
 
   /* =========================
-     BUY
+     BUY ORDER
   ========================= */
 
   const handleBuy =
@@ -69,7 +73,7 @@ const Trading = () => {
         );
 
         alert(
-          "Buy Order Executed"
+          "Buy Order Executed Successfully"
         );
 
         fetchHistory();
@@ -77,7 +81,7 @@ const Trading = () => {
         console.log(error);
 
         alert(
-          "Buy Failed"
+          "Buy Order Failed"
         );
       } finally {
         setLoading(false);
@@ -85,7 +89,7 @@ const Trading = () => {
     };
 
   /* =========================
-     SELL
+     SELL ORDER
   ========================= */
 
   const handleSell =
@@ -100,7 +104,7 @@ const Trading = () => {
         );
 
         alert(
-          "Sell Order Executed"
+          "Sell Order Executed Successfully"
         );
 
         fetchHistory();
@@ -108,7 +112,7 @@ const Trading = () => {
         console.log(error);
 
         alert(
-          "Sell Failed"
+          "Sell Order Failed"
         );
       } finally {
         setLoading(false);
@@ -120,12 +124,12 @@ const Trading = () => {
       {/* HEADER */}
 
       <div>
-        <h1 className="text-3xl font-bold">
+        <h1 className="text-4xl font-bold">
           Spot Trading
         </h1>
 
         <p className="text-gray-400 mt-2">
-          Professional crypto
+          Institutional-grade crypto
           trading terminal
         </p>
       </div>
@@ -148,23 +152,28 @@ const Trading = () => {
       {/* MAIN GRID */}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* LEFT */}
+        {/* TRADING PANEL */}
 
         <div className="lg:col-span-2 bg-[#111] border border-gray-800 rounded-2xl p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold">
-              Trading Panel
-            </h2>
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-2xl font-bold">
+                Trading Panel
+              </h2>
 
-            <div className="bg-green-500/10 text-green-400 px-4 py-2 rounded-xl border border-green-500/20">
-              LIVE
+              <p className="text-gray-400 mt-1">
+                Execute spot market
+                trades instantly
+              </p>
+            </div>
+
+            <div className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-2 rounded-xl">
+              LIVE MARKET
             </div>
           </div>
 
-          {/* FORM */}
-
           <div className="space-y-5">
-            {/* SYMBOL */}
+            {/* PAIR */}
 
             <div>
               <label className="text-gray-400 block mb-2">
@@ -178,7 +187,7 @@ const Trading = () => {
                     e.target.value
                   )
                 }
-                className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white"
+                className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white outline-none"
               >
                 <option>
                   BTCUSDT
@@ -213,7 +222,7 @@ const Trading = () => {
                     e.target.value
                   )
                 }
-                className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white"
+                className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white outline-none"
               />
             </div>
 
@@ -232,18 +241,18 @@ const Trading = () => {
                     e.target.value
                   )
                 }
-                className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white"
+                className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white outline-none"
               />
             </div>
 
             {/* TOTAL */}
 
-            <div className="bg-black border border-gray-800 rounded-xl p-4">
+            <div className="bg-black border border-gray-800 rounded-xl p-5">
               <p className="text-gray-400">
-                Order Total
+                Total Order Value
               </p>
 
-              <h2 className="text-3xl font-bold mt-2 text-yellow-400">
+              <h2 className="text-4xl font-bold text-yellow-400 mt-3">
                 $
                 {(
                   Number(price) *
@@ -286,58 +295,87 @@ const Trading = () => {
           </div>
         </div>
 
-        {/* RIGHT */}
+        {/* MARKET OVERVIEW */}
 
         <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
           <h2 className="text-2xl font-bold mb-6">
-            Market Stats
+            Market Overview
           </h2>
 
           <div className="space-y-4">
-            <div className="bg-black border border-gray-800 rounded-xl p-4">
+            <div className="bg-black border border-gray-800 rounded-xl p-5">
               <p className="text-gray-400">
                 24h Volume
               </p>
 
-              <h2 className="text-2xl font-bold mt-2">
+              <h2 className="text-3xl font-bold mt-3">
                 $4.2B
               </h2>
             </div>
 
-            <div className="bg-black border border-gray-800 rounded-xl p-4">
+            <div className="bg-black border border-gray-800 rounded-xl p-5">
               <p className="text-gray-400">
-                Market Trend
+                Market Sentiment
               </p>
 
-              <h2 className="text-2xl font-bold mt-2 text-green-400">
+              <h2 className="text-3xl font-bold text-green-400 mt-3">
                 Bullish
               </h2>
             </div>
 
-            <div className="bg-black border border-gray-800 rounded-xl p-4">
+            <div className="bg-black border border-gray-800 rounded-xl p-5">
               <p className="text-gray-400">
                 Active Traders
               </p>
 
-              <h2 className="text-2xl font-bold mt-2">
+              <h2 className="text-3xl font-bold mt-3">
                 182,491
+              </h2>
+            </div>
+
+            <div className="bg-black border border-gray-800 rounded-xl p-5">
+              <p className="text-gray-400">
+                Open Interest
+              </p>
+
+              <h2 className="text-3xl font-bold mt-3 text-blue-400">
+                $892M
               </h2>
             </div>
           </div>
         </div>
       </div>
 
+      {/* ORDERBOOK + LIVE TRADES */}
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <OrderBook />
+
+        <LiveTrades />
+      </div>
+
       {/* ORDER HISTORY */}
 
       <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-        <h2 className="text-2xl font-bold mb-6">
-          Order History
-        </h2>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold">
+            Order History
+          </h2>
+
+          <button
+            onClick={
+              fetchHistory
+            }
+            className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-4 py-2 rounded-xl transition"
+          >
+            Refresh
+          </button>
+        </div>
 
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="text-left border-b border-gray-800">
+              <tr className="border-b border-gray-800 text-left">
                 <th className="pb-4">
                   Pair
                 </th>
@@ -356,6 +394,10 @@ const Trading = () => {
 
                 <th className="pb-4">
                   Total
+                </th>
+
+                <th className="pb-4">
+                  Status
                 </th>
               </tr>
             </thead>
@@ -402,6 +444,10 @@ const Trading = () => {
                     <td className="py-4">
                       $
                       {order.total}
+                    </td>
+
+                    <td className="py-4 text-green-400">
+                      FILLED
                     </td>
                   </tr>
                 )

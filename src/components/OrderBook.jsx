@@ -1,68 +1,79 @@
-import {
+import React, {
   useEffect,
   useState,
 } from "react";
 
-const OrderBook = ({
-  symbol,
-}) => {
+const OrderBook = () => {
   const [bids, setBids] =
     useState([]);
 
   const [asks, setAsks] =
     useState([]);
 
-  const fetchOrderBook =
-    async () => {
-      try {
-        const cleanSymbol =
-          symbol
-            .replace(
-              "BINANCE:",
-              ""
-            )
-            .replace(
-              "/",
-              ""
-            );
-
-        const res =
-          await fetch(
-            `https://api.binance.com/api/v3/depth?symbol=${cleanSymbol}&limit=15`
-          );
-
-        const data =
-          await res.json();
-
-        setBids(
-          data.bids || []
-        );
-
-        setAsks(
-          data.asks || []
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
   useEffect(() => {
-    fetchOrderBook();
+    generateOrderBook();
 
     const interval =
       setInterval(() => {
-        fetchOrderBook();
+        generateOrderBook();
       }, 2000);
 
     return () =>
       clearInterval(
         interval
       );
-  }, [symbol]);
+  }, []);
+
+  const generateOrderBook =
+    () => {
+      const newBids = [];
+
+      const newAsks = [];
+
+      for (
+        let i = 0;
+        i < 10;
+        i++
+      ) {
+        newBids.push({
+          price:
+            (
+              104000 -
+              Math.random() *
+                1000
+            ).toFixed(2),
+
+          amount:
+            (
+              Math.random() *
+              5
+            ).toFixed(4),
+        });
+
+        newAsks.push({
+          price:
+            (
+              104000 +
+              Math.random() *
+                1000
+            ).toFixed(2),
+
+          amount:
+            (
+              Math.random() *
+              5
+            ).toFixed(4),
+        });
+      }
+
+      setBids(newBids);
+
+      setAsks(newAsks);
+    };
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 h-full">
-      <h2 className="text-3xl font-bold mb-6">
+    <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+      <h2 className="text-2xl font-bold mb-6">
         Order Book
       </h2>
 
@@ -71,7 +82,7 @@ const OrderBook = ({
 
         <div>
           <h3 className="text-green-400 font-bold mb-4">
-            Bids
+            BIDS
           </h3>
 
           <div className="space-y-2">
@@ -82,19 +93,19 @@ const OrderBook = ({
               ) => (
                 <div
                   key={index}
-                  className="bg-green-500/10 rounded-xl p-3 flex justify-between text-sm"
+                  className="flex justify-between bg-black border border-gray-800 rounded-lg px-3 py-2"
                 >
-                  <span className="text-green-400 font-bold">
+                  <span className="text-green-400">
                     $
-                    {Number(
-                      bid[0]
-                    ).toLocaleString()}
+                    {
+                      bid.price
+                    }
                   </span>
 
                   <span>
-                    {Number(
-                      bid[1]
-                    ).toFixed(4)}
+                    {
+                      bid.amount
+                    }
                   </span>
                 </div>
               )
@@ -106,7 +117,7 @@ const OrderBook = ({
 
         <div>
           <h3 className="text-red-400 font-bold mb-4">
-            Asks
+            ASKS
           </h3>
 
           <div className="space-y-2">
@@ -117,19 +128,19 @@ const OrderBook = ({
               ) => (
                 <div
                   key={index}
-                  className="bg-red-500/10 rounded-xl p-3 flex justify-between text-sm"
+                  className="flex justify-between bg-black border border-gray-800 rounded-lg px-3 py-2"
                 >
-                  <span className="text-red-400 font-bold">
+                  <span className="text-red-400">
                     $
-                    {Number(
-                      ask[0]
-                    ).toLocaleString()}
+                    {
+                      ask.price
+                    }
                   </span>
 
                   <span>
-                    {Number(
-                      ask[1]
-                    ).toFixed(4)}
+                    {
+                      ask.amount
+                    }
                   </span>
                 </div>
               )
