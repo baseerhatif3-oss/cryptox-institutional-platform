@@ -31,6 +31,8 @@ import Trading from "./pages/Trading";
 
 import Futures from "./pages/Futures";
 
+import Wallet from "./pages/Wallet";
+
 import Profile from "./pages/Profile";
 
 /* =========================
@@ -89,6 +91,15 @@ function App() {
             path="futures"
             element={
               <Futures />
+            }
+          />
+
+          {/* WALLET */}
+
+          <Route
+            path="wallet"
+            element={
+              <Wallet />
             }
           />
 

@@ -1,163 +1,228 @@
-import {
+import React, {
   useEffect,
   useState,
 } from "react";
 
-import axios from "axios";
+import {
+  getWallet,
+  depositFunds,
+  withdrawFunds,
+} from "../services/walletApi";
 
-const Wallets = () => {
-  const [wallets,
-    setWallets] =
-    useState({});
+const Wallet = () => {
+  const [wallet, setWallet] =
+    useState(null);
+
+  const [asset, setAsset] =
+    useState("USDT");
+
+  const [amount, setAmount] =
+    useState("");
+
+  const user =
+    JSON.parse(
+      localStorage.getItem(
+        "user"
+      )
+    );
 
   useEffect(() => {
-    fetchWallets();
+    fetchWallet();
   }, []);
 
-  const fetchWallets =
+  const fetchWallet =
     async () => {
       try {
-        const token =
-          localStorage.getItem(
-            "token"
+        const data =
+          await getWallet(
+            user._id
           );
 
-        const res =
-          await axios.get(
-            "https://crypto-backend-dojp.onrender.com/api/wallets",
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-        setWallets(
-          res.data
+        setWallet(
+          data.wallet
         );
       } catch (error) {
         console.log(error);
       }
     };
 
-  const copyAddress =
-    async (address) => {
-      await navigator.clipboard.writeText(
-        address
-      );
+  /* DEPOSIT */
 
-      alert(
-        "Wallet address copied!"
-      );
+  const handleDeposit =
+    async () => {
+      try {
+        await depositFunds(
+          user._id,
+          asset,
+          amount
+        );
+
+        alert(
+          "Deposit Successful"
+        );
+
+        fetchWallet();
+      } catch (error) {
+        console.log(error);
+
+        alert(
+          "Deposit Failed"
+        );
+      }
     };
 
-  const coins = [
-    {
-      symbol: "BTC",
-      color:
-        "from-orange-500 to-yellow-500",
-    },
+  /* WITHDRAW */
 
-    {
-      symbol: "ETH",
-      color:
-        "from-blue-500 to-indigo-500",
-    },
+  const handleWithdraw =
+    async () => {
+      try {
+        await withdrawFunds(
+          user._id,
+          asset,
+          amount
+        );
 
-    {
-      symbol: "USDT",
-      color:
-        "from-green-500 to-emerald-500",
-    },
+        alert(
+          "Withdrawal Successful"
+        );
 
-    {
-      symbol: "SOL",
-      color:
-        "from-purple-500 to-pink-500",
-    },
-  ];
+        fetchWallet();
+      } catch (error) {
+        console.log(error);
+
+        alert(
+          "Withdrawal Failed"
+        );
+      }
+    };
+
+  if (!wallet) {
+    return (
+      <div>
+        Loading wallet...
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="max-w-6xl mx-auto">
-        {/* HEADER */}
+    <div className="space-y-6">
+      {/* HEADER */}
 
-        <div className="mb-10">
-          <h1 className="text-5xl font-bold">
-            Crypto Wallets
-          </h1>
+      <div>
+        <h1 className="text-4xl font-bold">
+          Wallet
+        </h1>
 
-          <p className="text-slate-400 mt-3">
-            Your personal deposit wallet addresses
-          </p>
-        </div>
+        <p className="text-gray-400 mt-2">
+          Manage your assets and
+          balances
+        </p>
+      </div>
 
-        {/* WALLETS */}
+      {/* BALANCES */}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {coins.map(
-            (coin) => (
-              <div
-                key={
-                  coin.symbol
-                }
-                className={`bg-gradient-to-r ${coin.color} rounded-3xl p-[1px]`}
-              >
-                <div className="bg-slate-900 rounded-3xl p-8 h-full">
-                  {/* TOP */}
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+        {Object.entries(
+          wallet.balances
+        ).map(
+          ([coin, value]) => (
+            <div
+              key={coin}
+              className="bg-[#111] border border-gray-800 rounded-2xl p-5"
+            >
+              <p className="text-gray-400">
+                {coin}
+              </p>
 
-                  <div className="flex items-center justify-between mb-8">
-                    <div>
-                      <h2 className="text-4xl font-bold">
-                        {
-                          coin.symbol
-                        }
-                      </h2>
+              <h2 className="text-3xl font-bold mt-3">
+                {Number(
+                  value
+                ).toFixed(4)}
+              </h2>
+            </div>
+          )
+        )}
+      </div>
 
-                      <p className="text-slate-400 mt-2">
-                        Deposit Wallet
-                      </p>
-                    </div>
+      {/* ACTION PANEL */}
 
-                    <div className="text-5xl">
-                      💰
-                    </div>
-                  </div>
+      <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+        <h2 className="text-2xl font-bold mb-6">
+          Deposit / Withdraw
+        </h2>
 
-                  {/* ADDRESS */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* ASSET */}
 
-                  <div className="bg-slate-800 rounded-2xl p-5 break-all text-sm text-slate-300 mb-6">
-                    {
-                      wallets[
-                        coin
-                          .symbol
-                      ]
-                    }
-                  </div>
+          <select
+            value={asset}
+            onChange={(e) =>
+              setAsset(
+                e.target.value
+              )
+            }
+            className="bg-black border border-gray-700 rounded-xl px-4 py-3"
+          >
+            <option>
+              USDT
+            </option>
 
-                  {/* BUTTON */}
+            <option>
+              BTC
+            </option>
 
-                  <button
-                    onClick={() =>
-                      copyAddress(
-                        wallets[
-                          coin
-                            .symbol
-                        ]
-                      )
-                    }
-                    className="w-full bg-blue-600 hover:bg-blue-700 transition py-4 rounded-2xl text-xl font-bold"
-                  >
-                    Copy Address
-                  </button>
-                </div>
-              </div>
-            )
-          )}
+            <option>
+              ETH
+            </option>
+
+            <option>
+              SOL
+            </option>
+
+            <option>
+              XRP
+            </option>
+          </select>
+
+          {/* AMOUNT */}
+
+          <input
+            type="number"
+            placeholder="Amount"
+            value={amount}
+            onChange={(e) =>
+              setAmount(
+                e.target.value
+              )
+            }
+            className="bg-black border border-gray-700 rounded-xl px-4 py-3"
+          />
+
+          {/* BUTTONS */}
+
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              onClick={
+                handleDeposit
+              }
+              className="bg-green-500 hover:bg-green-600 py-3 rounded-xl font-bold"
+            >
+              Deposit
+            </button>
+
+            <button
+              onClick={
+                handleWithdraw
+              }
+              className="bg-red-500 hover:bg-red-600 py-3 rounded-xl font-bold"
+            >
+              Withdraw
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default Wallets;
+export default Wallet;
