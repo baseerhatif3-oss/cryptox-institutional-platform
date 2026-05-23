@@ -16,10 +16,6 @@ import {
   SiSolana,
 } from "react-icons/si";
 
-import {
-  RiRippleLine,
-} from "react-icons/ri";
-
 import socket from "../services/socket";
 
 import MarketSidebar from "../components/MarketSidebar";
@@ -124,7 +120,9 @@ const Dashboard = () => {
       <SiSolana className="text-purple-400 text-3xl" />,
 
     XRPUSDT:
-      <RiRippleLine className="text-cyan-400 text-3xl" />,
+      <div className="text-cyan-400 text-2xl font-black">
+        XRP
+      </div>,
   };
 
   return (
