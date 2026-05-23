@@ -5,100 +5,66 @@ import React, {
 
 import axios from "axios";
 
+import ExchangeAnalytics from "../components/ExchangeAnalytics";
+
+import KYCReviewPanel from "../components/KYCReviewPanel";
+
+const API =
+  "https://crypto-backend-dojp.onrender.com/api";
+
 const Admin = () => {
 
   const [users, setUsers] =
     useState([]);
 
-  const [stats, setStats] =
-    useState({
-      totalUsers: 0,
-      totalTrades: 0,
-      totalVolume: 0,
-      totalRevenue: 0,
-    });
-
-
+  const [loading, setLoading] =
+    useState(true);
 
   /*
   ==========================================
-  TOKEN
-  ==========================================
-  */
-
-  const token =
-    localStorage.getItem(
-      "token"
-    );
-
-  const headers = {
-    Authorization:
-      `Bearer ${token}`,
-  };
-
-
-
-  /*
-  ==========================================
-  FETCH DATA
+  FETCH USERS
   ==========================================
   */
 
   useEffect(() => {
-    fetchData();
+
+    fetchUsers();
+
   }, []);
 
-  const fetchData =
+  const fetchUsers =
     async () => {
       try {
 
-        /*
-        ==========================================
-        USERS
-        ==========================================
-        */
+        const token =
+          localStorage.getItem(
+            "token"
+          );
 
-        const usersRes =
+        const res =
           await axios.get(
-            "https://crypto-backend-dojp.onrender.com/api/admin/users",
+            `${API}/admin/users`,
             {
-              headers,
+              headers: {
+                Authorization:
+                  `Bearer ${token}`,
+              },
             }
           );
 
         setUsers(
-          usersRes.data.users ||
-            []
-        );
-
-
-
-        /*
-        ==========================================
-        STATS
-        ==========================================
-        */
-
-        const statsRes =
-          await axios.get(
-            "https://crypto-backend-dojp.onrender.com/api/admin/stats",
-            {
-              headers,
-            }
-          );
-
-        setStats(
-          statsRes.data
-            .stats || {}
+          res.data || []
         );
 
       } catch (error) {
 
         console.log(error);
+
+      } finally {
+
+        setLoading(false);
       }
     };
-
-
 
   /*
   ==========================================
@@ -110,23 +76,29 @@ const Admin = () => {
     async (id) => {
       try {
 
+        const token =
+          localStorage.getItem(
+            "token"
+          );
+
         await axios.post(
-          `https://crypto-backend-dojp.onrender.com/api/admin/freeze/${id}`,
+          `${API}/admin/freeze/${id}`,
           {},
           {
-            headers,
+            headers: {
+              Authorization:
+                `Bearer ${token}`,
+            },
           }
         );
 
-        fetchData();
+        fetchUsers();
 
       } catch (error) {
 
         console.log(error);
       }
     };
-
-
 
   /*
   ==========================================
@@ -138,15 +110,23 @@ const Admin = () => {
     async (id) => {
       try {
 
+        const token =
+          localStorage.getItem(
+            "token"
+          );
+
         await axios.post(
-          `https://crypto-backend-dojp.onrender.com/api/admin/unfreeze/${id}`,
+          `${API}/admin/unfreeze/${id}`,
           {},
           {
-            headers,
+            headers: {
+              Authorization:
+                `Bearer ${token}`,
+            },
           }
         );
 
-        fetchData();
+        fetchUsers();
 
       } catch (error) {
 
@@ -154,10 +134,71 @@ const Admin = () => {
       }
     };
 
+  /*
+  ==========================================
+  UPDATE BALANCE
+  ==========================================
+  */
 
+  const updateBalance =
+    async (id) => {
+
+      const coin =
+        prompt(
+          "Enter coin (BTC, ETH, SOL, USDT)"
+        );
+
+      if (!coin) return;
+
+      const amount =
+        prompt(
+          "Enter amount"
+        );
+
+      if (!amount) return;
+
+      try {
+
+        const token =
+          localStorage.getItem(
+            "token"
+          );
+
+        await axios.post(
+          `${API}/admin/balance/${id}`,
+          {
+            coin,
+            amount,
+          },
+          {
+            headers: {
+              Authorization:
+                `Bearer ${token}`,
+            },
+          }
+        );
+
+        alert(
+          "Balance updated"
+        );
+
+      } catch (error) {
+
+        console.log(error);
+      }
+    };
+
+  if (loading) {
+
+    return (
+      <div className="text-white">
+        Loading admin panel...
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
 
       {/* HEADER */}
 
@@ -168,86 +209,22 @@ const Admin = () => {
         </h1>
 
         <p className="text-gray-400 mt-2">
-          Exchange management dashboard
+          Professional exchange management dashboard
         </p>
 
       </div>
 
 
 
-      {/* STATS */}
+      {/* EXCHANGE ANALYTICS */}
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-
-        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-
-          <p className="text-gray-400">
-            Total Users
-          </p>
-
-          <h2 className="text-4xl font-bold mt-3">
-            {
-              stats.totalUsers || 0
-            }
-          </h2>
-
-        </div>
+      <ExchangeAnalytics />
 
 
 
-        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+      {/* KYC REVIEW PANEL */}
 
-          <p className="text-gray-400">
-            Trades
-          </p>
-
-          <h2 className="text-4xl font-bold mt-3">
-            {
-              stats.totalTrades || 0
-            }
-          </h2>
-
-        </div>
-
-
-
-        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-
-          <p className="text-gray-400">
-            Trading Volume
-          </p>
-
-          <h2 className="text-4xl font-bold mt-3">
-
-            $
-            {Number(
-              stats.totalVolume || 0
-            ).toFixed(2)}
-
-          </h2>
-
-        </div>
-
-
-
-        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-
-          <p className="text-gray-400">
-            Exchange Revenue
-          </p>
-
-          <h2 className="text-4xl font-bold mt-3 text-green-400">
-
-            $
-            {Number(
-              stats.totalRevenue || 0
-            ).toFixed(2)}
-
-          </h2>
-
-        </div>
-
-      </div>
+      <KYCReviewPanel />
 
 
 
@@ -255,9 +232,25 @@ const Admin = () => {
 
       <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
 
-        <h2 className="text-2xl font-bold mb-6">
-          Users
-        </h2>
+        <div className="flex items-center justify-between mb-6">
+
+          <div>
+
+            <h2 className="text-3xl font-bold">
+              User Management
+            </h2>
+
+            <p className="text-gray-400 mt-2">
+              Manage exchange users and balances
+            </p>
+
+          </div>
+
+          <div className="bg-blue-500/10 border border-blue-500/20 text-blue-400 px-4 py-2 rounded-xl text-sm">
+            ADMIN
+          </div>
+
+        </div>
 
         <div className="overflow-x-auto">
 
@@ -267,24 +260,24 @@ const Admin = () => {
 
               <tr className="border-b border-gray-800">
 
-                <th className="text-left pb-4">
+                <th className="text-left py-4">
                   Name
                 </th>
 
-                <th className="text-left pb-4">
+                <th className="text-left py-4">
                   Email
                 </th>
 
-                <th className="text-left pb-4">
+                <th className="text-left py-4">
+                  Role
+                </th>
+
+                <th className="text-left py-4">
                   Status
                 </th>
 
-                <th className="text-left pb-4">
-                  Joined
-                </th>
-
-                <th className="text-left pb-4">
-                  Action
+                <th className="text-left py-4">
+                  Actions
                 </th>
 
               </tr>
@@ -297,79 +290,93 @@ const Admin = () => {
                 (user) => (
 
                   <tr
-                    key={
-                      user._id
-                    }
+                    key={user._id}
                     className="border-b border-gray-900"
                   >
 
-                    <td className="py-4">
-                      {
-                        user.name
-                      }
+                    <td className="py-4 font-semibold">
+                      {user.name}
                     </td>
 
                     <td className="py-4">
-                      {
-                        user.email
-                      }
+                      {user.email}
                     </td>
 
                     <td className="py-4">
 
-                      {user.isFrozen ? (
-
-                        <span className="text-red-400">
-                          Frozen
-                        </span>
-
-                      ) : (
-
-                        <span className="text-green-400">
-                          Active
-                        </span>
-
-                      )}
+                      <span
+                        className={`px-3 py-1 rounded-lg text-sm font-semibold ${
+                          user.role ===
+                          "admin"
+                            ? "bg-yellow-500/20 text-yellow-400"
+                            : "bg-gray-800 text-gray-300"
+                        }`}
+                      >
+                        {user.role}
+                      </span>
 
                     </td>
 
                     <td className="py-4">
 
-                      {new Date(
-                        user.createdAt
-                      ).toLocaleDateString()}
+                      <span
+                        className={`px-3 py-1 rounded-lg text-sm font-semibold ${
+                          user.isFrozen
+                            ? "bg-red-500/20 text-red-400"
+                            : "bg-green-500/20 text-green-400"
+                        }`}
+                      >
+                        {user.isFrozen
+                          ? "Frozen"
+                          : "Active"}
+                      </span>
 
                     </td>
 
                     <td className="py-4">
 
-                      {user.isFrozen ? (
+                      <div className="flex flex-wrap gap-3">
+
+                        {!user.isFrozen ? (
+
+                          <button
+                            onClick={() =>
+                              freezeUser(
+                                user._id
+                              )
+                            }
+                            className="bg-red-500 hover:bg-red-600 transition px-4 py-2 rounded-xl font-semibold"
+                          >
+                            Freeze
+                          </button>
+
+                        ) : (
+
+                          <button
+                            onClick={() =>
+                              unfreezeUser(
+                                user._id
+                              )
+                            }
+                            className="bg-green-500 hover:bg-green-600 transition px-4 py-2 rounded-xl font-semibold"
+                          >
+                            Unfreeze
+                          </button>
+
+                        )}
 
                         <button
                           onClick={() =>
-                            unfreezeUser(
+                            updateBalance(
                               user._id
                             )
                           }
-                          className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg"
+                          className="bg-blue-500 hover:bg-blue-600 transition px-4 py-2 rounded-xl font-semibold"
                         >
-                          Unfreeze
+                          Update Balance
                         </button>
 
-                      ) : (
-
-                        <button
-                          onClick={() =>
-                            freezeUser(
-                              user._id
-                            )
-                          }
-                          className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg"
-                        >
-                          Freeze
-                        </button>
-
-                      )}
+                      </div>
 
                     </td>
 
