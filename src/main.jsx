@@ -1,4 +1,5 @@
 import React from "react";
+
 import ReactDOM from "react-dom/client";
 
 import App from "./App";
@@ -6,15 +7,22 @@ import App from "./App";
 import "./index.css";
 
 import {
-  NotificationProvider,
-} from "./context/NotificationContext";
+  Toaster,
+} from "react-hot-toast";
 
 ReactDOM.createRoot(
-  document.getElementById("root")
+  document.getElementById(
+    "root"
+  )
 ).render(
   <React.StrictMode>
-    <NotificationProvider>
-      <App />
-    </NotificationProvider>
+
+    <Toaster
+      position="top-right"
+      reverseOrder={false}
+    />
+
+    <App />
+
   </React.StrictMode>
 );

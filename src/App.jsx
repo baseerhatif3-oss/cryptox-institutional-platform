@@ -25,6 +25,8 @@ import Transactions from "./pages/Transactions";
 
 import Navbar from "./components/Navbar";
 
+import RealtimeNotifications from "./components/RealtimeNotifications";
+
 function App() {
 
   const token =
@@ -53,6 +55,12 @@ function App() {
         {/* MAIN CONTENT */}
 
         <div className="max-w-7xl mx-auto p-6">
+
+          {/* REALTIME NOTIFICATIONS */}
+
+          <RealtimeNotifications />
+
+
 
           <Routes>
 
