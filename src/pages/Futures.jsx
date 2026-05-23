@@ -5,6 +5,8 @@ import React, {
 
 import axios from "axios";
 
+import socket from "../services/socket";
+
 const API =
   "https://crypto-backend-dojp.onrender.com/api";
 
@@ -25,6 +27,9 @@ const Futures = () => {
   const [positions, setPositions] =
     useState([]);
 
+  const [marketPrices, setMarketPrices] =
+    useState({});
+
   const [loading, setLoading] =
     useState(false);
 
@@ -34,6 +39,44 @@ const Futures = () => {
         "user"
       )
     );
+
+
+
+  /*
+  ==========================================
+  SOCKET MARKET DATA
+  ==========================================
+  */
+
+  useEffect(() => {
+
+    socket.on(
+      "marketUpdate",
+      (markets) => {
+
+        const prices = {};
+
+        markets.forEach(
+          (market) => {
+            prices[
+              market.symbol
+            ] = market.price;
+          }
+        );
+
+        setMarketPrices(
+          prices
+        );
+      }
+    );
+
+    return () => {
+      socket.off(
+        "marketUpdate"
+      );
+    };
+
+  }, []);
 
 
 
@@ -147,6 +190,80 @@ const Futures = () => {
 
 
 
+  /*
+  ==========================================
+  CALCULATE PNL
+  ==========================================
+  */
+
+  const calculatePnL =
+    (position) => {
+
+      const currentPrice =
+        marketPrices[
+          position.symbol
+        ] || 0;
+
+      const entryPrice =
+        position.entryPrice ||
+        currentPrice;
+
+      const quantity =
+        (
+          position.margin *
+          position.leverage
+        ) / entryPrice;
+
+      let pnl = 0;
+
+      if (
+        position.side ===
+        "LONG"
+      ) {
+
+        pnl =
+          (
+            currentPrice -
+            entryPrice
+          ) * quantity;
+
+      } else {
+
+        pnl =
+          (
+            entryPrice -
+            currentPrice
+          ) * quantity;
+      }
+
+      return pnl;
+    };
+
+
+
+  /*
+  ==========================================
+  CALCULATE ROI
+  ==========================================
+  */
+
+  const calculateROI =
+    (position) => {
+
+      const pnl =
+        calculatePnL(
+          position
+        );
+
+      return (
+        (pnl /
+          position.margin) *
+        100
+      );
+    };
+
+
+
   return (
     <div className="space-y-6">
 
@@ -166,7 +283,7 @@ const Futures = () => {
 
 
 
-      {/* FUTURES FORM */}
+      {/* OPEN POSITION */}
 
       <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
 
@@ -310,8 +427,6 @@ const Futures = () => {
 
 
 
-        {/* BUTTON */}
-
         <button
           onClick={openPosition}
           disabled={loading}
@@ -328,7 +443,7 @@ const Futures = () => {
 
 
 
-      {/* POSITIONS */}
+      {/* OPEN POSITIONS */}
 
       <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
 
@@ -361,7 +476,11 @@ const Futures = () => {
                 </th>
 
                 <th className="text-left py-4">
-                  Status
+                  PnL
+                </th>
+
+                <th className="text-left py-4">
+                  ROI
                 </th>
 
                 <th className="text-left py-4">
@@ -375,67 +494,104 @@ const Futures = () => {
             <tbody>
 
               {positions.map(
-                (position) => (
+                (position) => {
 
-                  <tr
-                    key={position._id}
-                    className="border-b border-gray-900"
-                  >
+                  const pnl =
+                    calculatePnL(
+                      position
+                    );
 
-                    <td className="py-4">
-                      {
-                        position.symbol
+                  const roi =
+                    calculateROI(
+                      position
+                    );
+
+                  return (
+
+                    <tr
+                      key={
+                        position._id
                       }
-                    </td>
-
-                    <td
-                      className={`py-4 font-bold ${
-                        position.side ===
-                        "LONG"
-                          ? "text-green-400"
-                          : "text-red-400"
-                      }`}
+                      className="border-b border-gray-900"
                     >
-                      {
-                        position.side
-                      }
-                    </td>
 
-                    <td className="py-4">
-                      $
-                      {
-                        position.margin
-                      }
-                    </td>
-
-                    <td className="py-4">
-                      {
-                        position.leverage
-                      }x
-                    </td>
-
-                    <td className="py-4 text-yellow-400">
-                      OPEN
-                    </td>
-
-                    <td className="py-4">
-
-                      <button
-                        onClick={() =>
-                          closePosition(
-                            position._id
-                          )
+                      <td className="py-4">
+                        {
+                          position.symbol
                         }
-                        className="bg-red-500 hover:bg-red-600 transition px-4 py-2 rounded-xl font-semibold"
+                      </td>
+
+                      <td
+                        className={`py-4 font-bold ${
+                          position.side ===
+                          "LONG"
+                            ? "text-green-400"
+                            : "text-red-400"
+                        }`}
                       >
-                        Close
-                      </button>
+                        {
+                          position.side
+                        }
+                      </td>
 
-                    </td>
+                      <td className="py-4">
+                        $
+                        {
+                          position.margin
+                        }
+                      </td>
 
-                  </tr>
+                      <td className="py-4">
+                        {
+                          position.leverage
+                        }x
+                      </td>
 
-                )
+                      <td
+                        className={`py-4 font-bold ${
+                          pnl >= 0
+                            ? "text-green-400"
+                            : "text-red-400"
+                        }`}
+                      >
+                        $
+                        {pnl.toFixed(
+                          2
+                        )}
+                      </td>
+
+                      <td
+                        className={`py-4 font-bold ${
+                          roi >= 0
+                            ? "text-green-400"
+                            : "text-red-400"
+                        }`}
+                      >
+                        {roi.toFixed(
+                          2
+                        )}
+                        %
+                      </td>
+
+                      <td className="py-4">
+
+                        <button
+                          onClick={() =>
+                            closePosition(
+                              position._id
+                            )
+                          }
+                          className="bg-red-500 hover:bg-red-600 transition px-4 py-2 rounded-xl font-semibold"
+                        >
+                          Close
+                        </button>
+
+                      </td>
+
+                    </tr>
+
+                  );
+                }
               )}
 
             </tbody>

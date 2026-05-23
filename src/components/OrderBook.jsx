@@ -3,151 +3,225 @@ import React, {
   useState,
 } from "react";
 
+import socket from "../services/socket";
+
 const OrderBook = () => {
+
   const [bids, setBids] =
     useState([]);
 
   const [asks, setAsks] =
     useState([]);
 
+
+
+
+  /*
+  ==========================================
+  SOCKET ORDERBOOK
+  ==========================================
+  */
+
   useEffect(() => {
-    generateOrderBook();
 
-    const interval =
-      setInterval(() => {
-        generateOrderBook();
-      }, 2000);
+    socket.on(
+      "marketUpdate",
+      (markets) => {
 
-    return () =>
-      clearInterval(
-        interval
+        const btc =
+          markets.find(
+            (m) =>
+              m.symbol ===
+              "BTCUSDT"
+          );
+
+        if (!btc) return;
+
+        const price =
+          btc.price;
+
+        /*
+        ==========================================
+        GENERATE FAKE DEPTH
+        ==========================================
+        */
+
+        const generatedBids =
+          Array.from({
+            length: 12,
+          }).map(
+            (_, index) => ({
+              price:
+                (
+                  price -
+                  index * 15
+                ).toFixed(2),
+
+              amount:
+                (
+                  Math.random() *
+                  5
+                ).toFixed(4),
+            })
+          );
+
+        const generatedAsks =
+          Array.from({
+            length: 12,
+          }).map(
+            (_, index) => ({
+              price:
+                (
+                  price +
+                  index * 15
+                ).toFixed(2),
+
+              amount:
+                (
+                  Math.random() *
+                  5
+                ).toFixed(4),
+            })
+          );
+
+        setBids(
+          generatedBids
+        );
+
+        setAsks(
+          generatedAsks
+        );
+      }
+    );
+
+    return () => {
+      socket.off(
+        "marketUpdate"
       );
+    };
+
   }, []);
 
-  const generateOrderBook =
-    () => {
-      const newBids = [];
 
-      const newAsks = [];
 
-      for (
-        let i = 0;
-        i < 10;
-        i++
-      ) {
-        newBids.push({
-          price:
-            (
-              104000 -
-              Math.random() *
-                1000
-            ).toFixed(2),
-
-          amount:
-            (
-              Math.random() *
-              5
-            ).toFixed(4),
-        });
-
-        newAsks.push({
-          price:
-            (
-              104000 +
-              Math.random() *
-                1000
-            ).toFixed(2),
-
-          amount:
-            (
-              Math.random() *
-              5
-            ).toFixed(4),
-        });
-      }
-
-      setBids(newBids);
-
-      setAsks(newAsks);
-    };
 
   return (
     <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-      <h2 className="text-2xl font-bold mb-6">
-        Order Book
-      </h2>
+
+      <div className="flex items-center justify-between mb-6">
+
+        <div>
+
+          <h2 className="text-2xl font-bold">
+            Order Book
+          </h2>
+
+          <p className="text-gray-400 mt-2">
+            Live BTCUSDT market depth
+          </p>
+
+        </div>
+
+        <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 px-4 py-2 rounded-xl text-sm">
+          LIVE
+        </div>
+
+      </div>
+
+
 
       <div className="grid grid-cols-2 gap-6">
+
         {/* BIDS */}
 
         <div>
+
           <h3 className="text-green-400 font-bold mb-4">
-            BIDS
+            Bids
           </h3>
 
           <div className="space-y-2">
+
             {bids.map(
               (
                 bid,
                 index
               ) => (
+
                 <div
                   key={index}
-                  className="flex justify-between bg-black border border-gray-800 rounded-lg px-3 py-2"
+                  className="flex items-center justify-between bg-black border border-gray-900 rounded-xl px-4 py-3"
                 >
-                  <span className="text-green-400">
+
+                  <span className="text-green-400 font-semibold">
                     $
                     {
                       bid.price
                     }
                   </span>
 
-                  <span>
+                  <span className="text-gray-300">
                     {
                       bid.amount
                     }
                   </span>
+
                 </div>
+
               )
             )}
+
           </div>
+
         </div>
+
+
 
         {/* ASKS */}
 
         <div>
+
           <h3 className="text-red-400 font-bold mb-4">
-            ASKS
+            Asks
           </h3>
 
           <div className="space-y-2">
+
             {asks.map(
               (
                 ask,
                 index
               ) => (
+
                 <div
                   key={index}
-                  className="flex justify-between bg-black border border-gray-800 rounded-lg px-3 py-2"
+                  className="flex items-center justify-between bg-black border border-gray-900 rounded-xl px-4 py-3"
                 >
-                  <span className="text-red-400">
+
+                  <span className="text-red-400 font-semibold">
                     $
                     {
                       ask.price
                     }
                   </span>
 
-                  <span>
+                  <span className="text-gray-300">
                     {
                       ask.amount
                     }
                   </span>
+
                 </div>
+
               )
             )}
+
           </div>
+
         </div>
+
       </div>
+
     </div>
   );
 };
