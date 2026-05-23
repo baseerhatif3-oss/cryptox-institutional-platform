@@ -1,5 +1,4 @@
 import React, {
-  useEffect,
   useState,
 } from "react";
 
@@ -17,63 +16,17 @@ const KYC = () => {
       )
     );
 
-  const [fullName, setFullName] =
-    useState("");
+  const [documentType, setDocumentType] =
+    useState("Passport");
 
-  const [country, setCountry] =
-    useState("");
+  const [documentFile, setDocumentFile] =
+    useState(null);
 
-  const [
-    documentType,
-    setDocumentType,
-  ] = useState(
-    "PASSPORT"
-  );
-
-  const [
-    documentImage,
-    setDocumentImage,
-  ] = useState(null);
-
-  const [
-    selfieImage,
-    setSelfieImage,
-  ] = useState(null);
+  const [selfieFile, setSelfieFile] =
+    useState(null);
 
   const [loading, setLoading] =
     useState(false);
-
-  const [kyc, setKyc] =
-    useState(null);
-
-  /*
-  ==========================================
-  FETCH KYC STATUS
-  ==========================================
-  */
-
-  useEffect(() => {
-    fetchKYC();
-  }, []);
-
-  const fetchKYC =
-    async () => {
-      try {
-
-        const res =
-          await axios.get(
-            `${API}/kyc/${user.id}`
-          );
-
-        setKyc(
-          res.data.kyc
-        );
-
-      } catch (error) {
-
-        console.log(error);
-      }
-    };
 
   /*
   ==========================================
@@ -82,9 +35,7 @@ const KYC = () => {
   */
 
   const submitKYC =
-    async (
-      e
-    ) => {
+    async (e) => {
 
       e.preventDefault();
 
@@ -101,33 +52,23 @@ const KYC = () => {
         );
 
         formData.append(
-          "fullName",
-          fullName
-        );
-
-        formData.append(
-          "country",
-          country
-        );
-
-        formData.append(
           "documentType",
           documentType
         );
 
         formData.append(
-          "documentImage",
-          documentImage
+          "document",
+          documentFile
         );
 
         formData.append(
-          "selfieImage",
-          selfieImage
+          "selfie",
+          selfieFile
         );
 
         const res =
           await axios.post(
-            `${API}/kyc/submit`,
+            `${API}/kyc/upload`,
             formData,
             {
               headers: {
@@ -141,8 +82,6 @@ const KYC = () => {
           res.data.message
         );
 
-        fetchKYC();
-
       } catch (error) {
 
         console.log(error);
@@ -150,7 +89,7 @@ const KYC = () => {
         alert(
           error.response?.data
             ?.message ||
-            "KYC failed"
+            "KYC submission failed"
         );
 
       } finally {
@@ -159,250 +98,328 @@ const KYC = () => {
       }
     };
 
-  /*
-  ==========================================
-  VERIFIED UI
-  ==========================================
-  */
+  return (
 
-  if (kyc) {
+    <div className="space-y-10">
 
-    return (
-      <div className="bg-[#111] border border-gray-800 rounded-2xl p-8">
+      {/* HEADER */}
 
-        <h1 className="text-4xl font-bold mb-6">
-          KYC Verification
-        </h1>
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
-        <div className="space-y-4">
+        <div>
 
-          <div className="bg-black border border-gray-800 rounded-xl p-5">
+          <h1 className="text-5xl font-black">
+            Identity Verification
+          </h1>
 
-            <p className="text-gray-400">
-              Full Name
-            </p>
+          <p className="text-gray-400 text-lg mt-3">
+            Secure institutional KYC verification infrastructure
+          </p>
 
-            <h2 className="text-xl font-bold mt-2">
-              {
-                kyc.fullName
-              }
-            </h2>
+        </div>
 
-          </div>
+        <div className="bg-blue-500/10 border border-blue-500/20 text-blue-400 px-5 py-3 rounded-2xl font-bold">
+          COMPLIANCE ACTIVE
+        </div>
 
-          <div className="bg-black border border-gray-800 rounded-xl p-5">
+      </div>
 
-            <p className="text-gray-400">
-              Country
-            </p>
+      {/* STATUS CARDS */}
 
-            <h2 className="text-xl font-bold mt-2">
-              {
-                kyc.country
-              }
-            </h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-          </div>
+        <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
 
-          <div className="bg-black border border-gray-800 rounded-xl p-5">
+          <p className="text-gray-400">
+            Verification Status
+          </p>
 
-            <p className="text-gray-400">
-              Verification Status
-            </p>
+          <h2 className="text-4xl font-black mt-5 text-yellow-400">
+            PENDING
+          </h2>
 
-            <h2
-              className={`text-xl font-bold mt-2 ${
-                kyc.status ===
-                "APPROVED"
-                  ? "text-green-400"
-                  : kyc.status ===
-                    "REJECTED"
-                  ? "text-red-400"
-                  : "text-yellow-400"
-              }`}
-            >
-              {
-                kyc.status
-              }
-            </h2>
+        </div>
 
-          </div>
+        <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
 
-          {kyc.rejectionReason && (
+          <p className="text-gray-400">
+            Security Layer
+          </p>
 
-            <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-5">
+          <h2 className="text-4xl font-black mt-5 text-green-400">
+            ACTIVE
+          </h2>
 
-              <p className="text-red-400">
-                Rejection Reason:
-              </p>
+        </div>
 
-              <p className="mt-2">
-                {
-                  kyc.rejectionReason
-                }
-              </p>
+        <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
 
-            </div>
+          <p className="text-gray-400">
+            Verification Level
+          </p>
 
-          )}
+          <h2 className="text-4xl font-black mt-5">
+            LEVEL 2
+          </h2>
 
         </div>
 
       </div>
-    );
-  }
 
-  return (
-    <div className="bg-[#111] border border-gray-800 rounded-2xl p-8">
+      {/* MAIN FORM */}
 
-      <h1 className="text-4xl font-bold mb-2">
-        KYC Verification
-      </h1>
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
 
-      <p className="text-gray-400 mb-8">
-        Verify your identity to unlock full exchange access
-      </p>
+        {/* LEFT */}
 
-      <form
-        onSubmit={submitKYC}
-        className="space-y-6"
-      >
+        <div className="xl:col-span-2 bg-[#111] border border-white/10 rounded-[36px] p-10">
 
-        {/* FULL NAME */}
+          <div className="mb-10">
 
-        <div>
+            <h2 className="text-4xl font-black">
+              Submit Verification
+            </h2>
 
-          <label className="block mb-2 text-gray-400">
-            Full Name
-          </label>
+            <p className="text-gray-400 text-lg mt-4">
+              Upload identity documents for account verification
+            </p>
 
-          <input
-            type="text"
-            required
-            value={fullName}
-            onChange={(e) =>
-              setFullName(
-                e.target.value
-              )
-            }
-            className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4"
-          />
+          </div>
 
-        </div>
-
-        {/* COUNTRY */}
-
-        <div>
-
-          <label className="block mb-2 text-gray-400">
-            Country
-          </label>
-
-          <input
-            type="text"
-            required
-            value={country}
-            onChange={(e) =>
-              setCountry(
-                e.target.value
-              )
-            }
-            className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4"
-          />
-
-        </div>
-
-        {/* DOCUMENT TYPE */}
-
-        <div>
-
-          <label className="block mb-2 text-gray-400">
-            Document Type
-          </label>
-
-          <select
-            value={documentType}
-            onChange={(e) =>
-              setDocumentType(
-                e.target.value
-              )
-            }
-            className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4"
+          <form
+            onSubmit={submitKYC}
+            className="space-y-8"
           >
 
-            <option>
-              PASSPORT
-            </option>
+            {/* DOCUMENT TYPE */}
 
-            <option>
-              ID_CARD
-            </option>
+            <div>
 
-            <option>
-              DRIVING_LICENSE
-            </option>
+              <label className="block mb-4 text-gray-400 font-semibold">
+                Document Type
+              </label>
 
-          </select>
+              <select
+                value={documentType}
+                onChange={(e) =>
+                  setDocumentType(
+                    e.target.value
+                  )
+                }
+                className="w-full bg-black border border-white/10 rounded-2xl px-5 py-5"
+              >
+
+                <option>
+                  Passport
+                </option>
+
+                <option>
+                  National ID
+                </option>
+
+                <option>
+                  Driving License
+                </option>
+
+              </select>
+
+            </div>
+
+            {/* DOCUMENT */}
+
+            <div>
+
+              <label className="block mb-4 text-gray-400 font-semibold">
+                Identity Document
+              </label>
+
+              <div className="border-2 border-dashed border-white/10 rounded-3xl p-10 text-center bg-black/40">
+
+                <input
+                  type="file"
+                  onChange={(e) =>
+                    setDocumentFile(
+                      e.target.files[0]
+                    )
+                  }
+                  className="w-full"
+                  required
+                />
+
+                <p className="text-gray-500 mt-5">
+                  Upload high-quality government issued ID
+                </p>
+
+              </div>
+
+            </div>
+
+            {/* SELFIE */}
+
+            <div>
+
+              <label className="block mb-4 text-gray-400 font-semibold">
+                Selfie Verification
+              </label>
+
+              <div className="border-2 border-dashed border-white/10 rounded-3xl p-10 text-center bg-black/40">
+
+                <input
+                  type="file"
+                  onChange={(e) =>
+                    setSelfieFile(
+                      e.target.files[0]
+                    )
+                  }
+                  className="w-full"
+                  required
+                />
+
+                <p className="text-gray-500 mt-5">
+                  Upload a clear selfie for facial verification
+                </p>
+
+              </div>
+
+            </div>
+
+            {/* BUTTON */}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-blue-500 hover:bg-blue-600 transition py-5 rounded-2xl font-black text-lg"
+            >
+
+              {loading
+                ? "Submitting..."
+                : "Submit Verification"}
+
+            </button>
+
+          </form>
 
         </div>
 
-        {/* DOCUMENT IMAGE */}
+        {/* RIGHT */}
 
-        <div>
+        <div className="space-y-8">
 
-          <label className="block mb-2 text-gray-400">
-            Upload Document
-          </label>
+          {/* SECURITY */}
 
-          <input
-            type="file"
-            required
-            onChange={(e) =>
-              setDocumentImage(
-                e.target.files[0]
-              )
-            }
-            className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4"
-          />
+          <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
+
+            <h2 className="text-2xl font-black mb-6">
+              Security Standards
+            </h2>
+
+            <div className="space-y-5">
+
+              <div className="flex items-center justify-between">
+
+                <p className="text-gray-400">
+                  AML Compliance
+                </p>
+
+                <h3 className="font-black text-green-400">
+                  ENABLED
+                </h3>
+
+              </div>
+
+              <div className="flex items-center justify-between">
+
+                <p className="text-gray-400">
+                  Data Encryption
+                </p>
+
+                <h3 className="font-black text-green-400">
+                  AES-256
+                </h3>
+
+              </div>
+
+              <div className="flex items-center justify-between">
+
+                <p className="text-gray-400">
+                  Verification Time
+                </p>
+
+                <h3 className="font-black">
+                  24H
+                </h3>
+
+              </div>
+
+              <div className="flex items-center justify-between">
+
+                <p className="text-gray-400">
+                  Storage Security
+                </p>
+
+                <h3 className="font-black text-green-400">
+                  SECURE
+                </h3>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* BENEFITS */}
+
+          <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
+
+            <h2 className="text-2xl font-black mb-6">
+              Verification Benefits
+            </h2>
+
+            <div className="space-y-5">
+
+              <div className="bg-black/40 border border-white/5 rounded-2xl p-5">
+
+                <h3 className="font-black">
+                  Higher Withdrawals
+                </h3>
+
+                <p className="text-gray-500 mt-2">
+                  Increase account withdrawal limits
+                </p>
+
+              </div>
+
+              <div className="bg-black/40 border border-white/5 rounded-2xl p-5">
+
+                <h3 className="font-black">
+                  Futures Access
+                </h3>
+
+                <p className="text-gray-500 mt-2">
+                  Unlock leveraged futures trading
+                </p>
+
+              </div>
+
+              <div className="bg-black/40 border border-white/5 rounded-2xl p-5">
+
+                <h3 className="font-black">
+                  Institutional Security
+                </h3>
+
+                <p className="text-gray-500 mt-2">
+                  Enhanced account protection systems
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
 
         </div>
 
-        {/* SELFIE */}
-
-        <div>
-
-          <label className="block mb-2 text-gray-400">
-            Upload Selfie
-          </label>
-
-          <input
-            type="file"
-            required
-            onChange={(e) =>
-              setSelfieImage(
-                e.target.files[0]
-              )
-            }
-            className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4"
-          />
-
-        </div>
-
-        {/* BUTTON */}
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-yellow-500 hover:bg-yellow-600 transition py-4 rounded-xl font-bold"
-        >
-
-          {loading
-            ? "Submitting..."
-            : "Submit KYC"}
-
-        </button>
-
-      </form>
+      </div>
 
     </div>
   );

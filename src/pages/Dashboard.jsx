@@ -1,294 +1,356 @@
-import React from "react";
+import React, {
+  useEffect,
+  useState,
+} from "react";
 
-import Portfolio from "../components/Portfolio";
+import {
+  motion,
+} from "framer-motion";
 
-import MarketTicker from "../components/MarketTicker";
+import {
+  FaBitcoin,
+  FaEthereum,
+} from "react-icons/fa";
 
-import TradeHistory from "../components/TradeHistory";
+import {
+  SiSolana,
+} from "react-icons/si";
 
-import OrderBook from "../components/OrderBook";
+import {
+  RiRippleFill,
+} from "react-icons/ri";
 
-import TradingChart from "../components/TradingChart";
+import socket from "../services/socket";
 
-import TradingTerminal from "../components/TradingTerminal";
-
-import LiveTrades from "../components/LiveTrades";
+import MarketSidebar from "../components/MarketSidebar";
 
 const Dashboard = () => {
+
+  const [
+    markets,
+    setMarkets,
+  ] = useState([
+    {
+      symbol:
+        "BTCUSDT",
+
+      price:
+        104000,
+
+      change:
+        "+2.8%",
+    },
+
+    {
+      symbol:
+        "ETHUSDT",
+
+      price:
+        4900,
+
+      change:
+        "+1.9%",
+    },
+
+    {
+      symbol:
+        "SOLUSDT",
+
+      price:
+        210,
+
+      change:
+        "+6.4%",
+    },
+
+    {
+      symbol:
+        "XRPUSDT",
+
+      price:
+        2.4,
+
+      change:
+        "+4.1%",
+    },
+  ]);
+
+  /*
+  ==========================================
+  LIVE MARKET SOCKET
+  ==========================================
+  */
+
+  useEffect(() => {
+
+    socket.on(
+      "marketUpdate",
+
+      (data) => {
+
+        if (
+          Array.isArray(data)
+        ) {
+
+          setMarkets(data);
+        }
+      }
+    );
+
+    return () => {
+
+      socket.off(
+        "marketUpdate"
+      );
+    };
+
+  }, []);
+
+  /*
+  ==========================================
+  ICONS
+  ==========================================
+  */
+
+  const icons = {
+
+    BTCUSDT:
+      <FaBitcoin className="text-yellow-400 text-3xl" />,
+
+    ETHUSDT:
+      <FaEthereum className="text-blue-400 text-3xl" />,
+
+    SOLUSDT:
+      <SiSolana className="text-purple-400 text-3xl" />,
+
+    XRPUSDT:
+      <RiRippleFill className="text-cyan-400 text-3xl" />,
+  };
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-10">
 
-      {/* HEADER */}
+      {/* HERO */}
 
-      <div className="flex items-center justify-between">
+      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#111] to-black p-10">
 
-        <div>
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,#facc15,transparent_30%)]" />
 
-          <h1 className="text-4xl font-bold">
-            Dashboard
-          </h1>
+        <div className="relative z-10">
 
-          <p className="text-gray-400 mt-2">
-            Professional crypto exchange overview
-          </p>
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
 
-        </div>
+            <div>
 
-        <div className="bg-green-500/10 border border-green-500/20 text-green-400 px-5 py-3 rounded-2xl font-semibold">
-          LIVE MARKET
-        </div>
+              <motion.h1
+                initial={{
+                  opacity: 0,
+                  y: 20,
+                }}
 
-      </div>
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
 
+                className="text-5xl lg:text-6xl font-black leading-tight"
+              >
 
+                Trade Crypto
+                <br />
 
-      {/* MARKET TICKER */}
+                Like a Pro
 
-      <MarketTicker />
+              </motion.h1>
 
+              <p className="text-gray-400 mt-5 text-lg max-w-2xl">
+                Professional-grade crypto exchange with realtime trading,
+                futures, liquidity engine, advanced security,
+                and institutional infrastructure.
+              </p>
 
+              <div className="flex flex-wrap gap-4 mt-8">
 
-      {/* TRADINGVIEW CHART */}
+                <button className="bg-yellow-500 hover:bg-yellow-600 transition px-8 py-4 rounded-2xl font-bold text-black shadow-lg shadow-yellow-500/20">
+                  Start Trading
+                </button>
 
-      <TradingChart />
+                <button className="border border-white/10 hover:bg-white/5 transition px-8 py-4 rounded-2xl font-bold">
+                  View Markets
+                </button>
 
+              </div>
 
+            </div>
 
-      {/* TRADING TERMINAL */}
+            {/* STATS */}
 
-      <TradingTerminal />
+            <div className="grid grid-cols-2 gap-5 min-w-[320px]">
 
+              <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl">
 
+                <p className="text-gray-400 text-sm">
+                  24H Volume
+                </p>
 
-      {/* PORTFOLIO */}
+                <h2 className="text-3xl font-black mt-3">
+                  $2.4B
+                </h2>
 
-      <Portfolio />
+              </div>
 
+              <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl">
 
+                <p className="text-gray-400 text-sm">
+                  Active Traders
+                </p>
 
-      {/* TRADE HISTORY */}
+                <h2 className="text-3xl font-black mt-3">
+                  128K
+                </h2>
 
-      <TradeHistory />
+              </div>
 
+              <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl">
 
+                <p className="text-gray-400 text-sm">
+                  Open Interest
+                </p>
 
-      {/* ORDER BOOK */}
+                <h2 className="text-3xl font-black mt-3">
+                  $940M
+                </h2>
 
-      <OrderBook />
+              </div>
 
+              <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl">
 
+                <p className="text-gray-400 text-sm">
+                  System Status
+                </p>
 
-      {/* LIVE TRADES */}
+                <h2 className="text-2xl font-black mt-3 text-green-400">
+                  ONLINE
+                </h2>
 
-      <LiveTrades />
+              </div>
 
-
-
-      {/* ANALYTICS */}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-        {/* TOTAL BALANCE */}
-
-        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-
-          <p className="text-gray-400">
-            Total Balance
-          </p>
-
-          <h2 className="text-4xl font-bold mt-4">
-            $10,482
-          </h2>
-
-          <p className="text-green-400 mt-3">
-            +12.8%
-          </p>
-
-        </div>
-
-
-
-        {/* DAILY PNL */}
-
-        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-
-          <p className="text-gray-400">
-            Daily PnL
-          </p>
-
-          <h2 className="text-4xl font-bold mt-4 text-green-400">
-            +$842
-          </h2>
-
-          <p className="text-green-400 mt-3">
-            +8.2%
-          </p>
-
-        </div>
-
-
-
-        {/* OPEN POSITIONS */}
-
-        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-
-          <p className="text-gray-400">
-            Open Positions
-          </p>
-
-          <h2 className="text-4xl font-bold mt-4">
-            12
-          </h2>
-
-          <p className="text-blue-400 mt-3">
-            Active Trades
-          </p>
-
-        </div>
-
-
-
-        {/* TRADING VOLUME */}
-
-        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-
-          <p className="text-gray-400">
-            Trading Volume
-          </p>
-
-          <h2 className="text-4xl font-bold mt-4">
-            $4.2M
-          </h2>
-
-          <p className="text-yellow-400 mt-3">
-            24H Volume
-          </p>
-
-        </div>
-
-      </div>
-
-
-
-      {/* MARKET OVERVIEW */}
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-        {/* TOP GAINERS */}
-
-        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-
-          <h2 className="text-2xl font-bold mb-6">
-            Top Gainers
-          </h2>
-
-          <div className="space-y-4">
-
-            {[
-              {
-                symbol:
-                  "SOLUSDT",
-
-                change:
-                  "+18.2%",
-              },
-
-              {
-                symbol:
-                  "DOGEUSDT",
-
-                change:
-                  "+12.4%",
-              },
-
-              {
-                symbol:
-                  "AVAXUSDT",
-
-                change:
-                  "+9.8%",
-              },
-
-              {
-                symbol:
-                  "XRPUSDT",
-
-                change:
-                  "+7.1%",
-              },
-            ].map(
-              (
-                coin,
-                index
-              ) => (
-
-                <div
-                  key={index}
-                  className="flex items-center justify-between bg-black border border-gray-800 rounded-xl px-5 py-4"
-                >
-
-                  <h3 className="font-bold">
-                    {
-                      coin.symbol
-                    }
-                  </h3>
-
-                  <p className="text-green-400 font-bold">
-                    {
-                      coin.change
-                    }
-                  </p>
-
-                </div>
-
-              )
-            )}
+            </div>
 
           </div>
 
         </div>
 
+      </div>
 
+      {/* LIVE MARKETS */}
 
-        {/* MARKET NEWS */}
+      <div>
 
-        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+        <div className="flex items-center justify-between mb-6">
 
-          <h2 className="text-2xl font-bold mb-6">
-            Market News
-          </h2>
+          <div>
 
-          <div className="space-y-4">
+            <h2 className="text-3xl font-black">
+              Live Markets
+            </h2>
 
-            {[
-              "Bitcoin breaks above major resistance level",
-
-              "Ethereum futures volume hits all-time high",
-
-              "Institutional investors increase crypto exposure",
-
-              "Solana ecosystem sees massive growth",
-            ].map(
-              (
-                news,
-                index
-              ) => (
-
-                <div
-                  key={index}
-                  className="bg-black border border-gray-800 rounded-xl px-5 py-4"
-                >
-
-                  <p className="text-gray-300">
-                    {news}
-                  </p>
-
-                </div>
-
-              )
-            )}
+            <p className="text-gray-400 mt-2">
+              Realtime crypto market overview
+            </p>
 
           </div>
+
+          <div className="bg-green-500/10 border border-green-500/20 text-green-400 px-5 py-3 rounded-2xl font-semibold">
+            LIVE MARKET
+          </div>
+
+        </div>
+
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
+
+          {/* LEFT */}
+
+          <div className="xl:col-span-3">
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+
+              {markets.map(
+                (
+                  market,
+                  index
+                ) => (
+
+                  <motion.div
+                    key={
+                      market.symbol
+                    }
+
+                    initial={{
+                      opacity: 0,
+                      y: 30,
+                    }}
+
+                    animate={{
+                      opacity: 1,
+                      y: 0,
+                    }}
+
+                    transition={{
+                      delay:
+                        index * 0.1,
+                    }}
+
+                    className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#111] to-black p-7 hover:border-yellow-500/30 transition"
+                  >
+
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition bg-[radial-gradient(circle_at_top_right,#facc15,transparent_35%)]" />
+
+                    <div className="relative z-10">
+
+                      <div className="flex items-center justify-between">
+
+                        {
+                          icons[
+                            market.symbol
+                          ]
+                        }
+
+                        <span className="text-green-400 font-bold">
+                          {
+                            market.change
+                          }
+                        </span>
+
+                      </div>
+
+                      <p className="text-gray-400 mt-7">
+                        {
+                          market.symbol
+                        }
+                      </p>
+
+                      <h2 className="text-4xl font-black mt-2">
+                        $
+                        {Number(
+                          market.price
+                        ).toLocaleString()}
+                      </h2>
+
+                    </div>
+
+                  </motion.div>
+
+                )
+              )}
+
+            </div>
+
+          </div>
+
+          {/* RIGHT */}
+
+          <MarketSidebar />
 
         </div>
 

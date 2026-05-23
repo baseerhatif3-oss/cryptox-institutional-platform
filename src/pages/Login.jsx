@@ -2,145 +2,299 @@ import React, {
   useState,
 } from "react";
 
+import axios from "axios";
+
 import {
-  Link,
   useNavigate,
+  Link,
 } from "react-router-dom";
 
-import API from "../services/api";
+import {
+  motion,
+} from "framer-motion";
 
-const Login =
-  () => {
-    const navigate =
-      useNavigate();
+const API =
+  "https://crypto-backend-dojp.onrender.com/api";
 
-    const [
-      formData,
-      setFormData,
-    ] = useState({
-      email: "",
+const Login = () => {
 
-      password: "",
-    });
+  const navigate =
+    useNavigate();
 
-    const handleChange =
-      (e) => {
-        setFormData({
-          ...formData,
+  const [email, setEmail] =
+    useState("");
 
-          [e.target.name]:
-            e.target.value,
-        });
-      };
+  const [
+    password,
+    setPassword,
+  ] = useState("");
 
-    const handleSubmit =
-      async (e) => {
-        e.preventDefault();
+  const [loading, setLoading] =
+    useState(false);
 
-        try {
-          const response =
-            await API.post(
-              "/auth/login",
-              formData
-            );
+  /*
+  ==========================================
+  LOGIN
+  ==========================================
+  */
 
-          localStorage.setItem(
-            "token",
-            response.data
-              .token
-          );
+  const login =
+    async (e) => {
 
-          localStorage.setItem(
-            "user",
-            JSON.stringify(
-              response.data
-                .user
-            )
-          );
+      e.preventDefault();
 
-          navigate(
-            "/dashboard"
-          );
-        } catch (error) {
-          console.log(
-            error
-          );
+      try {
 
-          alert(
-            error.response
-              ?.data
-              ?.message ||
-              "Login failed"
-          );
-        }
-      };
+        setLoading(true);
 
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center px-4">
-        <div className="w-full max-w-md bg-[#0b0e11] border border-gray-800 rounded-3xl p-8">
-          <h1 className="text-4xl font-bold text-yellow-400 text-center">
-            CryptoX
-          </h1>
-
-          <p className="text-gray-400 text-center mt-3">
-            Login to your account
-          </p>
-
-          <form
-            onSubmit={
-              handleSubmit
+        const res =
+          await axios.post(
+            `${API}/auth/login`,
+            {
+              email,
+              password,
             }
-            className="space-y-5 mt-8"
-          >
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={
-                formData.email
-              }
-              onChange={
-                handleChange
-              }
-              className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white outline-none"
-              required
-            />
+          );
 
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={
-                formData.password
-              }
-              onChange={
-                handleChange
-              }
-              className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3 text-white outline-none"
-              required
-            />
+        localStorage.setItem(
+          "token",
+          res.data.token
+        );
 
-            <button
-              type="submit"
-              className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 rounded-xl transition"
+        localStorage.setItem(
+          "user",
+          JSON.stringify(
+            res.data.user
+          )
+        );
+
+        alert(
+          "Login successful"
+        );
+
+        navigate(
+          "/dashboard"
+        );
+
+      } catch (error) {
+
+        console.log(error);
+
+        alert(
+          error.response?.data
+            ?.message ||
+            "Login failed"
+        );
+
+      } finally {
+
+        setLoading(false);
+      }
+    };
+
+  return (
+
+    <div className="min-h-screen flex items-center justify-center py-10">
+
+      <div className="grid lg:grid-cols-2 w-full max-w-6xl overflow-hidden rounded-[40px] border border-white/10 bg-[#111]">
+
+        {/* LEFT SIDE */}
+
+        <div className="relative hidden lg:flex flex-col justify-between p-12 overflow-hidden bg-gradient-to-br from-yellow-500/10 to-transparent">
+
+          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,#facc15,transparent_40%)]" />
+
+          <div className="relative z-10">
+
+            <div className="inline-flex items-center gap-3 bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 px-5 py-3 rounded-full font-semibold mb-10">
+
+              <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
+
+              Institutional Trading Infrastructure
+
+            </div>
+
+            <motion.h1
+              initial={{
+                opacity: 0,
+                y: 20,
+              }}
+
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+
+              className="text-6xl font-black leading-tight"
             >
-              Login
-            </button>
-          </form>
 
-          <p className="text-gray-500 text-center mt-6">
-            Don’t have an
-            account?{" "}
-            <Link
-              to="/register"
-              className="text-yellow-400"
-            >
-              Register
-            </Link>
-          </p>
+              Trade The
+              <br />
+
+              Future Of
+              <br />
+
+              Crypto
+
+            </motion.h1>
+
+            <p className="text-gray-400 text-xl mt-8 leading-relaxed max-w-xl">
+
+              Access realtime spot markets,
+              futures trading, institutional liquidity,
+              advanced wallets and enterprise-grade security.
+
+            </p>
+
+          </div>
+
+          {/* STATS */}
+
+          <div className="relative z-10 grid grid-cols-2 gap-5">
+
+            <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl">
+
+              <p className="text-gray-400">
+                24H Volume
+              </p>
+
+              <h2 className="text-3xl font-black mt-3">
+                $2.8B
+              </h2>
+
+            </div>
+
+            <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl">
+
+              <p className="text-gray-400">
+                Active Users
+              </p>
+
+              <h2 className="text-3xl font-black mt-3">
+                120K+
+              </h2>
+
+            </div>
+
+          </div>
+
         </div>
+
+        {/* RIGHT SIDE */}
+
+        <div className="p-8 lg:p-14 flex items-center">
+
+          <div className="w-full max-w-md mx-auto">
+
+            {/* HEADER */}
+
+            <div className="mb-10">
+
+              <h1 className="text-5xl font-black">
+                Welcome Back
+              </h1>
+
+              <p className="text-gray-400 mt-4 text-lg">
+                Login to your exchange account
+              </p>
+
+            </div>
+
+            {/* FORM */}
+
+            <form
+              onSubmit={login}
+              className="space-y-6"
+            >
+
+              {/* EMAIL */}
+
+              <div>
+
+                <label className="block mb-3 text-gray-400 font-semibold">
+                  Email Address
+                </label>
+
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) =>
+                    setEmail(
+                      e.target.value
+                    )
+                  }
+                  className="w-full bg-black border border-white/10 rounded-2xl px-5 py-5 outline-none focus:border-yellow-500 transition"
+                  required
+                />
+
+              </div>
+
+              {/* PASSWORD */}
+
+              <div>
+
+                <label className="block mb-3 text-gray-400 font-semibold">
+                  Password
+                </label>
+
+                <input
+                  type="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) =>
+                    setPassword(
+                      e.target.value
+                    )
+                  }
+                  className="w-full bg-black border border-white/10 rounded-2xl px-5 py-5 outline-none focus:border-yellow-500 transition"
+                  required
+                />
+
+              </div>
+
+              {/* BUTTON */}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-yellow-500 hover:bg-yellow-600 transition py-5 rounded-2xl font-black text-black text-lg shadow-lg shadow-yellow-500/20"
+              >
+
+                {loading
+                  ? "Signing In..."
+                  : "Login"}
+
+              </button>
+
+            </form>
+
+            {/* FOOTER */}
+
+            <p className="text-center text-gray-500 mt-8">
+
+              Don't have an account?
+              {" "}
+
+              <Link
+                to="/register"
+                className="text-yellow-400 font-bold hover:underline"
+              >
+
+                Create Account
+
+              </Link>
+
+            </p>
+
+          </div>
+
+        </div>
+
       </div>
-    );
-  };
+
+    </div>
+  );
+};
 
 export default Login;

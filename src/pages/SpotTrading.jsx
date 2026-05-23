@@ -9,6 +9,8 @@ import TradingViewWidget from "react-tradingview-widget";
 
 import OrderBook from "../components/OrderBook";
 
+import RecentTrades from "../components/RecentTrades";
+
 const API =
   "https://crypto-backend-dojp.onrender.com/api";
 
@@ -128,166 +130,209 @@ const SpotTrading = () => {
     };
 
   return (
-    <div className="space-y-8">
+
+    <div className="space-y-10">
 
       {/* HEADER */}
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
         <div>
 
-          <h1 className="text-4xl font-bold">
+          <h1 className="text-5xl font-black">
             Spot Trading
           </h1>
 
-          <p className="text-gray-400 mt-2">
+          <p className="text-gray-400 text-lg mt-3">
             Professional realtime trading terminal
           </p>
 
         </div>
 
-        <div className="bg-green-500/10 border border-green-500/20 text-green-400 px-5 py-3 rounded-2xl font-semibold">
-          LIVE MARKET
+        <div className="flex flex-wrap gap-4">
+
+          <div className="bg-green-500/10 border border-green-500/20 text-green-400 px-5 py-3 rounded-2xl font-bold">
+            LIVE MARKET
+          </div>
+
+          <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 px-5 py-3 rounded-2xl font-bold">
+            LOW LATENCY
+          </div>
+
         </div>
 
       </div>
 
-      {/* TRADING VIEW */}
+      {/* CHART */}
 
-      <div className="bg-[#111] border border-gray-800 rounded-2xl overflow-hidden">
+      <div className="overflow-hidden rounded-[32px] border border-white/10 bg-[#111] p-2">
 
-        <TradingViewWidget
-          symbol={symbol}
-          theme="dark"
-          locale="en"
-          autosize
-        />
+        <div className="rounded-[28px] overflow-hidden">
+
+          <TradingViewWidget
+            symbol={symbol}
+            theme="dark"
+            locale="en"
+            autosize
+          />
+
+        </div>
 
       </div>
 
-      {/* TRADING PANEL */}
+      {/* MAIN GRID */}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
 
-        {/* ORDER FORM */}
+        {/* LEFT SIDE */}
 
-        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+        <div className="xl:col-span-2 space-y-8">
 
-          <h2 className="text-2xl font-bold mb-6">
-            Place Order
-          </h2>
+          {/* ORDER FORM */}
 
-          <div className="space-y-5">
+          <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
 
-            {/* SYMBOL */}
+            <div className="flex items-center justify-between mb-8">
 
-            <div>
+              <div>
 
-              <label className="block mb-2 text-gray-400">
-                Trading Pair
-              </label>
+                <h2 className="text-3xl font-black">
+                  Place Order
+                </h2>
 
-              <select
-                value={symbol}
-                onChange={(e) =>
-                  setSymbol(
-                    e.target.value
-                  )
-                }
-                className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4"
+                <p className="text-gray-400 mt-2">
+                  Execute market trades instantly
+                </p>
+
+              </div>
+
+              <div
+                className={`px-5 py-3 rounded-2xl font-bold ${
+                  side === "BUY"
+                    ? "bg-green-500/10 border border-green-500/20 text-green-400"
+                    : "bg-red-500/10 border border-red-500/20 text-red-400"
+                }`}
               >
 
-                <option>
-                  BTCUSDT
-                </option>
+                {side}
 
-                <option>
-                  ETHUSDT
-                </option>
-
-                <option>
-                  SOLUSDT
-                </option>
-
-                <option>
-                  XRPUSDT
-                </option>
-
-              </select>
+              </div>
 
             </div>
 
-            {/* SIDE */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-            <div>
+              {/* SYMBOL */}
 
-              <label className="block mb-2 text-gray-400">
-                Side
-              </label>
+              <div>
 
-              <select
-                value={side}
-                onChange={(e) =>
-                  setSide(
-                    e.target.value
-                  )
-                }
-                className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4"
-              >
+                <label className="block mb-3 text-gray-400 font-semibold">
+                  Trading Pair
+                </label>
 
-                <option>
-                  BUY
-                </option>
+                <select
+                  value={symbol}
+                  onChange={(e) =>
+                    setSymbol(
+                      e.target.value
+                    )
+                  }
+                  className="w-full bg-black border border-white/10 rounded-2xl px-5 py-5"
+                >
 
-                <option>
-                  SELL
-                </option>
+                  <option>
+                    BTCUSDT
+                  </option>
 
-              </select>
+                  <option>
+                    ETHUSDT
+                  </option>
 
-            </div>
+                  <option>
+                    SOLUSDT
+                  </option>
 
-            {/* PRICE */}
+                  <option>
+                    XRPUSDT
+                  </option>
 
-            <div>
+                </select>
 
-              <label className="block mb-2 text-gray-400">
-                Price
-              </label>
+              </div>
 
-              <input
-                type="number"
-                placeholder="Enter price"
-                value={price}
-                onChange={(e) =>
-                  setPrice(
-                    e.target.value
-                  )
-                }
-                className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4"
-              />
+              {/* SIDE */}
 
-            </div>
+              <div>
 
-            {/* QUANTITY */}
+                <label className="block mb-3 text-gray-400 font-semibold">
+                  Order Side
+                </label>
 
-            <div>
+                <select
+                  value={side}
+                  onChange={(e) =>
+                    setSide(
+                      e.target.value
+                    )
+                  }
+                  className="w-full bg-black border border-white/10 rounded-2xl px-5 py-5"
+                >
 
-              <label className="block mb-2 text-gray-400">
-                Quantity
-              </label>
+                  <option>
+                    BUY
+                  </option>
 
-              <input
-                type="number"
-                placeholder="Enter quantity"
-                value={quantity}
-                onChange={(e) =>
-                  setQuantity(
-                    e.target.value
-                  )
-                }
-                className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4"
-              />
+                  <option>
+                    SELL
+                  </option>
+
+                </select>
+
+              </div>
+
+              {/* PRICE */}
+
+              <div>
+
+                <label className="block mb-3 text-gray-400 font-semibold">
+                  Price
+                </label>
+
+                <input
+                  type="number"
+                  placeholder="Enter price"
+                  value={price}
+                  onChange={(e) =>
+                    setPrice(
+                      e.target.value
+                    )
+                  }
+                  className="w-full bg-black border border-white/10 rounded-2xl px-5 py-5"
+                />
+
+              </div>
+
+              {/* QUANTITY */}
+
+              <div>
+
+                <label className="block mb-3 text-gray-400 font-semibold">
+                  Quantity
+                </label>
+
+                <input
+                  type="number"
+                  placeholder="Enter quantity"
+                  value={quantity}
+                  onChange={(e) =>
+                    setQuantity(
+                      e.target.value
+                    )
+                  }
+                  className="w-full bg-black border border-white/10 rounded-2xl px-5 py-5"
+                />
+
+              </div>
 
             </div>
 
@@ -298,7 +343,7 @@ const SpotTrading = () => {
                 placeOrder
               }
               disabled={loading}
-              className={`w-full py-4 rounded-xl font-bold transition ${
+              className={`w-full mt-8 py-5 rounded-2xl font-black text-lg transition ${
                 side === "BUY"
                   ? "bg-green-500 hover:bg-green-600"
                   : "bg-red-500 hover:bg-red-600"
@@ -313,123 +358,137 @@ const SpotTrading = () => {
 
           </div>
 
-        </div>
+          {/* OPEN ORDERS */}
 
-        {/* USER ORDERS */}
+          <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
 
-        <div className="lg:col-span-2 bg-[#111] border border-gray-800 rounded-2xl p-6">
+            <div className="flex items-center justify-between mb-8">
 
-          <div className="flex items-center justify-between mb-6">
+              <div>
 
-            <div>
+                <h2 className="text-3xl font-black">
+                  Open Orders
+                </h2>
 
-              <h2 className="text-2xl font-bold">
-                Open Orders
-              </h2>
+                <p className="text-gray-400 mt-2">
+                  Active trading positions
+                </p>
 
-              <p className="text-gray-400 mt-1">
-                Your active market orders
-              </p>
-
-            </div>
-
-            <div className="bg-blue-500/10 border border-blue-500/20 text-blue-400 px-4 py-2 rounded-xl text-sm">
-              LIVE
-            </div>
-
-          </div>
-
-          <div className="space-y-4">
-
-            {orders.length === 0 && (
-
-              <div className="text-gray-500">
-                No orders found
               </div>
 
-            )}
+              <div className="bg-blue-500/10 border border-blue-500/20 text-blue-400 px-4 py-2 rounded-xl text-sm font-bold">
+                LIVE
+              </div>
 
-            {orders.map(
-              (order) => (
+            </div>
 
-                <div
-                  key={order._id}
-                  className="bg-black border border-gray-800 rounded-xl px-5 py-4 flex items-center justify-between"
-                >
+            <div className="space-y-4">
 
-                  <div>
+              {orders.length === 0 && (
 
-                    <h3 className="font-bold text-lg">
-                      {
-                        order.symbol
-                      }
-                    </h3>
-
-                    <p className="text-gray-400 mt-1">
-                      Qty:
-                      {" "}
-                      {
-                        order.quantity
-                      }
-                    </p>
-
-                  </div>
-
-                  <div>
-
-                    <h3 className="font-bold text-lg">
-                      $
-                      {Number(
-                        order.price
-                      ).toLocaleString()}
-                    </h3>
-
-                    <p
-                      className={`mt-1 font-semibold ${
-                        order.side ===
-                        "BUY"
-                          ? "text-green-400"
-                          : "text-red-400"
-                      }`}
-                    >
-                      {
-                        order.side
-                      }
-                    </p>
-
-                  </div>
-
-                  <div>
-
-                    <span
-                      className={`px-4 py-2 rounded-xl text-sm font-bold ${
-                        order.status ===
-                        "FILLED"
-                          ? "bg-green-500/20 text-green-400"
-                          : "bg-yellow-500/20 text-yellow-400"
-                      }`}
-                    >
-                      {
-                        order.status
-                      }
-                    </span>
-
-                  </div>
-
+                <div className="text-gray-500">
+                  No active orders
                 </div>
 
-              )
-            )}
+              )}
+
+              {orders.map(
+                (order) => (
+
+                  <div
+                    key={order._id}
+                    className="bg-black border border-white/5 rounded-2xl px-6 py-5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5"
+                  >
+
+                    <div>
+
+                      <h3 className="text-xl font-black">
+                        {
+                          order.symbol
+                        }
+                      </h3>
+
+                      <p className="text-gray-500 mt-2">
+                        Qty:
+                        {" "}
+                        {
+                          order.quantity
+                        }
+                      </p>
+
+                    </div>
+
+                    <div>
+
+                      <h3 className="text-xl font-black">
+                        $
+                        {Number(
+                          order.price
+                        ).toLocaleString()}
+                      </h3>
+
+                    </div>
+
+                    <div>
+
+                      <span
+                        className={`px-5 py-3 rounded-2xl text-sm font-black ${
+                          order.side ===
+                          "BUY"
+                            ? "bg-green-500/10 text-green-400"
+                            : "bg-red-500/10 text-red-400"
+                        }`}
+                      >
+
+                        {
+                          order.side
+                        }
+
+                      </span>
+
+                    </div>
+
+                    <div>
+
+                      <span
+                        className={`px-5 py-3 rounded-2xl text-sm font-black ${
+                          order.status ===
+                          "FILLED"
+                            ? "bg-green-500/10 text-green-400"
+                            : "bg-yellow-500/10 text-yellow-400"
+                        }`}
+                      >
+
+                        {
+                          order.status
+                        }
+
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                )
+              )}
+
+            </div>
 
           </div>
+
+        </div>
+
+        {/* RIGHT SIDE */}
+
+        <div className="space-y-8">
+
+          <OrderBook />
+
+          <RecentTrades />
 
         </div>
 
       </div>
-
-      {/* LIVE ORDER BOOK */}
-
-      <OrderBook />
 
     </div>
   );

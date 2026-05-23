@@ -5,6 +5,7 @@ import React, {
 import {
   Link,
   useNavigate,
+  useLocation,
 } from "react-router-dom";
 
 import {
@@ -22,6 +23,9 @@ const Navbar = () => {
   const navigate =
     useNavigate();
 
+  const location =
+    useLocation();
+
   const [mobileOpen, setMobileOpen] =
     useState(false);
 
@@ -30,6 +34,11 @@ const Navbar = () => {
       localStorage.getItem(
         "user"
       )
+    );
+
+  const token =
+    localStorage.getItem(
+      "token"
     );
 
   const isVerified =
@@ -66,14 +75,16 @@ const Navbar = () => {
       name:
         "Dashboard",
 
-      path: "/",
+      path:
+        "/dashboard",
     },
 
     {
       name:
         "Spot",
 
-      path: "/spot",
+      path:
+        "/spot",
     },
 
     {
@@ -102,6 +113,14 @@ const Navbar = () => {
 
     {
       name:
+        "Settings",
+
+      path:
+        "/settings",
+    },
+
+    {
+      name:
         "KYC",
 
       path:
@@ -123,6 +142,19 @@ const Navbar = () => {
     });
   }
 
+  /*
+  ==========================================
+  HIDE NAVBAR ON LANDING
+  ==========================================
+  */
+
+  if (
+    location.pathname === "/"
+  ) {
+
+    return null;
+  }
+
   return (
 
     <nav className="sticky top-0 z-50 backdrop-blur-xl bg-black/80 border-b border-white/10">
@@ -134,7 +166,11 @@ const Navbar = () => {
           {/* LOGO */}
 
           <Link
-            to="/"
+            to={
+              token
+                ? "/dashboard"
+                : "/"
+            }
             className="flex items-center gap-3"
           >
 
@@ -158,89 +194,122 @@ const Navbar = () => {
 
           {/* DESKTOP NAV */}
 
-          <div className="hidden lg:flex items-center gap-2">
+          {token && (
 
-            {navLinks.map(
-              (link) => (
+            <div className="hidden lg:flex items-center gap-2">
 
-                <Link
-                  key={
-                    link.name
-                  }
+              {navLinks.map(
+                (link) => (
 
-                  to={
-                    link.path
-                  }
-
-                  className="px-5 py-3 rounded-xl text-sm font-semibold hover:bg-white/5 transition"
-                >
-
-                  {
-                    link.name
-                  }
-
-                </Link>
-
-              )
-            )}
-
-          </div>
-
-          {/* RIGHT SIDE */}
-
-          <div className="hidden lg:flex items-center gap-4">
-
-            {/* USER */}
-
-            <div className="flex items-center gap-3 px-4 py-2 rounded-2xl bg-white/5 border border-white/10">
-
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center font-bold text-black">
-                {user?.name
-                  ?.charAt(0)}
-              </div>
-
-              <div>
-
-                <div className="flex items-center gap-2">
-
-                  <h3 className="font-semibold text-sm">
-                    {
-                      user?.name
+                  <Link
+                    key={
+                      link.name
                     }
-                  </h3>
 
-                  {isVerified && (
+                    to={
+                      link.path
+                    }
 
-                    <span className="bg-blue-500 text-white text-[10px] px-2 py-1 rounded-full font-bold">
-                      VERIFIED
-                    </span>
+                    className={`px-5 py-3 rounded-xl text-sm font-semibold transition ${
+                      location.pathname ===
+                      link.path
+                        ? "bg-yellow-500 text-black"
+                        : "hover:bg-white/5"
+                    }`}
+                  >
 
-                  )}
+                    {
+                      link.name
+                    }
 
-                </div>
+                  </Link>
 
-                <p className="text-xs text-gray-500">
-                  {
-                    user?.email
-                  }
-                </p>
-
-              </div>
+                )
+              )}
 
             </div>
 
-            {/* LOGOUT */}
+          )}
 
-            <button
-              onClick={logout}
-              className="bg-red-500 hover:bg-red-600 transition px-5 py-3 rounded-xl font-bold text-sm"
-            >
+          {/* RIGHT SIDE */}
 
-              Logout
+          {token ? (
 
-            </button>
+            <div className="hidden lg:flex items-center gap-4">
 
-          </div>
+              <div className="flex items-center gap-3 px-4 py-2 rounded-2xl bg-white/5 border border-white/10">
+
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center font-bold text-black">
+                  {user?.name
+                    ?.charAt(0)}
+                </div>
+
+                <div>
+
+                  <div className="flex items-center gap-2">
+
+                    <h3 className="font-semibold text-sm">
+                      {
+                        user?.name
+                      }
+                    </h3>
+
+                    {isVerified && (
+
+                      <span className="bg-blue-500 text-white text-[10px] px-2 py-1 rounded-full font-bold">
+                        VERIFIED
+                      </span>
+
+                    )}
+
+                  </div>
+
+                  <p className="text-xs text-gray-500">
+                    {
+                      user?.email
+                    }
+                  </p>
+
+                </div>
+
+              </div>
+
+              <button
+                onClick={logout}
+                className="bg-red-500 hover:bg-red-600 transition px-5 py-3 rounded-xl font-bold text-sm"
+              >
+
+                Logout
+
+              </button>
+
+            </div>
+
+          ) : (
+
+            <div className="hidden lg:flex items-center gap-4">
+
+              <Link
+                to="/login"
+                className="border border-white/10 hover:bg-white/5 transition px-6 py-3 rounded-xl font-bold"
+              >
+
+                Login
+
+              </Link>
+
+              <Link
+                to="/register"
+                className="bg-yellow-500 hover:bg-yellow-600 transition px-6 py-3 rounded-xl font-bold text-black"
+              >
+
+                Get Started
+
+              </Link>
+
+            </div>
+
+          )}
 
           {/* MOBILE BUTTON */}
 
@@ -290,93 +359,83 @@ const Navbar = () => {
 
             <div className="p-5 space-y-3">
 
-              {/* USER */}
+              {token ? (
 
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5">
+                <>
 
-                <div className="flex items-center gap-3">
+                  {navLinks.map(
+                    (link) => (
 
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center font-bold text-black">
-                    {user?.name
-                      ?.charAt(0)}
-                  </div>
-
-                  <div>
-
-                    <div className="flex items-center gap-2">
-
-                      <h3 className="font-bold">
-                        {
-                          user?.name
+                      <Link
+                        key={
+                          link.name
                         }
-                      </h3>
 
-                      {isVerified && (
+                        to={
+                          link.path
+                        }
 
-                        <span className="bg-blue-500 text-white text-[10px] px-2 py-1 rounded-full font-bold">
-                          VERIFIED
-                        </span>
+                        onClick={() =>
+                          setMobileOpen(
+                            false
+                          )
+                        }
 
-                      )}
+                        className={`block px-5 py-4 rounded-2xl font-semibold transition ${
+                          location.pathname ===
+                          link.path
+                            ? "bg-yellow-500 text-black"
+                            : "bg-white/5 hover:bg-white/10"
+                        }`}
+                      >
 
-                    </div>
+                        {
+                          link.name
+                        }
 
-                    <p className="text-xs text-gray-500">
-                      {
-                        user?.email
-                      }
-                    </p>
+                      </Link>
 
-                  </div>
+                    )
+                  )}
 
-                </div>
-
-              </div>
-
-              {/* LINKS */}
-
-              {navLinks.map(
-                (link) => (
-
-                  <Link
-                    key={
-                      link.name
+                  <button
+                    onClick={
+                      logout
                     }
-
-                    to={
-                      link.path
-                    }
-
-                    onClick={() =>
-                      setMobileOpen(
-                        false
-                      )
-                    }
-
-                    className="block bg-white/5 hover:bg-white/10 transition px-5 py-4 rounded-2xl font-semibold"
+                    className="w-full mt-4 bg-red-500 hover:bg-red-600 transition py-4 rounded-2xl font-bold"
                   >
 
-                    {
-                      link.name
-                    }
+                    Logout
+
+                  </button>
+
+                </>
+
+              ) : (
+
+                <>
+
+                  <Link
+                    to="/login"
+                    className="block text-center border border-white/10 hover:bg-white/5 transition px-6 py-4 rounded-2xl font-bold"
+                  >
+
+                    Login
 
                   </Link>
 
-                )
+                  <Link
+                    to="/register"
+                    className="block text-center bg-yellow-500 hover:bg-yellow-600 transition px-6 py-4 rounded-2xl font-bold text-black"
+                  >
+
+                    Get Started
+
+                  </Link>
+
+                </>
+
               )}
-
-              {/* LOGOUT */}
-
-              <button
-                onClick={
-                  logout
-                }
-                className="w-full mt-4 bg-red-500 hover:bg-red-600 transition py-4 rounded-2xl font-bold"
-              >
-
-                Logout
-
-              </button>
 
             </div>
 

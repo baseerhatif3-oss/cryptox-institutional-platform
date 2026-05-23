@@ -3,17 +3,23 @@ import React from "react";
 import {
   BrowserRouter,
   Routes,
-  Route,
+ Route,
   Navigate,
 } from "react-router-dom";
 
+import { Toaster } from "react-hot-toast";
+
+import Navbar from "./components/Navbar";
+
+import PriceTicker from "./components/PriceTicker";
+
+import Footer from "./components/Footer";
+
+import MobileBottomNav from "./components/MobileBottomNav";
+
+import Landing from "./pages/Landing";
+
 import Dashboard from "./pages/Dashboard";
-
-import Login from "./pages/Login";
-
-import Register from "./pages/Register";
-
-import Admin from "./pages/Admin";
 
 import SpotTrading from "./pages/SpotTrading";
 
@@ -23,191 +29,234 @@ import Wallet from "./pages/Wallet";
 
 import Transactions from "./pages/Transactions";
 
+import Admin from "./pages/Admin";
+
+import Login from "./pages/Login";
+
+import Register from "./pages/Register";
+
 import KYC from "./pages/KYC";
 
-import Navbar from "./components/Navbar";
+import Settings from "./pages/Settings";
 
-import RealtimeNotifications from "./components/RealtimeNotifications";
+/*
+==========================================
+PROTECTED ROUTE
+==========================================
+*/
 
-function App() {
+const ProtectedRoute = ({
+  children,
+}) => {
 
   const token =
     localStorage.getItem(
       "token"
     );
 
-  const user =
-    JSON.parse(
-      localStorage.getItem(
-        "user"
-      )
+  if (!token) {
+
+    return (
+      <Navigate to="/login" />
     );
+  }
+
+  return children;
+};
+
+function App() {
 
   return (
+
     <BrowserRouter>
 
-      <div className="min-h-screen bg-black text-white">
+      {/* PREMIUM TOASTS */}
+
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            background:
+              "#111",
+
+            color:
+              "#fff",
+
+            border:
+              "1px solid rgba(255,255,255,0.1)",
+
+            borderRadius:
+              "18px",
+
+            padding:
+              "16px",
+
+            fontWeight:
+              "700",
+          },
+        }}
+      />
+
+      <div className="min-h-screen bg-black text-white overflow-x-hidden flex flex-col">
+
+        {/* BACKGROUND EFFECT */}
+
+        <div className="fixed inset-0 -z-10">
+
+          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,#facc15_0%,transparent_25%)] opacity-10" />
+
+          <div className="absolute bottom-0 left-0 w-full h-full bg-[radial-gradient(circle_at_bottom_left,#2563eb_0%,transparent_25%)] opacity-10" />
+
+        </div>
 
         {/* NAVBAR */}
 
-        {token && <Navbar />}
+        <Navbar />
 
+        {/* LIVE PRICE TICKER */}
 
+        <PriceTicker />
 
         {/* MAIN CONTENT */}
 
-        <div className="max-w-7xl mx-auto p-6">
-
-          {/* REALTIME NOTIFICATIONS */}
-
-          <RealtimeNotifications />
-
-
+        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-10 pb-28 lg:pb-10">
 
           <Routes>
 
-            {/* LOGIN */}
+            {/* LANDING */}
+
+            <Route
+              path="/"
+              element={<Landing />}
+            />
+
+            {/* AUTH */}
 
             <Route
               path="/login"
               element={<Login />}
             />
 
-
-
-            {/* REGISTER */}
-
             <Route
               path="/register"
-              element={
-                <Register />
-              }
+              element={<Register />}
             />
-
-
 
             {/* DASHBOARD */}
 
             <Route
-              path="/"
+              path="/dashboard"
               element={
-                token ? (
+                <ProtectedRoute>
+
                   <Dashboard />
-                ) : (
-                  <Navigate
-                    to="/login"
-                  />
-                )
+
+                </ProtectedRoute>
               }
             />
-
-
 
             {/* SPOT */}
 
             <Route
               path="/spot"
               element={
-                token ? (
+                <ProtectedRoute>
+
                   <SpotTrading />
-                ) : (
-                  <Navigate
-                    to="/login"
-                  />
-                )
+
+                </ProtectedRoute>
               }
             />
-
-
 
             {/* FUTURES */}
 
             <Route
               path="/futures"
               element={
-                token ? (
+                <ProtectedRoute>
+
                   <Futures />
-                ) : (
-                  <Navigate
-                    to="/login"
-                  />
-                )
+
+                </ProtectedRoute>
               }
             />
-
-
 
             {/* WALLET */}
 
             <Route
               path="/wallet"
               element={
-                token ? (
+                <ProtectedRoute>
+
                   <Wallet />
-                ) : (
-                  <Navigate
-                    to="/login"
-                  />
-                )
+
+                </ProtectedRoute>
               }
             />
-
-
-
-            {/* KYC */}
-
-            <Route
-              path="/kyc"
-              element={
-                token ? (
-                  <KYC />
-                ) : (
-                  <Navigate
-                    to="/login"
-                  />
-                )
-              }
-            />
-
-
 
             {/* TRANSACTIONS */}
 
             <Route
               path="/transactions"
               element={
-                token ? (
+                <ProtectedRoute>
+
                   <Transactions />
-                ) : (
-                  <Navigate
-                    to="/login"
-                  />
-                )
+
+                </ProtectedRoute>
               }
             />
 
+            {/* SETTINGS */}
 
+            <Route
+              path="/settings"
+              element={
+                <ProtectedRoute>
+
+                  <Settings />
+
+                </ProtectedRoute>
+              }
+            />
+
+            {/* KYC */}
+
+            <Route
+              path="/kyc"
+              element={
+                <ProtectedRoute>
+
+                  <KYC />
+
+                </ProtectedRoute>
+              }
+            />
 
             {/* ADMIN */}
 
             <Route
               path="/admin"
               element={
-                token &&
-                user?.role ===
-                  "admin" ? (
+                <ProtectedRoute>
+
                   <Admin />
-                ) : (
-                  <Navigate
-                    to="/"
-                  />
-                )
+
+                </ProtectedRoute>
               }
             />
 
           </Routes>
 
-        </div>
+        </main>
+
+        {/* FOOTER */}
+
+        <Footer />
+
+        {/* MOBILE NAVIGATION */}
+
+        <MobileBottomNav />
 
       </div>
 
