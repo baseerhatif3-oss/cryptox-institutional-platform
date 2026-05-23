@@ -10,6 +10,8 @@ import OrderBook from "../components/OrderBook";
 
 import TradingChart from "../components/TradingChart";
 
+import TradingTerminal from "../components/TradingTerminal";
+
 const Dashboard = () => {
   return (
     <div className="space-y-6">
@@ -47,6 +49,12 @@ const Dashboard = () => {
       {/* TRADINGVIEW CHART */}
 
       <TradingChart />
+
+
+
+      {/* TRADING TERMINAL */}
+
+      <TradingTerminal />
 
 
 
