@@ -1,17 +1,20 @@
 import React from "react";
 
+import ExchangeAnalytics from "../components/ExchangeAnalytics";
+
 const Admin = () => {
 
   return (
 
-    <div className="text-white p-10">
+    <div className="space-y-8 text-white">
 
       <h1 className="text-5xl font-bold">
         ADMIN WORKING
       </h1>
 
-    </div>
+      <ExchangeAnalytics />
 
+    </div>
   );
 };
 
