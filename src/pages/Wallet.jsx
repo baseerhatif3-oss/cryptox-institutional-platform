@@ -10,21 +10,6 @@ const API =
 
 const Wallet = () => {
 
-  const [wallet, setWallet] =
-    useState(null);
-
-  const [loading, setLoading] =
-    useState(true);
-
-  const [asset, setAsset] =
-    useState("USDT");
-
-  const [amount, setAmount] =
-    useState("");
-
-  const [processing, setProcessing] =
-    useState(false);
-
   const user =
     JSON.parse(
       localStorage.getItem(
@@ -32,7 +17,36 @@ const Wallet = () => {
       )
     );
 
+  const [wallet, setWallet] =
+    useState(null);
 
+  const [coin, setCoin] =
+    useState("USDT");
+
+  const [amount, setAmount] =
+    useState("");
+
+  const [loading, setLoading] =
+    useState(false);
+
+  /*
+  ==========================================
+  OTP STATES
+  ==========================================
+  */
+
+  const [otp, setOtp] =
+    useState("");
+
+  const [
+    showOTPModal,
+    setShowOTPModal,
+  ] = useState(false);
+
+  const [
+    pendingWithdrawal,
+    setPendingWithdrawal,
+  ] = useState(null);
 
   /*
   ==========================================
@@ -41,16 +55,19 @@ const Wallet = () => {
   */
 
   useEffect(() => {
+
     fetchWallet();
+
   }, []);
 
   const fetchWallet =
     async () => {
+
       try {
 
         const res =
           await axios.get(
-            `${API}/user/wallet/${user.id}`
+            `${API}/wallet/${user.id}`
           );
 
         setWallet(
@@ -60,14 +77,8 @@ const Wallet = () => {
       } catch (error) {
 
         console.log(error);
-
-      } finally {
-
-        setLoading(false);
       }
     };
-
-
 
   /*
   ==========================================
@@ -75,20 +86,21 @@ const Wallet = () => {
   ==========================================
   */
 
-  const handleDeposit =
+  const deposit =
     async () => {
+
       try {
 
-        setProcessing(true);
+        setLoading(true);
 
         const res =
           await axios.post(
-            `${API}/transactions/deposit`,
+            `${API}/wallet/deposit`,
             {
               userId:
                 user.id,
 
-              asset,
+              coin,
 
               amount,
             }
@@ -114,11 +126,9 @@ const Wallet = () => {
 
       } finally {
 
-        setProcessing(false);
+        setLoading(false);
       }
     };
-
-
 
   /*
   ==========================================
@@ -126,28 +136,106 @@ const Wallet = () => {
   ==========================================
   */
 
-  const handleWithdraw =
+  const withdraw =
     async () => {
+
       try {
 
-        setProcessing(true);
+        setLoading(true);
 
         const res =
           await axios.post(
-            `${API}/transactions/withdraw`,
+            `${API}/wallet/withdraw`,
             {
               userId:
                 user.id,
 
-              asset,
+              coin,
 
               amount,
+            }
+          );
+
+        /*
+        ==========================================
+        OTP REQUIRED
+        ==========================================
+        */
+
+        if (
+          res.data
+            .requiresOTP
+        ) {
+
+          setPendingWithdrawal({
+            coin,
+            amount,
+          });
+
+          setShowOTPModal(
+            true
+          );
+
+          alert(
+            "OTP sent to your email"
+          );
+
+          return;
+        }
+
+      } catch (error) {
+
+        console.log(error);
+
+        alert(
+          error.response?.data
+            ?.message ||
+            "Withdrawal failed"
+        );
+
+      } finally {
+
+        setLoading(false);
+      }
+    };
+
+  /*
+  ==========================================
+  VERIFY WITHDRAWAL
+  ==========================================
+  */
+
+  const verifyWithdrawal =
+    async () => {
+
+      try {
+
+        const res =
+          await axios.post(
+            `${API}/wallet/verify-withdrawal`,
+            {
+              userId:
+                user.id,
+
+              coin:
+                pendingWithdrawal.coin,
+
+              amount:
+                pendingWithdrawal.amount,
+
+              otp,
             }
           );
 
         alert(
           res.data.message
         );
+
+        setShowOTPModal(
+          false
+        );
+
+        setOtp("");
 
         setAmount("");
 
@@ -160,16 +248,10 @@ const Wallet = () => {
         alert(
           error.response?.data
             ?.message ||
-            "Withdraw failed"
+            "OTP verification failed"
         );
-
-      } finally {
-
-        setProcessing(false);
       }
     };
-
-
 
   /*
   ==========================================
@@ -177,34 +259,17 @@ const Wallet = () => {
   ==========================================
   */
 
-  if (loading) {
-    return (
-      <div className="text-2xl font-bold">
-        Loading Wallet...
-      </div>
-    );
-  }
-
-
-
-  /*
-  ==========================================
-  NO WALLET
-  ==========================================
-  */
-
   if (!wallet) {
+
     return (
-      <div className="text-2xl font-bold text-red-400">
-        Wallet not found
+      <div className="text-white">
+        Loading wallet...
       </div>
     );
   }
-
-
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
 
       {/* HEADER */}
 
@@ -215,34 +280,32 @@ const Wallet = () => {
         </h1>
 
         <p className="text-gray-400 mt-2">
-          Manage your exchange assets
+          Secure crypto asset management
         </p>
 
       </div>
 
-
-
       {/* BALANCES */}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
 
         {Object.entries(
           wallet.balances
         ).map(
-          ([coin, amount]) => (
+          ([key, value]) => (
 
             <div
-              key={coin}
-              className="bg-[#111] border border-gray-800 rounded-2xl p-5"
+              key={key}
+              className="bg-[#111] border border-gray-800 rounded-2xl p-6"
             >
 
               <p className="text-gray-400">
-                {coin}
+                {key}
               </p>
 
               <h2 className="text-3xl font-bold mt-3">
                 {Number(
-                  amount
+                  value
                 ).toLocaleString()}
               </h2>
 
@@ -253,39 +316,33 @@ const Wallet = () => {
 
       </div>
 
+      {/* ACTION PANEL */}
 
+      <div className="bg-[#111] border border-gray-800 rounded-2xl p-8">
 
-      {/* DEPOSIT / WITHDRAW */}
-
-      <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-
-        <h2 className="text-2xl font-bold mb-6">
-          Deposit & Withdraw
+        <h2 className="text-3xl font-bold mb-6">
+          Wallet Actions
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-          {/* ASSET */}
+          {/* COIN */}
 
           <div>
 
             <label className="block mb-2 text-gray-400">
-              Asset
+              Coin
             </label>
 
             <select
-              value={asset}
+              value={coin}
               onChange={(e) =>
-                setAsset(
+                setCoin(
                   e.target.value
                 )
               }
               className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4"
             >
-
-              <option>
-                USDT
-              </option>
 
               <option>
                 BTC
@@ -303,11 +360,13 @@ const Wallet = () => {
                 XRP
               </option>
 
+              <option>
+                USDT
+              </option>
+
             </select>
 
           </div>
-
-
 
           {/* AMOUNT */}
 
@@ -331,105 +390,93 @@ const Wallet = () => {
 
           </div>
 
-        </div>
+          {/* ACTIONS */}
 
+          <div className="flex items-end gap-4">
 
+            <button
+              onClick={deposit}
+              disabled={loading}
+              className="flex-1 bg-green-500 hover:bg-green-600 transition py-4 rounded-xl font-bold"
+            >
 
-        {/* BUTTONS */}
+              Deposit
 
-        <div className="grid grid-cols-2 gap-4 mt-8">
+            </button>
 
-          <button
-            onClick={
-              handleDeposit
-            }
-            disabled={processing}
-            className="bg-green-500 hover:bg-green-600 transition rounded-xl py-4 font-bold"
-          >
+            <button
+              onClick={withdraw}
+              disabled={loading}
+              className="flex-1 bg-red-500 hover:bg-red-600 transition py-4 rounded-xl font-bold"
+            >
 
-            {processing
-              ? "Processing..."
-              : "Deposit"}
+              Withdraw
 
-          </button>
+            </button>
 
-
-
-          <button
-            onClick={
-              handleWithdraw
-            }
-            disabled={processing}
-            className="bg-red-500 hover:bg-red-600 transition rounded-xl py-4 font-bold"
-          >
-
-            {processing
-              ? "Processing..."
-              : "Withdraw"}
-
-          </button>
+          </div>
 
         </div>
 
       </div>
 
+      {/* OTP MODAL */}
 
+      {showOTPModal && (
 
-      {/* WALLET ADDRESSES */}
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
 
-      <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+          <div className="bg-[#111] border border-gray-800 rounded-2xl p-8 w-full max-w-md">
 
-        <h2 className="text-2xl font-bold mb-6">
-          Deposit Addresses
-        </h2>
+            <h2 className="text-3xl font-bold mb-3">
+              Verify Withdrawal
+            </h2>
 
-        <div className="space-y-4">
+            <p className="text-gray-400 mb-6">
+              Enter the OTP sent to your email
+            </p>
 
-          {Object.entries(
-            wallet.wallets
-          ).map(
-            ([coin, address]) => (
+            <input
+              type="text"
+              placeholder="Enter OTP"
+              value={otp}
+              onChange={(e) =>
+                setOtp(
+                  e.target.value
+                )
+              }
+              className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4 mb-6"
+            />
 
-              <div
-                key={coin}
-                className="bg-black border border-gray-800 rounded-xl p-5"
+            <div className="flex gap-4">
+
+              <button
+                onClick={
+                  verifyWithdrawal
+                }
+                className="flex-1 bg-yellow-500 hover:bg-yellow-600 transition py-4 rounded-xl font-bold"
               >
+                Verify OTP
+              </button>
 
-                <div className="flex items-center justify-between">
+              <button
+                onClick={() =>
+                  setShowOTPModal(
+                    false
+                  )
+                }
+                className="flex-1 bg-gray-800 hover:bg-gray-700 transition py-4 rounded-xl font-bold"
+              >
+                Cancel
+              </button>
 
-                  <div>
+            </div>
 
-                    <p className="text-gray-400">
-                      {coin}
-                    </p>
-
-                    <p className="font-mono mt-2 break-all">
-                      {address}
-                    </p>
-
-                  </div>
-
-                  <button
-                    onClick={() =>
-                      navigator.clipboard.writeText(
-                        address
-                      )
-                    }
-                    className="bg-yellow-500 hover:bg-yellow-600 transition px-4 py-2 rounded-xl text-black font-semibold"
-                  >
-                    Copy
-                  </button>
-
-                </div>
-
-              </div>
-
-            )
-          )}
+          </div>
 
         </div>
 
-      </div>
+      )}
 
     </div>
   );
