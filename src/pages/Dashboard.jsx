@@ -17,7 +17,7 @@ import {
 } from "react-icons/si";
 
 import {
-  RiRippleFill,
+  RiRippleLine,
 } from "react-icons/ri";
 
 import socket from "../services/socket";
@@ -124,10 +124,11 @@ const Dashboard = () => {
       <SiSolana className="text-purple-400 text-3xl" />,
 
     XRPUSDT:
-      <RiRippleFill className="text-cyan-400 text-3xl" />,
+      <RiRippleLine className="text-cyan-400 text-3xl" />,
   };
 
   return (
+
     <div className="space-y-10">
 
       {/* HERO */}
@@ -172,11 +173,15 @@ const Dashboard = () => {
               <div className="flex flex-wrap gap-4 mt-8">
 
                 <button className="bg-yellow-500 hover:bg-yellow-600 transition px-8 py-4 rounded-2xl font-bold text-black shadow-lg shadow-yellow-500/20">
+
                   Start Trading
+
                 </button>
 
                 <button className="border border-white/10 hover:bg-white/5 transition px-8 py-4 rounded-2xl font-bold">
+
                   View Markets
+
                 </button>
 
               </div>
