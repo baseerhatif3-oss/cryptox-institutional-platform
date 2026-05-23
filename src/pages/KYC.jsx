@@ -1,208 +1,358 @@
-import { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from "react";
 
-import toast from "react-hot-toast";
+import axios from "axios";
 
-import API from "../services/api";
+const API =
+  "https://crypto-backend-dojp.onrender.com/api";
 
 const KYC = () => {
-  const [formData, setFormData] =
-    useState({
-      fullName: "",
-      documentType: "Passport",
-      documentNumber: "",
-    });
 
-  const [documentImage, setDocumentImage] =
-    useState(null);
+  const user =
+    JSON.parse(
+      localStorage.getItem(
+        "user"
+      )
+    );
+
+  const [fullName, setFullName] =
+    useState("");
+
+  const [country, setCountry] =
+    useState("");
+
+  const [
+    documentType,
+    setDocumentType,
+  ] = useState(
+    "PASSPORT"
+  );
+
+  const [
+    documentImage,
+    setDocumentImage,
+  ] = useState(null);
+
+  const [
+    selfieImage,
+    setSelfieImage,
+  ] = useState(null);
+
+  const [loading, setLoading] =
+    useState(false);
 
   const [kyc, setKyc] =
     useState(null);
 
-  const fetchKYC = async () => {
-    try {
-      const { data } = await API.get(
-        "/kyc"
-      );
-
-      setKyc(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  /*
+  ==========================================
+  FETCH KYC STATUS
+  ==========================================
+  */
 
   useEffect(() => {
     fetchKYC();
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const fetchKYC =
+    async () => {
+      try {
 
-    try {
-      const data = new FormData();
+        const res =
+          await axios.get(
+            `${API}/kyc/${user.id}`
+          );
 
-      data.append(
-        "fullName",
-        formData.fullName
-      );
+        setKyc(
+          res.data.kyc
+        );
 
-      data.append(
-        "documentType",
-        formData.documentType
-      );
+      } catch (error) {
 
-      data.append(
-        "documentNumber",
-        formData.documentNumber
-      );
+        console.log(error);
+      }
+    };
 
-      data.append(
-        "documentImage",
-        documentImage
-      );
+  /*
+  ==========================================
+  SUBMIT KYC
+  ==========================================
+  */
 
-      await API.post("/kyc", data, {
-        headers: {
-          "Content-Type":
-            "multipart/form-data",
-        },
-      });
+  const submitKYC =
+    async (
+      e
+    ) => {
 
-      toast.success(
-        "KYC submitted successfully"
-      );
+      e.preventDefault();
 
-      fetchKYC();
-    } catch (error) {
-      console.log(error);
+      try {
 
-      toast.error(
-        error.response?.data?.message ||
-          "Submission failed"
-      );
-    }
-  };
+        setLoading(true);
+
+        const formData =
+          new FormData();
+
+        formData.append(
+          "userId",
+          user.id
+        );
+
+        formData.append(
+          "fullName",
+          fullName
+        );
+
+        formData.append(
+          "country",
+          country
+        );
+
+        formData.append(
+          "documentType",
+          documentType
+        );
+
+        formData.append(
+          "documentImage",
+          documentImage
+        );
+
+        formData.append(
+          "selfieImage",
+          selfieImage
+        );
+
+        const res =
+          await axios.post(
+            `${API}/kyc/submit`,
+            formData,
+            {
+              headers: {
+                "Content-Type":
+                  "multipart/form-data",
+              },
+            }
+          );
+
+        alert(
+          res.data.message
+        );
+
+        fetchKYC();
+
+      } catch (error) {
+
+        console.log(error);
+
+        alert(
+          error.response?.data
+            ?.message ||
+            "KYC failed"
+        );
+
+      } finally {
+
+        setLoading(false);
+      }
+    };
+
+  /*
+  ==========================================
+  VERIFIED UI
+  ==========================================
+  */
 
   if (kyc) {
+
     return (
-      <div className="min-h-screen bg-slate-950 text-white p-6">
-        <div className="max-w-3xl mx-auto bg-slate-900 border border-slate-800 rounded-3xl p-8">
-          <h1 className="text-4xl font-bold mb-6">
-            KYC Status
-          </h1>
+      <div className="bg-[#111] border border-gray-800 rounded-2xl p-8">
 
-          <div className="space-y-5">
-            <div>
-              <p className="text-slate-400">
-                Full Name
-              </p>
+        <h1 className="text-4xl font-bold mb-6">
+          KYC Verification
+        </h1>
 
-              <h2 className="text-xl font-bold">
-                {kyc.fullName}
-              </h2>
-            </div>
+        <div className="space-y-4">
 
-            <div>
-              <p className="text-slate-400">
-                Document Type
-              </p>
+          <div className="bg-black border border-gray-800 rounded-xl p-5">
 
-              <h2 className="text-xl font-bold">
-                {kyc.documentType}
-              </h2>
-            </div>
+            <p className="text-gray-400">
+              Full Name
+            </p>
 
-            <div>
-              <p className="text-slate-400">
-                Status
-              </p>
+            <h2 className="text-xl font-bold mt-2">
+              {
+                kyc.fullName
+              }
+            </h2>
 
-              <h2 className="text-xl font-bold text-yellow-400">
-                {kyc.status}
-              </h2>
-            </div>
-
-            <img
-              src={`https://crypto-backend-dojp.onrender.com/${kyc.documentImage}`}
-              alt="KYC"
-              className="rounded-2xl mt-6"
-            />
           </div>
+
+          <div className="bg-black border border-gray-800 rounded-xl p-5">
+
+            <p className="text-gray-400">
+              Country
+            </p>
+
+            <h2 className="text-xl font-bold mt-2">
+              {
+                kyc.country
+              }
+            </h2>
+
+          </div>
+
+          <div className="bg-black border border-gray-800 rounded-xl p-5">
+
+            <p className="text-gray-400">
+              Verification Status
+            </p>
+
+            <h2
+              className={`text-xl font-bold mt-2 ${
+                kyc.status ===
+                "APPROVED"
+                  ? "text-green-400"
+                  : kyc.status ===
+                    "REJECTED"
+                  ? "text-red-400"
+                  : "text-yellow-400"
+              }`}
+            >
+              {
+                kyc.status
+              }
+            </h2>
+
+          </div>
+
+          {kyc.rejectionReason && (
+
+            <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-5">
+
+              <p className="text-red-400">
+                Rejection Reason:
+              </p>
+
+              <p className="mt-2">
+                {
+                  kyc.rejectionReason
+                }
+              </p>
+
+            </div>
+
+          )}
+
         </div>
+
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="max-w-3xl mx-auto bg-slate-900 border border-slate-800 rounded-3xl p-8">
-        <h1 className="text-4xl font-bold mb-2">
-          KYC Verification
-        </h1>
+    <div className="bg-[#111] border border-gray-800 rounded-2xl p-8">
 
-        <p className="text-slate-400 mb-8">
-          Submit your identity documents
-          for verification.
-        </p>
+      <h1 className="text-4xl font-bold mb-2">
+        KYC Verification
+      </h1>
 
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-5"
-        >
+      <p className="text-gray-400 mb-8">
+        Verify your identity to unlock full exchange access
+      </p>
+
+      <form
+        onSubmit={submitKYC}
+        className="space-y-6"
+      >
+
+        {/* FULL NAME */}
+
+        <div>
+
+          <label className="block mb-2 text-gray-400">
+            Full Name
+          </label>
+
           <input
             type="text"
-            placeholder="Full Name"
             required
-            value={formData.fullName}
+            value={fullName}
             onChange={(e) =>
-              setFormData({
-                ...formData,
-                fullName:
-                  e.target.value,
-              })
+              setFullName(
+                e.target.value
+              )
             }
-            className="w-full bg-slate-800 p-4 rounded-xl outline-none"
+            className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4"
           />
+
+        </div>
+
+        {/* COUNTRY */}
+
+        <div>
+
+          <label className="block mb-2 text-gray-400">
+            Country
+          </label>
+
+          <input
+            type="text"
+            required
+            value={country}
+            onChange={(e) =>
+              setCountry(
+                e.target.value
+              )
+            }
+            className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4"
+          />
+
+        </div>
+
+        {/* DOCUMENT TYPE */}
+
+        <div>
+
+          <label className="block mb-2 text-gray-400">
+            Document Type
+          </label>
 
           <select
-            value={formData.documentType}
+            value={documentType}
             onChange={(e) =>
-              setFormData({
-                ...formData,
-                documentType:
-                  e.target.value,
-              })
+              setDocumentType(
+                e.target.value
+              )
             }
-            className="w-full bg-slate-800 p-4 rounded-xl outline-none"
+            className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4"
           >
+
             <option>
-              Passport
+              PASSPORT
             </option>
 
             <option>
-              National ID
+              ID_CARD
             </option>
 
             <option>
-              Driving License
+              DRIVING_LICENSE
             </option>
+
           </select>
 
-          <input
-            type="text"
-            placeholder="Document Number"
-            required
-            value={
-              formData.documentNumber
-            }
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                documentNumber:
-                  e.target.value,
-              })
-            }
-            className="w-full bg-slate-800 p-4 rounded-xl outline-none"
-          />
+        </div>
+
+        {/* DOCUMENT IMAGE */}
+
+        <div>
+
+          <label className="block mb-2 text-gray-400">
+            Upload Document
+          </label>
 
           <input
             type="file"
@@ -212,17 +362,48 @@ const KYC = () => {
                 e.target.files[0]
               )
             }
-            className="w-full bg-slate-800 p-4 rounded-xl outline-none"
+            className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4"
           />
 
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 py-4 rounded-xl font-semibold"
-          >
-            Submit KYC
-          </button>
-        </form>
-      </div>
+        </div>
+
+        {/* SELFIE */}
+
+        <div>
+
+          <label className="block mb-2 text-gray-400">
+            Upload Selfie
+          </label>
+
+          <input
+            type="file"
+            required
+            onChange={(e) =>
+              setSelfieImage(
+                e.target.files[0]
+              )
+            }
+            className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4"
+          />
+
+        </div>
+
+        {/* BUTTON */}
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-yellow-500 hover:bg-yellow-600 transition py-4 rounded-xl font-bold"
+        >
+
+          {loading
+            ? "Submitting..."
+            : "Submit KYC"}
+
+        </button>
+
+      </form>
+
     </div>
   );
 };

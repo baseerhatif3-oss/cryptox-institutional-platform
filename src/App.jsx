@@ -23,6 +23,8 @@ import Wallet from "./pages/Wallet";
 
 import Transactions from "./pages/Transactions";
 
+import KYC from "./pages/KYC";
+
 import Navbar from "./components/Navbar";
 
 import RealtimeNotifications from "./components/RealtimeNotifications";
@@ -142,6 +144,23 @@ function App() {
               element={
                 token ? (
                   <Wallet />
+                ) : (
+                  <Navigate
+                    to="/login"
+                  />
+                )
+              }
+            />
+
+
+
+            {/* KYC */}
+
+            <Route
+              path="/kyc"
+              element={
+                token ? (
+                  <KYC />
                 ) : (
                   <Navigate
                     to="/login"
