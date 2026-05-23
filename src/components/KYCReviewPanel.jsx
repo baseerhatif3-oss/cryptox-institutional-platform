@@ -17,9 +17,12 @@ const KYCReviewPanel =
     const [loading, setLoading] =
       useState(true);
 
+    const [error, setError] =
+      useState("");
+
     /*
     ==========================================
-    FETCH KYC RECORDS
+    FETCH KYC
     ==========================================
     */
 
@@ -31,24 +34,43 @@ const KYCReviewPanel =
 
     const fetchKYC =
       async () => {
+
         try {
+
+          setError("");
 
           const res =
             await axios.get(
               `${API}/kyc/admin/all`
             );
 
-          setKycs(
+          console.log(
+            res.data
+          );
+
+          if (
+            res.data &&
             Array.isArray(
               res.data.kycs
             )
-              ? res.data.kycs
-              : []
+          ) {
+
+            setKycs(
+              res.data.kycs
+            );
+
+          } else {
+
+            setKycs([]);
+          }
+
+        } catch (err) {
+
+          console.log(err);
+
+          setError(
+            "Failed to load KYC records"
           );
-
-        } catch (error) {
-
-          console.log(error);
 
           setKycs([]);
 
@@ -66,6 +88,7 @@ const KYCReviewPanel =
 
     const approveKYC =
       async (id) => {
+
         try {
 
           await axios.post(
@@ -74,9 +97,9 @@ const KYCReviewPanel =
 
           fetchKYC();
 
-        } catch (error) {
+        } catch (err) {
 
-          console.log(error);
+          console.log(err);
         }
       };
 
@@ -107,9 +130,9 @@ const KYCReviewPanel =
 
           fetchKYC();
 
-        } catch (error) {
+        } catch (err) {
 
-          console.log(error);
+          console.log(err);
         }
       };
 
@@ -123,7 +146,22 @@ const KYCReviewPanel =
 
       return (
         <div className="bg-[#111] border border-gray-800 rounded-2xl p-6 text-white">
-          Loading KYC records...
+          Loading KYC...
+        </div>
+      );
+    }
+
+    /*
+    ==========================================
+    ERROR
+    ==========================================
+    */
+
+    if (error) {
+
+      return (
+        <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6 text-red-400">
+          {error}
         </div>
       );
     }
@@ -133,23 +171,15 @@ const KYCReviewPanel =
 
         {/* HEADER */}
 
-        <div className="flex items-center justify-between mb-6">
+        <div className="mb-8">
 
-          <div>
+          <h2 className="text-3xl font-bold">
+            KYC Review Panel
+          </h2>
 
-            <h2 className="text-3xl font-bold">
-              KYC Review Panel
-            </h2>
-
-            <p className="text-gray-400 mt-2">
-              Compliance verification queue
-            </p>
-
-          </div>
-
-          <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 px-4 py-2 rounded-xl text-sm">
-            ADMIN
-          </div>
+          <p className="text-gray-400 mt-2">
+            Compliance verification queue
+          </p>
 
         </div>
 
@@ -157,244 +187,120 @@ const KYCReviewPanel =
 
         {kycs.length === 0 && (
 
-          <div className="bg-black border border-gray-800 rounded-2xl p-6 text-gray-500">
+          <div className="text-gray-500">
             No KYC submissions found
           </div>
 
         )}
 
-        {/* KYC LIST */}
+        {/* LIST */}
 
         <div className="space-y-6">
 
-          {Array.isArray(
-            kycs
-          ) &&
-            kycs.map(
-              (kyc) => (
+          {kycs.map(
+            (kyc) => (
 
-                <div
-                  key={kyc._id}
-                  className="bg-black border border-gray-800 rounded-2xl p-6"
-                >
+              <div
+                key={kyc._id}
+                className="bg-black border border-gray-800 rounded-2xl p-6"
+              >
 
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="space-y-4">
 
-                    {/* LEFT SIDE */}
+                  <div>
 
-                    <div className="space-y-4">
+                    <p className="text-gray-400">
+                      User
+                    </p>
 
-                      <div>
-
-                        <p className="text-gray-400">
-                          User
-                        </p>
-
-                        <h3 className="text-xl font-bold mt-1">
-                          {kyc.user?.name ||
-                            "Unknown User"}
-                        </h3>
-
-                      </div>
-
-                      <div>
-
-                        <p className="text-gray-400">
-                          Email
-                        </p>
-
-                        <h3 className="mt-1">
-                          {kyc.user?.email ||
-                            "No Email"}
-                        </h3>
-
-                      </div>
-
-                      <div>
-
-                        <p className="text-gray-400">
-                          Full Name
-                        </p>
-
-                        <h3 className="mt-1">
-                          {
-                            kyc.fullName
-                          }
-                        </h3>
-
-                      </div>
-
-                      <div>
-
-                        <p className="text-gray-400">
-                          Country
-                        </p>
-
-                        <h3 className="mt-1">
-                          {
-                            kyc.country
-                          }
-                        </h3>
-
-                      </div>
-
-                      <div>
-
-                        <p className="text-gray-400">
-                          Document Type
-                        </p>
-
-                        <h3 className="mt-1">
-                          {
-                            kyc.documentType
-                          }
-                        </h3>
-
-                      </div>
-
-                      <div>
-
-                        <p className="text-gray-400">
-                          Status
-                        </p>
-
-                        <h3
-                          className={`mt-1 font-bold ${
-                            kyc.status ===
-                            "APPROVED"
-                              ? "text-green-400"
-                              : kyc.status ===
-                                "REJECTED"
-                              ? "text-red-400"
-                              : "text-yellow-400"
-                          }`}
-                        >
-                          {
-                            kyc.status
-                          }
-                        </h3>
-
-                      </div>
-
-                    </div>
-
-                    {/* RIGHT SIDE */}
-
-                    <div className="space-y-6">
-
-                      {/* DOCUMENT */}
-
-                      <div>
-
-                        <p className="text-gray-400 mb-3">
-                          Document
-                        </p>
-
-                        {kyc.documentImage ? (
-
-                          <img
-                            src={`https://crypto-backend-dojp.onrender.com/uploads/${kyc.documentImage}`}
-                            alt="document"
-                            className="w-full h-64 object-cover rounded-2xl border border-gray-800"
-                          />
-
-                        ) : (
-
-                          <div className="bg-[#111] border border-gray-800 rounded-2xl h-64 flex items-center justify-center text-gray-500">
-                            No document uploaded
-                          </div>
-
-                        )}
-
-                      </div>
-
-                      {/* SELFIE */}
-
-                      <div>
-
-                        <p className="text-gray-400 mb-3">
-                          Selfie
-                        </p>
-
-                        {kyc.selfieImage ? (
-
-                          <img
-                            src={`https://crypto-backend-dojp.onrender.com/uploads/${kyc.selfieImage}`}
-                            alt="selfie"
-                            className="w-full h-64 object-cover rounded-2xl border border-gray-800"
-                          />
-
-                        ) : (
-
-                          <div className="bg-[#111] border border-gray-800 rounded-2xl h-64 flex items-center justify-center text-gray-500">
-                            No selfie uploaded
-                          </div>
-
-                        )}
-
-                      </div>
-
-                    </div>
+                    <h3 className="text-xl font-bold mt-1">
+                      {
+                        kyc?.user
+                          ?.name ||
+                        "Unknown User"
+                      }
+                    </h3>
 
                   </div>
 
-                  {/* ACTIONS */}
+                  <div>
 
-                  {kyc.status ===
-                    "PENDING" && (
+                    <p className="text-gray-400">
+                      Email
+                    </p>
 
-                    <div className="flex gap-4 mt-8">
+                    <h3>
+                      {
+                        kyc?.user
+                          ?.email ||
+                        "No Email"
+                      }
+                    </h3>
 
-                      <button
-                        onClick={() =>
-                          approveKYC(
-                            kyc._id
-                          )
-                        }
-                        className="bg-green-500 hover:bg-green-600 transition px-6 py-3 rounded-xl font-bold"
-                      >
-                        Approve
-                      </button>
+                  </div>
 
-                      <button
-                        onClick={() =>
-                          rejectKYC(
-                            kyc._id
-                          )
-                        }
-                        className="bg-red-500 hover:bg-red-600 transition px-6 py-3 rounded-xl font-bold"
-                      >
-                        Reject
-                      </button>
+                  <div>
 
-                    </div>
+                    <p className="text-gray-400">
+                      Full Name
+                    </p>
 
-                  )}
+                    <h3>
+                      {
+                        kyc.fullName
+                      }
+                    </h3>
 
-                  {/* REJECTION REASON */}
+                  </div>
 
-                  {kyc.rejectionReason && (
+                  <div>
 
-                    <div className="mt-6 bg-red-500/10 border border-red-500/20 rounded-xl p-5">
+                    <p className="text-gray-400">
+                      Status
+                    </p>
 
-                      <p className="text-red-400">
-                        Rejection Reason:
-                      </p>
+                    <h3 className="text-yellow-400 font-bold">
+                      {
+                        kyc.status
+                      }
+                    </h3>
 
-                      <p className="mt-2">
-                        {
-                          kyc.rejectionReason
-                        }
-                      </p>
-
-                    </div>
-
-                  )}
+                  </div>
 
                 </div>
 
-              )
-            )}
+                {/* ACTIONS */}
+
+                <div className="flex gap-4 mt-6">
+
+                  <button
+                    onClick={() =>
+                      approveKYC(
+                        kyc._id
+                      )
+                    }
+                    className="bg-green-500 hover:bg-green-600 px-5 py-2 rounded-xl font-bold"
+                  >
+                    Approve
+                  </button>
+
+                  <button
+                    onClick={() =>
+                      rejectKYC(
+                        kyc._id
+                      )
+                    }
+                    className="bg-red-500 hover:bg-red-600 px-5 py-2 rounded-xl font-bold"
+                  >
+                    Reject
+                  </button>
+
+                </div>
+
+              </div>
+
+            )
+          )}
 
         </div>
 
