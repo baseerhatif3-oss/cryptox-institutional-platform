@@ -17,7 +17,8 @@ const Navbar = () => {
       )
     );
 
-
+  const isVerified =
+    user?.isVerified;
 
   /*
   ==========================================
@@ -38,10 +39,9 @@ const Navbar = () => {
     navigate("/login");
   };
 
-
-
   return (
-    <div className="border-b border-gray-800 bg-[#111]">
+
+    <nav className="border-b border-gray-900 bg-black sticky top-0 z-50">
 
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
@@ -49,16 +49,14 @@ const Navbar = () => {
 
         <Link
           to="/"
-          className="text-3xl font-bold text-yellow-400"
+          className="text-4xl font-black text-yellow-400"
         >
           CryptoX
         </Link>
 
-
-
         {/* NAVIGATION */}
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-6 text-sm font-semibold">
 
           <Link
             to="/"
@@ -67,16 +65,12 @@ const Navbar = () => {
             Dashboard
           </Link>
 
-
-
           <Link
             to="/spot"
             className="hover:text-yellow-400 transition"
           >
             Spot Trading
           </Link>
-
-
 
           <Link
             to="/futures"
@@ -85,16 +79,12 @@ const Navbar = () => {
             Futures
           </Link>
 
-
-
           <Link
             to="/wallet"
             className="hover:text-yellow-400 transition"
           >
             Wallet
           </Link>
-
-
 
           <Link
             to="/transactions"
@@ -103,7 +93,12 @@ const Navbar = () => {
             Transactions
           </Link>
 
-
+          <Link
+            to="/kyc"
+            className="hover:text-yellow-400 transition"
+          >
+            KYC
+          </Link>
 
           {user?.role ===
             "admin" && (
@@ -117,32 +112,44 @@ const Navbar = () => {
 
           )}
 
+        </div>
 
+        {/* RIGHT SIDE */}
+
+        <div className="flex items-center gap-4">
 
           {/* USER */}
 
-          <div className="flex items-center gap-4 ml-6">
+          <div className="flex items-center gap-2 bg-[#111] border border-gray-800 px-4 py-2 rounded-xl">
 
-            <div className="bg-black border border-gray-700 px-4 py-2 rounded-xl">
+            <span className="font-semibold">
               {user?.name}
-            </div>
+            </span>
 
+            {isVerified && (
 
+              <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded-full font-bold">
+                VERIFIED
+              </span>
 
-            <button
-              onClick={logout}
-              className="bg-red-500 hover:bg-red-600 transition px-5 py-2 rounded-xl font-semibold"
-            >
-              Logout
-            </button>
+            )}
 
           </div>
+
+          {/* LOGOUT */}
+
+          <button
+            onClick={logout}
+            className="bg-red-500 hover:bg-red-600 transition px-5 py-2 rounded-xl font-bold"
+          >
+            Logout
+          </button>
 
         </div>
 
       </div>
 
-    </div>
+    </nav>
   );
 };
 
