@@ -17,6 +17,8 @@ import Admin from "./pages/Admin";
 
 import SpotTrading from "./pages/SpotTrading";
 
+import Futures from "./pages/Futures";
+
 import Wallet from "./pages/Wallet";
 
 import Transactions from "./pages/Transactions";
@@ -91,13 +93,30 @@ function App() {
 
 
 
-            {/* SPOT TRADING */}
+            {/* SPOT */}
 
             <Route
               path="/spot"
               element={
                 token ? (
                   <SpotTrading />
+                ) : (
+                  <Navigate
+                    to="/login"
+                  />
+                )
+              }
+            />
+
+
+
+            {/* FUTURES */}
+
+            <Route
+              path="/futures"
+              element={
+                token ? (
+                  <Futures />
                 ) : (
                   <Navigate
                     to="/login"

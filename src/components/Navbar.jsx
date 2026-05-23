@@ -79,6 +79,15 @@ const Navbar = () => {
 
 
           <Link
+            to="/futures"
+            className="hover:text-yellow-400 transition"
+          >
+            Futures
+          </Link>
+
+
+
+          <Link
             to="/wallet"
             className="hover:text-yellow-400 transition"
           >

@@ -3,36 +3,30 @@ import React, {
   useState,
 } from "react";
 
-import {
-  AdvancedRealTimeChart,
-} from "react-ts-tradingview-widgets";
+import axios from "axios";
 
-import {
-  openPosition,
-  getPositions,
-} from "../services/futuresApi";
+const API =
+  "https://crypto-backend-dojp.onrender.com/api";
 
 const Futures = () => {
+
   const [symbol, setSymbol] =
     useState("BTCUSDT");
 
   const [side, setSide] =
     useState("LONG");
 
-  const [
-    leverage,
-    setLeverage,
-  ] = useState(10);
+  const [margin, setMargin] =
+    useState("");
 
-  const [
-    quantity,
-    setQuantity,
-  ] = useState("");
+  const [leverage, setLeverage] =
+    useState(10);
 
-  const [
-    positions,
-    setPositions,
-  ] = useState([]);
+  const [positions, setPositions] =
+    useState([]);
+
+  const [loading, setLoading] =
+    useState(false);
 
   const user =
     JSON.parse(
@@ -41,96 +35,154 @@ const Futures = () => {
       )
     );
 
+
+
+  /*
+  ==========================================
+  FETCH POSITIONS
+  ==========================================
+  */
+
   useEffect(() => {
     fetchPositions();
   }, []);
 
-  /* LOAD POSITIONS */
-
   const fetchPositions =
     async () => {
       try {
-        const data =
-          await getPositions(
-            user._id
+
+        const res =
+          await axios.get(
+            `${API}/futures/${user.id}`
           );
 
         setPositions(
-          data.positions
+          res.data.positions || []
         );
+
       } catch (error) {
+
         console.log(error);
       }
     };
 
-  /* OPEN POSITION */
 
-  const handleOpenPosition =
+
+  /*
+  ==========================================
+  OPEN POSITION
+  ==========================================
+  */
+
+  const openPosition =
     async () => {
       try {
-        await openPosition({
-          userId: user._id,
 
-          symbol,
+        setLoading(true);
 
-          side,
+        const res =
+          await axios.post(
+            `${API}/futures/open`,
+            {
+              userId:
+                user.id,
 
-          leverage,
+              symbol,
 
-          quantity,
-        });
+              side,
+
+              margin,
+
+              leverage,
+            }
+          );
 
         alert(
-          "Position Opened"
+          res.data.message
+        );
+
+        setMargin("");
+
+        fetchPositions();
+
+      } catch (error) {
+
+        console.log(error);
+
+        alert(
+          error.response?.data
+            ?.message ||
+            "Failed"
+        );
+
+      } finally {
+
+        setLoading(false);
+      }
+    };
+
+
+
+  /*
+  ==========================================
+  CLOSE POSITION
+  ==========================================
+  */
+
+  const closePosition =
+    async (id) => {
+      try {
+
+        await axios.post(
+          `${API}/futures/close/${id}`
         );
 
         fetchPositions();
-      } catch (error) {
-        console.log(error);
 
-        alert(
-          "Failed to open position"
-        );
+      } catch (error) {
+
+        console.log(error);
       }
     };
 
+
+
   return (
     <div className="space-y-6">
+
       {/* HEADER */}
 
       <div>
+
         <h1 className="text-4xl font-bold">
           Futures Trading
         </h1>
 
         <p className="text-gray-400 mt-2">
-          Trade perpetual futures
-          with leverage
+          Trade perpetual futures with leverage
         </p>
+
       </div>
 
-      {/* CHART */}
 
-      <div className="bg-[#111] border border-gray-800 rounded-2xl overflow-hidden">
-        <AdvancedRealTimeChart
-          theme="dark"
-          symbol={`BINANCE:${symbol}`}
-          height={500}
-        />
-      </div>
 
-      {/* TRADING PANEL */}
+      {/* FUTURES FORM */}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* ORDER FORM */}
+      <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
 
-        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-          <h2 className="text-2xl font-bold mb-6">
-            Open Position
-          </h2>
+        <h2 className="text-2xl font-bold mb-6">
+          Open Position
+        </h2>
 
-          <div className="space-y-4">
-            {/* SYMBOL */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          {/* SYMBOL */}
+
+          <div>
+
+            <label className="block mb-2 text-gray-400">
+              Trading Pair
+            </label>
 
             <select
               value={symbol}
@@ -139,8 +191,9 @@ const Futures = () => {
                   e.target.value
                 )
               }
-              className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3"
+              className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4"
             >
+
               <option>
                 BTCUSDT
               </option>
@@ -153,214 +206,246 @@ const Futures = () => {
                 SOLUSDT
               </option>
 
-              <option>
-                XRPUSDT
-              </option>
             </select>
 
-            {/* SIDE */}
+          </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <button
-                onClick={() =>
-                  setSide(
-                    "LONG"
-                  )
-                }
-                className={`py-3 rounded-xl font-bold ${
-                  side ===
-                  "LONG"
-                    ? "bg-green-500"
-                    : "bg-black border border-gray-700"
-                }`}
-              >
-                LONG
-              </button>
 
-              <button
-                onClick={() =>
-                  setSide(
-                    "SHORT"
-                  )
-                }
-                className={`py-3 rounded-xl font-bold ${
-                  side ===
-                  "SHORT"
-                    ? "bg-red-500"
-                    : "bg-black border border-gray-700"
-                }`}
-              >
-                SHORT
-              </button>
-            </div>
 
-            {/* LEVERAGE */}
+          {/* SIDE */}
 
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <p>
-                  Leverage
-                </p>
+          <div>
 
-                <p className="font-bold">
-                  {leverage}x
-                </p>
-              </div>
+            <label className="block mb-2 text-gray-400">
+              Position Side
+            </label>
 
-              <input
-                type="range"
-                min="1"
-                max="100"
-                value={
-                  leverage
-                }
-                onChange={(e) =>
-                  setLeverage(
-                    e.target.value
-                  )
-                }
-                className="w-full"
-              />
-            </div>
-
-            {/* QUANTITY */}
-
-            <input
-              type="number"
-              placeholder="Quantity"
-              value={quantity}
+            <select
+              value={side}
               onChange={(e) =>
-                setQuantity(
+                setSide(
                   e.target.value
                 )
               }
-              className="w-full bg-black border border-gray-700 rounded-xl px-4 py-3"
+              className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4"
+            >
+
+              <option>
+                LONG
+              </option>
+
+              <option>
+                SHORT
+              </option>
+
+            </select>
+
+          </div>
+
+
+
+          {/* MARGIN */}
+
+          <div>
+
+            <label className="block mb-2 text-gray-400">
+              Margin (USDT)
+            </label>
+
+            <input
+              type="number"
+              placeholder="100"
+              value={margin}
+              onChange={(e) =>
+                setMargin(
+                  e.target.value
+                )
+              }
+              className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4"
             />
 
-            {/* BUTTON */}
+          </div>
 
-            <button
-              onClick={
-                handleOpenPosition
+
+
+          {/* LEVERAGE */}
+
+          <div>
+
+            <label className="block mb-2 text-gray-400">
+              Leverage
+            </label>
+
+            <select
+              value={leverage}
+              onChange={(e) =>
+                setLeverage(
+                  e.target.value
+                )
               }
-              className={`w-full py-4 rounded-xl font-bold text-lg ${
-                side ===
-                "LONG"
-                  ? "bg-green-500 hover:bg-green-600"
-                  : "bg-red-500 hover:bg-red-600"
-              }`}
+              className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4"
             >
-              Open {side}
-            </button>
+
+              <option value={5}>
+                5x
+              </option>
+
+              <option value={10}>
+                10x
+              </option>
+
+              <option value={25}>
+                25x
+              </option>
+
+              <option value={50}>
+                50x
+              </option>
+
+            </select>
+
           </div>
+
         </div>
 
-        {/* OPEN POSITIONS */}
 
-        <div className="lg:col-span-2 bg-[#111] border border-gray-800 rounded-2xl p-6">
-          <h2 className="text-2xl font-bold mb-6">
-            Open Positions
-          </h2>
 
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-gray-800">
-                  <th className="text-left pb-4">
-                    Symbol
-                  </th>
+        {/* BUTTON */}
 
-                  <th className="text-left pb-4">
-                    Side
-                  </th>
+        <button
+          onClick={openPosition}
+          disabled={loading}
+          className="w-full mt-8 bg-yellow-500 hover:bg-yellow-600 transition py-4 rounded-xl text-black font-bold"
+        >
 
-                  <th className="text-left pb-4">
-                    Leverage
-                  </th>
+          {loading
+            ? "Opening..."
+            : "Open Position"}
 
-                  <th className="text-left pb-4">
-                    Entry
-                  </th>
+        </button>
 
-                  <th className="text-left pb-4">
-                    Margin
-                  </th>
-
-                  <th className="text-left pb-4">
-                    Liquidation
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {positions.map(
-                  (
-                    position
-                  ) => (
-                    <tr
-                      key={
-                        position._id
-                      }
-                      className="border-b border-gray-900"
-                    >
-                      <td className="py-4 font-bold">
-                        {
-                          position.symbol
-                        }
-                      </td>
-
-                      <td
-                        className={`py-4 font-bold ${
-                          position.side ===
-                          "LONG"
-                            ? "text-green-400"
-                            : "text-red-400"
-                        }`}
-                      >
-                        {
-                          position.side
-                        }
-                      </td>
-
-                      <td className="py-4">
-                        {
-                          position.leverage
-                        }
-                        x
-                      </td>
-
-                      <td className="py-4">
-                        $
-                        {
-                          position.entryPrice
-                        }
-                      </td>
-
-                      <td className="py-4">
-                        $
-                        {Number(
-                          position.margin
-                        ).toFixed(
-                          2
-                        )}
-                      </td>
-
-                      <td className="py-4 text-red-400">
-                        $
-                        {Number(
-                          position.liquidationPrice
-                        ).toFixed(
-                          2
-                        )}
-                      </td>
-                    </tr>
-                  )
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
       </div>
+
+
+
+      {/* POSITIONS */}
+
+      <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+
+        <h2 className="text-2xl font-bold mb-6">
+          Open Positions
+        </h2>
+
+        <div className="overflow-x-auto">
+
+          <table className="w-full">
+
+            <thead>
+
+              <tr className="border-b border-gray-800">
+
+                <th className="text-left py-4">
+                  Pair
+                </th>
+
+                <th className="text-left py-4">
+                  Side
+                </th>
+
+                <th className="text-left py-4">
+                  Margin
+                </th>
+
+                <th className="text-left py-4">
+                  Leverage
+                </th>
+
+                <th className="text-left py-4">
+                  Status
+                </th>
+
+                <th className="text-left py-4">
+                  Action
+                </th>
+
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              {positions.map(
+                (position) => (
+
+                  <tr
+                    key={position._id}
+                    className="border-b border-gray-900"
+                  >
+
+                    <td className="py-4">
+                      {
+                        position.symbol
+                      }
+                    </td>
+
+                    <td
+                      className={`py-4 font-bold ${
+                        position.side ===
+                        "LONG"
+                          ? "text-green-400"
+                          : "text-red-400"
+                      }`}
+                    >
+                      {
+                        position.side
+                      }
+                    </td>
+
+                    <td className="py-4">
+                      $
+                      {
+                        position.margin
+                      }
+                    </td>
+
+                    <td className="py-4">
+                      {
+                        position.leverage
+                      }x
+                    </td>
+
+                    <td className="py-4 text-yellow-400">
+                      OPEN
+                    </td>
+
+                    <td className="py-4">
+
+                      <button
+                        onClick={() =>
+                          closePosition(
+                            position._id
+                          )
+                        }
+                        className="bg-red-500 hover:bg-red-600 transition px-4 py-2 rounded-xl font-semibold"
+                      >
+                        Close
+                      </button>
+
+                    </td>
+
+                  </tr>
+
+                )
+              )}
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
     </div>
   );
 };
