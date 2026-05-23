@@ -3,21 +3,18 @@ import React, {
   useState,
 } from "react";
 
-import {
-  getWallet,
-  depositFunds,
-  withdrawFunds,
-} from "../services/walletApi";
+import axios from "axios";
+
+const API =
+  "https://crypto-backend-dojp.onrender.com/api";
 
 const Wallet = () => {
+
   const [wallet, setWallet] =
     useState(null);
 
-  const [asset, setAsset] =
-    useState("USDT");
-
-  const [amount, setAmount] =
-    useState("");
+  const [loading, setLoading] =
+    useState(true);
 
   const user =
     JSON.parse(
@@ -26,6 +23,14 @@ const Wallet = () => {
       )
     );
 
+
+
+  /*
+  ==========================================
+  FETCH WALLET
+  ==========================================
+  */
+
   useEffect(() => {
     fetchWallet();
   }, []);
@@ -33,194 +38,168 @@ const Wallet = () => {
   const fetchWallet =
     async () => {
       try {
-        const data =
-          await getWallet(
-            user._id
+
+        const res =
+          await axios.get(
+            `${API}/user/wallet/${user.id}`
           );
 
         setWallet(
-          data.wallet
+          res.data.wallet
         );
+
       } catch (error) {
+
         console.log(error);
+
+      } finally {
+
+        setLoading(false);
       }
     };
 
-  /* DEPOSIT */
 
-  const handleDeposit =
-    async () => {
-      try {
-        await depositFunds(
-          user._id,
-          asset,
-          amount
-        );
 
-        alert(
-          "Deposit Successful"
-        );
+  /*
+  ==========================================
+  LOADING
+  ==========================================
+  */
 
-        fetchWallet();
-      } catch (error) {
-        console.log(error);
-
-        alert(
-          "Deposit Failed"
-        );
-      }
-    };
-
-  /* WITHDRAW */
-
-  const handleWithdraw =
-    async () => {
-      try {
-        await withdrawFunds(
-          user._id,
-          asset,
-          amount
-        );
-
-        alert(
-          "Withdrawal Successful"
-        );
-
-        fetchWallet();
-      } catch (error) {
-        console.log(error);
-
-        alert(
-          "Withdrawal Failed"
-        );
-      }
-    };
-
-  if (!wallet) {
+  if (loading) {
     return (
-      <div>
-        Loading wallet...
+      <div className="text-2xl font-bold">
+        Loading Wallet...
       </div>
     );
   }
 
+
+
+  /*
+  ==========================================
+  NO WALLET
+  ==========================================
+  */
+
+  if (!wallet) {
+    return (
+      <div className="text-2xl font-bold text-red-400">
+        Wallet not found
+      </div>
+    );
+  }
+
+
+
   return (
     <div className="space-y-6">
+
       {/* HEADER */}
 
       <div>
+
         <h1 className="text-4xl font-bold">
           Wallet
         </h1>
 
         <p className="text-gray-400 mt-2">
-          Manage your assets and
-          balances
+          Manage your exchange assets
         </p>
+
       </div>
+
+
 
       {/* BALANCES */}
 
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+
         {Object.entries(
           wallet.balances
         ).map(
-          ([coin, value]) => (
+          ([coin, amount]) => (
+
             <div
               key={coin}
               className="bg-[#111] border border-gray-800 rounded-2xl p-5"
             >
+
               <p className="text-gray-400">
                 {coin}
               </p>
 
               <h2 className="text-3xl font-bold mt-3">
                 {Number(
-                  value
-                ).toFixed(4)}
+                  amount
+                ).toLocaleString()}
               </h2>
+
             </div>
+
           )
         )}
+
       </div>
 
-      {/* ACTION PANEL */}
+
+
+      {/* WALLET ADDRESSES */}
 
       <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+
         <h2 className="text-2xl font-bold mb-6">
-          Deposit / Withdraw
+          Deposit Addresses
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* ASSET */}
+        <div className="space-y-4">
 
-          <select
-            value={asset}
-            onChange={(e) =>
-              setAsset(
-                e.target.value
-              )
-            }
-            className="bg-black border border-gray-700 rounded-xl px-4 py-3"
-          >
-            <option>
-              USDT
-            </option>
+          {Object.entries(
+            wallet.wallets
+          ).map(
+            ([coin, address]) => (
 
-            <option>
-              BTC
-            </option>
+              <div
+                key={coin}
+                className="bg-black border border-gray-800 rounded-xl p-5"
+              >
 
-            <option>
-              ETH
-            </option>
+                <div className="flex items-center justify-between">
 
-            <option>
-              SOL
-            </option>
+                  <div>
 
-            <option>
-              XRP
-            </option>
-          </select>
+                    <p className="text-gray-400">
+                      {coin}
+                    </p>
 
-          {/* AMOUNT */}
+                    <p className="font-mono mt-2 break-all">
+                      {address}
+                    </p>
 
-          <input
-            type="number"
-            placeholder="Amount"
-            value={amount}
-            onChange={(e) =>
-              setAmount(
-                e.target.value
-              )
-            }
-            className="bg-black border border-gray-700 rounded-xl px-4 py-3"
-          />
+                  </div>
 
-          {/* BUTTONS */}
+                  <button
+                    onClick={() =>
+                      navigator.clipboard.writeText(
+                        address
+                      )
+                    }
+                    className="bg-yellow-500 hover:bg-yellow-600 transition px-4 py-2 rounded-xl text-black font-semibold"
+                  >
+                    Copy
+                  </button>
 
-          <div className="grid grid-cols-2 gap-3">
-            <button
-              onClick={
-                handleDeposit
-              }
-              className="bg-green-500 hover:bg-green-600 py-3 rounded-xl font-bold"
-            >
-              Deposit
-            </button>
+                </div>
 
-            <button
-              onClick={
-                handleWithdraw
-              }
-              className="bg-red-500 hover:bg-red-600 py-3 rounded-xl font-bold"
-            >
-              Withdraw
-            </button>
-          </div>
+              </div>
+
+            )
+          )}
+
         </div>
+
       </div>
+
     </div>
   );
 };

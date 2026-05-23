@@ -17,9 +17,12 @@ import Admin from "./pages/Admin";
 
 import SpotTrading from "./pages/SpotTrading";
 
+import Wallet from "./pages/Wallet";
+
 import Navbar from "./components/Navbar";
 
 function App() {
+
   const token =
     localStorage.getItem(
       "token"
@@ -34,17 +37,31 @@ function App() {
 
   return (
     <BrowserRouter>
+
       <div className="min-h-screen bg-black text-white">
+
+        {/* NAVBAR */}
+
         {token && <Navbar />}
 
+
+
+        {/* MAIN CONTENT */}
+
         <div className="max-w-7xl mx-auto p-6">
+
           <Routes>
-            {/* AUTH */}
+
+            {/* LOGIN */}
 
             <Route
               path="/login"
               element={<Login />}
             />
+
+
+
+            {/* REGISTER */}
 
             <Route
               path="/register"
@@ -52,6 +69,8 @@ function App() {
                 <Register />
               }
             />
+
+
 
             {/* DASHBOARD */}
 
@@ -68,6 +87,8 @@ function App() {
               }
             />
 
+
+
             {/* SPOT TRADING */}
 
             <Route
@@ -82,6 +103,25 @@ function App() {
                 )
               }
             />
+
+
+
+            {/* WALLET */}
+
+            <Route
+              path="/wallet"
+              element={
+                token ? (
+                  <Wallet />
+                ) : (
+                  <Navigate
+                    to="/login"
+                  />
+                )
+              }
+            />
+
+
 
             {/* ADMIN */}
 
@@ -99,9 +139,13 @@ function App() {
                 )
               }
             />
+
           </Routes>
+
         </div>
+
       </div>
+
     </BrowserRouter>
   );
 }

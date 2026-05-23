@@ -17,9 +17,13 @@ const Navbar = () => {
       )
     );
 
-  /* =========================
-     LOGOUT
-  ========================= */
+
+
+  /*
+  ==========================================
+  LOGOUT
+  ==========================================
+  */
 
   const logout = () => {
 
@@ -33,6 +37,8 @@ const Navbar = () => {
 
     navigate("/login");
   };
+
+
 
   return (
     <div className="border-b border-gray-800 bg-[#111]">
@@ -48,6 +54,8 @@ const Navbar = () => {
           CryptoX
         </Link>
 
+
+
         {/* NAVIGATION */}
 
         <div className="flex items-center gap-6">
@@ -59,6 +67,8 @@ const Navbar = () => {
             Dashboard
           </Link>
 
+
+
           <Link
             to="/spot"
             className="hover:text-yellow-400 transition"
@@ -66,15 +76,30 @@ const Navbar = () => {
             Spot Trading
           </Link>
 
+
+
+          <Link
+            to="/wallet"
+            className="hover:text-yellow-400 transition"
+          >
+            Wallet
+          </Link>
+
+
+
           {user?.role ===
             "admin" && (
+
             <Link
               to="/admin"
               className="hover:text-yellow-400 transition"
             >
               Admin
             </Link>
+
           )}
+
+
 
           {/* USER */}
 
@@ -83,6 +108,8 @@ const Navbar = () => {
             <div className="bg-black border border-gray-700 px-4 py-2 rounded-xl">
               {user?.name}
             </div>
+
+
 
             <button
               onClick={logout}
