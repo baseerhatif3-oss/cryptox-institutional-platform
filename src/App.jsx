@@ -7,145 +7,101 @@ import {
   Navigate,
 } from "react-router-dom";
 
-/* =========================
-   LAYOUT
-========================= */
-
-import DashboardLayout from "./layouts/DashboardLayout";
-
-/* =========================
-   AUTH PAGES
-========================= */
+import Dashboard from "./pages/Dashboard";
 
 import Login from "./pages/Login";
 
 import Register from "./pages/Register";
 
-/* =========================
-   MAIN PAGES
-========================= */
-
-import Dashboard from "./pages/Dashboard";
-
-import Trading from "./pages/Trading";
-
-import Futures from "./pages/Futures";
-
-import Wallet from "./pages/Wallet";
-
-import Transactions from "./pages/Transactions";
-
 import Admin from "./pages/Admin";
 
-import Profile from "./pages/Profile";
+import SpotTrading from "./pages/SpotTrading";
 
-/* =========================
-   APP
-========================= */
+import Navbar from "./components/Navbar";
 
 function App() {
+  const token =
+    localStorage.getItem(
+      "token"
+    );
+
+  const user =
+    JSON.parse(
+      localStorage.getItem(
+        "user"
+      )
+    );
+
   return (
     <BrowserRouter>
-      <Routes>
-        {/* =========================
-            AUTH ROUTES
-        ========================= */}
+      <div className="min-h-screen bg-black text-white">
+        {token && <Navbar />}
 
-        <Route
-          path="/login"
-          element={<Login />}
-        />
+        <div className="max-w-7xl mx-auto p-6">
+          <Routes>
+            {/* AUTH */}
 
-        <Route
-          path="/register"
-          element={<Register />}
-        />
+            <Route
+              path="/login"
+              element={<Login />}
+            />
 
-        {/* =========================
-            DASHBOARD LAYOUT
-        ========================= */}
+            <Route
+              path="/register"
+              element={
+                <Register />
+              }
+            />
 
-        <Route
-          path="/"
-          element={
-            <DashboardLayout />
-          }
-        >
-          {/* DASHBOARD */}
+            {/* DASHBOARD */}
 
-          <Route
-            index
-            element={
-              <Dashboard />
-            }
-          />
+            <Route
+              path="/"
+              element={
+                token ? (
+                  <Dashboard />
+                ) : (
+                  <Navigate
+                    to="/login"
+                  />
+                )
+              }
+            />
 
-          {/* SPOT TRADING */}
+            {/* SPOT TRADING */}
 
-          <Route
-            path="trading"
-            element={
-              <Trading />
-            }
-          />
+            <Route
+              path="/spot"
+              element={
+                token ? (
+                  <SpotTrading />
+                ) : (
+                  <Navigate
+                    to="/login"
+                  />
+                )
+              }
+            />
 
-          {/* FUTURES */}
+            {/* ADMIN */}
 
-          <Route
-            path="futures"
-            element={
-              <Futures />
-            }
-          />
-
-          {/* WALLET */}
-
-          <Route
-            path="wallet"
-            element={
-              <Wallet />
-            }
-          />
-
-          {/* TRANSACTIONS */}
-
-          <Route
-            path="transactions"
-            element={
-              <Transactions />
-            }
-          />
-
-          {/* ADMIN */}
-
-          <Route
-            path="admin"
-            element={
-              <Admin />
-            }
-          />
-
-          {/* PROFILE */}
-
-          <Route
-            path="profile"
-            element={
-              <Profile />
-            }
-          />
-        </Route>
-
-        {/* =========================
-            FALLBACK
-        ========================= */}
-
-        <Route
-          path="*"
-          element={
-            <Navigate to="/" />
-          }
-        />
-      </Routes>
+            <Route
+              path="/admin"
+              element={
+                token &&
+                user?.role ===
+                  "admin" ? (
+                  <Admin />
+                ) : (
+                  <Navigate
+                    to="/"
+                  />
+                )
+              }
+            />
+          </Routes>
+        </div>
+      </div>
     </BrowserRouter>
   );
 }
