@@ -19,6 +19,8 @@ import SpotTrading from "./pages/SpotTrading";
 
 import Wallet from "./pages/Wallet";
 
+import Transactions from "./pages/Transactions";
+
 import Navbar from "./components/Navbar";
 
 function App() {
@@ -113,6 +115,23 @@ function App() {
               element={
                 token ? (
                   <Wallet />
+                ) : (
+                  <Navigate
+                    to="/login"
+                  />
+                )
+              }
+            />
+
+
+
+            {/* TRANSACTIONS */}
+
+            <Route
+              path="/transactions"
+              element={
+                token ? (
+                  <Transactions />
                 ) : (
                   <Navigate
                     to="/login"

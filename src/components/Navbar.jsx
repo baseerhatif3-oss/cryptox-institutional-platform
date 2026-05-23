@@ -87,6 +87,15 @@ const Navbar = () => {
 
 
 
+          <Link
+            to="/transactions"
+            className="hover:text-yellow-400 transition"
+          >
+            Transactions
+          </Link>
+
+
+
           {user?.role ===
             "admin" && (
 
