@@ -7,164 +7,126 @@ import socket from "../services/socket";
 
 const OrderBook = () => {
 
-  const [bids, setBids] =
+  const [buyOrders, setBuyOrders] =
     useState([]);
 
-  const [asks, setAsks] =
-    useState([]);
-
-
-
+  const [
+    sellOrders,
+    setSellOrders,
+  ] = useState([]);
 
   /*
   ==========================================
-  SOCKET ORDERBOOK
+  SOCKET LISTENERS
   ==========================================
   */
 
   useEffect(() => {
 
     socket.on(
-      "marketUpdate",
-      (markets) => {
+      "orderBookUpdate",
 
-        const btc =
-          markets.find(
-            (m) =>
-              m.symbol ===
-              "BTCUSDT"
-          );
+      (data) => {
 
-        if (!btc) return;
-
-        const price =
-          btc.price;
-
-        /*
-        ==========================================
-        GENERATE FAKE DEPTH
-        ==========================================
-        */
-
-        const generatedBids =
-          Array.from({
-            length: 12,
-          }).map(
-            (_, index) => ({
-              price:
-                (
-                  price -
-                  index * 15
-                ).toFixed(2),
-
-              amount:
-                (
-                  Math.random() *
-                  5
-                ).toFixed(4),
-            })
-          );
-
-        const generatedAsks =
-          Array.from({
-            length: 12,
-          }).map(
-            (_, index) => ({
-              price:
-                (
-                  price +
-                  index * 15
-                ).toFixed(2),
-
-              amount:
-                (
-                  Math.random() *
-                  5
-                ).toFixed(4),
-            })
-          );
-
-        setBids(
-          generatedBids
+        setBuyOrders(
+          data.buyOrders || []
         );
 
-        setAsks(
-          generatedAsks
+        setSellOrders(
+          data.sellOrders || []
         );
       }
     );
 
     return () => {
+
       socket.off(
-        "marketUpdate"
+        "orderBookUpdate"
       );
     };
 
   }, []);
 
-
-
-
   return (
     <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+
+      {/* HEADER */}
 
       <div className="flex items-center justify-between mb-6">
 
         <div>
 
           <h2 className="text-2xl font-bold">
-            Order Book
+            Live Order Book
           </h2>
 
-          <p className="text-gray-400 mt-2">
-            Live BTCUSDT market depth
+          <p className="text-gray-400 mt-1">
+            Realtime market depth
           </p>
 
         </div>
 
-        <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 px-4 py-2 rounded-xl text-sm">
+        <div className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-2 rounded-xl text-sm">
           LIVE
         </div>
 
       </div>
 
-
+      {/* TABLE */}
 
       <div className="grid grid-cols-2 gap-6">
 
-        {/* BIDS */}
+        {/* BUY ORDERS */}
 
         <div>
 
           <h3 className="text-green-400 font-bold mb-4">
-            Bids
+            BUY ORDERS
           </h3>
 
-          <div className="space-y-2">
+          <div className="space-y-3">
 
-            {bids.map(
+            {buyOrders.length === 0 && (
+
+              <div className="text-gray-500">
+                No buy orders
+              </div>
+
+            )}
+
+            {buyOrders.map(
               (
-                bid,
+                order,
                 index
               ) => (
 
                 <div
                   key={index}
-                  className="flex items-center justify-between bg-black border border-gray-900 rounded-xl px-4 py-3"
+                  className="bg-black border border-gray-800 rounded-xl px-4 py-3 flex items-center justify-between"
                 >
 
-                  <span className="text-green-400 font-semibold">
-                    $
-                    {
-                      bid.price
-                    }
-                  </span>
+                  <div>
 
-                  <span className="text-gray-300">
-                    {
-                      bid.amount
-                    }
-                  </span>
+                    <p className="font-bold">
+                      $
+                      {Number(
+                        order.price
+                      ).toLocaleString()}
+                    </p>
+
+                    <p className="text-gray-500 text-sm">
+                      Qty:
+                      {" "}
+                      {
+                        order.quantity
+                      }
+                    </p>
+
+                  </div>
+
+                  <div className="text-green-400 font-bold">
+                    BUY
+                  </div>
 
                 </div>
 
@@ -175,41 +137,57 @@ const OrderBook = () => {
 
         </div>
 
-
-
-        {/* ASKS */}
+        {/* SELL ORDERS */}
 
         <div>
 
           <h3 className="text-red-400 font-bold mb-4">
-            Asks
+            SELL ORDERS
           </h3>
 
-          <div className="space-y-2">
+          <div className="space-y-3">
 
-            {asks.map(
+            {sellOrders.length === 0 && (
+
+              <div className="text-gray-500">
+                No sell orders
+              </div>
+
+            )}
+
+            {sellOrders.map(
               (
-                ask,
+                order,
                 index
               ) => (
 
                 <div
                   key={index}
-                  className="flex items-center justify-between bg-black border border-gray-900 rounded-xl px-4 py-3"
+                  className="bg-black border border-gray-800 rounded-xl px-4 py-3 flex items-center justify-between"
                 >
 
-                  <span className="text-red-400 font-semibold">
-                    $
-                    {
-                      ask.price
-                    }
-                  </span>
+                  <div>
 
-                  <span className="text-gray-300">
-                    {
-                      ask.amount
-                    }
-                  </span>
+                    <p className="font-bold">
+                      $
+                      {Number(
+                        order.price
+                      ).toLocaleString()}
+                    </p>
+
+                    <p className="text-gray-500 text-sm">
+                      Qty:
+                      {" "}
+                      {
+                        order.quantity
+                      }
+                    </p>
+
+                  </div>
+
+                  <div className="text-red-400 font-bold">
+                    SELL
+                  </div>
 
                 </div>
 
