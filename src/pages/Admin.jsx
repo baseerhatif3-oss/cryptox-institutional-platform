@@ -6,6 +6,7 @@ import React, {
 import axios from "axios";
 
 const Admin = () => {
+
   const [users, setUsers] =
     useState([]);
 
@@ -17,6 +18,32 @@ const Admin = () => {
       totalRevenue: 0,
     });
 
+
+
+  /*
+  ==========================================
+  TOKEN
+  ==========================================
+  */
+
+  const token =
+    localStorage.getItem(
+      "token"
+    );
+
+  const headers = {
+    Authorization:
+      `Bearer ${token}`,
+  };
+
+
+
+  /*
+  ==========================================
+  FETCH DATA
+  ==========================================
+  */
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -27,13 +54,16 @@ const Admin = () => {
 
         /*
         ==========================================
-        FETCH USERS
+        USERS
         ==========================================
         */
 
         const usersRes =
           await axios.get(
-            "https://crypto-backend-dojp.onrender.com/api/admin/users"
+            "https://crypto-backend-dojp.onrender.com/api/admin/users",
+            {
+              headers,
+            }
           );
 
         setUsers(
@@ -45,13 +75,16 @@ const Admin = () => {
 
         /*
         ==========================================
-        FETCH STATS
+        STATS
         ==========================================
         */
 
         const statsRes =
           await axios.get(
-            "https://crypto-backend-dojp.onrender.com/api/admin/stats"
+            "https://crypto-backend-dojp.onrender.com/api/admin/stats",
+            {
+              headers,
+            }
           );
 
         setStats(
@@ -78,7 +111,11 @@ const Admin = () => {
       try {
 
         await axios.post(
-          `https://crypto-backend-dojp.onrender.com/api/admin/freeze/${id}`
+          `https://crypto-backend-dojp.onrender.com/api/admin/freeze/${id}`,
+          {},
+          {
+            headers,
+          }
         );
 
         fetchData();
@@ -102,7 +139,11 @@ const Admin = () => {
       try {
 
         await axios.post(
-          `https://crypto-backend-dojp.onrender.com/api/admin/unfreeze/${id}`
+          `https://crypto-backend-dojp.onrender.com/api/admin/unfreeze/${id}`,
+          {},
+          {
+            headers,
+          }
         );
 
         fetchData();
@@ -121,6 +162,7 @@ const Admin = () => {
       {/* HEADER */}
 
       <div>
+
         <h1 className="text-4xl font-bold">
           Admin Panel
         </h1>
@@ -128,6 +170,7 @@ const Admin = () => {
         <p className="text-gray-400 mt-2">
           Exchange management dashboard
         </p>
+
       </div>
 
 
@@ -137,6 +180,7 @@ const Admin = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
 
         <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+
           <p className="text-gray-400">
             Total Users
           </p>
@@ -146,9 +190,13 @@ const Admin = () => {
               stats.totalUsers || 0
             }
           </h2>
+
         </div>
 
+
+
         <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+
           <p className="text-gray-400">
             Trades
           </p>
@@ -158,38 +206,52 @@ const Admin = () => {
               stats.totalTrades || 0
             }
           </h2>
+
         </div>
 
+
+
         <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+
           <p className="text-gray-400">
             Trading Volume
           </p>
 
           <h2 className="text-4xl font-bold mt-3">
+
             $
             {Number(
               stats.totalVolume || 0
             ).toFixed(2)}
+
           </h2>
+
         </div>
 
+
+
         <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+
           <p className="text-gray-400">
             Exchange Revenue
           </p>
 
           <h2 className="text-4xl font-bold mt-3 text-green-400">
+
             $
             {Number(
               stats.totalRevenue || 0
             ).toFixed(2)}
+
           </h2>
+
         </div>
+
       </div>
 
 
 
-      {/* USERS TABLE */}
+      {/* USERS */}
 
       <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
 
@@ -233,6 +295,7 @@ const Admin = () => {
 
               {users.map(
                 (user) => (
+
                   <tr
                     key={
                       user._id
@@ -255,21 +318,27 @@ const Admin = () => {
                     <td className="py-4">
 
                       {user.isFrozen ? (
+
                         <span className="text-red-400">
                           Frozen
                         </span>
+
                       ) : (
+
                         <span className="text-green-400">
                           Active
                         </span>
+
                       )}
 
                     </td>
 
                     <td className="py-4">
+
                       {new Date(
                         user.createdAt
                       ).toLocaleDateString()}
+
                     </td>
 
                     <td className="py-4">
@@ -305,6 +374,7 @@ const Admin = () => {
                     </td>
 
                   </tr>
+
                 )
               )}
 
@@ -313,7 +383,9 @@ const Admin = () => {
           </table>
 
         </div>
+
       </div>
+
     </div>
   );
 };
