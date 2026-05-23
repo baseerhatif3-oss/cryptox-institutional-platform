@@ -3,7 +3,7 @@ import React from "react";
 import {
   BrowserRouter,
   Routes,
- Route,
+  Route,
   Navigate,
 } from "react-router-dom";
 
@@ -29,6 +29,10 @@ import Wallet from "./pages/Wallet";
 
 import Transactions from "./pages/Transactions";
 
+import Analytics from "./pages/Analytics";
+
+import Settings from "./pages/Settings";
+
 import Admin from "./pages/Admin";
 
 import Login from "./pages/Login";
@@ -36,8 +40,6 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 
 import KYC from "./pages/KYC";
-
-import Settings from "./pages/Settings";
 
 /*
 ==========================================
@@ -70,7 +72,7 @@ function App() {
 
     <BrowserRouter>
 
-      {/* PREMIUM TOASTS */}
+      {/* TOASTER */}
 
       <Toaster
         position="top-right"
@@ -99,7 +101,7 @@ function App() {
 
       <div className="min-h-screen bg-black text-white overflow-x-hidden flex flex-col">
 
-        {/* BACKGROUND EFFECT */}
+        {/* BACKGROUND */}
 
         <div className="fixed inset-0 -z-10">
 
@@ -113,11 +115,11 @@ function App() {
 
         <Navbar />
 
-        {/* LIVE PRICE TICKER */}
+        {/* LIVE TICKER */}
 
         <PriceTicker />
 
-        {/* MAIN CONTENT */}
+        {/* MAIN */}
 
         <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-10 pb-28 lg:pb-10">
 
@@ -207,6 +209,19 @@ function App() {
               }
             />
 
+            {/* ANALYTICS */}
+
+            <Route
+              path="/analytics"
+              element={
+                <ProtectedRoute>
+
+                  <Analytics />
+
+                </ProtectedRoute>
+              }
+            />
+
             {/* SETTINGS */}
 
             <Route
@@ -254,7 +269,7 @@ function App() {
 
         <Footer />
 
-        {/* MOBILE NAVIGATION */}
+        {/* MOBILE NAV */}
 
         <MobileBottomNav />
 

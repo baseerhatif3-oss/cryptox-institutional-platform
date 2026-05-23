@@ -7,272 +7,311 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  CartesianGrid,
-  PieChart,
-  Pie,
-  Cell,
+  AreaChart,
+  Area,
 } from "recharts";
 
-const Analytics =
-  () => {
-    const performanceData = [
-      {
-        day: "Mon",
-        equity: 12000,
-      },
+const Analytics = () => {
 
-      {
-        day: "Tue",
-        equity: 12800,
-      },
+  /*
+  ==========================================
+  PORTFOLIO DATA
+  ==========================================
+  */
 
-      {
-        day: "Wed",
-        equity: 12400,
-      },
+  const portfolioData = [
 
-      {
-        day: "Thu",
-        equity: 13800,
-      },
+    {
+      month: "Jan",
+      value: 12000,
+    },
 
-      {
-        day: "Fri",
-        equity: 14900,
-      },
+    {
+      month: "Feb",
+      value: 14800,
+    },
 
-      {
-        day: "Sat",
-        equity: 15400,
-      },
+    {
+      month: "Mar",
+      value: 17200,
+    },
 
-      {
-        day: "Sun",
-        equity: 17200,
-      },
-    ];
+    {
+      month: "Apr",
+      value: 16800,
+    },
 
-    const allocationData = [
-      {
-        name: "BTC",
-        value: 45,
-      },
+    {
+      month: "May",
+      value: 21900,
+    },
 
-      {
-        name: "ETH",
-        value: 25,
-      },
+    {
+      month: "Jun",
+      value: 24820,
+    },
+  ];
 
-      {
-        name: "SOL",
-        value: 15,
-      },
+  /*
+  ==========================================
+  PNL DATA
+  ==========================================
+  */
 
-      {
-        name: "USDT",
-        value: 15,
-      },
-    ];
+  const pnlData = [
 
-    const COLORS = [
-      "#facc15",
-      "#22c55e",
-      "#3b82f6",
-      "#ef4444",
-    ];
+    {
+      day: "Mon",
+      pnl: 420,
+    },
 
-    return (
-      <div className="space-y-6">
-        {/* HEADER */}
+    {
+      day: "Tue",
+      pnl: 280,
+    },
+
+    {
+      day: "Wed",
+      pnl: 690,
+    },
+
+    {
+      day: "Thu",
+      pnl: 510,
+    },
+
+    {
+      day: "Fri",
+      pnl: 920,
+    },
+
+    {
+      day: "Sat",
+      pnl: 740,
+    },
+  ];
+
+  return (
+
+    <div className="space-y-10">
+
+      {/* HEADER */}
+
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
         <div>
-          <h1 className="text-3xl font-bold">
-            Portfolio Analytics
+
+          <h1 className="text-5xl font-black">
+            Analytics
           </h1>
 
-          <p className="text-gray-400 mt-2">
-            Professional trader performance dashboard
+          <p className="text-gray-400 text-lg mt-3">
+            Portfolio performance and trading statistics
           </p>
+
         </div>
 
-        {/* STATS */}
-
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-          <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-            <p className="text-gray-400">
-              Total PnL
-            </p>
-
-            <h2 className="text-3xl font-bold text-green-400 mt-3">
-              +$5,420
-            </h2>
-          </div>
-
-          <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-            <p className="text-gray-400">
-              Win Rate
-            </p>
-
-            <h2 className="text-3xl font-bold text-yellow-400 mt-3">
-              78%
-            </h2>
-          </div>
-
-          <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-            <p className="text-gray-400">
-              Total Trades
-            </p>
-
-            <h2 className="text-3xl font-bold mt-3">
-              248
-            </h2>
-          </div>
-
-          <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-            <p className="text-gray-400">
-              Best Trade
-            </p>
-
-            <h2 className="text-3xl font-bold text-green-400 mt-3">
-              +$2,140
-            </h2>
-          </div>
+        <div className="bg-blue-500/10 border border-blue-500/20 text-blue-400 px-5 py-3 rounded-2xl font-bold">
+          LIVE ANALYTICS
         </div>
 
-        {/* CHARTS */}
+      </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-          {/* EQUITY CURVE */}
+      {/* STATS */}
 
-          <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-            <h2 className="text-2xl font-bold mb-6">
-              Equity Curve
-            </h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
 
-            <div className="h-[350px]">
-              <ResponsiveContainer
-                width="100%"
-                height="100%"
-              >
-                <LineChart
-                  data={
-                    performanceData
-                  }
-                >
-                  <CartesianGrid
-                    strokeDasharray="3 3"
-                    stroke="#333"
-                  />
+        <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
 
-                  <XAxis
-                    dataKey="day"
-                    stroke="#999"
-                  />
+          <p className="text-gray-400">
+            Portfolio Value
+          </p>
 
-                  <YAxis
-                    stroke="#999"
-                  />
-
-                  <Tooltip />
-
-                  <Line
-                    type="monotone"
-                    dataKey="equity"
-                    stroke="#facc15"
-                    strokeWidth={3}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* ALLOCATION */}
-
-          <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-            <h2 className="text-2xl font-bold mb-6">
-              Portfolio Allocation
-            </h2>
-
-            <div className="h-[350px]">
-              <ResponsiveContainer
-                width="100%"
-                height="100%"
-              >
-                <PieChart>
-                  <Pie
-                    data={
-                      allocationData
-                    }
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={120}
-                    dataKey="value"
-                    label
-                  >
-                    {allocationData.map(
-                      (
-                        entry,
-                        index
-                      ) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={
-                            COLORS[
-                              index %
-                                COLORS.length
-                            ]
-                          }
-                        />
-                      )
-                    )}
-                  </Pie>
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-        </div>
-
-        {/* TRADE ANALYTICS */}
-
-        <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
-          <h2 className="text-2xl font-bold mb-6">
-            Trading Statistics
+          <h2 className="text-5xl font-black mt-4">
+            $24.8K
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-black rounded-xl p-5 border border-gray-800">
-              <p className="text-gray-400">
-                Average Profit
-              </p>
-
-              <h3 className="text-2xl font-bold text-green-400 mt-3">
-                +$182
-              </h3>
-            </div>
-
-            <div className="bg-black rounded-xl p-5 border border-gray-800">
-              <p className="text-gray-400">
-                Average Loss
-              </p>
-
-              <h3 className="text-2xl font-bold text-red-400 mt-3">
-                -$64
-              </h3>
-            </div>
-
-            <div className="bg-black rounded-xl p-5 border border-gray-800">
-              <p className="text-gray-400">
-                Profit Factor
-              </p>
-
-              <h3 className="text-2xl font-bold text-yellow-400 mt-3">
-                2.84
-              </h3>
-            </div>
-          </div>
         </div>
+
+        <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
+
+          <p className="text-gray-400">
+            Monthly Profit
+          </p>
+
+          <h2 className="text-5xl font-black mt-4 text-green-400">
+            +18.4%
+          </h2>
+
+        </div>
+
+        <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
+
+          <p className="text-gray-400">
+            Win Rate
+          </p>
+
+          <h2 className="text-5xl font-black mt-4">
+            72%
+          </h2>
+
+        </div>
+
+        <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
+
+          <p className="text-gray-400">
+            Total Trades
+          </p>
+
+          <h2 className="text-5xl font-black mt-4">
+            842
+          </h2>
+
+        </div>
+
       </div>
-    );
-  };
+
+      {/* CHARTS */}
+
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+
+        {/* PORTFOLIO */}
+
+        <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
+
+          <div className="mb-8">
+
+            <h2 className="text-3xl font-black">
+              Portfolio Growth
+            </h2>
+
+            <p className="text-gray-400 mt-2">
+              6 month account performance
+            </p>
+
+          </div>
+
+          <div className="h-[350px]">
+
+            <ResponsiveContainer
+              width="100%"
+              height="100%"
+            >
+
+              <AreaChart
+                data={portfolioData}
+              >
+
+                <defs>
+
+                  <linearGradient
+                    id="colorValue"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+
+                    <stop
+                      offset="0%"
+                      stopColor="#facc15"
+                      stopOpacity={0.8}
+                    />
+
+                    <stop
+                      offset="100%"
+                      stopColor="#facc15"
+                      stopOpacity={0}
+                    />
+
+                  </linearGradient>
+
+                </defs>
+
+                <XAxis
+                  dataKey="month"
+                  stroke="#666"
+                />
+
+                <YAxis
+                  stroke="#666"
+                />
+
+                <Tooltip />
+
+                <Area
+                  type="monotone"
+                  dataKey="value"
+                  stroke="#facc15"
+                  fillOpacity={1}
+                  fill="url(#colorValue)"
+                />
+
+              </AreaChart>
+
+            </ResponsiveContainer>
+
+          </div>
+
+        </div>
+
+        {/* PNL */}
+
+        <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
+
+          <div className="mb-8">
+
+            <h2 className="text-3xl font-black">
+              Weekly PNL
+            </h2>
+
+            <p className="text-gray-400 mt-2">
+              Trading performance overview
+            </p>
+
+          </div>
+
+          <div className="h-[350px]">
+
+            <ResponsiveContainer
+              width="100%"
+              height="100%"
+            >
+
+              <LineChart
+                data={pnlData}
+              >
+
+                <XAxis
+                  dataKey="day"
+                  stroke="#666"
+                />
+
+                <YAxis
+                  stroke="#666"
+                />
+
+                <Tooltip />
+
+                <Line
+                  type="monotone"
+                  dataKey="pnl"
+                  stroke="#22c55e"
+                  strokeWidth={4}
+                />
+
+              </LineChart>
+
+            </ResponsiveContainer>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  );
+};
 
 export default Analytics;

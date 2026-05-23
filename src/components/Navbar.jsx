@@ -18,6 +18,8 @@ import {
   AnimatePresence,
 } from "framer-motion";
 
+import NotificationCenter from "./NotificationCenter";
+
 const Navbar = () => {
 
   const navigate =
@@ -109,6 +111,14 @@ const Navbar = () => {
 
       path:
         "/transactions",
+    },
+
+    {
+      name:
+        "Analytics",
+
+      path:
+        "/analytics",
     },
 
     {
@@ -231,11 +241,13 @@ const Navbar = () => {
 
           )}
 
-          {/* RIGHT SIDE */}
+          {/* RIGHT */}
 
           {token ? (
 
             <div className="hidden lg:flex items-center gap-4">
+
+              <NotificationCenter />
 
               <div className="flex items-center gap-3 px-4 py-2 rounded-2xl bg-white/5 border border-white/10">
 
