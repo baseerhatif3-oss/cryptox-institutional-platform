@@ -7,7 +7,7 @@ import {
 
 import {
   FaHome,
-  FaRobot,
+  FaUsers,
   FaWallet,
   FaChartLine,
   FaCog,
@@ -43,13 +43,13 @@ const MobileBottomNav = () => {
 
     {
       name:
-        "AI",
+        "Community",
 
       icon:
-        <FaRobot />,
+        <FaUsers />,
 
       path:
-        "/ai-portfolio",
+        "/community",
     },
 
     {

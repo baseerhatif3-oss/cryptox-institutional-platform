@@ -76,6 +76,14 @@ const Navbar = () => {
 
     {
       name:
+        "Community",
+
+      path:
+        "/community",
+    },
+
+    {
+      name:
         "AI Portfolio",
 
       path:

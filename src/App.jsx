@@ -27,6 +27,8 @@ import Academy from "./pages/Academy";
 
 import Rewards from "./pages/Rewards";
 
+import Community from "./pages/Community";
+
 import AIPortfolio from "./pages/AIPortfolio";
 
 import Portfolio from "./pages/Portfolio";
@@ -171,6 +173,15 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Rewards />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/community"
+              element={
+                <ProtectedRoute>
+                  <Community />
                 </ProtectedRoute>
               }
             />
