@@ -41,6 +41,8 @@ import Launchpad from "./pages/Launchpad";
 
 import News from "./pages/News";
 
+import AISignals from "./pages/AISignals";
+
 import VIP from "./pages/VIP";
 
 import Referral from "./pages/Referral";
@@ -198,6 +200,15 @@ function App() {
               element={
                 <ProtectedRoute>
                   <News />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/ai-signals"
+              element={
+                <ProtectedRoute>
+                  <AISignals />
                 </ProtectedRoute>
               }
             />

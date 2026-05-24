@@ -84,6 +84,14 @@ const Navbar = () => {
 
     {
       name:
+        "AI Signals",
+
+      path:
+        "/ai-signals",
+    },
+
+    {
+      name:
         "Copy Trading",
 
       path:
