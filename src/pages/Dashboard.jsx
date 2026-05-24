@@ -13,6 +13,8 @@ import {
 
 import AdvancedTradingChart from "../components/AdvancedTradingChart";
 
+import Watchlist from "../components/Watchlist";
+
 const Dashboard = () => {
 
   const portfolioStats = [
@@ -325,9 +327,23 @@ const Dashboard = () => {
 
       </div>
 
-      {/* ADVANCED CHART */}
+      {/* CHART + WATCHLIST */}
 
-      <AdvancedTradingChart />
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+
+        <div className="xl:col-span-2">
+
+          <AdvancedTradingChart />
+
+        </div>
+
+        <div>
+
+          <Watchlist />
+
+        </div>
+
+      </div>
 
       {/* MARKET OVERVIEW */}
 
