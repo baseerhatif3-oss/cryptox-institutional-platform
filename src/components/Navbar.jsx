@@ -116,6 +116,14 @@ const Navbar = () => {
 
     {
       name:
+        "Launchpad",
+
+      path:
+        "/launchpad",
+    },
+
+    {
+      name:
         "Wallet",
 
       path:

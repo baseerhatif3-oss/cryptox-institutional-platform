@@ -37,6 +37,8 @@ import Staking from "./pages/Staking";
 
 import NFTMarketplace from "./pages/NFTMarketplace";
 
+import Launchpad from "./pages/Launchpad";
+
 import VIP from "./pages/VIP";
 
 import Referral from "./pages/Referral";
@@ -189,6 +191,17 @@ function App() {
                 <ProtectedRoute>
 
                   <NFTMarketplace />
+
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/launchpad"
+              element={
+                <ProtectedRoute>
+
+                  <Launchpad />
 
                 </ProtectedRoute>
               }

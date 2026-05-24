@@ -7,9 +7,9 @@ import {
 
 import {
   FaHome,
-  FaChartLine,
+  FaRocket,
   FaWallet,
-  FaImage,
+  FaChartLine,
   FaCog,
 } from "react-icons/fa";
 
@@ -43,7 +43,7 @@ const MobileBottomNav = () => {
 
     {
       name:
-        "Spot",
+        "Trade",
 
       icon:
         <FaChartLine />,
@@ -54,13 +54,13 @@ const MobileBottomNav = () => {
 
     {
       name:
-        "NFT",
+        "Launch",
 
       icon:
-        <FaImage />,
+        <FaRocket />,
 
       path:
-        "/nft",
+        "/launchpad",
     },
 
     {

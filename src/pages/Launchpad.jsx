@@ -1,244 +1,184 @@
-import {
-  Rocket,
-  Clock,
-  Coins,
-} from "lucide-react";
-
-import toast from "react-hot-toast";
-
-const projects = [
-  {
-    id: 1,
-    name: "MetaChain",
-    symbol: "MTC",
-    price: "$0.08",
-    raised: "$4.2M",
-    progress: 82,
-    ends: "3 Days Left",
-    image:
-      "https://images.unsplash.com/photo-1639762681057-408e52192e55?q=80&w=1200&auto=format&fit=crop",
-  },
-
-  {
-    id: 2,
-    name: "AIVerse",
-    symbol: "AIV",
-    price: "$0.12",
-    raised: "$7.8M",
-    progress: 64,
-    ends: "6 Days Left",
-    image:
-      "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200&auto=format&fit=crop",
-  },
-
-  {
-    id: 3,
-    name: "GameFi Pro",
-    symbol: "GFP",
-    price: "$0.04",
-    raised: "$2.1M",
-    progress: 45,
-    ends: "9 Days Left",
-    image:
-      "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1200&auto=format&fit=crop",
-  },
-
-  {
-    id: 4,
-    name: "DeFi Nova",
-    symbol: "DNV",
-    price: "$0.15",
-    raised: "$9.4M",
-    progress: 91,
-    ends: "1 Day Left",
-    image:
-      "https://images.unsplash.com/photo-1621761191319-c6fb62004040?q=80&w=1200&auto=format&fit=crop",
-  },
-];
+import React from "react";
 
 const Launchpad = () => {
-  const handleInvest = (
-    project
-  ) => {
-    toast.success(
-      `Investment request submitted for ${project}`
-    );
-  };
+
+  const projects = [
+
+    {
+      name: "MetaChain",
+      price: "$0.08",
+      raised: "$2.4M",
+      progress: "82%",
+    },
+
+    {
+      name: "AIVerse",
+      price: "$0.12",
+      raised: "$4.8M",
+      progress: "67%",
+    },
+
+    {
+      name: "FutureX",
+      price: "$0.05",
+      raised: "$1.9M",
+      progress: "91%",
+    },
+  ];
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* HEADER */}
 
-        <div className="mb-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="bg-orange-600 p-4 rounded-3xl">
-              <Rocket size={36} />
-            </div>
+    <div className="space-y-10">
 
-            <div>
-              <h1 className="text-5xl font-bold">
-                Crypto Launchpad
-              </h1>
+      {/* HEADER */}
 
-              <p className="text-slate-400 mt-2 text-lg">
-                Discover and invest in
-                the next generation of
-                crypto projects.
-              </p>
-            </div>
-          </div>
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+
+        <div>
+
+          <h1 className="text-5xl font-black">
+            Launchpad
+          </h1>
+
+          <p className="text-gray-400 text-lg mt-3">
+            Invest early in next-generation crypto projects
+          </p>
+
         </div>
 
-        {/* STATS */}
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <Rocket
-              size={38}
-              className="text-orange-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              Projects Launched
-            </p>
-
-            <h2 className="text-4xl font-bold mt-2">
-              124
-            </h2>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <Coins
-              size={38}
-              className="text-yellow-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              Total Raised
-            </p>
-
-            <h2 className="text-4xl font-bold mt-2 text-yellow-400">
-              $82M
-            </h2>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <Clock
-              size={38}
-              className="text-blue-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              Active Sales
-            </p>
-
-            <h2 className="text-4xl font-bold mt-2">
-              18
-            </h2>
-          </div>
+        <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 px-5 py-3 rounded-2xl font-bold">
+          TOKEN SALES
         </div>
 
-        {/* PROJECTS */}
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {projects.map((project) => (
+      {/* HERO */}
+
+      <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-gradient-to-br from-[#111] to-black p-10">
+
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,#facc15,transparent_35%)]" />
+
+        <div className="relative z-10">
+
+          <p className="text-gray-400 text-lg">
+            Web3 Startup Funding
+          </p>
+
+          <h1 className="text-6xl lg:text-7xl font-black mt-5">
+            CRYPTO LAUNCHPAD
+          </h1>
+
+          <p className="text-gray-400 text-lg mt-6 max-w-2xl">
+            Discover high-potential blockchain startups
+            and participate in early-stage token offerings.
+          </p>
+
+        </div>
+
+      </div>
+
+      {/* PROJECTS */}
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        {projects.map(
+          (
+            project,
+            index
+          ) => (
+
             <div
-              key={project.id}
-              className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden"
+              key={index}
+              className="relative overflow-hidden bg-[#111] border border-white/10 rounded-[36px] p-8"
             >
-              <img
-                src={project.image}
-                alt={project.name}
-                className="w-full h-64 object-cover"
-              />
 
-              <div className="p-6">
-                {/* TOP */}
+              <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_right,#facc15,transparent_35%)]" />
 
-                <div className="flex items-center justify-between mb-6">
-                  <div>
-                    <h2 className="text-3xl font-bold">
-                      {project.name}
-                    </h2>
+              <div className="relative z-10">
 
-                    <p className="text-slate-400 mt-1">
-                      {project.symbol}
-                    </p>
-                  </div>
+                <div className="flex items-center justify-between">
 
-                  <div className="bg-orange-600/20 text-orange-400 px-4 py-2 rounded-xl">
-                    {project.ends}
-                  </div>
+                  <h2 className="text-3xl font-black">
+                    {project.name}
+                  </h2>
+
+                  <span className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-2 rounded-xl text-sm font-bold">
+                    ACTIVE
+                  </span>
+
                 </div>
 
-                {/* DETAILS */}
+                <div className="space-y-6 mt-10">
 
-                <div className="grid grid-cols-2 gap-6 mb-6">
                   <div>
-                    <p className="text-slate-400">
+
+                    <p className="text-gray-400">
                       Token Price
                     </p>
 
-                    <h3 className="text-2xl font-bold text-green-400">
+                    <h3 className="text-5xl font-black text-yellow-400 mt-2">
                       {project.price}
                     </h3>
+
                   </div>
 
-                  <div>
-                    <p className="text-slate-400">
+                  <div className="flex items-center justify-between">
+
+                    <span className="text-gray-400">
                       Raised
-                    </p>
-
-                    <h3 className="text-2xl font-bold">
-                      {project.raised}
-                    </h3>
-                  </div>
-                </div>
-
-                {/* PROGRESS */}
-
-                <div className="mb-6">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-slate-400">
-                      Sale Progress
                     </span>
 
                     <span className="font-bold">
-                      {
-                        project.progress
-                      }
-                      %
+                      {project.raised}
                     </span>
+
                   </div>
 
-                  <div className="w-full h-3 bg-slate-800 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-orange-500"
-                      style={{
-                        width: `${project.progress}%`,
-                      }}
-                    />
+                  <div>
+
+                    <div className="flex items-center justify-between mb-3">
+
+                      <span className="text-gray-400">
+                        Progress
+                      </span>
+
+                      <span className="font-bold">
+                        {project.progress}
+                      </span>
+
+                    </div>
+
+                    <div className="w-full h-3 bg-black rounded-full overflow-hidden">
+
+                      <div
+                        className="h-full bg-yellow-400 rounded-full"
+                        style={{
+                          width:
+                            project.progress,
+                        }}
+                      />
+
+                    </div>
+
                   </div>
+
                 </div>
 
-                {/* BUTTON */}
+                <button className="w-full mt-10 bg-yellow-500 hover:bg-yellow-600 transition py-4 rounded-2xl font-black text-black">
 
-                <button
-                  onClick={() =>
-                    handleInvest(
-                      project.name
-                    )
-                  }
-                  className="w-full bg-orange-600 hover:bg-orange-700 py-4 rounded-2xl font-bold transition"
-                >
-                  Invest Now
+                  Participate
+
                 </button>
+
               </div>
+
             </div>
-          ))}
-        </div>
+
+          )
+        )}
+
       </div>
+
     </div>
   );
 };
