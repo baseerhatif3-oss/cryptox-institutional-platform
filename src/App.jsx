@@ -33,6 +33,8 @@ import Leaderboard from "./pages/Leaderboard";
 
 import CopyTrading from "./pages/CopyTrading";
 
+import Staking from "./pages/Staking";
+
 import VIP from "./pages/VIP";
 
 import Referral from "./pages/Referral";
@@ -147,22 +149,11 @@ function App() {
             />
 
             <Route
-              path="/wallet"
+              path="/copy-trading"
               element={
                 <ProtectedRoute>
 
-                  <Wallet />
-
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/transactions"
-              element={
-                <ProtectedRoute>
-
-                  <Transactions />
+                  <CopyTrading />
 
                 </ProtectedRoute>
               }
@@ -180,11 +171,33 @@ function App() {
             />
 
             <Route
-              path="/copy-trading"
+              path="/staking"
               element={
                 <ProtectedRoute>
 
-                  <CopyTrading />
+                  <Staking />
+
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/wallet"
+              element={
+                <ProtectedRoute>
+
+                  <Wallet />
+
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/transactions"
+              element={
+                <ProtectedRoute>
+
+                  <Transactions />
 
                 </ProtectedRoute>
               }

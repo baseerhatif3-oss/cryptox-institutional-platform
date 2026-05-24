@@ -100,6 +100,14 @@ const Navbar = () => {
 
     {
       name:
+        "Staking",
+
+      path:
+        "/staking",
+    },
+
+    {
+      name:
         "Wallet",
 
       path:
