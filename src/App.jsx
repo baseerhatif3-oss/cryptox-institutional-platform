@@ -45,6 +45,8 @@ import AISignals from "./pages/AISignals";
 
 import Portfolio from "./pages/Portfolio";
 
+import Support from "./pages/Support";
+
 import VIP from "./pages/VIP";
 
 import Referral from "./pages/Referral";
@@ -135,6 +137,15 @@ function App() {
             />
 
             <Route
+              path="/portfolio"
+              element={
+                <ProtectedRoute>
+                  <Portfolio />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
               path="/spot"
               element={
                 <ProtectedRoute>
@@ -148,6 +159,15 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Futures />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/ai-signals"
+              element={
+                <ProtectedRoute>
+                  <AISignals />
                 </ProtectedRoute>
               }
             />
@@ -207,19 +227,10 @@ function App() {
             />
 
             <Route
-              path="/ai-signals"
+              path="/support"
               element={
                 <ProtectedRoute>
-                  <AISignals />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/portfolio"
-              element={
-                <ProtectedRoute>
-                  <Portfolio />
+                  <Support />
                 </ProtectedRoute>
               }
             />
@@ -307,6 +318,7 @@ function App() {
       </div>
 
     </BrowserRouter>
+
   );
 }
 

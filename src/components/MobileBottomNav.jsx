@@ -7,7 +7,7 @@ import {
 
 import {
   FaHome,
-  FaBriefcase,
+  FaHeadset,
   FaWallet,
   FaChartLine,
   FaCog,
@@ -43,17 +43,6 @@ const MobileBottomNav = () => {
 
     {
       name:
-        "Portfolio",
-
-      icon:
-        <FaBriefcase />,
-
-      path:
-        "/portfolio",
-    },
-
-    {
-      name:
         "Trade",
 
       icon:
@@ -61,6 +50,17 @@ const MobileBottomNav = () => {
 
       path:
         "/spot",
+    },
+
+    {
+      name:
+        "Support",
+
+      icon:
+        <FaHeadset />,
+
+      path:
+        "/support",
     },
 
     {

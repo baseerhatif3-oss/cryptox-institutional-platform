@@ -108,14 +108,6 @@ const Navbar = () => {
 
     {
       name:
-        "Leaderboard",
-
-      path:
-        "/leaderboard",
-    },
-
-    {
-      name:
         "Staking",
 
       path:
@@ -148,10 +140,26 @@ const Navbar = () => {
 
     {
       name:
+        "Support",
+
+      path:
+        "/support",
+    },
+
+    {
+      name:
         "Wallet",
 
       path:
         "/wallet",
+    },
+
+    {
+      name:
+        "Analytics",
+
+      path:
+        "/analytics",
     },
 
     {
@@ -168,14 +176,6 @@ const Navbar = () => {
 
       path:
         "/referral",
-    },
-
-    {
-      name:
-        "Analytics",
-
-      path:
-        "/analytics",
     },
 
     {
