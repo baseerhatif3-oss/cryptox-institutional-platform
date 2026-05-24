@@ -115,6 +115,14 @@ const Navbar = () => {
 
     {
       name:
+        "Referral",
+
+      path:
+        "/referral",
+    },
+
+    {
+      name:
         "Analytics",
 
       path:
@@ -426,7 +434,6 @@ const Navbar = () => {
               ) : (
 
                 <>
-
                   <Link
                     to="/login"
                     className="block text-center border border-white/10 hover:bg-white/5 transition px-6 py-4 rounded-2xl font-bold"
@@ -444,7 +451,6 @@ const Navbar = () => {
                     Get Started
 
                   </Link>
-
                 </>
 
               )}

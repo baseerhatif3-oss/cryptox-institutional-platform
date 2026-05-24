@@ -29,6 +29,8 @@ import Wallet from "./pages/Wallet";
 
 import Transactions from "./pages/Transactions";
 
+import Referral from "./pages/Referral";
+
 import Analytics from "./pages/Analytics";
 
 import Settings from "./pages/Settings";
@@ -204,6 +206,19 @@ function App() {
                 <ProtectedRoute>
 
                   <Transactions />
+
+                </ProtectedRoute>
+              }
+            />
+
+            {/* REFERRAL */}
+
+            <Route
+              path="/referral"
+              element={
+                <ProtectedRoute>
+
+                  <Referral />
 
                 </ProtectedRoute>
               }
