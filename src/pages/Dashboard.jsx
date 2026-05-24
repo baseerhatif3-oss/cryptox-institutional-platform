@@ -20,6 +20,8 @@ import socket from "../services/socket";
 
 import MarketSidebar from "../components/MarketSidebar";
 
+import AITradingAssistant from "../components/AITradingAssistant";
+
 const Dashboard = () => {
 
   const [
@@ -356,6 +358,88 @@ const Dashboard = () => {
           <MarketSidebar />
 
         </div>
+
+      </div>
+
+      {/* AI MARKET INSIGHTS */}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+
+        <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
+
+          <p className="text-gray-400">
+            Market Sentiment
+          </p>
+
+          <h2 className="text-5xl font-black text-green-400 mt-4">
+            BULLISH
+          </h2>
+
+        </div>
+
+        <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
+
+          <p className="text-gray-400">
+            Fear & Greed
+          </p>
+
+          <h2 className="text-5xl font-black mt-4">
+            74
+          </h2>
+
+        </div>
+
+        <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
+
+          <p className="text-gray-400">
+            AI Confidence
+          </p>
+
+          <h2 className="text-5xl font-black text-yellow-400 mt-4">
+            92%
+          </h2>
+
+        </div>
+
+        <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
+
+          <p className="text-gray-400">
+            Volatility Index
+          </p>
+
+          <h2 className="text-5xl font-black text-red-400 mt-4">
+            HIGH
+          </h2>
+
+        </div>
+
+      </div>
+
+      {/* AI ASSISTANT */}
+
+      <div className="space-y-6">
+
+        <div className="flex items-center justify-between">
+
+          <div>
+
+            <h2 className="text-3xl font-black">
+              AI Market Intelligence
+            </h2>
+
+            <p className="text-gray-400 mt-2">
+              AI-powered trading assistant and market insights
+            </p>
+
+          </div>
+
+          <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 px-5 py-3 rounded-2xl font-bold">
+            GPT ACTIVE
+          </div>
+
+        </div>
+
+        <AITradingAssistant />
 
       </div>
 
