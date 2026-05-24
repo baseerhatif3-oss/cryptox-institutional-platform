@@ -68,6 +68,14 @@ const Navbar = () => {
 
     {
       name:
+        "Portfolio",
+
+      path:
+        "/portfolio",
+    },
+
+    {
+      name:
         "Spot",
 
       path:
@@ -216,8 +224,6 @@ const Navbar = () => {
 
         <div className="h-20 flex items-center justify-between">
 
-          {/* LOGO */}
-
           <Link
             to={
               token
@@ -246,8 +252,6 @@ const Navbar = () => {
             </div>
 
           </Link>
-
-          {/* DESKTOP NAV */}
 
           {token && (
 
@@ -285,8 +289,6 @@ const Navbar = () => {
             </div>
 
           )}
-
-          {/* RIGHT */}
 
           {token ? (
 
@@ -331,8 +333,6 @@ const Navbar = () => {
 
           )}
 
-          {/* MOBILE BUTTON */}
-
           <button
             onClick={() =>
               setMobileOpen(
@@ -351,8 +351,6 @@ const Navbar = () => {
         </div>
 
       </div>
-
-      {/* MOBILE MENU */}
 
       <AnimatePresence>
 

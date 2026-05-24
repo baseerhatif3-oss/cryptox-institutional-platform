@@ -43,6 +43,8 @@ import News from "./pages/News";
 
 import AISignals from "./pages/AISignals";
 
+import Portfolio from "./pages/Portfolio";
+
 import VIP from "./pages/VIP";
 
 import Referral from "./pages/Referral";
@@ -209,6 +211,15 @@ function App() {
               element={
                 <ProtectedRoute>
                   <AISignals />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/portfolio"
+              element={
+                <ProtectedRoute>
+                  <Portfolio />
                 </ProtectedRoute>
               }
             />
