@@ -1,131 +1,161 @@
-import React, {
-  useEffect,
-  useState,
-} from "react";
-
-import {
-  motion,
-} from "framer-motion";
+import React from "react";
 
 import {
   FaBitcoin,
   FaEthereum,
+  FaArrowUp,
+  FaArrowDown,
+  FaWallet,
+  FaChartLine,
+  FaCoins,
+  FaGlobe,
 } from "react-icons/fa";
 
-import {
-  SiSolana,
-} from "react-icons/si";
-
-import socket from "../services/socket";
-
-import MarketSidebar from "../components/MarketSidebar";
-
-import AITradingAssistant from "../components/AITradingAssistant";
+import AdvancedTradingChart from "../components/AdvancedTradingChart";
 
 const Dashboard = () => {
 
-  const [
-    markets,
-    setMarkets,
-  ] = useState([
-    {
-      symbol:
-        "BTCUSDT",
+  const portfolioStats = [
 
-      price:
-        104000,
+    {
+      title:
+        "Portfolio Balance",
+
+      value:
+        "$248,540",
+
+      icon:
+        <FaWallet />,
 
       change:
-        "+2.8%",
+        "+12.4%",
     },
 
     {
-      symbol:
-        "ETHUSDT",
+      title:
+        "24H Profit",
 
-      price:
-        4900,
+      value:
+        "+$12,845",
+
+      icon:
+        <FaChartLine />,
 
       change:
-        "+1.9%",
+        "+8.2%",
     },
 
     {
-      symbol:
-        "SOLUSDT",
+      title:
+        "Assets Owned",
 
-      price:
-        210,
+      value:
+        "24",
+
+      icon:
+        <FaCoins />,
 
       change:
-        "+6.4%",
+        "+3",
     },
 
     {
-      symbol:
-        "XRPUSDT",
+      title:
+        "Global Rank",
 
-      price:
-        2.4,
+      value:
+        "#428",
+
+      icon:
+        <FaGlobe />,
 
       change:
-        "+4.1%",
+        "+14",
     },
-  ]);
+  ];
 
-  /*
-  ==========================================
-  LIVE MARKET SOCKET
-  ==========================================
-  */
+  const marketData = [
 
-  useEffect(() => {
+    {
+      name:
+        "Bitcoin",
 
-    socket.on(
-      "marketUpdate",
+      symbol:
+        "BTC",
 
-      (data) => {
+      price:
+        "$84,520",
 
-        if (
-          Array.isArray(data)
-        ) {
+      change:
+        "+4.82%",
 
-          setMarkets(data);
-        }
-      }
-    );
+      positive:
+        true,
 
-    return () => {
+      icon:
+        <FaBitcoin className="text-yellow-500" />,
+    },
 
-      socket.off(
-        "marketUpdate"
-      );
-    };
+    {
+      name:
+        "Ethereum",
 
-  }, []);
+      symbol:
+        "ETH",
 
-  /*
-  ==========================================
-  ICONS
-  ==========================================
-  */
+      price:
+        "$4,280",
 
-  const icons = {
+      change:
+        "+2.18%",
 
-    BTCUSDT:
-      <FaBitcoin className="text-yellow-400 text-3xl" />,
+      positive:
+        true,
 
-    ETHUSDT:
-      <FaEthereum className="text-blue-400 text-3xl" />,
+      icon:
+        <FaEthereum className="text-blue-400" />,
+    },
 
-    SOLUSDT:
-      <SiSolana className="text-purple-400 text-3xl" />,
+    {
+      name:
+        "Solana",
 
-    XRPUSDT:
-      <div className="text-cyan-400 text-2xl font-black">
-        XRP
-      </div>,
-  };
+      symbol:
+        "SOL",
+
+      price:
+        "$182",
+
+      change:
+        "-1.34%",
+
+      positive:
+        false,
+
+      icon:
+        <FaCoins className="text-purple-400" />,
+    },
+
+    {
+      name:
+        "XRP",
+
+      symbol:
+        "XRP",
+
+      price:
+        "$1.92",
+
+      change:
+        "+5.11%",
+
+      positive:
+        true,
+
+      icon:
+        <FaCoins className="text-cyan-400" />,
+    },
+  ];
 
   return (
 
@@ -133,313 +163,263 @@ const Dashboard = () => {
 
       {/* HERO */}
 
-      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#111] to-black p-10">
+      <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-gradient-to-br from-[#111] to-black p-10">
 
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,#facc15,transparent_30%)]" />
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,#facc15,transparent_35%)]" />
 
-        <div className="relative z-10">
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
 
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+          <div>
 
-            <div>
+            <p className="text-gray-400 text-lg">
+              Welcome Back
+            </p>
 
-              <motion.h1
-                initial={{
-                  opacity: 0,
-                  y: 20,
-                }}
+            <h1 className="text-6xl lg:text-7xl font-black mt-5 leading-tight">
+              GLOBAL CRYPTO
+              <br />
+              EXCHANGE
+            </h1>
 
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                }}
+            <p className="text-gray-400 text-lg mt-6 max-w-2xl leading-relaxed">
+              Trade crypto assets, manage portfolios,
+              monitor AI signals and explore the next
+              generation financial ecosystem.
+            </p>
 
-                className="text-5xl lg:text-6xl font-black leading-tight"
-              >
+            <div className="flex flex-wrap gap-4 mt-8">
 
-                Trade Crypto
-                <br />
+              <button className="bg-yellow-500 hover:bg-yellow-600 transition px-8 py-4 rounded-2xl font-black text-black">
 
-                Like a Pro
+                Start Trading
 
-              </motion.h1>
+              </button>
 
-              <p className="text-gray-400 mt-5 text-lg max-w-2xl">
-                Professional-grade crypto exchange with realtime trading,
-                futures, liquidity engine, advanced security,
-                and institutional infrastructure.
+              <button className="bg-white/5 hover:bg-white/10 transition px-8 py-4 rounded-2xl font-black border border-white/10">
+
+                View Portfolio
+
+              </button>
+
+            </div>
+
+          </div>
+
+          {/* LIVE PRICE */}
+
+          <div className="bg-black/40 border border-white/10 backdrop-blur-xl rounded-[32px] p-8 min-w-[320px]">
+
+            <div className="flex items-center justify-between">
+
+              <div>
+
+                <p className="text-gray-400">
+                  BTC/USDT
+                </p>
+
+                <h2 className="text-5xl font-black mt-2">
+                  $84,520
+                </h2>
+
+              </div>
+
+              <div className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-2 rounded-xl font-bold">
+
+                +4.82%
+
+              </div>
+
+            </div>
+
+            <div className="mt-8 space-y-4">
+
+              <div className="flex items-center justify-between">
+
+                <span className="text-gray-400">
+                  24H Volume
+                </span>
+
+                <span className="font-bold">
+                  $38.2B
+                </span>
+
+              </div>
+
+              <div className="flex items-center justify-between">
+
+                <span className="text-gray-400">
+                  Market Cap
+                </span>
+
+                <span className="font-bold">
+                  $1.68T
+                </span>
+
+              </div>
+
+              <div className="flex items-center justify-between">
+
+                <span className="text-gray-400">
+                  Dominance
+                </span>
+
+                <span className="font-bold">
+                  52.8%
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* STATS */}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
+
+        {portfolioStats.map(
+          (
+            item,
+            index
+          ) => (
+
+            <div
+              key={index}
+              className="bg-[#111] border border-white/10 rounded-[36px] p-8"
+            >
+
+              <div className="flex items-center justify-between">
+
+                <div className="w-16 h-16 rounded-3xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center text-yellow-400 text-2xl">
+
+                  {item.icon}
+
+                </div>
+
+                <div className="text-green-400 font-bold flex items-center gap-2">
+
+                  <FaArrowUp />
+
+                  {item.change}
+
+                </div>
+
+              </div>
+
+              <p className="text-gray-400 mt-8">
+                {item.title}
               </p>
 
-              <div className="flex flex-wrap gap-4 mt-8">
-
-                <button className="bg-yellow-500 hover:bg-yellow-600 transition px-8 py-4 rounded-2xl font-bold text-black shadow-lg shadow-yellow-500/20">
-
-                  Start Trading
-
-                </button>
-
-                <button className="border border-white/10 hover:bg-white/5 transition px-8 py-4 rounded-2xl font-bold">
-
-                  View Markets
-
-                </button>
-
-              </div>
+              <h2 className="text-5xl font-black mt-4">
+                {item.value}
+              </h2>
 
             </div>
 
-            {/* STATS */}
-
-            <div className="grid grid-cols-2 gap-5 min-w-[320px]">
-
-              <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl">
-
-                <p className="text-gray-400 text-sm">
-                  24H Volume
-                </p>
-
-                <h2 className="text-3xl font-black mt-3">
-                  $2.4B
-                </h2>
-
-              </div>
-
-              <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl">
-
-                <p className="text-gray-400 text-sm">
-                  Active Traders
-                </p>
-
-                <h2 className="text-3xl font-black mt-3">
-                  128K
-                </h2>
-
-              </div>
-
-              <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl">
-
-                <p className="text-gray-400 text-sm">
-                  Open Interest
-                </p>
-
-                <h2 className="text-3xl font-black mt-3">
-                  $940M
-                </h2>
-
-              </div>
-
-              <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl">
-
-                <p className="text-gray-400 text-sm">
-                  System Status
-                </p>
-
-                <h2 className="text-2xl font-black mt-3 text-green-400">
-                  ONLINE
-                </h2>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
+          )
+        )}
 
       </div>
 
-      {/* LIVE MARKETS */}
+      {/* ADVANCED CHART */}
 
-      <div>
+      <AdvancedTradingChart />
 
-        <div className="flex items-center justify-between mb-6">
+      {/* MARKET OVERVIEW */}
+
+      <div className="bg-[#111] border border-white/10 rounded-[36px] overflow-hidden">
+
+        <div className="p-8 border-b border-white/10 flex items-center justify-between">
 
           <div>
 
             <h2 className="text-3xl font-black">
-              Live Markets
+              Market Overview
             </h2>
 
             <p className="text-gray-400 mt-2">
-              Realtime crypto market overview
+              Top crypto assets by performance
             </p>
 
           </div>
 
-          <div className="bg-green-500/10 border border-green-500/20 text-green-400 px-5 py-3 rounded-2xl font-semibold">
-            LIVE MARKET
-          </div>
+          <button className="bg-yellow-500 hover:bg-yellow-600 transition px-6 py-3 rounded-2xl font-black text-black">
+
+            View Markets
+
+          </button>
 
         </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
+        <div className="divide-y divide-white/5">
 
-          {/* LEFT */}
+          {marketData.map(
+            (
+              coin,
+              index
+            ) => (
 
-          <div className="xl:col-span-3">
+              <div
+                key={index}
+                className="p-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 hover:bg-white/5 transition"
+              >
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+                <div className="flex items-center gap-5">
 
-              {markets.map(
-                (
-                  market,
-                  index
-                ) => (
+                  <div className="w-16 h-16 rounded-3xl bg-black flex items-center justify-center text-3xl border border-white/10">
 
-                  <motion.div
-                    key={
-                      market.symbol
-                    }
+                    {coin.icon}
 
-                    initial={{
-                      opacity: 0,
-                      y: 30,
-                    }}
+                  </div>
 
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                    }}
+                  <div>
 
-                    transition={{
-                      delay:
-                        index * 0.1,
-                    }}
+                    <h3 className="text-2xl font-black">
+                      {coin.name}
+                    </h3>
 
-                    className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#111] to-black p-7 hover:border-yellow-500/30 transition"
+                    <p className="text-gray-400 mt-1">
+                      {coin.symbol}
+                    </p>
+
+                  </div>
+
+                </div>
+
+                <div className="text-right">
+
+                  <h3 className="text-3xl font-black">
+                    {coin.price}
+                  </h3>
+
+                  <div
+                    className={`mt-2 flex items-center justify-end gap-2 font-bold ${
+                      coin.positive
+                        ? "text-green-400"
+                        : "text-red-400"
+                    }`}
                   >
 
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition bg-[radial-gradient(circle_at_top_right,#facc15,transparent_35%)]" />
+                    {coin.positive
+                      ? <FaArrowUp />
+                      : <FaArrowDown />}
 
-                    <div className="relative z-10">
+                    {coin.change}
 
-                      <div className="flex items-center justify-between">
+                  </div>
 
-                        {
-                          icons[
-                            market.symbol
-                          ]
-                        }
+                </div>
 
-                        <span className="text-green-400 font-bold">
-                          {
-                            market.change
-                          }
-                        </span>
+              </div>
 
-                      </div>
-
-                      <p className="text-gray-400 mt-7">
-                        {
-                          market.symbol
-                        }
-                      </p>
-
-                      <h2 className="text-4xl font-black mt-2">
-                        $
-                        {Number(
-                          market.price
-                        ).toLocaleString()}
-                      </h2>
-
-                    </div>
-
-                  </motion.div>
-
-                )
-              )}
-
-            </div>
-
-          </div>
-
-          {/* RIGHT */}
-
-          <MarketSidebar />
+            )
+          )}
 
         </div>
-
-      </div>
-
-      {/* AI MARKET INSIGHTS */}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-
-        <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
-
-          <p className="text-gray-400">
-            Market Sentiment
-          </p>
-
-          <h2 className="text-5xl font-black text-green-400 mt-4">
-            BULLISH
-          </h2>
-
-        </div>
-
-        <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
-
-          <p className="text-gray-400">
-            Fear & Greed
-          </p>
-
-          <h2 className="text-5xl font-black mt-4">
-            74
-          </h2>
-
-        </div>
-
-        <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
-
-          <p className="text-gray-400">
-            AI Confidence
-          </p>
-
-          <h2 className="text-5xl font-black text-yellow-400 mt-4">
-            92%
-          </h2>
-
-        </div>
-
-        <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
-
-          <p className="text-gray-400">
-            Volatility Index
-          </p>
-
-          <h2 className="text-5xl font-black text-red-400 mt-4">
-            HIGH
-          </h2>
-
-        </div>
-
-      </div>
-
-      {/* AI ASSISTANT */}
-
-      <div className="space-y-6">
-
-        <div className="flex items-center justify-between">
-
-          <div>
-
-            <h2 className="text-3xl font-black">
-              AI Market Intelligence
-            </h2>
-
-            <p className="text-gray-400 mt-2">
-              AI-powered trading assistant and market insights
-            </p>
-
-          </div>
-
-          <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 px-5 py-3 rounded-2xl font-bold">
-            GPT ACTIVE
-          </div>
-
-        </div>
-
-        <AITradingAssistant />
 
       </div>
 

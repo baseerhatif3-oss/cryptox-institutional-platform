@@ -14,6 +14,7 @@
     "axios": "^1.16.1",
     "crypto": "^1.0.1",
     "framer-motion": "^12.40.0",
+    "lightweight-charts": "^5.2.0",
     "lucide-react": "^1.16.0",
     "nodemailer": "^8.0.7",
     "react": "^18.2.0",
