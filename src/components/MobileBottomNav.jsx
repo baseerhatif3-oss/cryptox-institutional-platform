@@ -7,7 +7,7 @@ import {
 
 import {
   FaHome,
-  FaShieldAlt,
+  FaCreditCard,
   FaWallet,
   FaChartLine,
   FaCog,
@@ -43,6 +43,17 @@ const MobileBottomNav = () => {
 
     {
       name:
+        "Buy",
+
+      icon:
+        <FaCreditCard />,
+
+      path:
+        "/buy-crypto",
+    },
+
+    {
+      name:
         "Trade",
 
       icon:
@@ -50,17 +61,6 @@ const MobileBottomNav = () => {
 
       path:
         "/spot",
-    },
-
-    {
-      name:
-        "Security",
-
-      icon:
-        <FaShieldAlt />,
-
-      path:
-        "/security",
     },
 
     {

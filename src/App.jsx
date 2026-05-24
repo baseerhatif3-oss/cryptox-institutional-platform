@@ -3,7 +3,7 @@ import React from "react";
 import {
   BrowserRouter,
   Routes,
- Route,
+  Route,
   Navigate,
 } from "react-router-dom";
 
@@ -20,6 +20,8 @@ import MobileBottomNav from "./components/MobileBottomNav";
 import Landing from "./pages/Landing";
 
 import Dashboard from "./pages/Dashboard";
+
+import Portfolio from "./pages/Portfolio";
 
 import SpotTrading from "./pages/SpotTrading";
 
@@ -43,11 +45,11 @@ import News from "./pages/News";
 
 import AISignals from "./pages/AISignals";
 
-import Portfolio from "./pages/Portfolio";
-
 import Support from "./pages/Support";
 
 import Security from "./pages/Security";
+
+import BuyCrypto from "./pages/BuyCrypto";
 
 import VIP from "./pages/VIP";
 
@@ -233,6 +235,15 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Security />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/buy-crypto"
+              element={
+                <ProtectedRoute>
+                  <BuyCrypto />
                 </ProtectedRoute>
               }
             />

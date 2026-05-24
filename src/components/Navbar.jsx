@@ -76,6 +76,14 @@ const Navbar = () => {
 
     {
       name:
+        "Buy Crypto",
+
+      path:
+        "/buy-crypto",
+    },
+
+    {
+      name:
         "Spot",
 
       path:
