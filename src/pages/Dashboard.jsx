@@ -19,6 +19,8 @@ import OrderBook from "../components/OrderBook";
 
 import RecentTrades from "../components/RecentTrades";
 
+import MarketHeatmap from "../components/MarketHeatmap";
+
 const Dashboard = () => {
 
   const portfolioStats = [
@@ -358,6 +360,10 @@ const Dashboard = () => {
         <RecentTrades />
 
       </div>
+
+      {/* MARKET HEATMAP */}
+
+      <MarketHeatmap />
 
       {/* MARKET OVERVIEW */}
 
