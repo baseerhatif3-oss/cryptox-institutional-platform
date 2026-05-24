@@ -3,7 +3,7 @@ import React from "react";
 import {
   BrowserRouter,
   Routes,
-  Route,
+ Route,
   Navigate,
 } from "react-router-dom";
 
@@ -46,6 +46,8 @@ import AISignals from "./pages/AISignals";
 import Portfolio from "./pages/Portfolio";
 
 import Support from "./pages/Support";
+
+import Security from "./pages/Security";
 
 import VIP from "./pages/VIP";
 
@@ -182,15 +184,6 @@ function App() {
             />
 
             <Route
-              path="/leaderboard"
-              element={
-                <ProtectedRoute>
-                  <Leaderboard />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
               path="/staking"
               element={
                 <ProtectedRoute>
@@ -231,6 +224,15 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Support />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/security"
+              element={
+                <ProtectedRoute>
+                  <Security />
                 </ProtectedRoute>
               }
             />

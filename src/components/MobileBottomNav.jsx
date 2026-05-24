@@ -7,7 +7,7 @@ import {
 
 import {
   FaHome,
-  FaHeadset,
+  FaShieldAlt,
   FaWallet,
   FaChartLine,
   FaCog,
@@ -54,13 +54,13 @@ const MobileBottomNav = () => {
 
     {
       name:
-        "Support",
+        "Security",
 
       icon:
-        <FaHeadset />,
+        <FaShieldAlt />,
 
       path:
-        "/support",
+        "/security",
     },
 
     {

@@ -148,6 +148,14 @@ const Navbar = () => {
 
     {
       name:
+        "Security",
+
+      path:
+        "/security",
+    },
+
+    {
+      name:
         "Wallet",
 
       path:
