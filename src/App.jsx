@@ -25,6 +25,8 @@ import Markets from "./pages/Markets";
 
 import Academy from "./pages/Academy";
 
+import Rewards from "./pages/Rewards";
+
 import Portfolio from "./pages/Portfolio";
 
 import SpotTrading from "./pages/SpotTrading";
@@ -158,6 +160,15 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Academy />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/rewards"
+              element={
+                <ProtectedRoute>
+                  <Rewards />
                 </ProtectedRoute>
               }
             />

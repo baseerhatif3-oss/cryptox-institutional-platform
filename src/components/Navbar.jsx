@@ -84,6 +84,14 @@ const Navbar = () => {
 
     {
       name:
+        "Rewards",
+
+      path:
+        "/rewards",
+    },
+
+    {
+      name:
         "Portfolio",
 
       path:
