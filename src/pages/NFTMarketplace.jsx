@@ -1,188 +1,163 @@
-import {
-  Image,
-  ShoppingBag,
-  Flame,
-} from "lucide-react";
-
-const nfts = [
-  {
-    id: 1,
-    name: "Cyber Ape #1021",
-    price: "2.4 ETH",
-    creator: "CryptoLabs",
-    image:
-      "https://images.unsplash.com/photo-1642104704074-907c0698cbd9?q=80&w=1200&auto=format&fit=crop",
-  },
-
-  {
-    id: 2,
-    name: "Meta Punk #889",
-    price: "1.8 ETH",
-    creator: "NFTVerse",
-    image:
-      "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?q=80&w=1200&auto=format&fit=crop",
-  },
-
-  {
-    id: 3,
-    name: "Galaxy Warrior",
-    price: "4.1 ETH",
-    creator: "MetaArts",
-    image:
-      "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=1200&auto=format&fit=crop",
-  },
-
-  {
-    id: 4,
-    name: "AI Genesis",
-    price: "3.7 ETH",
-    creator: "FutureChain",
-    image:
-      "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=1200&auto=format&fit=crop",
-  },
-
-  {
-    id: 5,
-    name: "Crypto Samurai",
-    price: "2.9 ETH",
-    creator: "NeoNFT",
-    image:
-      "https://images.unsplash.com/photo-1635322966219-b75ed372eb01?q=80&w=1200&auto=format&fit=crop",
-  },
-
-  {
-    id: 6,
-    name: "Pixel Beast",
-    price: "1.2 ETH",
-    creator: "PixelWorld",
-    image:
-      "https://images.unsplash.com/photo-1634973357973-f2ed2657db3c?q=80&w=1200&auto=format&fit=crop",
-  },
-];
+import React from "react";
 
 const NFTMarketplace = () => {
+
+  const nfts = [
+
+    {
+      name: "Cyber Ape",
+      price: "2.4 ETH",
+      creator: "@cryptox",
+      image:
+        "https://images.unsplash.com/photo-1634973357973-f2ed2657db3c",
+    },
+
+    {
+      name: "Meta Punk",
+      price: "1.8 ETH",
+      creator: "@blockchain",
+      image:
+        "https://images.unsplash.com/photo-1642104704074-907c0698cbd9",
+    },
+
+    {
+      name: "Future Skull",
+      price: "3.1 ETH",
+      creator: "@nftpro",
+      image:
+        "https://images.unsplash.com/photo-1643101695407-6d7b2b0c95f5",
+    },
+
+    {
+      name: "AI Genesis",
+      price: "4.2 ETH",
+      creator: "@aiartist",
+      image:
+        "https://images.unsplash.com/photo-1639762681057-408e52192e55",
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* HEADER */}
 
-        <div className="mb-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="bg-purple-600 p-4 rounded-3xl">
-              <Image size={36} />
-            </div>
+    <div className="space-y-10">
 
-            <div>
-              <h1 className="text-5xl font-bold">
-                NFT Marketplace
-              </h1>
+      {/* HEADER */}
 
-              <p className="text-slate-400 mt-2 text-lg">
-                Explore and trade premium
-                digital collectibles.
-              </p>
-            </div>
-          </div>
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+
+        <div>
+
+          <h1 className="text-5xl font-black">
+            NFT Marketplace
+          </h1>
+
+          <p className="text-gray-400 text-lg mt-3">
+            Discover, collect and trade premium NFTs
+          </p>
+
         </div>
 
-        {/* STATS */}
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <ShoppingBag
-              size={38}
-              className="text-blue-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              Total Collections
-            </p>
-
-            <h2 className="text-4xl font-bold mt-2">
-              12,450
-            </h2>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <Flame
-              size={38}
-              className="text-orange-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              Trending Volume
-            </p>
-
-            <h2 className="text-4xl font-bold mt-2 text-orange-400">
-              18.2K ETH
-            </h2>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <Image
-              size={38}
-              className="text-purple-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              NFTs Listed
-            </p>
-
-            <h2 className="text-4xl font-bold mt-2">
-              2.1M
-            </h2>
-          </div>
+        <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 px-5 py-3 rounded-2xl font-bold">
+          WEB3 MARKET
         </div>
 
-        {/* NFT GRID */}
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-          {nfts.map((nft) => (
+      {/* HERO */}
+
+      <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-gradient-to-br from-[#111] to-black p-10">
+
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,#facc15,transparent_35%)]" />
+
+        <div className="relative z-10">
+
+          <p className="text-gray-400 text-lg">
+            Digital Ownership Ecosystem
+          </p>
+
+          <h1 className="text-6xl lg:text-7xl font-black mt-5">
+            EXPLORE NFTS
+          </h1>
+
+          <p className="text-gray-400 text-lg mt-6 max-w-2xl">
+            Buy, sell and discover exclusive NFT collections
+            through next-generation Web3 marketplace infrastructure.
+          </p>
+
+        </div>
+
+      </div>
+
+      {/* NFT GRID */}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
+
+        {nfts.map(
+          (
+            nft,
+            index
+          ) => (
+
             <div
-              key={nft.id}
-              className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden hover:scale-[1.02] transition"
+              key={index}
+              className="overflow-hidden bg-[#111] border border-white/10 rounded-[36px]"
             >
+
               <img
                 src={nft.image}
                 alt={nft.name}
-                className="w-full h-80 object-cover"
+                className="w-full h-[300px] object-cover"
               />
 
               <div className="p-6">
-                <div className="mb-5">
-                  <h2 className="text-2xl font-bold">
+
+                <div className="flex items-center justify-between">
+
+                  <h2 className="text-2xl font-black">
                     {nft.name}
                   </h2>
 
-                  <p className="text-slate-400 mt-1">
-                    by {nft.creator}
-                  </p>
+                  <span className="bg-green-500/10 border border-green-500/20 text-green-400 px-3 py-1 rounded-xl text-xs font-bold">
+                    LIVE
+                  </span>
+
                 </div>
 
-                <div className="flex items-center justify-between mb-6">
+                <p className="text-gray-400 mt-3">
+                  {nft.creator}
+                </p>
+
+                <div className="flex items-center justify-between mt-6">
+
                   <div>
-                    <p className="text-slate-400 text-sm">
+
+                    <p className="text-gray-400 text-sm">
                       Current Price
                     </p>
 
-                    <h3 className="text-2xl font-bold text-purple-400">
+                    <h3 className="text-2xl font-black mt-1 text-yellow-400">
                       {nft.price}
                     </h3>
+
                   </div>
 
-                  <div className="bg-slate-800 px-4 py-2 rounded-xl">
-                    NFT
-                  </div>
+                  <button className="bg-yellow-500 hover:bg-yellow-600 transition px-5 py-3 rounded-2xl font-black text-black">
+
+                    Buy
+
+                  </button>
+
                 </div>
 
-                <button className="w-full bg-purple-600 hover:bg-purple-700 py-4 rounded-2xl font-bold transition">
-                  Buy NFT
-                </button>
               </div>
+
             </div>
-          ))}
-        </div>
+
+          )
+        )}
+
       </div>
+
     </div>
   );
 };

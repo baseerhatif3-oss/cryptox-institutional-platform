@@ -108,6 +108,14 @@ const Navbar = () => {
 
     {
       name:
+        "NFT",
+
+      path:
+        "/nft",
+    },
+
+    {
+      name:
         "Wallet",
 
       path:

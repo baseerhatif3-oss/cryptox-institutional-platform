@@ -35,6 +35,8 @@ import CopyTrading from "./pages/CopyTrading";
 
 import Staking from "./pages/Staking";
 
+import NFTMarketplace from "./pages/NFTMarketplace";
+
 import VIP from "./pages/VIP";
 
 import Referral from "./pages/Referral";
@@ -176,6 +178,17 @@ function App() {
                 <ProtectedRoute>
 
                   <Staking />
+
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/nft"
+              element={
+                <ProtectedRoute>
+
+                  <NFTMarketplace />
 
                 </ProtectedRoute>
               }
