@@ -124,6 +124,14 @@ const Navbar = () => {
 
     {
       name:
+        "News",
+
+      path:
+        "/news",
+    },
+
+    {
+      name:
         "Wallet",
 
       path:

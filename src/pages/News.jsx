@@ -1,182 +1,171 @@
-import {
-  Newspaper,
-  TrendingUp,
-  Globe,
-} from "lucide-react";
-
-const news = [
-  {
-    id: 1,
-    title:
-      "Bitcoin Surges Above $105K Amid ETF Demand",
-    source: "CryptoX News",
-    time: "2 hours ago",
-    image:
-      "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?q=80&w=1200&auto=format&fit=crop",
-  },
-
-  {
-    id: 2,
-    title:
-      "Ethereum Layer-2 Volume Hits Record High",
-    source: "CoinDesk",
-    time: "4 hours ago",
-    image:
-      "https://images.unsplash.com/photo-1621761191319-c6fb62004040?q=80&w=1200&auto=format&fit=crop",
-  },
-
-  {
-    id: 3,
-    title:
-      "Solana DeFi Ecosystem Expands Rapidly",
-    source: "CoinTelegraph",
-    time: "6 hours ago",
-    image:
-      "https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=1200&auto=format&fit=crop",
-  },
-
-  {
-    id: 4,
-    title:
-      "Crypto Market Cap Crosses $4 Trillion",
-    source: "Bloomberg Crypto",
-    time: "9 hours ago",
-    image:
-      "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?q=80&w=1200&auto=format&fit=crop",
-  },
-
-  {
-    id: 5,
-    title:
-      "AI Tokens Continue Massive Rally",
-    source: "Decrypt",
-    time: "12 hours ago",
-    image:
-      "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200&auto=format&fit=crop",
-  },
-
-  {
-    id: 6,
-    title:
-      "Institutional Investors Increase BTC Holdings",
-    source: "CryptoSlate",
-    time: "15 hours ago",
-    image:
-      "https://images.unsplash.com/photo-1640161704729-cbe966a08476?q=80&w=1200&auto=format&fit=crop",
-  },
-];
+import React from "react";
 
 const News = () => {
+
+  const news = [
+
+    {
+      title:
+        "Bitcoin Surges Above $80K Amid Institutional Demand",
+
+      category:
+        "Market",
+
+      time:
+        "2h ago",
+
+      image:
+        "https://images.unsplash.com/photo-1518546305927-5a555bb7020d",
+    },
+
+    {
+      title:
+        "Ethereum ETF Adoption Accelerates Across Global Markets",
+
+      category:
+        "Ethereum",
+
+      time:
+        "4h ago",
+
+      image:
+        "https://images.unsplash.com/photo-1621761191319-c6fb62004040",
+    },
+
+    {
+      title:
+        "AI Tokens Continue Massive Growth In Web3 Sector",
+
+      category:
+        "AI Crypto",
+
+      time:
+        "6h ago",
+
+      image:
+        "https://images.unsplash.com/photo-1677442136019-21780ecad995",
+    },
+
+    {
+      title:
+        "Top Analysts Predict New Crypto Bull Cycle",
+
+      category:
+        "Analysis",
+
+      time:
+        "8h ago",
+
+      image:
+        "https://images.unsplash.com/photo-1642104704074-907c0698cbd9",
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* HEADER */}
 
-        <div className="mb-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="bg-orange-600 p-4 rounded-3xl">
-              <Newspaper size={36} />
-            </div>
+    <div className="space-y-10">
 
-            <div>
-              <h1 className="text-5xl font-bold">
-                Crypto News
-              </h1>
+      {/* HEADER */}
 
-              <p className="text-slate-400 mt-2 text-lg">
-                Latest updates from the
-                crypto market.
-              </p>
-            </div>
-          </div>
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+
+        <div>
+
+          <h1 className="text-5xl font-black">
+            Crypto News
+          </h1>
+
+          <p className="text-gray-400 text-lg mt-3">
+            Latest crypto news, insights and market analysis
+          </p>
+
         </div>
 
-        {/* STATS */}
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <Newspaper
-              size={38}
-              className="text-orange-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              Daily Articles
-            </p>
-
-            <h2 className="text-4xl font-bold mt-2">
-              1,280
-            </h2>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <TrendingUp
-              size={38}
-              className="text-green-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              Trending Markets
-            </p>
-
-            <h2 className="text-4xl font-bold mt-2 text-green-400">
-              BTC • ETH • SOL
-            </h2>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-            <Globe
-              size={38}
-              className="text-blue-400 mb-4"
-            />
-
-            <p className="text-slate-400">
-              Global Coverage
-            </p>
-
-            <h2 className="text-4xl font-bold mt-2">
-              24/7
-            </h2>
-          </div>
+        <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 px-5 py-3 rounded-2xl font-bold">
+          LIVE NEWS
         </div>
 
-        {/* NEWS GRID */}
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-          {news.map((article) => (
+      {/* HERO */}
+
+      <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-gradient-to-br from-[#111] to-black p-10">
+
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,#facc15,transparent_35%)]" />
+
+        <div className="relative z-10">
+
+          <p className="text-gray-400 text-lg">
+            Real-Time Market Intelligence
+          </p>
+
+          <h1 className="text-6xl lg:text-7xl font-black mt-5">
+            MARKET INSIGHTS
+          </h1>
+
+          <p className="text-gray-400 text-lg mt-6 max-w-2xl">
+            Stay informed with the latest cryptocurrency news,
+            institutional trends and blockchain ecosystem updates.
+          </p>
+
+        </div>
+
+      </div>
+
+      {/* NEWS GRID */}
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+        {news.map(
+          (
+            item,
+            index
+          ) => (
+
             <div
-              key={article.id}
-              className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden hover:scale-[1.02] transition"
+              key={index}
+              className="overflow-hidden bg-[#111] border border-white/10 rounded-[36px]"
             >
+
               <img
-                src={article.image}
-                alt={article.title}
-                className="w-full h-64 object-cover"
+                src={item.image}
+                alt={item.title}
+                className="w-full h-[280px] object-cover"
               />
 
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="bg-orange-600/20 text-orange-400 px-3 py-1 rounded-xl text-sm">
-                    {article.source}
+              <div className="p-8">
+
+                <div className="flex items-center gap-4">
+
+                  <span className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 px-4 py-2 rounded-xl text-sm font-bold">
+                    {item.category}
                   </span>
 
-                  <span className="text-slate-400 text-sm">
-                    {article.time}
+                  <span className="text-gray-500 text-sm">
+                    {item.time}
                   </span>
+
                 </div>
 
-                <h2 className="text-2xl font-bold mb-6 leading-snug">
-                  {article.title}
+                <h2 className="text-3xl font-black mt-6 leading-tight">
+                  {item.title}
                 </h2>
 
-                <button className="w-full bg-orange-600 hover:bg-orange-700 py-4 rounded-2xl font-bold transition">
-                  Read Article
+                <button className="mt-8 bg-yellow-500 hover:bg-yellow-600 transition px-6 py-4 rounded-2xl font-black text-black">
+
+                  Read More
+
                 </button>
+
               </div>
+
             </div>
-          ))}
-        </div>
+
+          )
+        )}
+
       </div>
+
     </div>
   );
 };

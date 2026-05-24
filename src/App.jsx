@@ -39,6 +39,8 @@ import NFTMarketplace from "./pages/NFTMarketplace";
 
 import Launchpad from "./pages/Launchpad";
 
+import News from "./pages/News";
+
 import VIP from "./pages/VIP";
 
 import Referral from "./pages/Referral";
@@ -123,9 +125,7 @@ function App() {
               path="/dashboard"
               element={
                 <ProtectedRoute>
-
                   <Dashboard />
-
                 </ProtectedRoute>
               }
             />
@@ -134,9 +134,7 @@ function App() {
               path="/spot"
               element={
                 <ProtectedRoute>
-
                   <SpotTrading />
-
                 </ProtectedRoute>
               }
             />
@@ -145,9 +143,7 @@ function App() {
               path="/futures"
               element={
                 <ProtectedRoute>
-
                   <Futures />
-
                 </ProtectedRoute>
               }
             />
@@ -156,9 +152,7 @@ function App() {
               path="/copy-trading"
               element={
                 <ProtectedRoute>
-
                   <CopyTrading />
-
                 </ProtectedRoute>
               }
             />
@@ -167,9 +161,7 @@ function App() {
               path="/leaderboard"
               element={
                 <ProtectedRoute>
-
                   <Leaderboard />
-
                 </ProtectedRoute>
               }
             />
@@ -178,9 +170,7 @@ function App() {
               path="/staking"
               element={
                 <ProtectedRoute>
-
                   <Staking />
-
                 </ProtectedRoute>
               }
             />
@@ -189,9 +179,7 @@ function App() {
               path="/nft"
               element={
                 <ProtectedRoute>
-
                   <NFTMarketplace />
-
                 </ProtectedRoute>
               }
             />
@@ -200,9 +188,16 @@ function App() {
               path="/launchpad"
               element={
                 <ProtectedRoute>
-
                   <Launchpad />
+                </ProtectedRoute>
+              }
+            />
 
+            <Route
+              path="/news"
+              element={
+                <ProtectedRoute>
+                  <News />
                 </ProtectedRoute>
               }
             />
@@ -211,9 +206,7 @@ function App() {
               path="/wallet"
               element={
                 <ProtectedRoute>
-
                   <Wallet />
-
                 </ProtectedRoute>
               }
             />
@@ -222,9 +215,7 @@ function App() {
               path="/transactions"
               element={
                 <ProtectedRoute>
-
                   <Transactions />
-
                 </ProtectedRoute>
               }
             />
@@ -233,9 +224,7 @@ function App() {
               path="/vip"
               element={
                 <ProtectedRoute>
-
                   <VIP />
-
                 </ProtectedRoute>
               }
             />
@@ -244,9 +233,7 @@ function App() {
               path="/referral"
               element={
                 <ProtectedRoute>
-
                   <Referral />
-
                 </ProtectedRoute>
               }
             />
@@ -255,9 +242,7 @@ function App() {
               path="/analytics"
               element={
                 <ProtectedRoute>
-
                   <Analytics />
-
                 </ProtectedRoute>
               }
             />
@@ -266,9 +251,7 @@ function App() {
               path="/settings"
               element={
                 <ProtectedRoute>
-
                   <Settings />
-
                 </ProtectedRoute>
               }
             />
@@ -277,9 +260,7 @@ function App() {
               path="/kyc"
               element={
                 <ProtectedRoute>
-
                   <KYC />
-
                 </ProtectedRoute>
               }
             />
@@ -288,9 +269,7 @@ function App() {
               path="/admin"
               element={
                 <ProtectedRoute>
-
                   <Admin />
-
                 </ProtectedRoute>
               }
             />

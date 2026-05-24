@@ -7,7 +7,7 @@ import {
 
 import {
   FaHome,
-  FaRocket,
+  FaNewspaper,
   FaWallet,
   FaChartLine,
   FaCog,
@@ -54,13 +54,13 @@ const MobileBottomNav = () => {
 
     {
       name:
-        "Launch",
+        "News",
 
       icon:
-        <FaRocket />,
+        <FaNewspaper />,
 
       path:
-        "/launchpad",
+        "/news",
     },
 
     {
