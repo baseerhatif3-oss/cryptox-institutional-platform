@@ -1,202 +1,156 @@
-import React, {
-  useEffect,
-  useState,
-} from "react";
-
-import socket from "../services/socket";
+import React from "react";
 
 const OrderBook = () => {
 
-  const [buyOrders, setBuyOrders] =
-    useState([]);
+  const sellOrders = [
 
-  const [
-    sellOrders,
-    setSellOrders,
-  ] = useState([]);
+    {
+      price: "84,820",
+      amount: "0.82",
+      total: "69,552",
+    },
 
-  /*
-  ==========================================
-  SOCKET LISTENERS
-  ==========================================
-  */
+    {
+      price: "84,760",
+      amount: "1.24",
+      total: "105,102",
+    },
 
-  useEffect(() => {
+    {
+      price: "84,700",
+      amount: "0.65",
+      total: "55,055",
+    },
+  ];
 
-    socket.on(
-      "orderBookUpdate",
+  const buyOrders = [
 
-      (data) => {
+    {
+      price: "84,520",
+      amount: "1.12",
+      total: "94,662",
+    },
 
-        setBuyOrders(
-          data.buyOrders || []
-        );
+    {
+      price: "84,480",
+      amount: "2.24",
+      total: "189,235",
+    },
 
-        setSellOrders(
-          data.sellOrders || []
-        );
-      }
-    );
-
-    return () => {
-
-      socket.off(
-        "orderBookUpdate"
-      );
-    };
-
-  }, []);
+    {
+      price: "84,420",
+      amount: "0.92",
+      total: "77,666",
+    },
+  ];
 
   return (
-    <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+
+    <div className="bg-[#111] border border-white/10 rounded-[36px] overflow-hidden">
+
+      <div className="p-6 border-b border-white/10">
+
+        <h2 className="text-2xl font-black">
+          Order Book
+        </h2>
+
+      </div>
 
       {/* HEADER */}
 
-      <div className="flex items-center justify-between mb-6">
+      <div className="grid grid-cols-3 px-6 py-4 text-sm text-gray-400 border-b border-white/5">
 
-        <div>
+        <div>Price</div>
 
-          <h2 className="text-2xl font-bold">
-            Live Order Book
-          </h2>
-
-          <p className="text-gray-400 mt-1">
-            Realtime market depth
-          </p>
-
+        <div className="text-center">
+          Amount
         </div>
 
-        <div className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-2 rounded-xl text-sm">
-          LIVE
+        <div className="text-right">
+          Total
         </div>
 
       </div>
 
-      {/* TABLE */}
+      {/* SELL ORDERS */}
 
-      <div className="grid grid-cols-2 gap-6">
+      <div>
 
-        {/* BUY ORDERS */}
+        {sellOrders.map(
+          (
+            order,
+            index
+          ) => (
 
-        <div>
+            <div
+              key={index}
+              className="grid grid-cols-3 px-6 py-3 text-sm hover:bg-red-500/5 transition"
+            >
 
-          <h3 className="text-green-400 font-bold mb-4">
-            BUY ORDERS
-          </h3>
-
-          <div className="space-y-3">
-
-            {buyOrders.length === 0 && (
-
-              <div className="text-gray-500">
-                No buy orders
+              <div className="text-red-400 font-bold">
+                {order.price}
               </div>
 
-            )}
-
-            {buyOrders.map(
-              (
-                order,
-                index
-              ) => (
-
-                <div
-                  key={index}
-                  className="bg-black border border-gray-800 rounded-xl px-4 py-3 flex items-center justify-between"
-                >
-
-                  <div>
-
-                    <p className="font-bold">
-                      $
-                      {Number(
-                        order.price
-                      ).toLocaleString()}
-                    </p>
-
-                    <p className="text-gray-500 text-sm">
-                      Qty:
-                      {" "}
-                      {
-                        order.quantity
-                      }
-                    </p>
-
-                  </div>
-
-                  <div className="text-green-400 font-bold">
-                    BUY
-                  </div>
-
-                </div>
-
-              )
-            )}
-
-          </div>
-
-        </div>
-
-        {/* SELL ORDERS */}
-
-        <div>
-
-          <h3 className="text-red-400 font-bold mb-4">
-            SELL ORDERS
-          </h3>
-
-          <div className="space-y-3">
-
-            {sellOrders.length === 0 && (
-
-              <div className="text-gray-500">
-                No sell orders
+              <div className="text-center">
+                {order.amount}
               </div>
 
-            )}
+              <div className="text-right">
+                {order.total}
+              </div>
 
-            {sellOrders.map(
-              (
-                order,
-                index
-              ) => (
+            </div>
 
-                <div
-                  key={index}
-                  className="bg-black border border-gray-800 rounded-xl px-4 py-3 flex items-center justify-between"
-                >
+          )
+        )}
 
-                  <div>
+      </div>
 
-                    <p className="font-bold">
-                      $
-                      {Number(
-                        order.price
-                      ).toLocaleString()}
-                    </p>
+      {/* CURRENT PRICE */}
 
-                    <p className="text-gray-500 text-sm">
-                      Qty:
-                      {" "}
-                      {
-                        order.quantity
-                      }
-                    </p>
+      <div className="px-6 py-5 border-y border-white/10 text-center">
 
-                  </div>
+        <h3 className="text-3xl font-black text-yellow-400">
+          84,520
+        </h3>
 
-                  <div className="text-red-400 font-bold">
-                    SELL
-                  </div>
+        <p className="text-green-400 text-sm mt-1">
+          +4.82%
+        </p>
 
-                </div>
+      </div>
 
-              )
-            )}
+      {/* BUY ORDERS */}
 
-          </div>
+      <div>
 
-        </div>
+        {buyOrders.map(
+          (
+            order,
+            index
+          ) => (
+
+            <div
+              key={index}
+              className="grid grid-cols-3 px-6 py-3 text-sm hover:bg-green-500/5 transition"
+            >
+
+              <div className="text-green-400 font-bold">
+                {order.price}
+              </div>
+
+              <div className="text-center">
+                {order.amount}
+              </div>
+
+              <div className="text-right">
+                {order.total}
+              </div>
+
+            </div>
+
+          )
+        )}
 
       </div>
 

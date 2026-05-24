@@ -1,85 +1,51 @@
-import React, {
-  useEffect,
-  useState,
-} from "react";
-
-import socket from "../services/socket";
+import React from "react";
 
 const RecentTrades = () => {
 
-  const [trades, setTrades] =
-    useState([]);
+  const trades = [
 
-  /*
-  ==========================================
-  SOCKET LISTENER
-  ==========================================
-  */
+    {
+      price: "84,520",
+      amount: "0.82 BTC",
+      time: "23:41:02",
+      positive: true,
+    },
 
-  useEffect(() => {
+    {
+      price: "84,480",
+      amount: "1.24 BTC",
+      time: "23:40:51",
+      positive: false,
+    },
 
-    socket.on(
-      "newTrade",
+    {
+      price: "84,610",
+      amount: "0.45 BTC",
+      time: "23:40:44",
+      positive: true,
+    },
 
-      (trade) => {
-
-        setTrades(
-          (prev) => [
-
-            trade,
-
-            ...prev,
-          ].slice(0, 20)
-        );
-      }
-    );
-
-    return () => {
-
-      socket.off(
-        "newTrade"
-      );
-    };
-
-  }, []);
+    {
+      price: "84,430",
+      amount: "0.91 BTC",
+      time: "23:40:28",
+      positive: false,
+    },
+  ];
 
   return (
 
-    <div className="bg-[#111] border border-white/10 rounded-3xl p-6">
+    <div className="bg-[#111] border border-white/10 rounded-[36px] overflow-hidden">
 
-      {/* HEADER */}
+      <div className="p-6 border-b border-white/10">
 
-      <div className="flex items-center justify-between mb-6">
-
-        <div>
-
-          <h2 className="text-2xl font-black">
-            Recent Trades
-          </h2>
-
-          <p className="text-gray-400 mt-1">
-            Live market executions
-          </p>
-
-        </div>
-
-        <div className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-2 rounded-xl text-sm font-bold">
-          LIVE
-        </div>
+        <h2 className="text-2xl font-black">
+          Recent Trades
+        </h2>
 
       </div>
 
-      {/* TRADES */}
-
-      <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2">
-
-        {trades.length === 0 && (
-
-          <div className="text-gray-500">
-            Waiting for trades...
-          </div>
-
-        )}
+      <div className="divide-y divide-white/5">
 
         {trades.map(
           (
@@ -89,60 +55,32 @@ const RecentTrades = () => {
 
             <div
               key={index}
-              className="bg-black border border-white/5 rounded-2xl px-5 py-4 flex items-center justify-between"
+              className="p-5 flex items-center justify-between hover:bg-white/5 transition"
             >
-
-              {/* LEFT */}
 
               <div>
 
-                <h3 className="font-bold">
-                  {
-                    trade.symbol
-                  }
+                <h3
+                  className={`font-black ${
+                    trade.positive
+                      ? "text-green-400"
+                      : "text-red-400"
+                  }`}
+                >
+
+                  {trade.price}
+
                 </h3>
 
-                <p className="text-gray-500 text-sm mt-1">
-                  Qty:
-                  {" "}
-                  {
-                    trade.quantity
-                  }
+                <p className="text-gray-400 text-sm mt-1">
+                  {trade.amount}
                 </p>
 
               </div>
 
-              {/* CENTER */}
+              <div className="text-gray-500 text-sm">
 
-              <div>
-
-                <h3 className="font-bold">
-                  $
-                  {Number(
-                    trade.price
-                  ).toLocaleString()}
-                </h3>
-
-              </div>
-
-              {/* RIGHT */}
-
-              <div>
-
-                <span
-                  className={`px-4 py-2 rounded-xl text-sm font-bold ${
-                    trade.side ===
-                    "BUY"
-                      ? "bg-green-500/20 text-green-400"
-                      : "bg-red-500/20 text-red-400"
-                  }`}
-                >
-
-                  {
-                    trade.side
-                  }
-
-                </span>
+                {trade.time}
 
               </div>
 

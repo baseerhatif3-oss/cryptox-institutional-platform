@@ -15,6 +15,10 @@ import AdvancedTradingChart from "../components/AdvancedTradingChart";
 
 import Watchlist from "../components/Watchlist";
 
+import OrderBook from "../components/OrderBook";
+
+import RecentTrades from "../components/RecentTrades";
+
 const Dashboard = () => {
 
   const portfolioStats = [
@@ -342,6 +346,16 @@ const Dashboard = () => {
           <Watchlist />
 
         </div>
+
+      </div>
+
+      {/* ORDER BOOK + RECENT TRADES */}
+
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+
+        <OrderBook />
+
+        <RecentTrades />
 
       </div>
 
