@@ -29,6 +29,8 @@ import Wallet from "./pages/Wallet";
 
 import Transactions from "./pages/Transactions";
 
+import VIP from "./pages/VIP";
+
 import Referral from "./pages/Referral";
 
 import Analytics from "./pages/Analytics";
@@ -206,6 +208,19 @@ function App() {
                 <ProtectedRoute>
 
                   <Transactions />
+
+                </ProtectedRoute>
+              }
+            />
+
+            {/* VIP */}
+
+            <Route
+              path="/vip"
+              element={
+                <ProtectedRoute>
+
+                  <VIP />
 
                 </ProtectedRoute>
               }

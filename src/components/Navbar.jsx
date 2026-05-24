@@ -115,6 +115,14 @@ const Navbar = () => {
 
     {
       name:
+        "VIP",
+
+      path:
+        "/vip",
+    },
+
+    {
+      name:
         "Referral",
 
       path:
@@ -214,7 +222,7 @@ const Navbar = () => {
 
           {token && (
 
-            <div className="hidden lg:flex items-center gap-2">
+            <div className="hidden lg:flex items-center gap-2 overflow-x-auto">
 
               {navLinks.map(
                 (link) => (
@@ -228,7 +236,7 @@ const Navbar = () => {
                       link.path
                     }
 
-                    className={`px-5 py-3 rounded-xl text-sm font-semibold transition ${
+                    className={`px-5 py-3 rounded-xl text-sm font-semibold transition whitespace-nowrap ${
                       location.pathname ===
                       link.path
                         ? "bg-yellow-500 text-black"
@@ -434,6 +442,7 @@ const Navbar = () => {
               ) : (
 
                 <>
+
                   <Link
                     to="/login"
                     className="block text-center border border-white/10 hover:bg-white/5 transition px-6 py-4 rounded-2xl font-bold"
@@ -451,6 +460,7 @@ const Navbar = () => {
                     Get Started
 
                   </Link>
+
                 </>
 
               )}
