@@ -23,6 +23,8 @@ import Dashboard from "./pages/Dashboard";
 
 import Portfolio from "./pages/Portfolio";
 
+import Markets from "./pages/Markets";
+
 import SpotTrading from "./pages/SpotTrading";
 
 import Futures from "./pages/Futures";
@@ -150,6 +152,24 @@ function App() {
             />
 
             <Route
+              path="/markets"
+              element={
+                <ProtectedRoute>
+                  <Markets />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/buy-crypto"
+              element={
+                <ProtectedRoute>
+                  <BuyCrypto />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
               path="/spot"
               element={
                 <ProtectedRoute>
@@ -235,15 +255,6 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Security />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/buy-crypto"
-              element={
-                <ProtectedRoute>
-                  <BuyCrypto />
                 </ProtectedRoute>
               }
             />

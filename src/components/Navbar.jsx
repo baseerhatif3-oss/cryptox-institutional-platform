@@ -68,6 +68,14 @@ const Navbar = () => {
 
     {
       name:
+        "Markets",
+
+      path:
+        "/markets",
+    },
+
+    {
+      name:
         "Portfolio",
 
       path:
