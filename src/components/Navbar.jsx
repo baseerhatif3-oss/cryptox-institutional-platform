@@ -115,6 +115,14 @@ const Navbar = () => {
 
     {
       name:
+        "Leaderboard",
+
+      path:
+        "/leaderboard",
+    },
+
+    {
+      name:
         "VIP",
 
       path:

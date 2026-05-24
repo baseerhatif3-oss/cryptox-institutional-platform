@@ -29,6 +29,8 @@ import Wallet from "./pages/Wallet";
 
 import Transactions from "./pages/Transactions";
 
+import Leaderboard from "./pages/Leaderboard";
+
 import VIP from "./pages/VIP";
 
 import Referral from "./pages/Referral";
@@ -208,6 +210,19 @@ function App() {
                 <ProtectedRoute>
 
                   <Transactions />
+
+                </ProtectedRoute>
+              }
+            />
+
+            {/* LEADERBOARD */}
+
+            <Route
+              path="/leaderboard"
+              element={
+                <ProtectedRoute>
+
+                  <Leaderboard />
 
                 </ProtectedRoute>
               }
