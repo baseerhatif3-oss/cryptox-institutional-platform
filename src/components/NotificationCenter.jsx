@@ -15,34 +15,38 @@ const NotificationCenter = () => {
 
     {
       title:
-        "BTC Buy Order Filled",
-
+        "BTC Alert",
+      message:
+        "Bitcoin crossed above $82,000.",
       time:
-        "2 min ago",
+        "2m ago",
     },
 
     {
       title:
-        "Withdrawal Successful",
-
+        "AI Signal",
+      message:
+        "New BUY signal detected for ETH.",
       time:
-        "8 min ago",
+        "10m ago",
     },
 
     {
       title:
-        "New Login Detected",
-
+        "Security",
+      message:
+        "New login detected on your account.",
       time:
-        "15 min ago",
+        "1h ago",
     },
 
     {
       title:
-        "KYC Verification Approved",
-
+        "Rewards",
+      message:
+        "You earned 50 XP from trading.",
       time:
-        "1 hour ago",
+        "3h ago",
     },
   ];
 
@@ -50,20 +54,18 @@ const NotificationCenter = () => {
 
     <div className="relative">
 
-      {/* BUTTON */}
+      {/* BELL */}
 
       <button
         onClick={() =>
-          setOpen(
-            !open
-          )
+          setOpen(!open)
         }
-        className="relative w-12 h-12 rounded-2xl bg-white/5 hover:bg-white/10 transition flex items-center justify-center text-lg"
+        className="relative w-12 h-12 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center hover:scale-105 transition"
       >
 
         <FaBell />
 
-        <span className="absolute top-2 right-2 w-3 h-3 rounded-full bg-yellow-400 animate-pulse" />
+        <div className="absolute top-2 right-2 w-3 h-3 bg-red-500 rounded-full" />
 
       </button>
 
@@ -71,29 +73,17 @@ const NotificationCenter = () => {
 
       {open && (
 
-        <div className="absolute right-0 mt-4 w-[360px] bg-[#111] border border-white/10 rounded-3xl shadow-2xl overflow-hidden z-50">
-
-          {/* HEADER */}
+        <div className="absolute right-0 mt-4 w-[360px] max-w-[90vw] bg-[#111] border border-white/10 rounded-[28px] shadow-2xl overflow-hidden z-50">
 
           <div className="p-6 border-b border-white/10">
 
-            <div className="flex items-center justify-between">
-
-              <h2 className="text-xl font-black">
-                Notifications
-              </h2>
-
-              <span className="text-xs bg-yellow-500/10 text-yellow-400 px-3 py-1 rounded-full font-bold">
-                4 NEW
-              </span>
-
-            </div>
+            <h2 className="text-2xl font-black">
+              Notifications
+            </h2>
 
           </div>
 
-          {/* LIST */}
-
-          <div className="max-h-[400px] overflow-y-auto">
+          <div className="max-h-[450px] overflow-y-auto">
 
             {notifications.map(
               (
@@ -103,30 +93,24 @@ const NotificationCenter = () => {
 
                 <div
                   key={index}
-                  className="p-5 border-b border-white/5 hover:bg-white/[0.03] transition"
+                  className="p-6 border-b border-white/5 hover:bg-white/5 transition"
                 >
 
-                  <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-center justify-between">
 
-                    <div>
+                    <h3 className="font-black">
+                      {item.title}
+                    </h3>
 
-                      <h3 className="font-bold">
-                        {
-                          item.title
-                        }
-                      </h3>
-
-                      <p className="text-gray-500 text-sm mt-2">
-                        {
-                          item.time
-                        }
-                      </p>
-
-                    </div>
-
-                    <div className="w-2 h-2 rounded-full bg-yellow-400 mt-2" />
+                    <span className="text-xs text-gray-500">
+                      {item.time}
+                    </span>
 
                   </div>
+
+                  <p className="text-gray-400 mt-2 text-sm leading-relaxed">
+                    {item.message}
+                  </p>
 
                 </div>
 
@@ -135,11 +119,9 @@ const NotificationCenter = () => {
 
           </div>
 
-          {/* FOOTER */}
+          <div className="p-5">
 
-          <div className="p-4 text-center">
-
-            <button className="text-yellow-400 font-bold hover:underline">
+            <button className="w-full bg-yellow-500 hover:bg-yellow-600 transition py-3 rounded-2xl font-black text-black">
 
               View All Notifications
 

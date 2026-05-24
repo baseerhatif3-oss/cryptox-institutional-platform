@@ -282,6 +282,8 @@ const Navbar = () => {
 
         <div className="h-20 flex items-center justify-between">
 
+          {/* LOGO */}
+
           <Link
             to={
               token
@@ -310,6 +312,8 @@ const Navbar = () => {
             </div>
 
           </Link>
+
+          {/* DESKTOP NAV */}
 
           {token && (
 
@@ -348,13 +352,47 @@ const Navbar = () => {
 
           )}
 
+          {/* RIGHT SIDE */}
+
           {token ? (
 
             <div className="hidden lg:flex items-center gap-4">
 
+              {/* THEME */}
+
               <ThemeToggle />
 
+              {/* NOTIFICATIONS */}
+
               <NotificationCenter />
+
+              {/* USER */}
+
+              <div className="flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-2 rounded-2xl">
+
+                <div className="w-10 h-10 rounded-full bg-yellow-500 flex items-center justify-center font-black text-black">
+
+                  {user?.name
+                    ? user.name[0]
+                    : "U"}
+
+                </div>
+
+                <div>
+
+                  <h3 className="font-bold text-sm">
+                    {user?.name || "User"}
+                  </h3>
+
+                  <p className="text-xs text-gray-400">
+                    Verified Trader
+                  </p>
+
+                </div>
+
+              </div>
+
+              {/* LOGOUT */}
 
               <button
                 onClick={logout}
@@ -395,6 +433,8 @@ const Navbar = () => {
 
           )}
 
+          {/* MOBILE MENU BUTTON */}
+
           <button
             onClick={() =>
               setMobileOpen(
@@ -413,6 +453,8 @@ const Navbar = () => {
         </div>
 
       </div>
+
+      {/* MOBILE MENU */}
 
       <AnimatePresence>
 
@@ -439,11 +481,47 @@ const Navbar = () => {
 
             <div className="p-5 space-y-3">
 
-              <div className="flex justify-end">
+              {/* MOBILE TOP */}
+
+              <div className="flex items-center justify-between mb-6">
 
                 <ThemeToggle />
 
+                <NotificationCenter />
+
               </div>
+
+              {/* MOBILE USER */}
+
+              {token && (
+
+                <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-3xl p-5 mb-6">
+
+                  <div className="w-14 h-14 rounded-full bg-yellow-500 flex items-center justify-center font-black text-black text-xl">
+
+                    {user?.name
+                      ? user.name[0]
+                      : "U"}
+
+                  </div>
+
+                  <div>
+
+                    <h3 className="font-black text-lg">
+                      {user?.name || "User"}
+                    </h3>
+
+                    <p className="text-gray-400 text-sm">
+                      Premium Trader
+                    </p>
+
+                  </div>
+
+                </div>
+
+              )}
+
+              {/* NAV LINKS */}
 
               {navLinks.map(
                 (link) => (
@@ -478,6 +556,21 @@ const Navbar = () => {
                   </Link>
 
                 )
+              )}
+
+              {/* MOBILE LOGOUT */}
+
+              {token && (
+
+                <button
+                  onClick={logout}
+                  className="w-full mt-6 bg-red-500 hover:bg-red-600 transition py-4 rounded-2xl font-black"
+                >
+
+                  Logout
+
+                </button>
+
               )}
 
             </div>
