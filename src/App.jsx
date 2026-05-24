@@ -21,9 +21,11 @@ import Landing from "./pages/Landing";
 
 import Dashboard from "./pages/Dashboard";
 
-import Portfolio from "./pages/Portfolio";
-
 import Markets from "./pages/Markets";
+
+import Academy from "./pages/Academy";
+
+import Portfolio from "./pages/Portfolio";
 
 import SpotTrading from "./pages/SpotTrading";
 
@@ -143,19 +145,28 @@ function App() {
             />
 
             <Route
-              path="/portfolio"
+              path="/markets"
               element={
                 <ProtectedRoute>
-                  <Portfolio />
+                  <Markets />
                 </ProtectedRoute>
               }
             />
 
             <Route
-              path="/markets"
+              path="/academy"
               element={
                 <ProtectedRoute>
-                  <Markets />
+                  <Academy />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/portfolio"
+              element={
+                <ProtectedRoute>
+                  <Portfolio />
                 </ProtectedRoute>
               }
             />

@@ -7,7 +7,7 @@ import {
 
 import {
   FaHome,
-  FaGlobe,
+  FaGraduationCap,
   FaWallet,
   FaChartLine,
   FaCog,
@@ -43,13 +43,13 @@ const MobileBottomNav = () => {
 
     {
       name:
-        "Markets",
+        "Academy",
 
       icon:
-        <FaGlobe />,
+        <FaGraduationCap />,
 
       path:
-        "/markets",
+        "/academy",
     },
 
     {
