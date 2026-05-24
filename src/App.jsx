@@ -31,6 +31,8 @@ import Transactions from "./pages/Transactions";
 
 import Leaderboard from "./pages/Leaderboard";
 
+import CopyTrading from "./pages/CopyTrading";
+
 import VIP from "./pages/VIP";
 
 import Referral from "./pages/Referral";
@@ -46,12 +48,6 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 
 import KYC from "./pages/KYC";
-
-/*
-==========================================
-PROTECTED ROUTE
-==========================================
-*/
 
 const ProtectedRoute = ({
   children,
@@ -78,31 +74,8 @@ function App() {
 
     <BrowserRouter>
 
-      {/* TOASTER */}
-
       <Toaster
         position="top-right"
-        toastOptions={{
-          style: {
-            background:
-              "#111",
-
-            color:
-              "#fff",
-
-            border:
-              "1px solid rgba(255,255,255,0.1)",
-
-            borderRadius:
-              "18px",
-
-            padding:
-              "16px",
-
-            fontWeight:
-              "700",
-          },
-        }}
       />
 
       <div className="min-h-screen bg-black text-white overflow-x-hidden flex flex-col">
@@ -117,28 +90,18 @@ function App() {
 
         </div>
 
-        {/* NAVBAR */}
-
         <Navbar />
 
-        {/* LIVE TICKER */}
-
         <PriceTicker />
-
-        {/* MAIN */}
 
         <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-10 pb-28 lg:pb-10">
 
           <Routes>
 
-            {/* LANDING */}
-
             <Route
               path="/"
               element={<Landing />}
             />
-
-            {/* AUTH */}
 
             <Route
               path="/login"
@@ -149,8 +112,6 @@ function App() {
               path="/register"
               element={<Register />}
             />
-
-            {/* DASHBOARD */}
 
             <Route
               path="/dashboard"
@@ -163,8 +124,6 @@ function App() {
               }
             />
 
-            {/* SPOT */}
-
             <Route
               path="/spot"
               element={
@@ -175,8 +134,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
-            {/* FUTURES */}
 
             <Route
               path="/futures"
@@ -189,8 +146,6 @@ function App() {
               }
             />
 
-            {/* WALLET */}
-
             <Route
               path="/wallet"
               element={
@@ -201,8 +156,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
-            {/* TRANSACTIONS */}
 
             <Route
               path="/transactions"
@@ -215,8 +168,6 @@ function App() {
               }
             />
 
-            {/* LEADERBOARD */}
-
             <Route
               path="/leaderboard"
               element={
@@ -228,7 +179,16 @@ function App() {
               }
             />
 
-            {/* VIP */}
+            <Route
+              path="/copy-trading"
+              element={
+                <ProtectedRoute>
+
+                  <CopyTrading />
+
+                </ProtectedRoute>
+              }
+            />
 
             <Route
               path="/vip"
@@ -241,8 +201,6 @@ function App() {
               }
             />
 
-            {/* REFERRAL */}
-
             <Route
               path="/referral"
               element={
@@ -253,8 +211,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
-            {/* ANALYTICS */}
 
             <Route
               path="/analytics"
@@ -267,8 +223,6 @@ function App() {
               }
             />
 
-            {/* SETTINGS */}
-
             <Route
               path="/settings"
               element={
@@ -280,8 +234,6 @@ function App() {
               }
             />
 
-            {/* KYC */}
-
             <Route
               path="/kyc"
               element={
@@ -292,8 +244,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
-            {/* ADMIN */}
 
             <Route
               path="/admin"
@@ -310,11 +260,7 @@ function App() {
 
         </main>
 
-        {/* FOOTER */}
-
         <Footer />
-
-        {/* MOBILE NAV */}
 
         <MobileBottomNav />
 

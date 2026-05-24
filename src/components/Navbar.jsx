@@ -43,15 +43,6 @@ const Navbar = () => {
       "token"
     );
 
-  const isVerified =
-    user?.isVerified;
-
-  /*
-  ==========================================
-  LOGOUT
-  ==========================================
-  */
-
   const logout = () => {
 
     localStorage.removeItem(
@@ -64,12 +55,6 @@ const Navbar = () => {
 
     navigate("/login");
   };
-
-  /*
-  ==========================================
-  NAV LINKS
-  ==========================================
-  */
 
   const navLinks = [
 
@@ -99,18 +84,10 @@ const Navbar = () => {
 
     {
       name:
-        "Wallet",
+        "Copy Trading",
 
       path:
-        "/wallet",
-    },
-
-    {
-      name:
-        "Transactions",
-
-      path:
-        "/transactions",
+        "/copy-trading",
     },
 
     {
@@ -119,6 +96,14 @@ const Navbar = () => {
 
       path:
         "/leaderboard",
+    },
+
+    {
+      name:
+        "Wallet",
+
+      path:
+        "/wallet",
     },
 
     {
@@ -176,12 +161,6 @@ const Navbar = () => {
     });
   }
 
-  /*
-  ==========================================
-  HIDE NAVBAR ON LANDING
-  ==========================================
-  */
-
   if (
     location.pathname === "/"
   ) {
@@ -208,17 +187,19 @@ const Navbar = () => {
             className="flex items-center gap-3"
           >
 
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center font-black text-black text-xl shadow-lg shadow-yellow-500/30">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center font-black text-black text-xl">
+
               C
+
             </div>
 
             <div>
 
-              <h1 className="text-2xl font-black tracking-tight">
+              <h1 className="text-2xl font-black">
                 CryptoX
               </h1>
 
-              <p className="text-xs text-gray-500 -mt-1">
+              <p className="text-xs text-gray-500">
                 Exchange
               </p>
 
@@ -244,7 +225,7 @@ const Navbar = () => {
                       link.path
                     }
 
-                    className={`px-5 py-3 rounded-xl text-sm font-semibold transition whitespace-nowrap ${
+                    className={`px-5 py-3 rounded-xl text-sm font-semibold whitespace-nowrap transition ${
                       location.pathname ===
                       link.path
                         ? "bg-yellow-500 text-black"
@@ -272,43 +253,6 @@ const Navbar = () => {
             <div className="hidden lg:flex items-center gap-4">
 
               <NotificationCenter />
-
-              <div className="flex items-center gap-3 px-4 py-2 rounded-2xl bg-white/5 border border-white/10">
-
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center font-bold text-black">
-                  {user?.name
-                    ?.charAt(0)}
-                </div>
-
-                <div>
-
-                  <div className="flex items-center gap-2">
-
-                    <h3 className="font-semibold text-sm">
-                      {
-                        user?.name
-                      }
-                    </h3>
-
-                    {isVerified && (
-
-                      <span className="bg-blue-500 text-white text-[10px] px-2 py-1 rounded-full font-bold">
-                        VERIFIED
-                      </span>
-
-                    )}
-
-                  </div>
-
-                  <p className="text-xs text-gray-500">
-                    {
-                      user?.email
-                    }
-                  </p>
-
-                </div>
-
-              </div>
 
               <button
                 onClick={logout}
@@ -390,87 +334,44 @@ const Navbar = () => {
               y: -20,
             }}
 
-            className="lg:hidden border-t border-white/10 bg-black/95 backdrop-blur-xl"
+            className="lg:hidden border-t border-white/10 bg-black/95"
           >
 
             <div className="p-5 space-y-3">
 
-              {token ? (
+              {navLinks.map(
+                (link) => (
 
-                <>
-
-                  {navLinks.map(
-                    (link) => (
-
-                      <Link
-                        key={
-                          link.name
-                        }
-
-                        to={
-                          link.path
-                        }
-
-                        onClick={() =>
-                          setMobileOpen(
-                            false
-                          )
-                        }
-
-                        className={`block px-5 py-4 rounded-2xl font-semibold transition ${
-                          location.pathname ===
-                          link.path
-                            ? "bg-yellow-500 text-black"
-                            : "bg-white/5 hover:bg-white/10"
-                        }`}
-                      >
-
-                        {
-                          link.name
-                        }
-
-                      </Link>
-
-                    )
-                  )}
-
-                  <button
-                    onClick={
-                      logout
+                  <Link
+                    key={
+                      link.name
                     }
-                    className="w-full mt-4 bg-red-500 hover:bg-red-600 transition py-4 rounded-2xl font-bold"
+
+                    to={
+                      link.path
+                    }
+
+                    onClick={() =>
+                      setMobileOpen(
+                        false
+                      )
+                    }
+
+                    className={`block px-5 py-4 rounded-2xl font-semibold transition ${
+                      location.pathname ===
+                      link.path
+                        ? "bg-yellow-500 text-black"
+                        : "bg-white/5 hover:bg-white/10"
+                    }`}
                   >
 
-                    Logout
-
-                  </button>
-
-                </>
-
-              ) : (
-
-                <>
-
-                  <Link
-                    to="/login"
-                    className="block text-center border border-white/10 hover:bg-white/5 transition px-6 py-4 rounded-2xl font-bold"
-                  >
-
-                    Login
+                    {
+                      link.name
+                    }
 
                   </Link>
 
-                  <Link
-                    to="/register"
-                    className="block text-center bg-yellow-500 hover:bg-yellow-600 transition px-6 py-4 rounded-2xl font-bold text-black"
-                  >
-
-                    Get Started
-
-                  </Link>
-
-                </>
-
+                )
               )}
 
             </div>

@@ -9,8 +9,8 @@ import {
   FaHome,
   FaChartLine,
   FaWallet,
+  FaCopy,
   FaCog,
-  FaTrophy,
 } from "react-icons/fa";
 
 const MobileBottomNav = () => {
@@ -54,13 +54,13 @@ const MobileBottomNav = () => {
 
     {
       name:
-        "Leaders",
+        "Copy",
 
       icon:
-        <FaTrophy />,
+        <FaCopy />,
 
       path:
-        "/leaderboard",
+        "/copy-trading",
     },
 
     {
