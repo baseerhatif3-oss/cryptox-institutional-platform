@@ -7,22 +7,22 @@ import App from "./App";
 import "./index.css";
 
 import {
-  Toaster,
-} from "react-hot-toast";
+  ThemeProvider,
+} from "./context/ThemeContext";
 
 ReactDOM.createRoot(
   document.getElementById(
     "root"
   )
 ).render(
+
   <React.StrictMode>
 
-    <Toaster
-      position="top-right"
-      reverseOrder={false}
-    />
+    <ThemeProvider>
 
-    <App />
+      <App />
+
+    </ThemeProvider>
 
   </React.StrictMode>
 );

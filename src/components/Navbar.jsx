@@ -20,6 +20,8 @@ import {
 
 import NotificationCenter from "./NotificationCenter";
 
+import ThemeToggle from "./ThemeToggle";
+
 const Navbar = () => {
 
   const navigate =
@@ -350,6 +352,8 @@ const Navbar = () => {
 
             <div className="hidden lg:flex items-center gap-4">
 
+              <ThemeToggle />
+
               <NotificationCenter />
 
               <button
@@ -366,6 +370,8 @@ const Navbar = () => {
           ) : (
 
             <div className="hidden lg:flex items-center gap-4">
+
+              <ThemeToggle />
 
               <Link
                 to="/login"
@@ -432,6 +438,12 @@ const Navbar = () => {
           >
 
             <div className="p-5 space-y-3">
+
+              <div className="flex justify-end">
+
+                <ThemeToggle />
+
+              </div>
 
               {navLinks.map(
                 (link) => (

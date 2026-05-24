@@ -9,6 +9,10 @@ import {
 
 import { Toaster } from "react-hot-toast";
 
+import {
+  useTheme,
+} from "./context/ThemeContext";
+
 import Navbar from "./components/Navbar";
 
 import PriceTicker from "./components/PriceTicker";
@@ -98,6 +102,9 @@ const ProtectedRoute = ({
 
 function App() {
 
+  const { theme } =
+    useTheme();
+
   return (
 
     <BrowserRouter>
@@ -106,7 +113,13 @@ function App() {
         position="top-right"
       />
 
-      <div className="min-h-screen bg-black text-white overflow-x-hidden flex flex-col">
+      <div
+        className={`min-h-screen overflow-x-hidden flex flex-col transition-all duration-300 ${
+          theme === "dark"
+            ? "bg-black text-white"
+            : "bg-gray-100 text-black"
+        }`}
+      >
 
         {/* BACKGROUND */}
 
@@ -386,7 +399,6 @@ function App() {
       </div>
 
     </BrowserRouter>
-
   );
 }
 
