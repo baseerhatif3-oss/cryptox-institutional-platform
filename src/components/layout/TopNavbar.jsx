@@ -1,6 +1,14 @@
 import LivePriceTicker from "../LivePriceTicker";
 
+import {
+  getUser,
+  logout,
+} from "../../services/authService";
+
 const TopNavbar = () => {
+
+  const user =
+    getUser();
 
   return (
 
@@ -22,17 +30,29 @@ const TopNavbar = () => {
 
         <LivePriceTicker />
 
-        <div className="bg-[#111] border border-yellow-500/10 px-6 py-4 rounded-2xl">
+        <div className="bg-[#111] border border-yellow-500/10 px-5 py-3 rounded-2xl">
 
-          <h3 className="font-bold">
-            Baseer
+          <h3 className="font-black">
+            {
+              user?.name ||
+              "Trader"
+            }
           </h3>
 
           <p className="text-zinc-500 text-sm">
-            Verified Trader
+            Verified User
           </p>
 
         </div>
+
+        <button
+          onClick={logout}
+          className="bg-red-500 hover:bg-red-400 transition-all text-white px-5 py-3 rounded-2xl font-bold"
+        >
+
+          Logout
+
+        </button>
 
       </div>
 

@@ -1,61 +1,91 @@
 import {
+  useEffect,
   useState,
 } from "react";
 
 import MainLayout from "../components/layout/MainLayout";
 
 import TradingViewWidget from "../components/TradingViewWidget";
+
 import TradingPanel from "../components/TradingPanel";
+
+import API from "../services/api";
 
 const Dashboard = () => {
 
-  const [stats] = useState([
+  const [wallet, setWallet] =
+    useState(null);
+
+  const [orders, setOrders] =
+    useState([]);
+
+  useEffect(() => {
+
+    fetchData();
+
+  }, []);
+
+  const fetchData =
+    async () => {
+
+      try {
+
+        const walletRes =
+          await API.get(
+            "/wallet/my-wallet"
+          );
+
+        const ordersRes =
+          await API.get(
+            "/orders/my-orders"
+          );
+
+        setWallet(
+          walletRes.data
+        );
+
+        setOrders(
+          ordersRes.data
+        );
+
+      } catch (error) {
+
+        console.log(error);
+      }
+    };
+
+  const stats = [
 
     {
-      title: "Portfolio Balance",
-      value: "$100,000",
+      title:
+        "Portfolio Balance",
+
+      value:
+        `$${wallet?.balance?.toLocaleString() || 0}`,
     },
 
     {
-      title: "Today's Profit",
-      value: "+$12,845",
+      title:
+        "BTC Holdings",
+
+      value:
+        `${wallet?.btc || 0} BTC`,
     },
 
     {
-      title: "Open Orders",
-      value: "12",
+      title:
+        "Open Orders",
+
+      value:
+        orders.length,
     },
 
     {
-      title: "Trading Volume",
-      value: "$2.8M",
-    },
-  ]);
+      title:
+        "Trading Volume",
 
-  const watchlist = [
-
-    {
-      coin: "BTC",
-      name: "Bitcoin",
-      price: "$84,520",
-      change: "+4.82%",
-      positive: true,
-    },
-
-    {
-      coin: "ETH",
-      name: "Ethereum",
-      price: "$4,280",
-      change: "+2.18%",
-      positive: true,
-    },
-
-    {
-      coin: "SOL",
-      name: "Solana",
-      price: "$182",
-      change: "-1.34%",
-      positive: false,
+      value:
+        "$2.8M",
     },
   ];
 
@@ -77,7 +107,7 @@ const Dashboard = () => {
 
         </div>
 
-        <button className="bg-yellow-400 text-black px-8 py-4 rounded-2xl font-black hover:scale-105 transition-all">
+        <button className="bg-yellow-400 text-black px-8 py-4 rounded-2xl font-black">
 
           Deposit Funds
 
@@ -99,11 +129,7 @@ const Dashboard = () => {
                 {stat.title}
               </p>
 
-              <h2 className={`text-5xl font-black ${
-                stat.value.includes("+")
-                  ? "text-green-400"
-                  : "text-white"
-              }`}>
+              <h2 className="text-4xl font-black text-white">
 
                 {stat.value}
 
@@ -117,7 +143,7 @@ const Dashboard = () => {
 
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
 
-        <div className="xl:col-span-3 space-y-8">
+        <div className="xl:col-span-3">
 
           <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
 
@@ -130,19 +156,7 @@ const Dashboard = () => {
                 </h2>
 
                 <p className="text-zinc-500">
-                  Live TradingView Chart
-                </p>
-
-              </div>
-
-              <div className="text-right">
-
-                <h2 className="text-4xl font-black">
-                  $84,520
-                </h2>
-
-                <p className="text-green-400 font-bold">
-                  +4.82%
+                  Live Trading Chart
                 </p>
 
               </div>
@@ -155,75 +169,9 @@ const Dashboard = () => {
 
         </div>
 
-        <div className="space-y-8">
+        <div>
 
           <TradingPanel />
-
-          <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
-
-            <div className="flex items-center justify-between mb-8">
-
-              <div>
-
-                <h2 className="text-4xl font-black">
-                  Watchlist
-                </h2>
-
-                <p className="text-zinc-500">
-                  Favorite assets overview
-                </p>
-
-              </div>
-
-            </div>
-
-            <div className="space-y-6">
-
-              {
-                watchlist.map((item, index) => (
-
-                  <div
-                    key={index}
-                    className="flex items-center justify-between"
-                  >
-
-                    <div>
-
-                      <h3 className="font-black text-xl">
-                        {item.coin}
-                      </h3>
-
-                      <p className="text-zinc-500">
-                        {item.name}
-                      </p>
-
-                    </div>
-
-                    <div className="text-right">
-
-                      <h3 className="font-black text-xl">
-                        {item.price}
-                      </h3>
-
-                      <p className={`font-bold ${
-                        item.positive
-                          ? "text-green-400"
-                          : "text-red-400"
-                      }`}>
-
-                        {item.change}
-
-                      </p>
-
-                    </div>
-
-                  </div>
-                ))
-              }
-
-            </div>
-
-          </div>
 
         </div>
 
