@@ -130,8 +130,96 @@ const Wallet = () => {
 
         <div className="space-y-5">
 
-          <div className="bg-black rounded-2xl p-6 flex justify-between">
+          <div className="bg-black rounded-2xl p-6 flex items-center justify-between">
 
             <div>
 
-              <h3 className="
+              <h3 className="text-2xl font-black">
+                Bitcoin
+              </h3>
+
+              <p className="text-zinc-500">
+                BTC Holdings
+              </p>
+
+            </div>
+
+            <div className="text-right">
+
+              <h2 className="text-3xl font-black text-yellow-400">
+
+                {
+                  wallet?.btc || 0
+                } BTC
+
+              </h2>
+
+            </div>
+
+          </div>
+
+          <div className="bg-black rounded-2xl p-6 flex items-center justify-between">
+
+            <div>
+
+              <h3 className="text-2xl font-black">
+                Ethereum
+              </h3>
+
+              <p className="text-zinc-500">
+                ETH Holdings
+              </p>
+
+            </div>
+
+            <div className="text-right">
+
+              <h2 className="text-3xl font-black text-blue-400">
+
+                {
+                  wallet?.eth || 0
+                } ETH
+
+              </h2>
+
+            </div>
+
+          </div>
+
+          <div className="bg-black rounded-2xl p-6 flex items-center justify-between">
+
+            <div>
+
+              <h3 className="text-2xl font-black">
+                Solana
+              </h3>
+
+              <p className="text-zinc-500">
+                SOL Holdings
+              </p>
+
+            </div>
+
+            <div className="text-right">
+
+              <h2 className="text-3xl font-black text-purple-400">
+
+                {
+                  wallet?.sol || 0
+                } SOL
+
+              </h2>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </MainLayout>
+  );
+};
+
+export default Wallet;
