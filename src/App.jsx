@@ -12,6 +12,7 @@ import Dashboard from "./pages/Dashboard";
 import Markets from "./pages/Markets";
 import Trading from "./pages/Trading";
 import Futures from "./pages/Futures";
+import CopyTrading from "./pages/CopyTrading";
 
 import Wallet from "./pages/Wallet";
 import Orders from "./pages/Orders";
@@ -19,6 +20,8 @@ import Transactions from "./pages/Transactions";
 
 import Deposit from "./pages/Deposit";
 import Withdraw from "./pages/Withdraw";
+
+import Notifications from "./pages/Notifications";
 
 import Admin from "./pages/Admin";
 import KYC from "./pages/KYC";
@@ -63,6 +66,11 @@ function App() {
         />
 
         <Route
+          path="/notifications"
+          element={<Notifications />}
+        />
+
+        <Route
           path="/markets"
           element={<Markets />}
         />
@@ -75,6 +83,11 @@ function App() {
         <Route
           path="/futures"
           element={<Futures />}
+        />
+
+        <Route
+          path="/copy-trading"
+          element={<CopyTrading />}
         />
 
         <Route

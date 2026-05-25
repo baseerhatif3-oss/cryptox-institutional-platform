@@ -1,5 +1,6 @@
 import {
   LayoutDashboard,
+  Bell,
   CandlestickChart,
   ChartCandlestick,
   Wallet,
@@ -16,13 +17,23 @@ import {
   BadgeCheck,
   LineChart,
   LockKeyhole,
+  Copy,
+  Menu,
+  X,
 } from "lucide-react";
 
 import {
   NavLink,
 } from "react-router-dom";
 
+import {
+  useState,
+} from "react";
+
 const Sidebar = () => {
+
+  const [open, setOpen] =
+    useState(false);
 
   const navItems = [
 
@@ -30,6 +41,12 @@ const Sidebar = () => {
       name: "Dashboard",
       path: "/dashboard",
       icon: LayoutDashboard,
+    },
+
+    {
+      name: "Notifications",
+      path: "/notifications",
+      icon: Bell,
     },
 
     {
@@ -48,6 +65,12 @@ const Sidebar = () => {
       name: "Futures",
       path: "/futures",
       icon: ChartCandlestick,
+    },
+
+    {
+      name: "Copy Trading",
+      path: "/copy-trading",
+      icon: Copy,
     },
 
     {
@@ -137,56 +160,108 @@ const Sidebar = () => {
 
   return (
 
-    <aside className="w-[260px] min-h-screen bg-black border-r border-yellow-500/10 p-5 flex flex-col sticky top-0 overflow-y-auto">
+    <>
 
-      <div className="mb-10">
+      <button
+        onClick={() => setOpen(true)}
+        className="lg:hidden fixed top-5 left-5 z-50 bg-yellow-400 text-black p-3 rounded-xl"
+      >
 
-        <h1 className="text-5xl font-black text-yellow-400">
-          CryptoX
-        </h1>
+        <Menu size={24} />
 
-        <p className="text-zinc-500 mt-2">
-          Exchange Platform
-        </p>
+      </button>
 
-      </div>
+      {
+        open && (
 
-      <nav className="space-y-3">
+          <div
+            className="fixed inset-0 bg-black/70 z-40 lg:hidden"
+            onClick={() => setOpen(false)}
+          />
+        )
+      }
 
-        {
-          navItems.map((item) => {
-
-            const Icon =
-              item.icon;
-
-            return (
-
-              <NavLink
-                key={item.name}
-                to={item.path}
-                className={({ isActive }) =>
-                  `flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 font-bold ${
-                    isActive
-                      ? "bg-yellow-400 text-black"
-                      : "bg-[#111] text-white hover:bg-yellow-400 hover:text-black"
-                  }`
-                }
-              >
-
-                <Icon size={20} />
-
-                <span>
-                  {item.name}
-                </span>
-
-              </NavLink>
-            );
-          })
+      <aside className={`
+        fixed lg:sticky top-0 left-0 z-50
+        w-[260px]
+        min-h-screen
+        bg-black
+        border-r border-yellow-500/10
+        p-5
+        flex flex-col
+        overflow-y-auto
+        transition-all duration-300
+        ${
+          open
+            ? "translate-x-0"
+            : "-translate-x-full lg:translate-x-0"
         }
+      `}>
 
-      </nav>
+        <div className="flex items-center justify-between mb-10">
 
-    </aside>
+          <div>
+
+            <h1 className="text-5xl font-black text-yellow-400">
+              CryptoX
+            </h1>
+
+            <p className="text-zinc-500 mt-2">
+              Exchange Platform
+            </p>
+
+          </div>
+
+          <button
+            onClick={() => setOpen(false)}
+            className="lg:hidden text-white"
+          >
+
+            <X size={28} />
+
+          </button>
+
+        </div>
+
+        <nav className="space-y-3">
+
+          {
+            navItems.map((item) => {
+
+              const Icon =
+                item.icon;
+
+              return (
+
+                <NavLink
+                  key={item.name}
+                  to={item.path}
+                  onClick={() => setOpen(false)}
+                  className={({ isActive }) =>
+                    `flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 font-bold ${
+                      isActive
+                        ? "bg-yellow-400 text-black"
+                        : "bg-[#111] text-white hover:bg-yellow-400 hover:text-black"
+                    }`
+                  }
+                >
+
+                  <Icon size={20} />
+
+                  <span className="text-sm xl:text-base">
+                    {item.name}
+                  </span>
+
+                </NavLink>
+              );
+            })
+          }
+
+        </nav>
+
+      </aside>
+
+    </>
   );
 };
 

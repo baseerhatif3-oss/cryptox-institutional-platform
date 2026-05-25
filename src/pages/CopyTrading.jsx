@@ -1,4 +1,4 @@
-import React from "react";
+import MainLayout from "../components/layout/MainLayout";
 
 const CopyTrading = () => {
 
@@ -6,164 +6,183 @@ const CopyTrading = () => {
 
     {
       name: "AlphaWolf",
-      roi: "+184%",
+      roi: "+284%",
       followers: "12.4K",
-      winRate: "89%",
+      trades: 482,
+      winRate: "91%",
+      positive: true,
     },
 
     {
       name: "CryptoTitan",
-      roi: "+162%",
-      followers: "9.8K",
-      winRate: "84%",
+      roi: "+198%",
+      followers: "8.1K",
+      trades: 390,
+      winRate: "87%",
+      positive: true,
     },
 
     {
-      name: "BullMaster",
-      roi: "+141%",
-      followers: "7.1K",
-      winRate: "81%",
+      name: "BearHunter",
+      roi: "-12%",
+      followers: "1.8K",
+      trades: 221,
+      winRate: "54%",
+      positive: false,
     },
   ];
 
   return (
 
-    <div className="space-y-10">
+    <MainLayout>
 
-      {/* HEADER */}
+      <div className="mb-10">
 
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <h1 className="text-5xl font-black">
+          Copy Trading
+        </h1>
 
-        <div>
+        <p className="text-zinc-500 mt-2">
+          Follow elite traders and automatically copy their trades
+        </p>
 
-          <h1 className="text-5xl font-black">
-            Copy Trading
-          </h1>
+      </div>
 
-          <p className="text-gray-400 text-lg mt-3">
-            Follow elite traders and automatically copy strategies
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-10">
+
+        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
+
+          <p className="text-zinc-500 mb-3">
+            Active Traders
           </p>
+
+          <h2 className="text-5xl font-black text-yellow-400">
+            1,240
+          </h2>
 
         </div>
 
-        <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 px-5 py-3 rounded-2xl font-bold">
-          AUTO COPY
+        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
+
+          <p className="text-zinc-500 mb-3">
+            Copied Volume
+          </p>
+
+          <h2 className="text-5xl font-black text-green-400">
+            $84M
+          </h2>
+
+        </div>
+
+        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
+
+          <p className="text-zinc-500 mb-3">
+            Average ROI
+          </p>
+
+          <h2 className="text-5xl font-black text-blue-400">
+            118%
+          </h2>
+
         </div>
 
       </div>
 
-      {/* HERO */}
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
 
-      <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-gradient-to-br from-[#111] to-black p-10">
+        {
+          traders.map(
+            (trader, index) => (
 
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,#facc15,transparent_35%)]" />
+              <div
+                key={index}
+                className="bg-[#111] border border-yellow-500/10 rounded-3xl p-8"
+              >
 
-        <div className="relative z-10">
-
-          <p className="text-gray-400 text-lg">
-            Automated Social Trading
-          </p>
-
-          <h1 className="text-6xl lg:text-7xl font-black mt-5">
-            COPY ELITE TRADERS
-          </h1>
-
-          <p className="text-gray-400 text-lg mt-6 max-w-2xl">
-            Automatically mirror top-performing crypto traders
-            with advanced copy trading infrastructure.
-          </p>
-
-        </div>
-
-      </div>
-
-      {/* TRADERS */}
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-        {traders.map(
-          (
-            trader,
-            index
-          ) => (
-
-            <div
-              key={index}
-              className="relative overflow-hidden bg-[#111] border border-white/10 rounded-[36px] p-8"
-            >
-
-              <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_right,#facc15,transparent_35%)]" />
-
-              <div className="relative z-10">
-
-                <div className="flex items-center justify-between">
-
-                  <h2 className="text-3xl font-black">
-                    {trader.name}
-                  </h2>
-
-                  <span className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-2 rounded-xl text-sm font-bold">
-                    LIVE
-                  </span>
-
-                </div>
-
-                <div className="space-y-5 mt-8">
+                <div className="flex items-center justify-between mb-8">
 
                   <div>
 
-                    <p className="text-gray-400">
-                      ROI
-                    </p>
+                    <h2 className="text-4xl font-black">
+                      {trader.name}
+                    </h2>
 
-                    <h3 className="text-5xl font-black text-green-400 mt-2">
-                      {trader.roi}
-                    </h3>
+                    <p className="text-zinc-500 mt-1">
+                      Elite Trader
+                    </p>
 
                   </div>
 
-                  <div>
+                  <div className={`text-3xl font-black ${
+                    trader.positive
+                      ? "text-green-400"
+                      : "text-red-400"
+                  }`}>
 
-                    <p className="text-gray-400">
+                    {trader.roi}
+
+                  </div>
+
+                </div>
+
+                <div className="space-y-5 mb-8">
+
+                  <div className="flex justify-between">
+
+                    <span className="text-zinc-500">
                       Followers
-                    </p>
+                    </span>
 
-                    <h3 className="text-3xl font-black mt-2">
+                    <span className="font-bold">
                       {trader.followers}
-                    </h3>
+                    </span>
 
                   </div>
 
-                  <div>
+                  <div className="flex justify-between">
 
-                    <p className="text-gray-400">
+                    <span className="text-zinc-500">
+                      Total Trades
+                    </span>
+
+                    <span className="font-bold">
+                      {trader.trades}
+                    </span>
+
+                  </div>
+
+                  <div className="flex justify-between">
+
+                    <span className="text-zinc-500">
                       Win Rate
-                    </p>
+                    </span>
 
-                    <h3 className="text-3xl font-black mt-2">
+                    <span className="font-bold text-yellow-400">
                       {trader.winRate}
-                    </h3>
+                    </span>
 
                   </div>
 
                 </div>
 
-                <button className="w-full mt-10 bg-yellow-500 hover:bg-yellow-600 transition py-4 rounded-2xl font-black text-black">
+                <button className={`w-full py-5 rounded-2xl font-black text-lg transition-all ${
+                  trader.positive
+                    ? "bg-yellow-400 hover:bg-yellow-300 text-black"
+                    : "bg-zinc-700 hover:bg-zinc-600 text-white"
+                }`}>
 
                   Copy Trader
 
                 </button>
 
               </div>
-
-            </div>
-
+            )
           )
-        )}
+        }
 
       </div>
 
-    </div>
+    </MainLayout>
   );
 };
 
