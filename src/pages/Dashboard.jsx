@@ -4,6 +4,10 @@ import TradingPanel from "../components/TradingPanel";
 
 import TradingViewWidget from "../components/TradingViewWidget";
 
+import PortfolioCards from "../components/PortfolioCards";
+
+import RecentActivity from "../components/RecentActivity";
+
 const Dashboard = () => {
 
   return (
@@ -18,75 +22,25 @@ const Dashboard = () => {
             Trading Dashboard
           </h1>
 
-          <p className="text-gray-500 mt-2">
+          <p className="text-zinc-500 mt-2">
             Monitor your portfolio and trading activity
           </p>
 
         </div>
 
-        <button className="bg-yellow-400 text-black px-6 py-4 rounded-2xl font-bold">
+        <button className="bg-yellow-400 hover:bg-yellow-300 transition-all text-black px-6 py-4 rounded-2xl font-bold">
           Deposit Funds
         </button>
 
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <PortfolioCards />
 
-        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
-
-          <p className="text-gray-500 mb-4">
-            Total Balance
-          </p>
-
-          <h2 className="text-5xl font-black text-white">
-            $248,540
-          </h2>
-
-        </div>
-
-        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
-
-          <p className="text-gray-500 mb-4">
-            Today's Profit
-          </p>
-
-          <h2 className="text-5xl font-black text-green-400">
-            +$12,845
-          </h2>
-
-        </div>
-
-        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
-
-          <p className="text-gray-500 mb-4">
-            Open Orders
-          </p>
-
-          <h2 className="text-5xl font-black text-white">
-            12
-          </h2>
-
-        </div>
-
-        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
-
-          <p className="text-gray-500 mb-4">
-            Trading Volume
-          </p>
-
-          <h2 className="text-5xl font-black text-white">
-            $2.8M
-          </h2>
-
-        </div>
-
-      </div>
-
-      <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-8 mt-8">
 
         <div className="xl:col-span-3">
 
-          <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
+          <div className="bg-[#0d0d0d] border border-yellow-500/10 rounded-3xl p-6">
 
             <div className="flex items-center justify-between mb-6">
 
@@ -96,7 +50,7 @@ const Dashboard = () => {
                   BTC/USDT
                 </h2>
 
-                <p className="text-gray-500">
+                <p className="text-zinc-500">
                   Live TradingView Chart
                 </p>
 
@@ -116,7 +70,11 @@ const Dashboard = () => {
 
             </div>
 
-            <TradingViewWidget />
+            <div className="rounded-3xl overflow-hidden">
+
+              <TradingViewWidget />
+
+            </div>
 
           </div>
 
@@ -126,7 +84,7 @@ const Dashboard = () => {
 
           <TradingPanel />
 
-          <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
+          <div className="bg-[#0d0d0d] border border-yellow-500/10 rounded-3xl p-6">
 
             <div className="flex items-center justify-between mb-8">
 
@@ -136,7 +94,7 @@ const Dashboard = () => {
                   Watchlist
                 </h2>
 
-                <p className="text-gray-500">
+                <p className="text-zinc-500">
                   Favorite assets overview
                 </p>
 
@@ -144,9 +102,9 @@ const Dashboard = () => {
 
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
 
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between bg-black rounded-2xl p-4">
 
                 <div>
 
@@ -154,7 +112,7 @@ const Dashboard = () => {
                     BTC
                   </h3>
 
-                  <p className="text-gray-500 text-sm">
+                  <p className="text-zinc-500 text-sm">
                     Bitcoin
                   </p>
 
@@ -174,7 +132,7 @@ const Dashboard = () => {
 
               </div>
 
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between bg-black rounded-2xl p-4">
 
                 <div>
 
@@ -182,7 +140,7 @@ const Dashboard = () => {
                     ETH
                   </h3>
 
-                  <p className="text-gray-500 text-sm">
+                  <p className="text-zinc-500 text-sm">
                     Ethereum
                   </p>
 
@@ -202,7 +160,7 @@ const Dashboard = () => {
 
               </div>
 
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between bg-black rounded-2xl p-4">
 
                 <div>
 
@@ -210,7 +168,7 @@ const Dashboard = () => {
                     SOL
                   </h3>
 
-                  <p className="text-gray-500 text-sm">
+                  <p className="text-zinc-500 text-sm">
                     Solana
                   </p>
 
@@ -230,11 +188,45 @@ const Dashboard = () => {
 
               </div>
 
+              <div className="flex items-center justify-between bg-black rounded-2xl p-4">
+
+                <div>
+
+                  <h3 className="text-white font-bold">
+                    BNB
+                  </h3>
+
+                  <p className="text-zinc-500 text-sm">
+                    Binance Coin
+                  </p>
+
+                </div>
+
+                <div className="text-right">
+
+                  <h3 className="text-white font-bold">
+                    $712
+                  </h3>
+
+                  <p className="text-green-400 text-sm">
+                    +1.88%
+                  </p>
+
+                </div>
+
+              </div>
+
             </div>
 
           </div>
 
         </div>
+
+      </div>
+
+      <div className="mt-8">
+
+        <RecentActivity />
 
       </div>
 

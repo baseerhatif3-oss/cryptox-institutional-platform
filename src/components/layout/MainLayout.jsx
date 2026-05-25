@@ -1,15 +1,22 @@
 import Sidebar from "./Sidebar";
+import TopNavbar from "./TopNavbar";
 
 const MainLayout = ({ children }) => {
 
   return (
 
-    <div className="min-h-screen bg-black text-white">
+    <div className="bg-black min-h-screen text-white">
 
       <Sidebar />
 
-      <div className="ml-[260px] p-8">
-        {children}
+      <div className="ml-[260px]">
+
+        <TopNavbar />
+
+        <div className="p-8">
+          {children}
+        </div>
+
       </div>
 
     </div>
