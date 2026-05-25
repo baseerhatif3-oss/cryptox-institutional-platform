@@ -1,105 +1,35 @@
-import {
-  useEffect,
-  useState,
-} from "react";
-
-import {
-  get24hrTicker,
-} from "../services/marketService";
-
-const symbols = [
+const coins = [
 
   {
-    symbol: "BTCUSDT",
+    symbol: "BTC",
     name: "Bitcoin",
+    price: "$84,520",
+    change: "+4.82%",
   },
 
   {
-    symbol: "ETHUSDT",
+    symbol: "ETH",
     name: "Ethereum",
+    price: "$4,280",
+    change: "+2.18%",
   },
 
   {
-    symbol: "SOLUSDT",
+    symbol: "SOL",
     name: "Solana",
+    price: "$182",
+    change: "-1.34%",
   },
 
   {
-    symbol: "BNBUSDT",
+    symbol: "BNB",
     name: "BNB",
+    price: "$712",
+    change: "+1.88%",
   },
 ];
 
 const MarketOverview = () => {
-
-  const [markets, setMarkets] =
-    useState([]);
-
-  useEffect(() => {
-
-    fetchMarkets();
-
-    const interval =
-      setInterval(
-        fetchMarkets,
-        5000
-      );
-
-    return () =>
-      clearInterval(
-        interval
-      );
-
-  }, []);
-
-  const fetchMarkets =
-    async () => {
-
-      try {
-
-        const data =
-          await Promise.all(
-
-            symbols.map(
-              async (coin) => {
-
-                const ticker =
-                  await get24hrTicker(
-                    coin.symbol
-                  );
-
-                return {
-
-                  symbol:
-                    coin.symbol.replace(
-                      "USDT",
-                      ""
-                    ),
-
-                  name:
-                    coin.name,
-
-                  price:
-                    Number(
-                      ticker.lastPrice
-                    ).toFixed(2),
-
-                  change:
-                    Number(
-                      ticker.priceChangePercent
-                    ).toFixed(2),
-                };
-              }
-            )
-          );
-
-        setMarkets(data);
-
-      } catch (error) {
-
-        console.log(error);
-      }
-    };
 
   return (
 
@@ -110,11 +40,11 @@ const MarketOverview = () => {
         <div>
 
           <h2 className="text-3xl font-black text-white">
-            Live Markets
+            Markets
           </h2>
 
           <p className="text-gray-500">
-            Real Binance market data
+            Top crypto assets
           </p>
 
         </div>
@@ -124,54 +54,43 @@ const MarketOverview = () => {
       <div className="space-y-4">
 
         {
-          markets.map(
-            (coin) => (
+          coins.map((coin) => (
 
-              <div
-                key={coin.symbol}
-                className="flex items-center justify-between bg-black rounded-2xl p-4"
-              >
+            <div
+              key={coin.symbol}
+              className="flex items-center justify-between bg-black rounded-2xl p-4"
+            >
 
-                <div>
+              <div>
 
-                  <h3 className="text-white font-bold">
-                    {coin.symbol}
-                  </h3>
+                <h3 className="text-white font-bold">
+                  {coin.symbol}
+                </h3>
 
-                  <p className="text-gray-500 text-sm">
-                    {coin.name}
-                  </p>
-
-                </div>
-
-                <div className="text-right">
-
-                  <h3 className="text-white font-bold">
-
-                    $
-                    {coin.price}
-
-                  </h3>
-
-                  <p className={`text-sm font-bold ${
-                    Number(
-                      coin.change
-                    ) >= 0
-                      ? "text-green-400"
-                      : "text-red-400"
-                  }`}>
-
-                    {
-                      coin.change
-                    }%
-
-                  </p>
-
-                </div>
+                <p className="text-gray-500 text-sm">
+                  {coin.name}
+                </p>
 
               </div>
-            )
-          )
+
+              <div className="text-right">
+
+                <h3 className="text-white font-bold">
+                  {coin.price}
+                </h3>
+
+                <p className={`text-sm font-bold ${
+                  coin.change.includes("-")
+                    ? "text-red-400"
+                    : "text-green-400"
+                }`}>
+                  {coin.change}
+                </p>
+
+              </div>
+
+            </div>
+          ))
         }
 
       </div>
