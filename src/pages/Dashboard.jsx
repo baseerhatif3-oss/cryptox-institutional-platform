@@ -32,7 +32,7 @@ const Dashboard = () => {
 
         const walletRes =
           await API.get(
-            "/wallet/my-wallet"
+            "/wallet"
           );
 
         const ordersRes =
@@ -41,11 +41,11 @@ const Dashboard = () => {
           );
 
         setWallet(
-          walletRes.data
+          walletRes.data || {}
         );
 
         setOrders(
-          ordersRes.data
+          ordersRes.data || []
         );
 
       } catch (error) {
@@ -61,7 +61,7 @@ const Dashboard = () => {
         "Portfolio Balance",
 
       value:
-        `$${wallet?.balance?.toLocaleString() || 0}`,
+        `$${wallet?.usdBalance || 0}`,
     },
 
     {
@@ -77,7 +77,7 @@ const Dashboard = () => {
         "Open Orders",
 
       value:
-        orders.length,
+        orders.length || 0,
     },
 
     {
