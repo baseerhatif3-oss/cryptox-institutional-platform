@@ -11,6 +11,8 @@ import {
   Landmark,
   ArrowDownCircle,
   ArrowUpCircle,
+  Users,
+  BadgeCheck,
 } from "lucide-react";
 
 import {
@@ -64,6 +66,18 @@ const Sidebar = () => {
     },
 
     {
+      name: "Admin",
+      path: "/admin",
+      icon: Users,
+    },
+
+    {
+      name: "KYC",
+      path: "/kyc",
+      icon: BadgeCheck,
+    },
+
+    {
       name: "AI Signals",
       path: "/ai-signals",
       icon: BrainCircuit,
@@ -102,7 +116,7 @@ const Sidebar = () => {
 
   return (
 
-    <aside className="w-[260px] min-h-screen bg-black border-r border-yellow-500/10 p-5 flex flex-col sticky top-0">
+    <aside className="w-[260px] min-h-screen bg-black border-r border-yellow-500/10 p-5 flex flex-col sticky top-0 overflow-y-auto">
 
       <div className="mb-10">
 
@@ -116,7 +130,7 @@ const Sidebar = () => {
 
       </div>
 
-      <nav className="space-y-3 overflow-y-auto">
+      <nav className="space-y-3">
 
         {
           navItems.map((item) => {
@@ -130,7 +144,7 @@ const Sidebar = () => {
                 key={item.name}
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex items-center gap-4 px-5 py-4 rounded-2xl transition-all font-bold ${
+                  `flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 font-bold ${
                     isActive
                       ? "bg-yellow-400 text-black"
                       : "bg-[#111] text-white hover:bg-yellow-400 hover:text-black"

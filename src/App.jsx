@@ -17,6 +17,9 @@ import Transactions from "./pages/Transactions";
 import Deposit from "./pages/Deposit";
 import Withdraw from "./pages/Withdraw";
 
+import Admin from "./pages/Admin";
+import KYC from "./pages/KYC";
+
 import AISignals from "./pages/AISignals";
 import Staking from "./pages/Staking";
 import Leaderboard from "./pages/Leaderboard";
@@ -84,6 +87,16 @@ function App() {
         <Route
           path="/withdraw"
           element={<Withdraw />}
+        />
+
+        <Route
+          path="/admin"
+          element={<Admin />}
+        />
+
+        <Route
+          path="/kyc"
+          element={<KYC />}
         />
 
         <Route
