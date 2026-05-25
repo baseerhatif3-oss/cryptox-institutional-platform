@@ -1,29 +1,43 @@
-import { io } from "socket.io-client";
+let socket = null;
 
-const SOCKET_URL =
-  "https://stream.binance.com:9443/ws/btcusdt@trade";
+export const connectBTCSocket = (
+  onMessage
+) => {
 
-let socket;
+  socket =
+    new WebSocket(
+      "wss://stream.binance.com:9443/ws/btcusdt@trade"
+    );
 
-export const connectSocket =
-  (onMessage) => {
+  socket.onmessage = (
+    event
+  ) => {
 
-    socket =
-      new WebSocket(
-        SOCKET_URL
+    const data =
+      JSON.parse(
+        event.data
       );
 
-    socket.onmessage =
-      (event) => {
-
-        const data =
-          JSON.parse(
-            event.data
-          );
-
-        onMessage(data);
-      };
+    onMessage(data);
   };
+
+  socket.onerror = (
+    error
+  ) => {
+
+    console.log(
+      "WebSocket Error:",
+      error
+    );
+  };
+
+  socket.onclose = () => {
+
+    console.log(
+      "WebSocket Closed"
+    );
+  };
+};
 
 export const disconnectSocket =
   () => {
@@ -32,4 +46,4 @@ export const disconnectSocket =
 
       socket.close();
     }
-  };
+};

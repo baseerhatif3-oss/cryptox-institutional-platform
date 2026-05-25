@@ -24,7 +24,7 @@ const Markets = () => {
     const interval =
       setInterval(
         fetchMarkets,
-        10000
+        3000
       );
 
     return () =>
@@ -66,15 +66,29 @@ const Markets = () => {
 
     <MainLayout>
 
-      <div className="mb-10">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-10">
 
-        <h1 className="text-5xl font-black">
-          Live Markets
-        </h1>
+        <div>
 
-        <p className="text-zinc-500 mt-2">
-          Real-time Binance market data
-        </p>
+          <h1 className="text-5xl font-black">
+            Live Markets
+          </h1>
+
+          <p className="text-zinc-500 mt-2">
+            Real-time Binance market data
+          </p>
+
+        </div>
+
+        <div className="flex items-center gap-2 bg-green-500/20 px-4 py-2 rounded-full w-fit">
+
+          <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+
+          <span className="text-green-400 font-bold">
+            LIVE MARKET DATA
+          </span>
+
+        </div>
 
       </div>
 
@@ -95,99 +109,133 @@ const Markets = () => {
 
           ) : (
 
-            <table className="w-full">
+            <div className="overflow-x-auto">
 
-              <thead className="bg-black">
+              <table className="w-full min-w-[900px]">
 
-                <tr>
+                <thead className="bg-black">
 
-                  <th className="text-left p-5 text-yellow-400">
-                    Symbol
-                  </th>
+                  <tr>
 
-                  <th className="text-left p-5 text-yellow-400">
-                    Price
-                  </th>
+                    <th className="text-left p-5 text-yellow-400">
+                      Symbol
+                    </th>
 
-                  <th className="text-left p-5 text-yellow-400">
-                    24H Change
-                  </th>
+                    <th className="text-left p-5 text-yellow-400">
+                      Price
+                    </th>
 
-                  <th className="text-left p-5 text-yellow-400">
-                    Volume
-                  </th>
+                    <th className="text-left p-5 text-yellow-400">
+                      24H Change
+                    </th>
 
-                </tr>
+                    <th className="text-left p-5 text-yellow-400">
+                      Volume
+                    </th>
 
-              </thead>
+                    <th className="text-left p-5 text-yellow-400">
+                      High
+                    </th>
 
-              <tbody>
+                    <th className="text-left p-5 text-yellow-400">
+                      Low
+                    </th>
 
-                {
-                  markets.map(
-                    (
-                      market,
-                      index
-                    ) => (
+                  </tr>
 
-                      <tr
-                        key={index}
-                        className="border-t border-yellow-500/10"
-                      >
+                </thead>
 
-                        <td className="p-5 font-black">
+                <tbody>
 
-                          {
-                            market.symbol
-                          }
+                  {
+                    markets.map(
+                      (
+                        market,
+                        index
+                      ) => (
 
-                        </td>
+                        <tr
+                          key={index}
+                          className="border-t border-yellow-500/10 hover:bg-black/30 transition-all"
+                        >
 
-                        <td className="p-5 font-bold">
+                          <td className="p-5 font-black">
 
-                          $
-                          {
-                            Number(
-                              market.lastPrice
-                            ).toLocaleString()
-                          }
+                            {
+                              market.symbol
+                            }
 
-                        </td>
+                          </td>
 
-                        <td className={`p-5 font-bold ${
-                          Number(
-                            market.priceChangePercent
-                          ) >= 0
-                            ? "text-green-400"
-                            : "text-red-400"
-                        }`}>
+                          <td className="p-5 font-bold">
 
-                          {
+                            $
+                            {
+                              Number(
+                                market.lastPrice
+                              ).toLocaleString()
+                            }
+
+                          </td>
+
+                          <td className={`p-5 font-bold ${
                             Number(
                               market.priceChangePercent
-                            ).toFixed(2)
-                          }%
+                            ) >= 0
+                              ? "text-green-400"
+                              : "text-red-400"
+                          }`}>
 
-                        </td>
+                            {
+                              Number(
+                                market.priceChangePercent
+                              ).toFixed(2)
+                            }%
 
-                        <td className="p-5 text-zinc-400">
+                          </td>
 
-                          {
-                            Number(
-                              market.volume
-                            ).toLocaleString()
-                          }
+                          <td className="p-5 text-zinc-400">
 
-                        </td>
+                            {
+                              Number(
+                                market.volume
+                              ).toLocaleString()
+                            }
 
-                      </tr>
+                          </td>
+
+                          <td className="p-5 text-green-400 font-bold">
+
+                            $
+                            {
+                              Number(
+                                market.highPrice
+                              ).toLocaleString()
+                            }
+
+                          </td>
+
+                          <td className="p-5 text-red-400 font-bold">
+
+                            $
+                            {
+                              Number(
+                                market.lowPrice
+                              ).toLocaleString()
+                            }
+
+                          </td>
+
+                        </tr>
+                      )
                     )
-                  )
-                }
+                  }
 
-              </tbody>
+                </tbody>
 
-            </table>
+              </table>
+
+            </div>
           )
         }
 

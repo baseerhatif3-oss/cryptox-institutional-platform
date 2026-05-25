@@ -21,6 +21,11 @@ import {
   getBTCPrice,
 } from "../services/marketService";
 
+import {
+  connectBTCSocket,
+  disconnectSocket,
+} from "../services/socketService";
+
 const Dashboard = () => {
 
   const [wallet, setWallet] =
@@ -30,7 +35,13 @@ const Dashboard = () => {
     useState([]);
 
   const [btcPrice, setBtcPrice] =
-    useState("0");
+    useState(0);
+
+  const [marketTrend, setMarketTrend] =
+    useState("Bullish");
+
+  const [priceChange, setPriceChange] =
+    useState("+0.00%");
 
   const [loading, setLoading] =
     useState(true);
@@ -39,14 +50,63 @@ const Dashboard = () => {
 
     fetchData();
 
-    const interval =
-      setInterval(
-        fetchData,
-        10000
-      );
+    connectBTCSocket(
+      (data) => {
 
-    return () =>
-      clearInterval(interval);
+        const livePrice =
+          Number(data.p);
+
+        const openPrice =
+          Number(data.o || livePrice);
+
+        const change =
+          (
+            (
+              (
+                livePrice -
+                openPrice
+              ) /
+              openPrice
+            ) * 100
+          ).toFixed(2);
+
+        setBtcPrice(
+          livePrice
+        );
+
+        setPriceChange(
+          `${change}%`
+        );
+
+        if (
+          livePrice > 85000
+        ) {
+
+          setMarketTrend(
+            "Strong Bullish"
+          );
+
+        } else if (
+          livePrice > 80000
+        ) {
+
+          setMarketTrend(
+            "Bullish"
+          );
+
+        } else {
+
+          setMarketTrend(
+            "Neutral"
+          );
+        }
+      }
+    );
+
+    return () => {
+
+      disconnectSocket();
+    };
 
   }, []);
 
@@ -68,6 +128,11 @@ const Dashboard = () => {
         const btcRes =
           await getBTCPrice();
 
+        const currentPrice =
+          Number(
+            btcRes?.price || 0
+          );
+
         setWallet(
           walletRes.data || {}
         );
@@ -77,8 +142,31 @@ const Dashboard = () => {
         );
 
         setBtcPrice(
-          btcRes?.price || "0"
+          currentPrice
         );
+
+        if (
+          currentPrice > 85000
+        ) {
+
+          setMarketTrend(
+            "Strong Bullish"
+          );
+
+        } else if (
+          currentPrice > 80000
+        ) {
+
+          setMarketTrend(
+            "Bullish"
+          );
+
+        } else {
+
+          setMarketTrend(
+            "Neutral"
+          );
+        }
 
       } catch (error) {
 
@@ -101,6 +189,9 @@ const Dashboard = () => {
 
       value:
         `$${wallet?.usdBalance || 0}`,
+
+      color:
+        "text-yellow-400",
     },
 
     {
@@ -109,6 +200,9 @@ const Dashboard = () => {
 
       value:
         `${wallet?.btc || 0} BTC`,
+
+      color:
+        "text-orange-400",
     },
 
     {
@@ -117,6 +211,9 @@ const Dashboard = () => {
 
       value:
         orders.length || 0,
+
+      color:
+        "text-blue-400",
     },
 
     {
@@ -124,7 +221,10 @@ const Dashboard = () => {
         "Live BTC Price",
 
       value:
-        `$${Number(btcPrice).toLocaleString()}`,
+        `$${btcPrice.toLocaleString()}`,
+
+      color:
+        "text-green-400",
     },
   ];
 
@@ -152,7 +252,7 @@ const Dashboard = () => {
 
     <MainLayout>
 
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-10">
+      <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6 mb-10">
 
         <div>
 
@@ -161,16 +261,30 @@ const Dashboard = () => {
           </h1>
 
           <p className="text-zinc-500 mt-2">
-            Monitor your portfolio and trading activity
+            Monitor your portfolio and real-time trading activity
           </p>
 
         </div>
 
-        <button className="bg-yellow-400 hover:bg-yellow-300 transition-all duration-300 text-black px-8 py-4 rounded-2xl font-black shadow-lg hover:scale-105">
+        <div className="flex flex-wrap gap-4">
 
-          Deposit Funds
+          <div className="flex items-center gap-3 bg-green-500/20 px-5 py-3 rounded-2xl">
 
-        </button>
+            <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+
+            <span className="text-green-400 font-bold">
+              LIVE MARKET
+            </span>
+
+          </div>
+
+          <button className="bg-yellow-400 hover:bg-yellow-300 transition-all duration-300 text-black px-8 py-4 rounded-2xl font-black shadow-lg hover:scale-105">
+
+            Deposit Funds
+
+          </button>
+
+        </div>
 
       </div>
 
@@ -188,7 +302,7 @@ const Dashboard = () => {
                 {stat.title}
               </p>
 
-              <h2 className="text-4xl font-black text-white break-words">
+              <h2 className={`text-4xl font-black break-words ${stat.color}`}>
 
                 {stat.value}
 
@@ -197,6 +311,52 @@ const Dashboard = () => {
             </div>
           ))
         }
+
+      </div>
+
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
+
+        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
+
+          <p className="text-zinc-500 mb-3">
+            Market Trend
+          </p>
+
+          <h2 className="text-4xl font-black text-green-400">
+            {marketTrend}
+          </h2>
+
+        </div>
+
+        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
+
+          <p className="text-zinc-500 mb-3">
+            BTC 24H Change
+          </p>
+
+          <h2 className={`text-4xl font-black ${
+            priceChange.includes("-")
+              ? "text-red-400"
+              : "text-green-400"
+          }`}>
+
+            {priceChange}
+
+          </h2>
+
+        </div>
+
+        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
+
+          <p className="text-zinc-500 mb-3">
+            Exchange Status
+          </p>
+
+          <h2 className="text-4xl font-black text-blue-400">
+            Operational
+          </h2>
+
+        </div>
 
       </div>
 
@@ -214,27 +374,45 @@ const Dashboard = () => {
                   BTC/USDT
                 </h2>
 
-                <p className="text-zinc-500 mt-1">
-                  Live Trading Chart
-                </p>
+                <div className="flex items-center gap-3 mt-2">
+
+                  <p className="text-zinc-500">
+                    Real-Time Trading Chart
+                  </p>
+
+                  <div className="flex items-center gap-2 bg-green-500/20 px-3 py-1 rounded-full">
+
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+
+                    <span className="text-green-400 text-sm font-bold">
+                      LIVE
+                    </span>
+
+                  </div>
+
+                </div>
 
               </div>
 
               <div className="text-left md:text-right">
 
-                <h2 className="text-3xl font-black text-white">
+                <h2 className="text-4xl font-black text-white">
 
                   $
                   {
-                    Number(
-                      btcPrice
-                    ).toLocaleString()
+                    btcPrice.toLocaleString()
                   }
 
                 </h2>
 
-                <p className="text-green-400 font-bold">
-                  Live Binance Price
+                <p className={`font-bold mt-1 ${
+                  priceChange.includes("-")
+                    ? "text-red-400"
+                    : "text-green-400"
+                }`}>
+
+                  {priceChange}
+
                 </p>
 
               </div>
