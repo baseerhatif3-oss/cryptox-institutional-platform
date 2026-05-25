@@ -9,12 +9,16 @@ import TradingViewWidget from "../components/TradingViewWidget";
 
 import TradingPanel from "../components/TradingPanel";
 
+import MarketOverview from "../components/MarketOverview";
+
+import RecentActivity from "../components/RecentActivity";
+
 import API from "../services/api";
 
 const Dashboard = () => {
 
   const [wallet, setWallet] =
-    useState(null);
+    useState({});
 
   const [orders, setOrders] =
     useState([]);
@@ -107,7 +111,7 @@ const Dashboard = () => {
 
         </div>
 
-        <button className="bg-yellow-400 text-black px-8 py-4 rounded-2xl font-black">
+        <button className="bg-yellow-400 hover:bg-yellow-300 transition-all text-black px-8 py-4 rounded-2xl font-black">
 
           Deposit Funds
 
@@ -161,6 +165,18 @@ const Dashboard = () => {
 
               </div>
 
+              <div className="text-right">
+
+                <h2 className="text-3xl font-black">
+                  $84,520
+                </h2>
+
+                <p className="text-green-400 font-bold">
+                  +4.82%
+                </p>
+
+              </div>
+
             </div>
 
             <TradingViewWidget />
@@ -169,9 +185,13 @@ const Dashboard = () => {
 
         </div>
 
-        <div>
+        <div className="space-y-8">
 
           <TradingPanel />
+
+          <MarketOverview />
+
+          <RecentActivity />
 
         </div>
 
