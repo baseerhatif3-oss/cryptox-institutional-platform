@@ -1,25 +1,22 @@
 import API from "./api";
 
-export const placeOrder = async (
-  orderData
-) => {
+export const placeOrder = async (orderData) => {
 
-  const res =
+  const response =
     await API.post(
       "/orders/place",
       orderData
     );
 
-  return res.data;
+  return response.data;
 };
 
-export const getOrders =
-  async () => {
+export const getOrders = async () => {
 
-    const res =
-      await API.get(
-        "/orders/my-orders"
-      );
+  const response =
+    await API.get(
+      "/orders/my-orders"
+    );
 
-    return res.data;
-  };
+  return response.data;
+};

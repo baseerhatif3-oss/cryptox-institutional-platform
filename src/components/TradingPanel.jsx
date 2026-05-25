@@ -1,19 +1,15 @@
-import { useState } from "react";
+import {
+  useState,
+} from "react";
 
 import {
   placeOrder,
 } from "../services/orderService";
 
-export default function TradingPanel() {
+const TradingPanel = () => {
 
   const [side, setSide] =
     useState("buy");
-
-  const [orderType, setOrderType] =
-    useState("market");
-
-  const [price, setPrice] =
-    useState("");
 
   const [amount, setAmount] =
     useState("");
@@ -21,7 +17,7 @@ export default function TradingPanel() {
   const [loading, setLoading] =
     useState(false);
 
-  const handleOrder =
+  const submitOrder =
     async () => {
 
       try {
@@ -34,41 +30,40 @@ export default function TradingPanel() {
 
           side,
 
-          type:
-            orderType,
+          type: "market",
 
           amount:
             Number(amount),
 
-          price:
-            Number(price),
+          price: 84520,
         });
 
         alert(
-          "Order placed successfully"
+          "Order executed successfully"
         );
 
         setAmount("");
 
-        setPrice("");
-
       } catch (error) {
 
-        alert(
-          error.response?.data
-            ?.message ||
-            "Order failed"
-        );
-      }
+        console.log(error);
 
-      setLoading(false);
+        alert(
+          error?.response?.data?.message ||
+          "Trading failed"
+        );
+
+      } finally {
+
+        setLoading(false);
+      }
     };
 
   return (
 
-    <div className="bg-[#0b0b0b] border border-gray-800 rounded-3xl p-6">
+    <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
 
-      <h2 className="text-2xl font-bold mb-6">
+      <h2 className="text-3xl font-black mb-8">
         Spot Trading
       </h2>
 
@@ -78,10 +73,10 @@ export default function TradingPanel() {
           onClick={() =>
             setSide("buy")
           }
-          className={`flex-1 py-3 rounded-2xl font-bold ${
+          className={`flex-1 py-4 rounded-2xl font-bold transition-all ${
             side === "buy"
-              ? "bg-green-500 text-white"
-              : "bg-black border border-gray-700"
+              ? "bg-green-500 text-black"
+              : "bg-black text-white"
           }`}
         >
           Buy
@@ -91,10 +86,10 @@ export default function TradingPanel() {
           onClick={() =>
             setSide("sell")
           }
-          className={`flex-1 py-3 rounded-2xl font-bold ${
+          className={`flex-1 py-4 rounded-2xl font-bold transition-all ${
             side === "sell"
               ? "bg-red-500 text-white"
-              : "bg-black border border-gray-700"
+              : "bg-black text-white"
           }`}
         >
           Sell
@@ -102,76 +97,82 @@ export default function TradingPanel() {
 
       </div>
 
-      <select
-        value={orderType}
-        onChange={(e) =>
-          setOrderType(
-            e.target.value
-          )
-        }
-        className="w-full bg-black border border-gray-700 rounded-2xl px-4 py-4 mb-4"
-      >
+      <div className="space-y-5">
 
-        <option value="market">
-          Market Order
-        </option>
+        <input
+          type="number"
+          placeholder="BTC Amount"
+          value={amount}
+          onChange={(e) =>
+            setAmount(
+              e.target.value
+            )
+          }
+          className="w-full bg-black border border-yellow-500/10 rounded-2xl px-5 py-4 outline-none text-white"
+        />
 
-        <option value="limit">
-          Limit Order
-        </option>
+        <div className="bg-black rounded-2xl p-5 border border-yellow-500/10">
 
-      </select>
+          <div className="flex justify-between mb-3">
 
-      {
-        orderType ===
-          "limit" && (
+            <span className="text-zinc-500">
+              Market Price
+            </span>
 
-          <input
-            type="number"
-            placeholder="Price"
-            value={price}
-            onChange={(e) =>
-              setPrice(
-                e.target.value
-              )
-            }
-            className="w-full mb-4 bg-black border border-gray-700 rounded-2xl px-4 py-4"
-          />
-        )
-      }
+            <span>
+              $84,520
+            </span>
 
-      <input
-        type="number"
-        placeholder="Amount"
-        value={amount}
-        onChange={(e) =>
-          setAmount(
-            e.target.value
-          )
-        }
-        className="w-full mb-6 bg-black border border-gray-700 rounded-2xl px-4 py-4"
-      />
+          </div>
 
-      <button
-        onClick={handleOrder}
-        disabled={loading}
-        className={`w-full py-4 rounded-2xl font-bold ${
-          side === "buy"
-            ? "bg-green-500"
-            : "bg-red-500"
-        }`}
-      >
+          <div className="flex justify-between">
 
-        {
-          loading
-            ? "Processing..."
-            : side === "buy"
-            ? "Buy BTC"
-            : "Sell BTC"
-        }
+            <span className="text-zinc-500">
+              Total
+            </span>
 
-      </button>
+            <span>
+
+              $
+              {
+                amount
+                  ? (
+                      Number(amount) *
+                      84520
+                    ).toLocaleString()
+                  : 0
+              }
+
+            </span>
+
+          </div>
+
+        </div>
+
+        <button
+          onClick={submitOrder}
+          disabled={loading}
+          className={`w-full py-5 rounded-2xl font-black text-lg transition-all ${
+            side === "buy"
+              ? "bg-green-500 text-black"
+              : "bg-red-500 text-white"
+          }`}
+        >
+
+          {
+            loading
+              ? "Processing..."
+              : side === "buy"
+              ? "Buy BTC"
+              : "Sell BTC"
+          }
+
+        </button>
+
+      </div>
 
     </div>
   );
-}
+};
+
+export default TradingPanel;

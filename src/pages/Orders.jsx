@@ -1,228 +1,166 @@
-import React, {
+import {
   useEffect,
   useState,
 } from "react";
 
-import API from "../services/api";
+import MainLayout from "../components/layout/MainLayout";
 
-const Orders =
-  () => {
-    const [
-      orders,
-      setOrders,
-    ] = useState([]);
+import {
+  getOrders,
+} from "../services/orderService";
 
-    const [
-      loading,
-      setLoading,
-    ] = useState(true);
+const Orders = () => {
 
-    useEffect(() => {
-      fetchOrders();
-    }, []);
+  const [orders, setOrders] =
+    useState([]);
 
-    const fetchOrders =
-      async () => {
-        try {
-          const res =
-            await API.get(
-              "/orders"
-            );
+  useEffect(() => {
 
-          setOrders(
-            res.data
-          );
-        } catch (error) {
-          console.log(
-            error
-          );
-        } finally {
-          setLoading(
-            false
-          );
-        }
-      };
+    fetchOrders();
 
-    const cancelOrder =
-      async (
-        id
-      ) => {
-        try {
-          await API.delete(
-            `/orders/${id}`
-          );
+  }, []);
 
-          fetchOrders();
-        } catch (error) {
-          console.log(
-            error
-          );
-        }
-      };
+  const fetchOrders =
+    async () => {
 
-    if (loading) {
-      return (
-        <div className="text-white">
-          Loading orders...
-        </div>
-      );
-    }
+      try {
 
-    return (
-      <div>
-        {/* HEADER */}
+        const data =
+          await getOrders();
 
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold">
-            Orders
-          </h1>
+        setOrders(data);
 
-          <p className="text-gray-400 mt-2">
-            Live order management system
-          </p>
-        </div>
+      } catch (error) {
 
-        {/* TABLE */}
+        console.log(error);
+      }
+    };
 
-        <div className="bg-[#111] border border-gray-800 rounded-2xl overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-black">
-                <tr>
-                  <th className="text-left p-4">
-                    Coin
-                  </th>
+  return (
 
-                  <th className="text-left p-4">
-                    Type
-                  </th>
+    <MainLayout>
 
-                  <th className="text-left p-4">
-                    Amount
-                  </th>
+      <div className="mb-10">
 
-                  <th className="text-left p-4">
-                    Price
-                  </th>
+        <h1 className="text-5xl font-black">
+          Orders
+        </h1>
 
-                  <th className="text-left p-4">
-                    Total
-                  </th>
+        <p className="text-zinc-500 mt-2">
+          Live order management system
+        </p>
 
-                  <th className="text-left p-4">
-                    Status
-                  </th>
-
-                  <th className="text-left p-4">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {orders.length >
-                0 ? (
-                  orders.map(
-                    (
-                      order
-                    ) => (
-                      <tr
-                        key={
-                          order._id
-                        }
-                        className="border-t border-gray-800"
-                      >
-                        <td className="p-4 font-bold">
-                          {
-                            order.coin
-                          }
-                        </td>
-
-                        <td
-                          className={`p-4 font-bold ${
-                            order.type ===
-                            "BUY"
-                              ? "text-green-400"
-                              : "text-red-400"
-                          }`}
-                        >
-                          {
-                            order.type
-                          }
-                        </td>
-
-                        <td className="p-4">
-                          {
-                            order.amount
-                          }
-                        </td>
-
-                        <td className="p-4">
-                          $
-                          {
-                            order.price
-                          }
-                        </td>
-
-                        <td className="p-4">
-                          $
-                          {
-                            order.total
-                          }
-                        </td>
-
-                        <td className="p-4">
-                          <span
-                            className={`px-3 py-1 rounded-full text-sm ${
-                              order.status ===
-                              "OPEN"
-                                ? "bg-yellow-500/20 text-yellow-400"
-                                : order.status ===
-                                  "FILLED"
-                                ? "bg-green-500/20 text-green-400"
-                                : "bg-red-500/20 text-red-400"
-                            }`}
-                          >
-                            {
-                              order.status
-                            }
-                          </span>
-                        </td>
-
-                        <td className="p-4">
-                          {order.status ===
-                            "OPEN" && (
-                            <button
-                              onClick={() =>
-                                cancelOrder(
-                                  order._id
-                                )
-                              }
-                              className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-sm"
-                            >
-                              Cancel
-                            </button>
-                          )}
-                        </td>
-                      </tr>
-                    )
-                  )
-                ) : (
-                  <tr>
-                    <td
-                      colSpan="7"
-                      className="text-center p-8 text-gray-400"
-                    >
-                      No orders found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
       </div>
-    );
-  };
+
+      <div className="bg-[#111] border border-yellow-500/10 rounded-3xl overflow-hidden">
+
+        <table className="w-full">
+
+          <thead className="bg-black">
+
+            <tr>
+
+              <th className="text-left p-5 text-yellow-400">
+                Pair
+              </th>
+
+              <th className="text-left p-5 text-yellow-400">
+                Side
+              </th>
+
+              <th className="text-left p-5 text-yellow-400">
+                Amount
+              </th>
+
+              <th className="text-left p-5 text-yellow-400">
+                Price
+              </th>
+
+              <th className="text-left p-5 text-yellow-400">
+                Status
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            {
+              orders.length > 0 ? (
+
+                orders.map(
+                  (order) => (
+
+                    <tr
+                      key={order._id}
+                      className="border-t border-yellow-500/10"
+                    >
+
+                      <td className="p-5">
+                        {order.pair}
+                      </td>
+
+                      <td className={`p-5 font-bold ${
+                        order.side === "buy"
+                          ? "text-green-400"
+                          : "text-red-400"
+                      }`}>
+
+                        {
+                          order.side.toUpperCase()
+                        }
+
+                      </td>
+
+                      <td className="p-5">
+                        {order.amount}
+                      </td>
+
+                      <td className="p-5">
+                        $
+                        {order.price}
+                      </td>
+
+                      <td className="p-5">
+
+                        <span className="bg-green-500 text-black px-4 py-2 rounded-full text-sm font-bold">
+
+                          {
+                            order.status
+                          }
+
+                        </span>
+
+                      </td>
+
+                    </tr>
+                  )
+                )
+
+              ) : (
+
+                <tr>
+
+                  <td
+                    colSpan="5"
+                    className="text-center p-10 text-zinc-500"
+                  >
+                    No orders found
+                  </td>
+
+                </tr>
+              )
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </MainLayout>
+  );
+};
 
 export default Orders;
