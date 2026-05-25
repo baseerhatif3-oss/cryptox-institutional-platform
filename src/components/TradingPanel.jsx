@@ -1,14 +1,68 @@
 import { useState } from "react";
 
+import {
+  placeOrder,
+} from "../services/orderService";
+
 export default function TradingPanel() {
 
-  const [side, setSide] = useState("buy");
+  const [side, setSide] =
+    useState("buy");
 
-  const [orderType, setOrderType] = useState("market");
+  const [orderType, setOrderType] =
+    useState("market");
 
-  const [price, setPrice] = useState("");
+  const [price, setPrice] =
+    useState("");
 
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] =
+    useState("");
+
+  const [loading, setLoading] =
+    useState(false);
+
+  const handleOrder =
+    async () => {
+
+      try {
+
+        setLoading(true);
+
+        await placeOrder({
+
+          pair: "BTC/USDT",
+
+          side,
+
+          type:
+            orderType,
+
+          amount:
+            Number(amount),
+
+          price:
+            Number(price),
+        });
+
+        alert(
+          "Order placed successfully"
+        );
+
+        setAmount("");
+
+        setPrice("");
+
+      } catch (error) {
+
+        alert(
+          error.response?.data
+            ?.message ||
+            "Order failed"
+        );
+      }
+
+      setLoading(false);
+    };
 
   return (
 
@@ -21,7 +75,9 @@ export default function TradingPanel() {
       <div className="flex gap-4 mb-6">
 
         <button
-          onClick={() => setSide("buy")}
+          onClick={() =>
+            setSide("buy")
+          }
           className={`flex-1 py-3 rounded-2xl font-bold ${
             side === "buy"
               ? "bg-green-500 text-white"
@@ -32,7 +88,9 @@ export default function TradingPanel() {
         </button>
 
         <button
-          onClick={() => setSide("sell")}
+          onClick={() =>
+            setSide("sell")
+          }
           className={`flex-1 py-3 rounded-2xl font-bold ${
             side === "sell"
               ? "bg-red-500 text-white"
@@ -44,32 +102,39 @@ export default function TradingPanel() {
 
       </div>
 
-      <div className="mb-4">
+      <select
+        value={orderType}
+        onChange={(e) =>
+          setOrderType(
+            e.target.value
+          )
+        }
+        className="w-full bg-black border border-gray-700 rounded-2xl px-4 py-4 mb-4"
+      >
 
-        <select
-          value={orderType}
-          onChange={(e) => setOrderType(e.target.value)}
-          className="w-full bg-black border border-gray-700 rounded-2xl px-4 py-4"
-        >
-          <option value="market">
-            Market Order
-          </option>
+        <option value="market">
+          Market Order
+        </option>
 
-          <option value="limit">
-            Limit Order
-          </option>
+        <option value="limit">
+          Limit Order
+        </option>
 
-        </select>
-
-      </div>
+      </select>
 
       {
-        orderType === "limit" && (
+        orderType ===
+          "limit" && (
+
           <input
             type="number"
             placeholder="Price"
             value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={(e) =>
+              setPrice(
+                e.target.value
+              )
+            }
             className="w-full mb-4 bg-black border border-gray-700 rounded-2xl px-4 py-4"
           />
         )
@@ -79,52 +144,32 @@ export default function TradingPanel() {
         type="number"
         placeholder="Amount"
         value={amount}
-        onChange={(e) => setAmount(e.target.value)}
+        onChange={(e) =>
+          setAmount(
+            e.target.value
+          )
+        }
         className="w-full mb-6 bg-black border border-gray-700 rounded-2xl px-4 py-4"
       />
 
-      <div className="space-y-3 mb-6">
-
-        <div className="flex justify-between">
-          <span className="text-gray-400">
-            Pair
-          </span>
-
-          <span>
-            BTC/USDT
-          </span>
-        </div>
-
-        <div className="flex justify-between">
-          <span className="text-gray-400">
-            Type
-          </span>
-
-          <span className="capitalize">
-            {orderType}
-          </span>
-        </div>
-
-        <div className="flex justify-between">
-          <span className="text-gray-400">
-            Amount
-          </span>
-
-          <span>
-            {amount || 0}
-          </span>
-        </div>
-
-      </div>
-
       <button
+        onClick={handleOrder}
+        disabled={loading}
         className={`w-full py-4 rounded-2xl font-bold ${
           side === "buy"
             ? "bg-green-500"
             : "bg-red-500"
         }`}
       >
-        {side === "buy" ? "Buy BTC" : "Sell BTC"}
+
+        {
+          loading
+            ? "Processing..."
+            : side === "buy"
+            ? "Buy BTC"
+            : "Sell BTC"
+        }
+
       </button>
 
     </div>
