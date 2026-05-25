@@ -1,14 +1,12 @@
 import MainLayout from "../components/layout/MainLayout";
 
-import TradingPanel from "../components/TradingPanel";
-
 import TradingViewWidget from "../components/TradingViewWidget";
 
-import LiveOrderBook from "../components/LiveOrderBook";
+import TradingPanel from "../components/TradingPanel";
 
-import MarketOverview from "../components/MarketOverview";
+import OrderBook from "../components/OrderBook";
 
-import RecentTrades from "../components/RecentTrades";
+import LiveTrades from "../components/LiveTrades";
 
 const Trading = () => {
 
@@ -16,93 +14,83 @@ const Trading = () => {
 
     <MainLayout>
 
-      <div className="flex items-center justify-between mb-10">
+      <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6 mb-10">
 
         <div>
 
-          <h1 className="text-5xl font-black text-white">
+          <h1 className="text-5xl font-black">
             Advanced Trading
           </h1>
 
           <p className="text-zinc-500 mt-2">
-            Professional crypto trading terminal
+            Professional real-time crypto trading terminal
           </p>
 
         </div>
 
-        <div className="bg-yellow-400 text-black px-6 py-4 rounded-2xl font-black text-xl">
-          BTC/USDT
+        <div className="flex items-center gap-3 bg-green-500/20 px-5 py-3 rounded-2xl w-fit">
+
+          <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+
+          <span className="text-green-400 font-bold">
+            LIVE TRADING ENGINE
+          </span>
+
         </div>
 
       </div>
 
-      <div className="grid grid-cols-1 2xl:grid-cols-6 gap-6">
+      <div className="grid grid-cols-1 2xl:grid-cols-4 gap-8">
 
-        {/* LEFT SIDE */}
+        <div className="2xl:col-span-3 space-y-8">
 
-        <div className="2xl:col-span-4 space-y-6">
+          <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
 
-          {/* CHART */}
-
-          <div className="bg-[#0d0d0d] border border-yellow-500/10 rounded-3xl p-6">
-
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5 mb-6">
 
               <div>
 
-                <h2 className="text-3xl font-black text-white">
+                <h2 className="text-4xl font-black">
                   BTC/USDT
                 </h2>
 
-                <p className="text-zinc-500">
-                  Live TradingView Chart
+                <p className="text-zinc-500 mt-2">
+                  Binance Spot Market
                 </p>
 
               </div>
 
-              <div className="text-right">
+              <div className="text-left md:text-right">
 
-                <h2 className="text-4xl font-black text-white">
+                <h2 className="text-4xl font-black text-green-400">
                   $84,520
                 </h2>
 
-                <p className="text-green-400 font-bold">
-                  +4.82%
+                <p className="text-green-400 font-bold mt-1">
+                  +2.84%
                 </p>
 
               </div>
 
             </div>
 
-            <div className="rounded-3xl overflow-hidden">
-
-              <TradingViewWidget />
-
-            </div>
+            <TradingViewWidget />
 
           </div>
 
-          {/* MARKET OVERVIEW */}
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
 
-          <MarketOverview />
+            <OrderBook />
+
+            <LiveTrades />
+
+          </div>
 
         </div>
 
-        {/* RIGHT SIDE */}
-
-        <div className="2xl:col-span-2 space-y-6">
-
-          {/* TRADING PANEL */}
+        <div>
 
           <TradingPanel />
-
-          {/* LIVE ORDER BOOK */}
-
-          <LiveOrderBook />
-
-          {/* RECENT TRADES */}
-
-          <RecentTrades />
 
         </div>
 

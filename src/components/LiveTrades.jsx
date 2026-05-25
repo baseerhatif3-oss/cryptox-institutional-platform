@@ -1,132 +1,107 @@
-import React, {
-  useEffect,
-  useState,
-} from "react";
-
-import socket from "../services/socket";
-
 const LiveTrades = () => {
 
-  const [trades, setTrades] =
-    useState([]);
+  const trades = [
 
-  /*
-  ==========================================
-  SOCKET EVENTS
-  ==========================================
-  */
+    {
+      price: "84,520",
+      amount: "0.42",
+      type: "buy",
+      time: "12:42:01",
+    },
 
-  useEffect(() => {
+    {
+      price: "84,510",
+      amount: "1.22",
+      type: "sell",
+      time: "12:42:03",
+    },
 
-    socket.on(
-      "newTrade",
-      (trade) => {
+    {
+      price: "84,500",
+      amount: "0.84",
+      type: "buy",
+      time: "12:42:05",
+    },
 
-        setTrades(
-          (prev) => [
-            trade,
-            ...prev,
-          ].slice(0, 20)
-        );
-      }
-    );
-
-    return () => {
-      socket.off(
-        "newTrade"
-      );
-    };
-
-  }, []);
+    {
+      price: "84,480",
+      amount: "2.10",
+      type: "sell",
+      time: "12:42:08",
+    },
+  ];
 
   return (
-    <div className="bg-[#111] border border-gray-800 rounded-2xl p-6">
+
+    <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
 
       <div className="flex items-center justify-between mb-6">
 
-        <div>
+        <h2 className="text-3xl font-black">
+          Live Trades
+        </h2>
 
-          <h2 className="text-2xl font-bold">
-            Live Trades
-          </h2>
+        <div className="flex items-center gap-2 bg-green-500/20 px-3 py-1 rounded-full">
 
-          <p className="text-gray-400 mt-2">
-            Realtime exchange executions
-          </p>
+          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
 
-        </div>
+          <span className="text-green-400 text-xs font-bold">
+            REAL-TIME
+          </span>
 
-        <div className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-2 rounded-xl text-sm">
-          LIVE
         </div>
 
       </div>
 
       <div className="space-y-3">
 
-        {trades.length === 0 && (
+        {
+          trades.map(
+            (trade, index) => (
 
-          <div className="text-gray-500">
-            Waiting for live trades...
-          </div>
+              <div
+                key={index}
+                className="flex items-center justify-between bg-black rounded-xl px-4 py-3"
+              >
 
-        )}
+                <div>
 
-        {trades.map(
-          (
-            trade,
-            index
-          ) => (
-
-            <div
-              key={index}
-              className="flex items-center justify-between bg-black border border-gray-900 rounded-xl px-4 py-3"
-            >
-
-              <div>
-
-                <p className="font-bold">
-                  {
-                    trade.symbol
-                  }
-                </p>
-
-                <p
-                  className={`text-sm ${
-                    trade.side ===
-                    "BUY"
+                  <h3 className={`font-bold ${
+                    trade.type === "buy"
                       ? "text-green-400"
                       : "text-red-400"
-                  }`}
-                >
-                  {trade.side}
-                </p>
+                  }`}>
+
+                    ${trade.price}
+
+                  </h3>
+
+                  <p className="text-zinc-500 text-sm">
+
+                    {trade.time}
+
+                  </p>
+
+                </div>
+
+                <div className="text-right">
+
+                  <p className="font-bold">
+                    {trade.amount}
+                  </p>
+
+                  <p className="text-zinc-500 text-sm uppercase">
+
+                    {trade.type}
+
+                  </p>
+
+                </div>
 
               </div>
-
-              <div className="text-right">
-
-                <p className="font-semibold">
-                  $
-                  {Number(
-                    trade.price
-                  ).toLocaleString()}
-                </p>
-
-                <p className="text-gray-400 text-sm">
-                  Qty:
-                  {" "}
-                  {
-                    trade.quantity
-                  }
-                </p>
-
-              </div>
-
-            </div>
-
+            )
           )
-        )}
+        }
 
       </div>
 
