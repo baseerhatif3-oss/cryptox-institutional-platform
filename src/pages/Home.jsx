@@ -1,56 +1,138 @@
-import React from "react";
+import { Link } from "react-router-dom";
 
-import {
-  Link,
-} from "react-router-dom";
-
-const Home = () => {
+export default function Home() {
 
   return (
 
-    <div className="min-h-screen bg-black text-white flex items-center justify-center px-6">
+    <div className="min-h-screen bg-black text-white">
 
-      <div className="text-center">
+      {/* NAVBAR */}
 
-        <h1 className="text-7xl font-black mb-6">
+      <nav className="flex items-center justify-between px-8 py-6 border-b border-gray-800">
 
+        <h1 className="text-2xl font-bold text-yellow-400">
           CryptoX
-
         </h1>
 
-        <p className="text-zinc-400 text-xl mb-10 max-w-2xl">
+        <div className="flex gap-4">
 
-          Professional crypto exchange platform with realtime trading,
-          AI analytics, futures, staking and Web3 ecosystem.
-
-        </p>
-
-        <div className="flex items-center justify-center gap-4">
-
-          <Link
-            to="/register"
-            className="bg-yellow-500 hover:bg-yellow-600 transition px-8 py-4 rounded-2xl text-black font-black"
-          >
-
-            Get Started
-
+          <Link to="/login">
+            <button className="px-5 py-2 rounded-lg bg-gray-900 hover:bg-gray-800 transition">
+              Login
+            </button>
           </Link>
 
-          <Link
-            to="/login"
-            className="border border-white/10 hover:border-white/20 transition px-8 py-4 rounded-2xl"
-          >
-
-            Login
-
+          <Link to="/register">
+            <button className="px-5 py-2 rounded-lg bg-yellow-400 text-black font-semibold hover:bg-yellow-300 transition">
+              Register
+            </button>
           </Link>
 
         </div>
+      </nav>
 
-      </div>
+
+      {/* HERO SECTION */}
+
+      <section className="max-w-7xl mx-auto px-8 py-20">
+
+        <div className="grid lg:grid-cols-2 gap-10 items-center">
+
+          <div>
+
+            <p className="text-yellow-400 mb-4">
+              Welcome Back
+            </p>
+
+            <h1 className="text-6xl font-bold leading-tight mb-6">
+
+              GLOBAL CRYPTO
+              <br />
+              EXCHANGE
+
+            </h1>
+
+            <p className="text-gray-400 text-lg mb-8">
+
+              Trade crypto assets, manage portfolios,
+              monitor AI signals and explore the next
+              generation financial ecosystem.
+
+            </p>
+
+            <div className="flex gap-4">
+
+              <Link to="/register">
+
+                <button className="bg-yellow-400 text-black px-8 py-4 rounded-xl font-bold hover:bg-yellow-300 transition">
+
+                  Start Trading
+
+                </button>
+
+              </Link>
+
+              <Link to="/dashboard">
+
+                <button className="bg-gray-900 border border-gray-700 px-8 py-4 rounded-xl font-bold hover:bg-gray-800 transition">
+
+                  View Portfolio
+
+                </button>
+
+              </Link>
+
+            </div>
+
+          </div>
+
+
+          {/* MARKET CARD */}
+
+          <div className="bg-[#111] border border-yellow-500/20 rounded-3xl p-8">
+
+            <div className="flex justify-between mb-6">
+
+              <div>
+                <p className="text-gray-400">
+                  BTC/USDT
+                </p>
+
+                <h2 className="text-5xl font-bold mt-2">
+                  $84,520
+                </h2>
+              </div>
+
+              <div className="text-green-400 font-bold text-xl">
+                +4.82%
+              </div>
+
+            </div>
+
+            <div className="space-y-4 text-gray-300">
+
+              <div className="flex justify-between">
+                <span>24H Volume</span>
+                <span>$38.2B</span>
+              </div>
+
+              <div className="flex justify-between">
+                <span>Market Cap</span>
+                <span>$1.68T</span>
+              </div>
+
+              <div className="flex justify-between">
+                <span>Dominance</span>
+                <span>52.8%</span>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
 
     </div>
   );
-};
-
-export default Home;
+}
