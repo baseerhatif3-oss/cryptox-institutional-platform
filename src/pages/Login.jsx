@@ -1,91 +1,70 @@
 import { useState } from "react";
-
 import { useNavigate, Link } from "react-router-dom";
 
-import API from "../services/api";
-
-import { useAuth } from "../context/AuthContext";
-
-export default function Login() {
-
+const Login = () => {
   const navigate = useNavigate();
 
-  const { login } = useAuth();
-
-  const [form, setForm] = useState({
+  const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const handleChange = (e) => {
-
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e) => {
-
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    try {
+    localStorage.setItem("token", "cryptox_token");
 
-      const res = await API.post("/auth/login", form);
-
-      login(res.data.token, res.data.user);
-
-      navigate("/dashboard");
-
-    } catch (err) {
-
-      alert(
-        err?.response?.data?.message || "Login failed"
-      );
-    }
+    navigate("/dashboard");
   };
 
   return (
-
-    <div className="min-h-screen bg-black flex items-center justify-center text-white p-6">
-
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-md bg-[#0b0b0b] border border-gray-800 rounded-3xl p-8"
-      >
-
-        <h1 className="text-5xl font-bold mb-8">
+    <div className="min-h-screen bg-black flex items-center justify-center px-6">
+      <div className="w-full max-w-md bg-[#111] border border-yellow-500/20 rounded-[40px] p-10">
+        <h1 className="text-5xl font-black text-white">
           Login
         </h1>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          className="w-full mb-4 bg-black border border-gray-700 rounded-2xl px-5 py-4"
-        />
+        <p className="text-gray-500 mt-3">
+          Welcome back trader
+        </p>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-          className="w-full mb-6 bg-black border border-gray-700 rounded-2xl px-5 py-4"
-        />
-
-        <button
-          type="submit"
-          className="w-full bg-yellow-400 text-black py-4 rounded-2xl font-bold"
+        <form
+          onSubmit={handleSubmit}
+          className="mt-10 space-y-5"
         >
-          Login
-        </button>
+          <input
+            type="email"
+            placeholder="Email Address"
+            value={formData.email}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                email: e.target.value,
+              })
+            }
+            className="w-full bg-black border border-yellow-500/20 rounded-2xl px-5 py-4 text-white outline-none"
+          />
 
-        <p className="text-gray-400 mt-6 text-center">
-          Don't have an account?{" "}
+          <input
+            type="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                password: e.target.value,
+              })
+            }
+            className="w-full bg-black border border-yellow-500/20 rounded-2xl px-5 py-4 text-white outline-none"
+          />
 
+          <button className="w-full bg-yellow-500 hover:bg-yellow-400 text-black py-4 rounded-2xl font-bold transition-all">
+            Login
+          </button>
+        </form>
+
+        <p className="text-gray-500 mt-6 text-center">
+          Don’t have account?{" "}
           <Link
             to="/register"
             className="text-yellow-400"
@@ -93,9 +72,9 @@ export default function Login() {
             Register
           </Link>
         </p>
-
-      </form>
-
+      </div>
     </div>
   );
-}
+};
+
+export default Login;
