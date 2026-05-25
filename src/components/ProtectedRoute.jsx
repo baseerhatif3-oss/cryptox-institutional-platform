@@ -1,5 +1,3 @@
-import React from "react";
-
 import {
   Navigate,
 } from "react-router-dom";
@@ -8,36 +6,33 @@ import {
   useAuth,
 } from "../context/AuthContext";
 
-const ProtectedRoute =
-  ({ children }) => {
+export default function ProtectedRoute({
+  children,
+}) {
 
-    const {
-      user,
-      loading,
-    } = useAuth();
+  const {
+    user,
+    loading,
+  } = useAuth();
 
-    if (loading) {
+  if (loading) {
 
-      return (
+    return (
 
-        <div className="min-h-screen bg-black flex items-center justify-center text-white text-2xl">
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
 
-          Loading...
+        Loading...
 
-        </div>
-      );
-    }
+      </div>
+    );
+  }
 
-    if (!user) {
+  if (!user) {
 
-      return (
-        <Navigate
-          to="/login"
-        />
-      );
-    }
+    return (
+      <Navigate to="/login" />
+    );
+  }
 
-    return children;
-  };
-
-export default ProtectedRoute;
+  return children;
+}

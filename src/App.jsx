@@ -14,6 +14,11 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 
 
+// COMPONENTS
+
+import ProtectedRoute from "./components/ProtectedRoute";
+
+
 // APP
 
 export default function App() {
@@ -24,15 +29,10 @@ export default function App() {
 
       <Routes>
 
-        {/* HOME */}
-
         <Route
           path="/"
           element={<Home />}
         />
-
-
-        {/* AUTH */}
 
         <Route
           path="/login"
@@ -44,16 +44,17 @@ export default function App() {
           element={<Register />}
         />
 
-
-        {/* DASHBOARD */}
-
         <Route
           path="/dashboard"
-          element={<Dashboard />}
+          element={
+
+            <ProtectedRoute>
+
+              <Dashboard />
+
+            </ProtectedRoute>
+          }
         />
-
-
-        {/* FALLBACK */}
 
         <Route
           path="*"
