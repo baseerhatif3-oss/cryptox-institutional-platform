@@ -9,6 +9,8 @@ import {
   Shield,
   Settings,
   Landmark,
+  ArrowDownCircle,
+  ArrowUpCircle,
 } from "lucide-react";
 
 import {
@@ -50,6 +52,18 @@ const Sidebar = () => {
     },
 
     {
+      name: "Deposit",
+      path: "/deposit",
+      icon: ArrowDownCircle,
+    },
+
+    {
+      name: "Withdraw",
+      path: "/withdraw",
+      icon: ArrowUpCircle,
+    },
+
+    {
       name: "AI Signals",
       path: "/ai-signals",
       icon: BrainCircuit,
@@ -88,7 +102,7 @@ const Sidebar = () => {
 
   return (
 
-    <aside className="w-[260px] min-h-screen bg-black border-r border-yellow-500/10 p-5 flex flex-col">
+    <aside className="w-[260px] min-h-screen bg-black border-r border-yellow-500/10 p-5 flex flex-col sticky top-0">
 
       <div className="mb-10">
 
@@ -96,9 +110,13 @@ const Sidebar = () => {
           CryptoX
         </h1>
 
+        <p className="text-zinc-500 mt-2">
+          Exchange Platform
+        </p>
+
       </div>
 
-      <nav className="space-y-3">
+      <nav className="space-y-3 overflow-y-auto">
 
         {
           navItems.map((item) => {

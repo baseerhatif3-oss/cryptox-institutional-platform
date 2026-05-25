@@ -1,273 +1,128 @@
-import {
-  useEffect,
-  useState,
-} from "react";
-
-import toast from "react-hot-toast";
-
-import API from "../api/axios";
+import MainLayout from "../components/layout/MainLayout";
 
 const Withdraw = () => {
-  const [amount, setAmount] =
-    useState("");
-
-  const [method, setMethod] =
-    useState("USDT TRC20");
-
-  const [address, setAddress] =
-    useState("");
-
-  const [loading, setLoading] =
-    useState(false);
-
-  const [withdraws, setWithdraws] =
-    useState([]);
-
-  const fetchWithdraws =
-    async () => {
-      try {
-        const res =
-          await API.get(
-            "/withdraws"
-          );
-
-        setWithdraws(
-          res.data
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-  useEffect(() => {
-    fetchWithdraws();
-  }, []);
-
-  const handleWithdraw =
-    async (e) => {
-      e.preventDefault();
-
-      try {
-        if (
-          !amount ||
-          Number(amount) <= 0
-        ) {
-          return toast.error(
-            "Enter amount"
-          );
-        }
-
-        if (!address) {
-          return toast.error(
-            "Enter wallet address"
-          );
-        }
-
-        setLoading(true);
-
-        await API.post(
-          "/withdraw",
-          {
-            amount,
-            method,
-            address,
-          }
-        );
-
-        toast.success(
-          "Withdraw request submitted"
-        );
-
-        setAmount("");
-
-        setAddress("");
-
-        fetchWithdraws();
-      } catch (error) {
-        toast.error(
-          error.response?.data
-            ?.message ||
-            "Withdraw failed"
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="max-w-5xl mx-auto">
-        {/* HEADER */}
 
-        <div className="mb-10">
-          <h1 className="text-5xl font-bold">
-            Withdraw Funds
-          </h1>
+    <MainLayout>
 
-          <p className="text-slate-400 mt-2">
-            Request balance withdrawal
-          </p>
-        </div>
+      <div className="mb-10">
 
-        {/* FORM */}
+        <h1 className="text-5xl font-black">
+          Withdraw Funds
+        </h1>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 mb-10">
-          <form
-            onSubmit={
-              handleWithdraw
-            }
-            className="space-y-6"
-          >
-            {/* AMOUNT */}
+        <p className="text-zinc-500 mt-2">
+          Send crypto to external wallet
+        </p>
 
-            <div>
-              <label className="block mb-3 text-slate-400">
-                Amount (USD)
-              </label>
+      </div>
 
-              <input
-                type="number"
-                value={amount}
-                onChange={(e) =>
-                  setAmount(
-                    e.target.value
-                  )
-                }
-                placeholder="Enter amount"
-                className="w-full bg-slate-800 border border-slate-700 rounded-2xl px-5 py-4 outline-none"
-              />
-            </div>
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
 
-            {/* METHOD */}
+        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-8">
 
-            <div>
-              <label className="block mb-3 text-slate-400">
-                Withdrawal Method
-              </label>
+          <h2 className="text-3xl font-black mb-8">
+            Withdraw Crypto
+          </h2>
 
-              <select
-                value={method}
-                onChange={(e) =>
-                  setMethod(
-                    e.target.value
-                  )
-                }
-                className="w-full bg-slate-800 border border-slate-700 rounded-2xl px-5 py-4 outline-none"
-              >
-                <option>
-                  USDT TRC20
-                </option>
+          <div className="space-y-5">
 
-                <option>
-                  Binance
-                </option>
+            <select className="w-full bg-black border border-yellow-500/10 rounded-2xl px-5 py-4 outline-none">
 
-                <option>
-                  Easypaisa
-                </option>
+              <option>
+                Bitcoin (BTC)
+              </option>
 
-                <option>
-                  JazzCash
-                </option>
+              <option>
+                Ethereum (ETH)
+              </option>
 
-                <option>
-                  Bank Transfer
-                </option>
-              </select>
-            </div>
+              <option>
+                Solana (SOL)
+              </option>
 
-            {/* ADDRESS */}
+            </select>
 
-            <div>
-              <label className="block mb-3 text-slate-400">
-                Wallet Address /
-                Account Info
-              </label>
+            <input
+              placeholder="Wallet Address"
+              className="w-full bg-black border border-yellow-500/10 rounded-2xl px-5 py-4 outline-none"
+            />
 
-              <input
-                type="text"
-                value={address}
-                onChange={(e) =>
-                  setAddress(
-                    e.target.value
-                  )
-                }
-                placeholder="Enter wallet address"
-                className="w-full bg-slate-800 border border-slate-700 rounded-2xl px-5 py-4 outline-none"
-              />
-            </div>
+            <input
+              placeholder="Amount"
+              className="w-full bg-black border border-yellow-500/10 rounded-2xl px-5 py-4 outline-none"
+            />
 
-            {/* BUTTON */}
+            <button className="w-full bg-red-500 text-white py-5 rounded-2xl font-black text-lg">
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-red-600 hover:bg-red-700 py-5 rounded-2xl font-bold text-xl transition"
-            >
-              {loading
-                ? "Submitting..."
-                : "Request Withdraw"}
+              Withdraw Funds
+
             </button>
-          </form>
+
+          </div>
+
         </div>
 
-        {/* HISTORY */}
+        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-8">
 
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
-          <h2 className="text-3xl font-bold mb-8">
+          <h2 className="text-3xl font-black mb-8">
             Withdraw History
           </h2>
 
-          {withdraws.length ===
-          0 ? (
-            <p className="text-slate-400">
-              No withdraws yet
-            </p>
-          ) : (
-            <div className="space-y-5">
-              {withdraws.map(
-                (withdraw) => (
-                  <div
-                    key={
-                      withdraw._id
-                    }
-                    className="bg-slate-800 rounded-2xl p-5 flex items-center justify-between"
-                  >
-                    <div>
-                      <h3 className="text-2xl font-bold">
-                        $
-                        {
-                          withdraw.amount
-                        }
-                      </h3>
+          <div className="space-y-5">
 
-                      <p className="text-slate-400 mt-1">
-                        {
-                          withdraw.method
-                        }
-                      </p>
-                    </div>
+            <div className="bg-black rounded-2xl p-5 flex justify-between items-center">
 
-                    <div
-                      className={`px-4 py-2 rounded-xl font-bold ${
-                        withdraw.status ===
-                        "APPROVED"
-                          ? "bg-green-500/20 text-green-400"
-                          : "bg-yellow-500/20 text-yellow-400"
-                      }`}
-                    >
-                      {
-                        withdraw.status
-                      }
-                    </div>
-                  </div>
-                )
-              )}
+              <div>
+
+                <h3 className="font-black">
+                  BTC Withdrawal
+                </h3>
+
+                <p className="text-zinc-500">
+                  0.10 BTC
+                </p>
+
+              </div>
+
+              <span className="bg-green-500 text-black px-4 py-2 rounded-xl font-bold">
+
+                Completed
+
+              </span>
+
             </div>
-          )}
+
+            <div className="bg-black rounded-2xl p-5 flex justify-between items-center">
+
+              <div>
+
+                <h3 className="font-black">
+                  SOL Withdrawal
+                </h3>
+
+                <p className="text-zinc-500">
+                  25 SOL
+                </p>
+
+              </div>
+
+              <span className="bg-yellow-400 text-black px-4 py-2 rounded-xl font-bold">
+
+                Pending
+
+              </span>
+
+            </div>
+
+          </div>
+
         </div>
+
       </div>
-    </div>
+
+    </MainLayout>
   );
 };
 

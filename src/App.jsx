@@ -14,6 +14,9 @@ import Wallet from "./pages/Wallet";
 import Orders from "./pages/Orders";
 import Transactions from "./pages/Transactions";
 
+import Deposit from "./pages/Deposit";
+import Withdraw from "./pages/Withdraw";
+
 import AISignals from "./pages/AISignals";
 import Staking from "./pages/Staking";
 import Leaderboard from "./pages/Leaderboard";
@@ -71,6 +74,16 @@ function App() {
         <Route
           path="/transactions"
           element={<Transactions />}
+        />
+
+        <Route
+          path="/deposit"
+          element={<Deposit />}
+        />
+
+        <Route
+          path="/withdraw"
+          element={<Withdraw />}
         />
 
         <Route
