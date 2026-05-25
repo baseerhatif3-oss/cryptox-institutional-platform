@@ -28,6 +28,11 @@ import {
   disconnectSocket,
 } from "../services/socketService";
 
+import {
+  connectLiveSocket,
+  disconnectLiveSocket,
+} from "../services/liveSocket";
+
 const Dashboard = () => {
 
   const [wallet, setWallet] =
@@ -105,9 +110,20 @@ const Dashboard = () => {
       }
     );
 
+    connectLiveSocket(
+      (data) => {
+
+        setBtcPrice(
+          Number(data.price)
+        );
+      }
+    );
+
     return () => {
 
       disconnectSocket();
+
+      disconnectLiveSocket();
     };
 
   }, []);
