@@ -1,12 +1,18 @@
 import axios from "axios";
 
-const API =
-  axios.create({
+const API = axios.create({
+  baseURL: "https://crypto-backend-dojp.onrender.com/api",
+});
 
-    baseURL:
-      "https://crypto-backend-dojp.onrender.com/api",
+API.interceptors.request.use((req) => {
 
-    withCredentials: true,
-  });
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    req.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return req;
+});
 
 export default API;

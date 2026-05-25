@@ -1,35 +1,26 @@
 import { useState } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import API from "../services/api";
 
 export default function Register() {
 
-  const navigate =
-    useNavigate();
+  const navigate = useNavigate();
 
-  const [formData, setFormData] =
-    useState({
-
-      name: "",
-      email: "",
-      password: "",
-    });
-
-  const [loading, setLoading] =
-    useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
   const handleChange = (e) => {
 
-    setFormData({
-
-      ...formData,
-      [e.target.name]:
-        e.target.value,
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
     });
   };
-
 
   const handleSubmit = async (e) => {
 
@@ -37,90 +28,77 @@ export default function Register() {
 
     try {
 
-      setLoading(true);
+      await API.post("/auth/register", form);
 
-      await API.post(
-        "/auth/register",
-        formData
-      );
-
-      alert(
-        "Registration successful"
-      );
+      alert("Registration successful");
 
       navigate("/login");
 
     } catch (err) {
 
       alert(
-        err.response?.data?.message ||
-        "Registration failed"
+        err?.response?.data?.message || "Registration failed"
       );
     }
-
-    setLoading(false);
   };
-
 
   return (
 
-    <div className="min-h-screen bg-black text-white flex items-center justify-center px-6">
+    <div className="min-h-screen bg-black flex items-center justify-center text-white p-6">
 
       <form
         onSubmit={handleSubmit}
-        className="bg-[#111] border border-gray-800 rounded-3xl p-10 w-full max-w-md"
+        className="w-full max-w-md bg-[#0b0b0b] border border-gray-800 rounded-3xl p-8"
       >
 
-        <h1 className="text-5xl font-bold mb-8 text-center">
-
+        <h1 className="text-5xl font-bold mb-8">
           Register
-
         </h1>
-
 
         <input
           type="text"
           name="name"
           placeholder="Full Name"
-          value={formData.name}
+          value={form.name}
           onChange={handleChange}
-          required
-          className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4 mb-5 outline-none"
+          className="w-full mb-4 bg-black border border-gray-700 rounded-2xl px-5 py-4"
         />
 
         <input
           type="email"
           name="email"
           placeholder="Email"
-          value={formData.email}
+          value={form.email}
           onChange={handleChange}
-          required
-          className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4 mb-5 outline-none"
+          className="w-full mb-4 bg-black border border-gray-700 rounded-2xl px-5 py-4"
         />
 
         <input
           type="password"
           name="password"
           placeholder="Password"
-          value={formData.password}
+          value={form.password}
           onChange={handleChange}
-          required
-          className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4 mb-6 outline-none"
+          className="w-full mb-6 bg-black border border-gray-700 rounded-2xl px-5 py-4"
         />
 
         <button
           type="submit"
-          disabled={loading}
-          className="w-full bg-yellow-400 text-black font-bold py-4 rounded-xl hover:bg-yellow-300"
+          className="w-full bg-yellow-400 text-black py-4 rounded-2xl font-bold"
         >
-
-          {
-            loading
-              ? "Creating..."
-              : "Create Account"
-          }
-
+          Create Account
         </button>
+
+        <p className="text-gray-400 mt-6 text-center">
+          Already have an account?{" "}
+
+          <Link
+            to="/login"
+            className="text-yellow-400"
+          >
+            Login
+          </Link>
+        </p>
 
       </form>
 

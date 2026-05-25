@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import API from "../services/api";
 
@@ -8,32 +8,22 @@ import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
 
-  const navigate =
-    useNavigate();
+  const navigate = useNavigate();
 
-  const { login } =
-    useAuth();
+  const { login } = useAuth();
 
-  const [formData, setFormData] =
-    useState({
-
-      email: "",
-      password: "",
-    });
-
-  const [loading, setLoading] =
-    useState(false);
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
 
   const handleChange = (e) => {
 
-    setFormData({
-
-      ...formData,
-      [e.target.name]:
-        e.target.value,
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
     });
   };
-
 
   const handleSubmit = async (e) => {
 
@@ -41,79 +31,68 @@ export default function Login() {
 
     try {
 
-      setLoading(true);
+      const res = await API.post("/auth/login", form);
 
-      const res =
-        await API.post(
-          "/auth/login",
-          formData
-        );
-
-      login(res.data);
+      login(res.data.token, res.data.user);
 
       navigate("/dashboard");
 
     } catch (err) {
 
       alert(
-        err.response?.data?.message ||
-        "Login failed"
+        err?.response?.data?.message || "Login failed"
       );
     }
-
-    setLoading(false);
   };
-
 
   return (
 
-    <div className="min-h-screen bg-black text-white flex items-center justify-center px-6">
+    <div className="min-h-screen bg-black flex items-center justify-center text-white p-6">
 
       <form
         onSubmit={handleSubmit}
-        className="bg-[#111] border border-gray-800 rounded-3xl p-10 w-full max-w-md"
+        className="w-full max-w-md bg-[#0b0b0b] border border-gray-800 rounded-3xl p-8"
       >
 
-        <h1 className="text-5xl font-bold mb-8 text-center">
-
+        <h1 className="text-5xl font-bold mb-8">
           Login
-
         </h1>
-
 
         <input
           type="email"
           name="email"
           placeholder="Email"
-          value={formData.email}
+          value={form.email}
           onChange={handleChange}
-          required
-          className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4 mb-5 outline-none"
+          className="w-full mb-4 bg-black border border-gray-700 rounded-2xl px-5 py-4"
         />
 
         <input
           type="password"
           name="password"
           placeholder="Password"
-          value={formData.password}
+          value={form.password}
           onChange={handleChange}
-          required
-          className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4 mb-6 outline-none"
+          className="w-full mb-6 bg-black border border-gray-700 rounded-2xl px-5 py-4"
         />
 
         <button
           type="submit"
-          disabled={loading}
-          className="w-full bg-yellow-400 text-black font-bold py-4 rounded-xl hover:bg-yellow-300"
+          className="w-full bg-yellow-400 text-black py-4 rounded-2xl font-bold"
         >
-
-          {
-            loading
-              ? "Logging in..."
-              : "Login"
-          }
-
+          Login
         </button>
+
+        <p className="text-gray-400 mt-6 text-center">
+          Don't have an account?{" "}
+
+          <Link
+            to="/register"
+            className="text-yellow-400"
+          >
+            Register
+          </Link>
+        </p>
 
       </form>
 
