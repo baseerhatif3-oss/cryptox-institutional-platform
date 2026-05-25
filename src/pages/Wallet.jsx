@@ -40,27 +40,23 @@ const Wallet = () => {
 
     <MainLayout>
 
-      <div className="flex justify-between items-center mb-10">
+      <div className="mb-10">
 
-        <div>
+        <h1 className="text-5xl font-black">
+          Wallet
+        </h1>
 
-          <h1 className="text-5xl font-black">
-            Wallet
-          </h1>
-
-          <p className="text-zinc-400 mt-2">
-            Manage your crypto assets
-          </p>
-
-        </div>
+        <p className="text-zinc-500 mt-2">
+          Manage your crypto assets
+        </p>
 
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
 
-        <div className="bg-[#0d0d0d] border border-yellow-500/10 rounded-3xl p-6">
+        <div className="bg-[#111] rounded-3xl border border-yellow-500/10 p-6">
 
-          <p className="text-zinc-400 mb-2">
+          <p className="text-zinc-500 mb-2">
             USD Balance
           </p>
 
@@ -68,17 +64,17 @@ const Wallet = () => {
 
             $
             {
-              wallet?.balance?.toLocaleString() ||
-              0
+              wallet?.usdBalance?.toLocaleString()
+              || "0"
             }
 
           </h2>
 
         </div>
 
-        <div className="bg-[#0d0d0d] border border-yellow-500/10 rounded-3xl p-6">
+        <div className="bg-[#111] rounded-3xl border border-yellow-500/10 p-6">
 
-          <p className="text-zinc-400 mb-2">
+          <p className="text-zinc-500 mb-2">
             BTC Holdings
           </p>
 
@@ -92,9 +88,9 @@ const Wallet = () => {
 
         </div>
 
-        <div className="bg-[#0d0d0d] border border-yellow-500/10 rounded-3xl p-6">
+        <div className="bg-[#111] rounded-3xl border border-yellow-500/10 p-6">
 
-          <p className="text-zinc-400 mb-2">
+          <p className="text-zinc-500 mb-2">
             ETH Holdings
           </p>
 
@@ -108,9 +104,9 @@ const Wallet = () => {
 
         </div>
 
-        <div className="bg-[#0d0d0d] border border-yellow-500/10 rounded-3xl p-6">
+        <div className="bg-[#111] rounded-3xl border border-yellow-500/10 p-6">
 
-          <p className="text-zinc-400 mb-2">
+          <p className="text-zinc-500 mb-2">
             SOL Holdings
           </p>
 
@@ -126,48 +122,16 @@ const Wallet = () => {
 
       </div>
 
-      <div className="bg-[#0d0d0d] border border-yellow-500/10 rounded-3xl p-6">
+      <div className="bg-[#111] rounded-3xl border border-yellow-500/10 p-8">
 
         <h2 className="text-3xl font-black mb-6">
           Portfolio Overview
         </h2>
 
-        <div className="space-y-4">
+        <div className="space-y-5">
 
-          <div className="flex justify-between items-center bg-black rounded-2xl p-5">
+          <div className="bg-black rounded-2xl p-6 flex justify-between">
 
             <div>
 
-              <h3 className="text-xl font-bold">
-                Bitcoin
-              </h3>
-
-              <p className="text-zinc-500">
-                BTC Holdings
-              </p>
-
-            </div>
-
-            <div className="text-right">
-
-              <h3 className="text-xl font-bold text-yellow-400">
-
-                {
-                  wallet?.btc || 0
-                } BTC
-
-              </h3>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </MainLayout>
-  );
-};
-
-export default Wallet;
+              <h3 className="

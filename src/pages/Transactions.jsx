@@ -5,11 +5,14 @@ import {
 
 import MainLayout from "../components/layout/MainLayout";
 
-import API from "../services/api";
+import {
+  getTransactions,
+} from "../services/walletService";
 
 const Transactions = () => {
 
-  const [transactions, setTransactions] =
+  const [transactions,
+    setTransactions] =
     useState([]);
 
   useEffect(() => {
@@ -23,14 +26,10 @@ const Transactions = () => {
 
       try {
 
-        const res =
-          await API.get(
-            "/transactions/my-transactions"
-          );
+        const data =
+          await getTransactions();
 
-        setTransactions(
-          res.data
-        );
+        setTransactions(data);
 
       } catch (error) {
 
@@ -49,18 +48,22 @@ const Transactions = () => {
         </h1>
 
         <p className="text-zinc-500 mt-2">
-          Trading history overview
+          Complete transaction history
         </p>
 
       </div>
 
-      <div className="bg-[#111] border border-yellow-500/10 rounded-3xl overflow-hidden">
+      <div className="bg-[#111] rounded-3xl border border-yellow-500/10 overflow-hidden">
 
         <table className="w-full">
 
           <thead className="bg-black">
 
             <tr>
+
+              <th className="text-left p-5 text-yellow-400">
+                Coin
+              </th>
 
               <th className="text-left p-5 text-yellow-400">
                 Type
@@ -71,7 +74,11 @@ const Transactions = () => {
               </th>
 
               <th className="text-left p-5 text-yellow-400">
-                Asset
+                Price
+              </th>
+
+              <th className="text-left p-5 text-yellow-400">
+                Total
               </th>
 
               <th className="text-left p-5 text-yellow-400">
@@ -85,41 +92,76 @@ const Transactions = () => {
           <tbody>
 
             {
-              transactions.map(
-                (tx) => (
+              transactions.length > 0 ? (
 
-                  <tr
-                    key={tx._id}
-                    className="border-t border-yellow-500/10"
-                  >
+                transactions.map(
+                  (tx) => (
 
-                    <td className="p-5 text-white">
-                      {tx.type}
-                    </td>
+                    <tr
+                      key={tx._id}
+                      className="border-t border-yellow-500/10"
+                    >
 
-                    <td className="p-5 text-white">
-                      $
-                      {tx.amount}
-                    </td>
+                      <td className="p-5">
+                        {tx.coin}
+                      </td>
 
-                    <td className="p-5 text-white">
-                      {tx.asset}
-                    </td>
-
-                    <td className="p-5">
-
-                      <span className="bg-green-500 text-black px-4 py-2 rounded-full text-sm font-bold">
+                      <td className={`p-5 font-bold ${
+                        tx.type === "buy"
+                          ? "text-green-400"
+                          : "text-red-400"
+                      }`}>
 
                         {
-                          tx.status
+                          tx.type.toUpperCase()
                         }
 
-                      </span>
+                      </td>
 
-                    </td>
+                      <td className="p-5">
+                        {tx.amount}
+                      </td>
 
-                  </tr>
+                      <td className="p-5">
+                        ${tx.price}
+                      </td>
+
+                      <td className="p-5">
+                        $
+                        {
+                          (
+                            tx.amount *
+                            tx.price
+                          ).toLocaleString()
+                        }
+                      </td>
+
+                      <td className="p-5">
+
+                        <span className="bg-green-500 text-black px-4 py-2 rounded-full text-sm font-bold">
+
+                          Completed
+
+                        </span>
+
+                      </td>
+
+                    </tr>
+                  )
                 )
+
+              ) : (
+
+                <tr>
+
+                  <td
+                    colSpan="6"
+                    className="text-center p-10 text-zinc-500"
+                  >
+                    No transactions found
+                  </td>
+
+                </tr>
               )
             }
 

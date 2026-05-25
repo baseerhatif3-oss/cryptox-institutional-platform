@@ -3,137 +3,137 @@ import {
   CandlestickChart,
   Wallet,
   ClipboardList,
-  Brain,
-  Coins,
+  ArrowLeftRight,
+  BrainCircuit,
   Trophy,
-  Users,
   Shield,
   Settings,
-  ReceiptText,
+  Landmark,
 } from "lucide-react";
 
-import { Link, useLocation } from "react-router-dom";
-
-const menuItems = [
-  {
-    name: "Dashboard",
-    path: "/dashboard",
-    icon: LayoutDashboard,
-  },
-
-  {
-    name: "Trading",
-    path: "/trading",
-    icon: CandlestickChart,
-  },
-
-  {
-    name: "Wallet",
-    path: "/wallet",
-    icon: Wallet,
-  },
-
-  {
-    name: "Orders",
-    path: "/orders",
-    icon: ClipboardList,
-  },
-
-  {
-    name: "Transactions",
-    path: "/transactions",
-    icon: ReceiptText,
-  },
-
-  {
-    name: "AI Signals",
-    path: "/ai-signals",
-    icon: Brain,
-  },
-
-  {
-    name: "Staking",
-    path: "/staking",
-    icon: Coins,
-  },
-
-  {
-    name: "Leaderboard",
-    path: "/leaderboard",
-    icon: Trophy,
-  },
-
-  {
-    name: "Referral",
-    path: "/referral",
-    icon: Users,
-  },
-
-  {
-    name: "Security",
-    path: "/security",
-    icon: Shield,
-  },
-
-  {
-    name: "Settings",
-    path: "/settings",
-    icon: Settings,
-  },
-];
+import {
+  NavLink,
+} from "react-router-dom";
 
 const Sidebar = () => {
 
-  const location = useLocation();
+  const navItems = [
+
+    {
+      name: "Dashboard",
+      path: "/dashboard",
+      icon: LayoutDashboard,
+    },
+
+    {
+      name: "Trading",
+      path: "/trading",
+      icon: CandlestickChart,
+    },
+
+    {
+      name: "Wallet",
+      path: "/wallet",
+      icon: Wallet,
+    },
+
+    {
+      name: "Orders",
+      path: "/orders",
+      icon: ClipboardList,
+    },
+
+    {
+      name: "Transactions",
+      path: "/transactions",
+      icon: ArrowLeftRight,
+    },
+
+    {
+      name: "AI Signals",
+      path: "/ai-signals",
+      icon: BrainCircuit,
+    },
+
+    {
+      name: "Staking",
+      path: "/staking",
+      icon: Landmark,
+    },
+
+    {
+      name: "Leaderboard",
+      path: "/leaderboard",
+      icon: Trophy,
+    },
+
+    {
+      name: "Referral",
+      path: "/referral",
+      icon: Trophy,
+    },
+
+    {
+      name: "Security",
+      path: "/security",
+      icon: Shield,
+    },
+
+    {
+      name: "Settings",
+      path: "/settings",
+      icon: Settings,
+    },
+  ];
 
   return (
 
-    <div className="fixed left-0 top-0 w-[260px] h-screen bg-black border-r border-yellow-500/10 p-5 z-50">
+    <aside className="w-[260px] min-h-screen bg-black border-r border-yellow-500/10 p-5 flex flex-col">
 
       <div className="mb-10">
 
-        <h1 className="text-4xl font-black text-yellow-400">
+        <h1 className="text-5xl font-black text-yellow-400">
           CryptoX
         </h1>
 
       </div>
 
-      <div className="flex flex-col gap-2">
+      <nav className="space-y-3">
 
         {
-          menuItems.map((item) => {
+          navItems.map((item) => {
 
-            const Icon = item.icon;
-
-            const active =
-              location.pathname === item.path;
+            const Icon =
+              item.icon;
 
             return (
 
-              <Link
+              <NavLink
                 key={item.name}
                 to={item.path}
-                className={`flex items-center gap-3 px-4 py-4 rounded-2xl transition-all duration-300 border ${
-                  active
-                    ? "bg-yellow-400 text-black border-yellow-400"
-                    : "bg-[#0d0d0d] text-white border-transparent hover:border-yellow-500/20 hover:bg-[#151515]"
-                }`}
+                className={({ isActive }) =>
+                  `flex items-center gap-4 px-5 py-4 rounded-2xl transition-all font-bold ${
+                    isActive
+                      ? "bg-yellow-400 text-black"
+                      : "bg-[#111] text-white hover:bg-yellow-400 hover:text-black"
+                  }`
+                }
               >
 
-                <Icon size={18} />
+                <Icon size={20} />
 
-                <span className="font-semibold">
+                <span>
                   {item.name}
                 </span>
 
-              </Link>
+              </NavLink>
             );
           })
         }
 
-      </div>
+      </nav>
 
-    </div>
+    </aside>
   );
 };
 

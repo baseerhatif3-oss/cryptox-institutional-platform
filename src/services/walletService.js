@@ -3,10 +3,21 @@ import API from "./api";
 export const getWallet =
   async () => {
 
-    const res =
+    const response =
       await API.get(
-        "/wallet/my-wallet"
+        "/wallet"
       );
 
-    return res.data;
-  };
+    return response.data;
+};
+
+export const getTransactions =
+  async () => {
+
+    const response =
+      await API.get(
+        "/transactions"
+      );
+
+    return response.data;
+};

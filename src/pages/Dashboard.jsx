@@ -1,14 +1,63 @@
+import {
+  useState,
+} from "react";
+
 import MainLayout from "../components/layout/MainLayout";
 
+import TradingViewWidget from "../components/TradingViewWidget";
 import TradingPanel from "../components/TradingPanel";
 
-import TradingViewWidget from "../components/TradingViewWidget";
-
-import PortfolioCards from "../components/PortfolioCards";
-
-import RecentActivity from "../components/RecentActivity";
-
 const Dashboard = () => {
+
+  const [stats] = useState([
+
+    {
+      title: "Portfolio Balance",
+      value: "$100,000",
+    },
+
+    {
+      title: "Today's Profit",
+      value: "+$12,845",
+    },
+
+    {
+      title: "Open Orders",
+      value: "12",
+    },
+
+    {
+      title: "Trading Volume",
+      value: "$2.8M",
+    },
+  ]);
+
+  const watchlist = [
+
+    {
+      coin: "BTC",
+      name: "Bitcoin",
+      price: "$84,520",
+      change: "+4.82%",
+      positive: true,
+    },
+
+    {
+      coin: "ETH",
+      name: "Ethereum",
+      price: "$4,280",
+      change: "+2.18%",
+      positive: true,
+    },
+
+    {
+      coin: "SOL",
+      name: "Solana",
+      price: "$182",
+      change: "-1.34%",
+      positive: false,
+    },
+  ];
 
   return (
 
@@ -18,7 +67,7 @@ const Dashboard = () => {
 
         <div>
 
-          <h1 className="text-5xl font-black text-white">
+          <h1 className="text-5xl font-black">
             Trading Dashboard
           </h1>
 
@@ -28,25 +77,55 @@ const Dashboard = () => {
 
         </div>
 
-        <button className="bg-yellow-400 hover:bg-yellow-300 transition-all text-black px-6 py-4 rounded-2xl font-bold">
+        <button className="bg-yellow-400 text-black px-8 py-4 rounded-2xl font-black hover:scale-105 transition-all">
+
           Deposit Funds
+
         </button>
 
       </div>
 
-      <PortfolioCards />
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
 
-      <div className="grid grid-cols-1 xl:grid-cols-4 gap-8 mt-8">
+        {
+          stats.map((stat, index) => (
 
-        <div className="xl:col-span-3">
+            <div
+              key={index}
+              className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6"
+            >
 
-          <div className="bg-[#0d0d0d] border border-yellow-500/10 rounded-3xl p-6">
+              <p className="text-zinc-500 mb-3">
+                {stat.title}
+              </p>
+
+              <h2 className={`text-5xl font-black ${
+                stat.value.includes("+")
+                  ? "text-green-400"
+                  : "text-white"
+              }`}>
+
+                {stat.value}
+
+              </h2>
+
+            </div>
+          ))
+        }
+
+      </div>
+
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
+
+        <div className="xl:col-span-3 space-y-8">
+
+          <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
 
             <div className="flex items-center justify-between mb-6">
 
               <div>
 
-                <h2 className="text-3xl font-black text-white">
+                <h2 className="text-4xl font-black">
                   BTC/USDT
                 </h2>
 
@@ -58,7 +137,7 @@ const Dashboard = () => {
 
               <div className="text-right">
 
-                <h2 className="text-4xl font-black text-white">
+                <h2 className="text-4xl font-black">
                   $84,520
                 </h2>
 
@@ -70,11 +149,7 @@ const Dashboard = () => {
 
             </div>
 
-            <div className="rounded-3xl overflow-hidden">
-
-              <TradingViewWidget />
-
-            </div>
+            <TradingViewWidget />
 
           </div>
 
@@ -84,13 +159,13 @@ const Dashboard = () => {
 
           <TradingPanel />
 
-          <div className="bg-[#0d0d0d] border border-yellow-500/10 rounded-3xl p-6">
+          <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
 
             <div className="flex items-center justify-between mb-8">
 
               <div>
 
-                <h2 className="text-3xl font-black text-white">
+                <h2 className="text-4xl font-black">
                   Watchlist
                 </h2>
 
@@ -102,131 +177,55 @@ const Dashboard = () => {
 
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-6">
 
-              <div className="flex items-center justify-between bg-black rounded-2xl p-4">
+              {
+                watchlist.map((item, index) => (
 
-                <div>
+                  <div
+                    key={index}
+                    className="flex items-center justify-between"
+                  >
 
-                  <h3 className="text-white font-bold">
-                    BTC
-                  </h3>
+                    <div>
 
-                  <p className="text-zinc-500 text-sm">
-                    Bitcoin
-                  </p>
+                      <h3 className="font-black text-xl">
+                        {item.coin}
+                      </h3>
 
-                </div>
+                      <p className="text-zinc-500">
+                        {item.name}
+                      </p>
 
-                <div className="text-right">
+                    </div>
 
-                  <h3 className="text-white font-bold">
-                    $84,520
-                  </h3>
+                    <div className="text-right">
 
-                  <p className="text-green-400 text-sm">
-                    +4.82%
-                  </p>
+                      <h3 className="font-black text-xl">
+                        {item.price}
+                      </h3>
 
-                </div>
+                      <p className={`font-bold ${
+                        item.positive
+                          ? "text-green-400"
+                          : "text-red-400"
+                      }`}>
 
-              </div>
+                        {item.change}
 
-              <div className="flex items-center justify-between bg-black rounded-2xl p-4">
+                      </p>
 
-                <div>
+                    </div>
 
-                  <h3 className="text-white font-bold">
-                    ETH
-                  </h3>
-
-                  <p className="text-zinc-500 text-sm">
-                    Ethereum
-                  </p>
-
-                </div>
-
-                <div className="text-right">
-
-                  <h3 className="text-white font-bold">
-                    $4,280
-                  </h3>
-
-                  <p className="text-green-400 text-sm">
-                    +2.18%
-                  </p>
-
-                </div>
-
-              </div>
-
-              <div className="flex items-center justify-between bg-black rounded-2xl p-4">
-
-                <div>
-
-                  <h3 className="text-white font-bold">
-                    SOL
-                  </h3>
-
-                  <p className="text-zinc-500 text-sm">
-                    Solana
-                  </p>
-
-                </div>
-
-                <div className="text-right">
-
-                  <h3 className="text-white font-bold">
-                    $182
-                  </h3>
-
-                  <p className="text-red-400 text-sm">
-                    -1.34%
-                  </p>
-
-                </div>
-
-              </div>
-
-              <div className="flex items-center justify-between bg-black rounded-2xl p-4">
-
-                <div>
-
-                  <h3 className="text-white font-bold">
-                    BNB
-                  </h3>
-
-                  <p className="text-zinc-500 text-sm">
-                    Binance Coin
-                  </p>
-
-                </div>
-
-                <div className="text-right">
-
-                  <h3 className="text-white font-bold">
-                    $712
-                  </h3>
-
-                  <p className="text-green-400 text-sm">
-                    +1.88%
-                  </p>
-
-                </div>
-
-              </div>
+                  </div>
+                ))
+              }
 
             </div>
 
           </div>
 
         </div>
-
-      </div>
-
-      <div className="mt-8">
-
-        <RecentActivity />
 
       </div>
 
