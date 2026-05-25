@@ -1,4 +1,6 @@
-import { useState } from "react";
+import {
+  useState,
+} from "react";
 
 import {
   useNavigate,
@@ -6,6 +8,10 @@ import {
 } from "react-router-dom";
 
 import API from "../services/api";
+
+import {
+  saveToken,
+} from "../utils/auth";
 
 const Login = () => {
 
@@ -19,6 +25,22 @@ const Login = () => {
       password: "",
     });
 
+  const [loading, setLoading] =
+    useState(false);
+
+  const handleChange = (
+    e
+  ) => {
+
+    setFormData({
+
+      ...formData,
+
+      [e.target.name]:
+        e.target.value,
+    });
+  };
+
   const handleSubmit =
     async (e) => {
 
@@ -26,22 +48,16 @@ const Login = () => {
 
       try {
 
-        const res =
+        setLoading(true);
+
+        const response =
           await API.post(
             "/auth/login",
             formData
           );
 
-        localStorage.setItem(
-          "token",
-          res.data.token
-        );
-
-        localStorage.setItem(
-          "user",
-          JSON.stringify(
-            res.data.user
-          )
+        saveToken(
+          response.data.token
         );
 
         navigate(
@@ -51,79 +67,80 @@ const Login = () => {
       } catch (error) {
 
         alert(
-          error.response?.data
-            ?.message ||
-            "Login failed"
+          error.response?.data?.message ||
+          "Login failed"
         );
+
+      } finally {
+
+        setLoading(false);
       }
     };
 
   return (
 
-    <div className="min-h-screen bg-black flex items-center justify-center px-6">
+    <div className="min-h-screen bg-black flex items-center justify-center p-5">
 
-      <div className="w-full max-w-md bg-[#111] border border-yellow-500/20 rounded-[40px] p-10">
+      <div className="w-full max-w-md bg-[#111] border border-yellow-500/10 rounded-3xl p-8">
 
-        <h1 className="text-5xl font-black text-white">
-          Login
-        </h1>
+        <div className="text-center mb-10">
 
-        <p className="text-gray-500 mt-3">
-          Welcome back trader
-        </p>
+          <h1 className="text-5xl font-black text-yellow-400">
+            CryptoX
+          </h1>
+
+          <p className="text-zinc-500 mt-3">
+            Login to your exchange account
+          </p>
+
+        </div>
 
         <form
-          onSubmit={
-            handleSubmit
-          }
-          className="mt-10 space-y-5"
+          onSubmit={handleSubmit}
+          className="space-y-5"
         >
 
           <input
             type="email"
-            placeholder="Email Address"
-            onChange={(e) =>
-              setFormData({
-
-                ...formData,
-
-                email:
-                  e.target.value,
-              })
-            }
-            className="w-full bg-black border border-yellow-500/20 rounded-2xl px-5 py-4 text-white outline-none"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full bg-black border border-yellow-500/10 rounded-2xl px-5 py-4 outline-none"
           />
 
           <input
             type="password"
+            name="password"
             placeholder="Password"
-            onChange={(e) =>
-              setFormData({
-
-                ...formData,
-
-                password:
-                  e.target.value,
-              })
-            }
-            className="w-full bg-black border border-yellow-500/20 rounded-2xl px-5 py-4 text-white outline-none"
+            value={formData.password}
+            onChange={handleChange}
+            className="w-full bg-black border border-yellow-500/10 rounded-2xl px-5 py-4 outline-none"
           />
 
-          <button className="w-full bg-yellow-500 hover:bg-yellow-400 text-black py-4 rounded-2xl font-bold transition-all">
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-yellow-400 hover:bg-yellow-300 transition-all text-black py-4 rounded-2xl font-black"
+          >
 
-            Login
+            {
+              loading
+                ? "Logging in..."
+                : "Login"
+            }
 
           </button>
 
         </form>
 
-        <p className="text-gray-500 mt-6 text-center">
+        <p className="text-center text-zinc-500 mt-6">
 
-          Don’t have account?{" "}
+          Don’t have an account?
 
           <Link
             to="/register"
-            className="text-yellow-400"
+            className="text-yellow-400 ml-2"
           >
 
             Register

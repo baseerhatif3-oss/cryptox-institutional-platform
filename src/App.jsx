@@ -35,6 +35,8 @@ import Referral from "./pages/Referral";
 import Security from "./pages/Security";
 import Settings from "./pages/Settings";
 
+import ProtectedRoute from "./components/ProtectedRoute";
+
 function App() {
 
   return (
@@ -62,102 +64,182 @@ function App() {
 
         <Route
           path="/dashboard"
-          element={<Dashboard />}
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/notifications"
-          element={<Notifications />}
+          element={
+            <ProtectedRoute>
+              <Notifications />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/markets"
-          element={<Markets />}
+          element={
+            <ProtectedRoute>
+              <Markets />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/trading"
-          element={<Trading />}
+          element={
+            <ProtectedRoute>
+              <Trading />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/futures"
-          element={<Futures />}
+          element={
+            <ProtectedRoute>
+              <Futures />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/copy-trading"
-          element={<CopyTrading />}
+          element={
+            <ProtectedRoute>
+              <CopyTrading />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/wallet"
-          element={<Wallet />}
+          element={
+            <ProtectedRoute>
+              <Wallet />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/orders"
-          element={<Orders />}
+          element={
+            <ProtectedRoute>
+              <Orders />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/transactions"
-          element={<Transactions />}
+          element={
+            <ProtectedRoute>
+              <Transactions />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/deposit"
-          element={<Deposit />}
+          element={
+            <ProtectedRoute>
+              <Deposit />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/withdraw"
-          element={<Withdraw />}
+          element={
+            <ProtectedRoute>
+              <Withdraw />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/admin"
-          element={<Admin />}
+          element={
+            <ProtectedRoute>
+              <Admin />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/kyc"
-          element={<KYC />}
+          element={
+            <ProtectedRoute>
+              <KYC />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/security-center"
-          element={<SecurityCenter />}
+          element={
+            <ProtectedRoute>
+              <SecurityCenter />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/ai-signals"
-          element={<AISignals />}
+          element={
+            <ProtectedRoute>
+              <AISignals />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/staking"
-          element={<Staking />}
+          element={
+            <ProtectedRoute>
+              <Staking />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/leaderboard"
-          element={<Leaderboard />}
+          element={
+            <ProtectedRoute>
+              <Leaderboard />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/referral"
-          element={<Referral />}
+          element={
+            <ProtectedRoute>
+              <Referral />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/security"
-          element={<Security />}
+          element={
+            <ProtectedRoute>
+              <Security />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/settings"
-          element={<Settings />}
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
         />
 
       </Routes>

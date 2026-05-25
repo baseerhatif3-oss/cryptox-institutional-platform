@@ -3,36 +3,25 @@ import {
 } from "react-router-dom";
 
 import {
-  useAuth,
-} from "../context/AuthContext";
+  isAuthenticated,
+} from "../utils/auth";
 
-export default function ProtectedRoute({
+const ProtectedRoute = ({
   children,
-}) {
+}) => {
 
-  const {
-    user,
-    loading,
-  } = useAuth();
-
-  if (loading) {
+  if (
+    !isAuthenticated()
+  ) {
 
     return (
-
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
-
-        Loading...
-
-      </div>
-    );
-  }
-
-  if (!user) {
-
-    return (
-      <Navigate to="/login" />
+      <Navigate
+        to="/login"
+      />
     );
   }
 
   return children;
-}
+};
+
+export default ProtectedRoute;
