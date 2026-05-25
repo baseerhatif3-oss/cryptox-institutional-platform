@@ -9,7 +9,10 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 
 import Dashboard from "./pages/Dashboard";
+import Markets from "./pages/Markets";
 import Trading from "./pages/Trading";
+import Futures from "./pages/Futures";
+
 import Wallet from "./pages/Wallet";
 import Orders from "./pages/Orders";
 import Transactions from "./pages/Transactions";
@@ -20,7 +23,6 @@ import Withdraw from "./pages/Withdraw";
 import Admin from "./pages/Admin";
 import KYC from "./pages/KYC";
 
-import Markets from "./pages/Markets";
 import SecurityCenter from "./pages/SecurityCenter";
 
 import AISignals from "./pages/AISignals";
@@ -61,8 +63,18 @@ function App() {
         />
 
         <Route
+          path="/markets"
+          element={<Markets />}
+        />
+
+        <Route
           path="/trading"
           element={<Trading />}
+        />
+
+        <Route
+          path="/futures"
+          element={<Futures />}
         />
 
         <Route
@@ -98,11 +110,6 @@ function App() {
         <Route
           path="/kyc"
           element={<KYC />}
-        />
-
-        <Route
-          path="/markets"
-          element={<Markets />}
         />
 
         <Route

@@ -1,6 +1,7 @@
 import {
   LayoutDashboard,
   CandlestickChart,
+  ChartCandlestick,
   Wallet,
   ClipboardList,
   ArrowLeftRight,
@@ -41,6 +42,12 @@ const Sidebar = () => {
       name: "Trading",
       path: "/trading",
       icon: CandlestickChart,
+    },
+
+    {
+      name: "Futures",
+      path: "/futures",
+      icon: ChartCandlestick,
     },
 
     {
