@@ -1,93 +1,67 @@
-import React from "react";
+const trades = [
+
+  {
+    price: "84,520",
+    amount: "0.42",
+    side: "buy",
+  },
+
+  {
+    price: "84,480",
+    amount: "0.28",
+    side: "sell",
+  },
+
+  {
+    price: "84,550",
+    amount: "0.91",
+    side: "buy",
+  },
+
+  {
+    price: "84,500",
+    amount: "0.14",
+    side: "sell",
+  },
+];
 
 const RecentTrades = () => {
 
-  const trades = [
-
-    {
-      price: "84,520",
-      amount: "0.82 BTC",
-      time: "23:41:02",
-      positive: true,
-    },
-
-    {
-      price: "84,480",
-      amount: "1.24 BTC",
-      time: "23:40:51",
-      positive: false,
-    },
-
-    {
-      price: "84,610",
-      amount: "0.45 BTC",
-      time: "23:40:44",
-      positive: true,
-    },
-
-    {
-      price: "84,430",
-      amount: "0.91 BTC",
-      time: "23:40:28",
-      positive: false,
-    },
-  ];
-
   return (
 
-    <div className="bg-[#111] border border-white/10 rounded-[36px] overflow-hidden">
+    <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
 
-      <div className="p-6 border-b border-white/10">
+      <h2 className="text-3xl font-black text-white mb-8">
+        Recent Trades
+      </h2>
 
-        <h2 className="text-2xl font-black">
-          Recent Trades
-        </h2>
+      <div className="space-y-3">
 
-      </div>
+        {
+          trades.map(
+            (trade, index) => (
 
-      <div className="divide-y divide-white/5">
+              <div
+                key={index}
+                className="flex justify-between bg-black rounded-xl px-4 py-3"
+              >
 
-        {trades.map(
-          (
-            trade,
-            index
-          ) => (
-
-            <div
-              key={index}
-              className="p-5 flex items-center justify-between hover:bg-white/5 transition"
-            >
-
-              <div>
-
-                <h3
-                  className={`font-black ${
-                    trade.positive
-                      ? "text-green-400"
-                      : "text-red-400"
-                  }`}
-                >
-
+                <span className={`font-bold ${
+                  trade.side === "buy"
+                    ? "text-green-400"
+                    : "text-red-400"
+                }`}>
                   {trade.price}
+                </span>
 
-                </h3>
-
-                <p className="text-gray-400 text-sm mt-1">
+                <span className="text-white">
                   {trade.amount}
-                </p>
+                </span>
 
               </div>
-
-              <div className="text-gray-500 text-sm">
-
-                {trade.time}
-
-              </div>
-
-            </div>
-
+            )
           )
-        )}
+        }
 
       </div>
 
