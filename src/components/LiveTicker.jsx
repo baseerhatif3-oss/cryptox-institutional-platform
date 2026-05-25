@@ -4,143 +4,44 @@ import {
 } from "react";
 
 import {
-  io,
-} from "socket.io-client";
+  connectSocket,
+  disconnectSocket,
+} from "../services/socketService";
 
-const socket =
-  io(
-    "https://crypto-backend-dojp.onrender.com"
-  );
+const LiveTicker = () => {
 
-const LiveTicker =
-  () => {
-    const [prices,
-      setPrices] =
-      useState({
-        BTC:
-          "0.00",
+  const [price, setPrice] =
+    useState("0");
 
-        ETH:
-          "0.00",
+  useEffect(() => {
 
-        SOL:
-          "0.00",
+    connectSocket(
+      (data) => {
 
-        XRP:
-          "0.00",
-      });
-
-    useEffect(() => {
-      socket.on(
-        "market_update",
-        (
-          data
-        ) => {
-          setPrices(
-            data
-          );
-        }
-      );
-
-      return () => {
-        socket.off(
-          "market_update"
+        setPrice(
+          Number(
+            data.p
+          ).toFixed(2)
         );
-      };
-    }, []);
-
-    const coins =
-      [
-        {
-          symbol:
-            "BTC",
-
-          price:
-            prices.BTC,
-        },
-
-        {
-          symbol:
-            "ETH",
-
-          price:
-            prices.ETH,
-        },
-
-        {
-          symbol:
-            "SOL",
-
-          price:
-            prices.SOL,
-        },
-
-        {
-          symbol:
-            "XRP",
-
-          price:
-            prices.XRP,
-        },
-      ];
-
-    return (
-      <div className="bg-slate-900 border-b border-slate-800 overflow-hidden">
-        <div className="flex whitespace-nowrap animate-pulse">
-          {coins.map(
-            (
-              coin
-            ) => (
-              <div
-                key={
-                  coin.symbol
-                }
-                className="px-8 py-4 border-r border-slate-800 flex items-center gap-3"
-              >
-                <span className="font-bold text-white text-lg">
-                  {
-                    coin.symbol
-                  }
-                </span>
-
-                <span className="text-green-400 font-bold text-lg">
-                  $
-                  {
-                    coin.price
-                  }
-                </span>
-              </div>
-            )
-          )}
-
-          {/* DUPLICATE FOR CONTINUOUS EFFECT */}
-
-          {coins.map(
-            (
-              coin
-            ) => (
-              <div
-                key={`duplicate-${coin.symbol}`}
-                className="px-8 py-4 border-r border-slate-800 flex items-center gap-3"
-              >
-                <span className="font-bold text-white text-lg">
-                  {
-                    coin.symbol
-                  }
-                </span>
-
-                <span className="text-green-400 font-bold text-lg">
-                  $
-                  {
-                    coin.price
-                  }
-                </span>
-              </div>
-            )
-          )}
-        </div>
-      </div>
+      }
     );
-  };
+
+    return () =>
+      disconnectSocket();
+
+  }, []);
+
+  return (
+
+    <div className="bg-yellow-400 text-black px-6 py-3 rounded-2xl font-black text-xl">
+
+      BTC/USDT:
+      ${
+        price
+      }
+
+    </div>
+  );
+};
 
 export default LiveTicker;

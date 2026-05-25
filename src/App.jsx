@@ -5,10 +5,15 @@ import {
   Navigate,
 } from "react-router-dom";
 
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+
 import Dashboard from "./pages/Dashboard";
-import Wallet from "./pages/Wallet";
-import OpenOrders from "./pages/OpenOrders";
 import Trading from "./pages/Trading";
+import Wallet from "./pages/Wallet";
+import Orders from "./pages/Orders";
+import Transactions from "./pages/Transactions";
+
 import AISignals from "./pages/AISignals";
 import Staking from "./pages/Staking";
 import Leaderboard from "./pages/Leaderboard";
@@ -34,8 +39,23 @@ function App() {
         />
 
         <Route
+          path="/login"
+          element={<Login />}
+        />
+
+        <Route
+          path="/register"
+          element={<Register />}
+        />
+
+        <Route
           path="/dashboard"
           element={<Dashboard />}
+        />
+
+        <Route
+          path="/trading"
+          element={<Trading />}
         />
 
         <Route
@@ -45,12 +65,12 @@ function App() {
 
         <Route
           path="/orders"
-          element={<OpenOrders />}
+          element={<Orders />}
         />
 
         <Route
-          path="/trading"
-          element={<Trading />}
+          path="/transactions"
+          element={<Transactions />}
         />
 
         <Route
