@@ -1,18 +1,21 @@
 import Sidebar from "./Sidebar";
-import Topbar from "./Topbar";
 
-const MainLayout = ({ children }) => {
+const MainLayout = ({
+  children,
+}) => {
+
   return (
-    <div className="flex bg-black min-h-screen">
+
+    <div className="bg-black min-h-screen text-white">
+
       <Sidebar />
 
-      <div className="flex-1">
-        <Topbar />
+      <div className="ml-[260px] p-8">
 
-        <div className="p-8">
-          {children}
-        </div>
+        {children}
+
       </div>
+
     </div>
   );
 };

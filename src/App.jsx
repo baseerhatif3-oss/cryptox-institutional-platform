@@ -1,33 +1,90 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
-import Login from "./pages/Login";
-import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
-import Markets from "./pages/Markets";
 import Wallet from "./pages/Wallet";
-import Transactions from "./pages/Transactions";
 import OpenOrders from "./pages/OpenOrders";
-import Home from "./pages/Home";
+import Trading from "./pages/Trading";
+import AISignals from "./pages/AISignals";
+import Staking from "./pages/Staking";
+import Leaderboard from "./pages/Leaderboard";
+import Referral from "./pages/Referral";
+import Security from "./pages/Security";
+import Settings from "./pages/Settings";
 
 function App() {
+
   return (
+
     <BrowserRouter>
+
       <Routes>
-        {/* PUBLIC ROUTES */}
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
 
-        {/* DASHBOARD ROUTES */}
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/markets" element={<Markets />} />
-        <Route path="/wallet" element={<Wallet />} />
-        <Route path="/transactions" element={<Transactions />} />
-        <Route path="/orders" element={<OpenOrders />} />
+        <Route
+          path="/"
+          element={
+            <Navigate
+              to="/dashboard"
+            />
+          }
+        />
 
-        {/* FALLBACK */}
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route
+          path="/dashboard"
+          element={<Dashboard />}
+        />
+
+        <Route
+          path="/wallet"
+          element={<Wallet />}
+        />
+
+        <Route
+          path="/orders"
+          element={<OpenOrders />}
+        />
+
+        <Route
+          path="/trading"
+          element={<Trading />}
+        />
+
+        <Route
+          path="/ai-signals"
+          element={<AISignals />}
+        />
+
+        <Route
+          path="/staking"
+          element={<Staking />}
+        />
+
+        <Route
+          path="/leaderboard"
+          element={<Leaderboard />}
+        />
+
+        <Route
+          path="/referral"
+          element={<Referral />}
+        />
+
+        <Route
+          path="/security"
+          element={<Security />}
+        />
+
+        <Route
+          path="/settings"
+          element={<Settings />}
+        />
+
       </Routes>
+
     </BrowserRouter>
   );
 }
