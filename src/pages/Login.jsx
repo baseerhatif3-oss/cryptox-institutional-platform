@@ -1,87 +1,69 @@
-import React, {
-  useState,
-} from "react";
+import { useState } from "react";
 
-import {
-  useNavigate,
-} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import API from "../services/api";
 
-const Login = () => {
+import { useAuth } from "../context/AuthContext";
+
+export default function Login() {
 
   const navigate =
     useNavigate();
 
-  const [formData,
-    setFormData] =
+  const { login } =
+    useAuth();
+
+  const [formData, setFormData] =
     useState({
 
       email: "",
-
       password: "",
     });
 
-  const [loading,
-    setLoading] =
+  const [loading, setLoading] =
     useState(false);
 
-  const handleChange =
-    (e) => {
+  const handleChange = (e) => {
 
-      setFormData({
+    setFormData({
 
-        ...formData,
+      ...formData,
+      [e.target.name]:
+        e.target.value,
+    });
+  };
 
-        [e.target.name]:
-          e.target.value,
-      });
-    };
 
-  const handleSubmit =
-    async (e) => {
+  const handleSubmit = async (e) => {
 
-      e.preventDefault();
+    e.preventDefault();
 
-      try {
+    try {
 
-        setLoading(true);
+      setLoading(true);
 
-        const res =
-          await API.post(
-            "/auth/login",
-            formData
-          );
-
-        localStorage.setItem(
-          "token",
-          res.data.token
+      const res =
+        await API.post(
+          "/auth/login",
+          formData
         );
 
-        localStorage.setItem(
-          "user",
-          JSON.stringify(
-            res.data.user
-          )
-        );
+      login(res.data);
 
-        navigate(
-          "/dashboard"
-        );
+      navigate("/dashboard");
 
-      } catch (error) {
+    } catch (err) {
 
-        alert(
-          error.response?.data
-            ?.message ||
-          "Login failed"
-        );
+      alert(
+        err.response?.data?.message ||
+        "Login failed"
+      );
+    }
 
-      } finally {
+    setLoading(false);
+  };
 
-        setLoading(false);
-      }
-    };
 
   return (
 
@@ -89,55 +71,52 @@ const Login = () => {
 
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md bg-[#111] border border-white/10 rounded-[36px] p-10"
+        className="bg-[#111] border border-gray-800 rounded-3xl p-10 w-full max-w-md"
       >
 
-        <h1 className="text-5xl font-black mb-8 text-center">
+        <h1 className="text-5xl font-bold mb-8 text-center">
 
           Login
 
         </h1>
 
-        <div className="space-y-5">
 
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="w-full bg-black border border-white/10 rounded-2xl px-5 py-4 outline-none"
-          />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+          className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4 mb-5 outline-none"
+        />
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            className="w-full bg-black border border-white/10 rounded-2xl px-5 py-4 outline-none"
-          />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+          className="w-full bg-black border border-gray-700 rounded-xl px-4 py-4 mb-6 outline-none"
+        />
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-yellow-500 hover:bg-yellow-600 transition rounded-2xl py-4 text-black font-black"
-          >
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-yellow-400 text-black font-bold py-4 rounded-xl hover:bg-yellow-300"
+        >
 
-            {loading
+          {
+            loading
               ? "Logging in..."
-              : "Login"}
+              : "Login"
+          }
 
-          </button>
-
-        </div>
+        </button>
 
       </form>
 
     </div>
   );
-};
-
-export default Login;
+}
