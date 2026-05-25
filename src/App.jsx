@@ -37,6 +37,8 @@ import Settings from "./pages/Settings";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
+import ErrorPage from "./pages/ErrorPage";
+
 function App() {
 
   return (
@@ -240,6 +242,11 @@ function App() {
               <Settings />
             </ProtectedRoute>
           }
+        />
+
+        <Route
+          path="*"
+          element={<ErrorPage />}
         />
 
       </Routes>

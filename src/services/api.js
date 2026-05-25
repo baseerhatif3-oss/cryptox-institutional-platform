@@ -1,30 +1,62 @@
 import axios from "axios";
 
+import {
+  getToken,
+  removeToken,
+} from "../utils/auth";
+
 const API =
   axios.create({
 
     baseURL:
-      "https://crypto-backend-dojp.onrender.com/api",
+      "https://your-backend-url.onrender.com/api",
   });
 
-
-// TOKEN INTERCEPTOR
-
 API.interceptors.request.use(
-  (req) => {
+
+  (config) => {
 
     const token =
-      localStorage.getItem(
-        "token"
-      );
+      getToken();
 
     if (token) {
 
-      req.headers.Authorization =
+      config.headers.Authorization =
         `Bearer ${token}`;
     }
 
-    return req;
+    return config;
+  },
+
+  (error) => {
+
+    return Promise.reject(
+      error
+    );
+  }
+);
+
+API.interceptors.response.use(
+
+  (response) =>
+    response,
+
+  (error) => {
+
+    if (
+      error.response?.status ===
+      401
+    ) {
+
+      removeToken();
+
+      window.location.href =
+        "/login";
+    }
+
+    return Promise.reject(
+      error
+    );
   }
 );
 

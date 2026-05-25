@@ -6,9 +6,21 @@ import {
   isAuthenticated,
 } from "../utils/auth";
 
+import LoadingSpinner from "./LoadingSpinner";
+
 const ProtectedRoute = ({
   children,
 }) => {
+
+  if (
+    isAuthenticated() ===
+    null
+  ) {
+
+    return (
+      <LoadingSpinner />
+    );
+  }
 
   if (
     !isAuthenticated()
