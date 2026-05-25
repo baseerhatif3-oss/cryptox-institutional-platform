@@ -13,6 +13,8 @@ import {
   ArrowUpCircle,
   Users,
   BadgeCheck,
+  LineChart,
+  LockKeyhole,
 } from "lucide-react";
 
 import {
@@ -27,6 +29,12 @@ const Sidebar = () => {
       name: "Dashboard",
       path: "/dashboard",
       icon: LayoutDashboard,
+    },
+
+    {
+      name: "Markets",
+      path: "/markets",
+      icon: LineChart,
     },
 
     {
@@ -75,6 +83,12 @@ const Sidebar = () => {
       name: "KYC",
       path: "/kyc",
       icon: BadgeCheck,
+    },
+
+    {
+      name: "Security Center",
+      path: "/security-center",
+      icon: LockKeyhole,
     },
 
     {

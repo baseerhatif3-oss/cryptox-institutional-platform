@@ -1,63 +1,152 @@
 import MainLayout from "../components/layout/MainLayout";
 
 const Markets = () => {
-  const coins = [
+
+  const markets = [
+
     {
+      coin: "BTC",
       name: "Bitcoin",
-      symbol: "BTC",
       price: "$84,520",
       change: "+4.82%",
+      positive: true,
     },
+
     {
+      coin: "ETH",
       name: "Ethereum",
-      symbol: "ETH",
       price: "$4,280",
       change: "+2.18%",
+      positive: true,
     },
+
     {
+      coin: "SOL",
       name: "Solana",
-      symbol: "SOL",
       price: "$182",
       change: "-1.34%",
+      positive: false,
+    },
+
+    {
+      coin: "BNB",
+      name: "Binance Coin",
+      price: "$712",
+      change: "+1.88%",
+      positive: true,
+    },
+
+    {
+      coin: "XRP",
+      name: "Ripple",
+      price: "$1.24",
+      change: "+8.20%",
+      positive: true,
     },
   ];
 
   return (
+
     <MainLayout>
-      <h1 className="text-4xl font-bold text-white mb-8">
-        Markets
-      </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {coins.map((coin) => (
-          <div
-            key={coin.symbol}
-            className="bg-[#111] border border-yellow-500/20 rounded-3xl p-6"
-          >
-            <h2 className="text-2xl font-bold text-white">
-              {coin.symbol}
-            </h2>
+      <div className="mb-10">
 
-            <p className="text-gray-500 mt-1">
-              {coin.name}
-            </p>
+        <h1 className="text-5xl font-black">
+          Live Markets
+        </h1>
 
-            <h3 className="text-3xl font-bold text-yellow-400 mt-6">
-              {coin.price}
-            </h3>
+        <p className="text-zinc-500 mt-2">
+          Real-time crypto market overview
+        </p>
 
-            <p
-              className={`mt-2 font-semibold ${
-                coin.change.includes("+")
-                  ? "text-green-400"
-                  : "text-red-400"
-              }`}
-            >
-              {coin.change}
-            </p>
-          </div>
-        ))}
       </div>
+
+      <div className="bg-[#111] border border-yellow-500/10 rounded-3xl overflow-hidden">
+
+        <table className="w-full">
+
+          <thead className="bg-black">
+
+            <tr>
+
+              <th className="text-left p-5 text-yellow-400">
+                Coin
+              </th>
+
+              <th className="text-left p-5 text-yellow-400">
+                Name
+              </th>
+
+              <th className="text-left p-5 text-yellow-400">
+                Price
+              </th>
+
+              <th className="text-left p-5 text-yellow-400">
+                24H Change
+              </th>
+
+              <th className="text-left p-5 text-yellow-400">
+                Market Status
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            {
+              markets.map(
+                (market, index) => (
+
+                  <tr
+                    key={index}
+                    className="border-t border-yellow-500/10"
+                  >
+
+                    <td className="p-5 font-black">
+                      {market.coin}
+                    </td>
+
+                    <td className="p-5 text-zinc-400">
+                      {market.name}
+                    </td>
+
+                    <td className="p-5 font-bold">
+                      {market.price}
+                    </td>
+
+                    <td className={`p-5 font-bold ${
+                      market.positive
+                        ? "text-green-400"
+                        : "text-red-400"
+                    }`}>
+
+                      {market.change}
+
+                    </td>
+
+                    <td className="p-5">
+
+                      <span className="bg-green-500 text-black px-4 py-2 rounded-xl font-bold text-sm">
+
+                        Active
+
+                      </span>
+
+                    </td>
+
+                  </tr>
+                )
+              )
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
     </MainLayout>
   );
 };

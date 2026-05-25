@@ -20,6 +20,9 @@ import Withdraw from "./pages/Withdraw";
 import Admin from "./pages/Admin";
 import KYC from "./pages/KYC";
 
+import Markets from "./pages/Markets";
+import SecurityCenter from "./pages/SecurityCenter";
+
 import AISignals from "./pages/AISignals";
 import Staking from "./pages/Staking";
 import Leaderboard from "./pages/Leaderboard";
@@ -38,9 +41,7 @@ function App() {
         <Route
           path="/"
           element={
-            <Navigate
-              to="/dashboard"
-            />
+            <Navigate to="/dashboard" />
           }
         />
 
@@ -97,6 +98,16 @@ function App() {
         <Route
           path="/kyc"
           element={<KYC />}
+        />
+
+        <Route
+          path="/markets"
+          element={<Markets />}
+        />
+
+        <Route
+          path="/security-center"
+          element={<SecurityCenter />}
         />
 
         <Route
