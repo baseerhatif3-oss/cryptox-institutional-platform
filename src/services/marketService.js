@@ -3,24 +3,45 @@ import axios from "axios";
 const BASE_URL =
   "https://api.binance.com/api/v3";
 
-export const getTickerPrice =
-  async (symbol) => {
+export const getMarketPrices =
+  async () => {
 
-    const res =
-      await axios.get(
-        `${BASE_URL}/ticker/price?symbol=${symbol}`
+    try {
+
+      const response =
+        await axios.get(
+          `${BASE_URL}/ticker/24hr`
+        );
+
+      return response.data;
+
+    } catch (error) {
+
+      console.log(
+        "Market API Error:",
+        error
       );
 
-    return res.data;
-  };
+      return [];
+    }
+};
 
-export const get24hrTicker =
-  async (symbol) => {
+export const getBTCPrice =
+  async () => {
 
-    const res =
-      await axios.get(
-        `${BASE_URL}/ticker/24hr?symbol=${symbol}`
-      );
+    try {
 
-    return res.data;
-  };
+      const response =
+        await axios.get(
+          `${BASE_URL}/ticker/price?symbol=BTCUSDT`
+        );
+
+      return response.data;
+
+    } catch (error) {
+
+      console.log(error);
+
+      return null;
+    }
+};

@@ -1,49 +1,66 @@
+import {
+  useEffect,
+  useState,
+} from "react";
+
 import MainLayout from "../components/layout/MainLayout";
+
+import {
+  getMarketPrices,
+} from "../services/marketService";
 
 const Markets = () => {
 
-  const markets = [
+  const [markets, setMarkets] =
+    useState([]);
 
-    {
-      coin: "BTC",
-      name: "Bitcoin",
-      price: "$84,520",
-      change: "+4.82%",
-      positive: true,
-    },
+  const [loading, setLoading] =
+    useState(true);
 
-    {
-      coin: "ETH",
-      name: "Ethereum",
-      price: "$4,280",
-      change: "+2.18%",
-      positive: true,
-    },
+  useEffect(() => {
 
-    {
-      coin: "SOL",
-      name: "Solana",
-      price: "$182",
-      change: "-1.34%",
-      positive: false,
-    },
+    fetchMarkets();
 
-    {
-      coin: "BNB",
-      name: "Binance Coin",
-      price: "$712",
-      change: "+1.88%",
-      positive: true,
-    },
+    const interval =
+      setInterval(
+        fetchMarkets,
+        10000
+      );
 
-    {
-      coin: "XRP",
-      name: "Ripple",
-      price: "$1.24",
-      change: "+8.20%",
-      positive: true,
-    },
-  ];
+    return () =>
+      clearInterval(interval);
+
+  }, []);
+
+  const fetchMarkets =
+    async () => {
+
+      try {
+
+        const data =
+          await getMarketPrices();
+
+        const filtered =
+          data
+            .filter(
+              (coin) =>
+                coin.symbol.endsWith(
+                  "USDT"
+                )
+            )
+            .slice(0, 20);
+
+        setMarkets(filtered);
+
+      } catch (error) {
+
+        console.log(error);
+
+      } finally {
+
+        setLoading(false);
+      }
+    };
 
   return (
 
@@ -56,94 +73,123 @@ const Markets = () => {
         </h1>
 
         <p className="text-zinc-500 mt-2">
-          Real-time crypto market overview
+          Real-time Binance market data
         </p>
 
       </div>
 
       <div className="bg-[#111] border border-yellow-500/10 rounded-3xl overflow-hidden">
 
-        <table className="w-full">
+        {
+          loading ? (
 
-          <thead className="bg-black">
+            <div className="p-10 text-center">
 
-            <tr>
+              <h2 className="text-3xl font-black text-yellow-400">
 
-              <th className="text-left p-5 text-yellow-400">
-                Coin
-              </th>
+                Loading Markets...
 
-              <th className="text-left p-5 text-yellow-400">
-                Name
-              </th>
+              </h2>
 
-              <th className="text-left p-5 text-yellow-400">
-                Price
-              </th>
+            </div>
 
-              <th className="text-left p-5 text-yellow-400">
-                24H Change
-              </th>
+          ) : (
 
-              <th className="text-left p-5 text-yellow-400">
-                Market Status
-              </th>
+            <table className="w-full">
 
-            </tr>
+              <thead className="bg-black">
 
-          </thead>
+                <tr>
 
-          <tbody>
+                  <th className="text-left p-5 text-yellow-400">
+                    Symbol
+                  </th>
 
-            {
-              markets.map(
-                (market, index) => (
+                  <th className="text-left p-5 text-yellow-400">
+                    Price
+                  </th>
 
-                  <tr
-                    key={index}
-                    className="border-t border-yellow-500/10"
-                  >
+                  <th className="text-left p-5 text-yellow-400">
+                    24H Change
+                  </th>
 
-                    <td className="p-5 font-black">
-                      {market.coin}
-                    </td>
+                  <th className="text-left p-5 text-yellow-400">
+                    Volume
+                  </th>
 
-                    <td className="p-5 text-zinc-400">
-                      {market.name}
-                    </td>
+                </tr>
 
-                    <td className="p-5 font-bold">
-                      {market.price}
-                    </td>
+              </thead>
 
-                    <td className={`p-5 font-bold ${
-                      market.positive
-                        ? "text-green-400"
-                        : "text-red-400"
-                    }`}>
+              <tbody>
 
-                      {market.change}
+                {
+                  markets.map(
+                    (
+                      market,
+                      index
+                    ) => (
 
-                    </td>
+                      <tr
+                        key={index}
+                        className="border-t border-yellow-500/10"
+                      >
 
-                    <td className="p-5">
+                        <td className="p-5 font-black">
 
-                      <span className="bg-green-500 text-black px-4 py-2 rounded-xl font-bold text-sm">
+                          {
+                            market.symbol
+                          }
 
-                        Active
+                        </td>
 
-                      </span>
+                        <td className="p-5 font-bold">
 
-                    </td>
+                          $
+                          {
+                            Number(
+                              market.lastPrice
+                            ).toLocaleString()
+                          }
 
-                  </tr>
-                )
-              )
-            }
+                        </td>
 
-          </tbody>
+                        <td className={`p-5 font-bold ${
+                          Number(
+                            market.priceChangePercent
+                          ) >= 0
+                            ? "text-green-400"
+                            : "text-red-400"
+                        }`}>
 
-        </table>
+                          {
+                            Number(
+                              market.priceChangePercent
+                            ).toFixed(2)
+                          }%
+
+                        </td>
+
+                        <td className="p-5 text-zinc-400">
+
+                          {
+                            Number(
+                              market.volume
+                            ).toLocaleString()
+                          }
+
+                        </td>
+
+                      </tr>
+                    )
+                  )
+                }
+
+              </tbody>
+
+            </table>
+          )
+        }
 
       </div>
 
