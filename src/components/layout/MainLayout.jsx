@@ -1,21 +1,25 @@
 import Sidebar from "./Sidebar";
 import TopNavbar from "./TopNavbar";
 
-const MainLayout = ({ children }) => {
+const MainLayout = ({
+  children,
+}) => {
 
   return (
 
-    <div className="bg-black min-h-screen text-white">
+    <div className="flex bg-black text-white min-h-screen">
 
       <Sidebar />
 
-      <div className="ml-[260px]">
+      <div className="flex-1 flex flex-col">
 
         <TopNavbar />
 
-        <div className="p-8">
+        <main className="p-8">
+
           {children}
-        </div>
+
+        </main>
 
       </div>
 
