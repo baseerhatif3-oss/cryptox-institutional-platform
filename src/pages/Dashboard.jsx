@@ -13,6 +13,8 @@ import MarketOverview from "../components/MarketOverview";
 
 import RecentActivity from "../components/RecentActivity";
 
+import RecentTransactions from "../components/RecentTransactions";
+
 import API from "../services/api";
 
 const Dashboard = () => {
@@ -147,7 +149,7 @@ const Dashboard = () => {
 
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
 
-        <div className="xl:col-span-3">
+        <div className="xl:col-span-3 space-y-8">
 
           <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
 
@@ -182,6 +184,8 @@ const Dashboard = () => {
             <TradingViewWidget />
 
           </div>
+
+          <RecentTransactions />
 
         </div>
 
