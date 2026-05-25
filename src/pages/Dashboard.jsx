@@ -1,5 +1,11 @@
 import Navbar from "../components/Navbar";
 
+import TradingPanel from "../components/TradingPanel";
+
+import {
+  AdvancedRealTimeChart
+} from "react-ts-tradingview-widgets";
+
 export default function Dashboard() {
 
   return (
@@ -70,11 +76,11 @@ export default function Dashboard() {
 
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-4 gap-8">
 
-          <div className="lg:col-span-2 bg-[#0b0b0b] border border-gray-800 rounded-3xl p-8">
+          <div className="lg:col-span-3 bg-[#0b0b0b] border border-gray-800 rounded-3xl p-6">
 
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-6">
 
               <div>
                 <h2 className="text-2xl font-bold">
@@ -82,7 +88,7 @@ export default function Dashboard() {
                 </h2>
 
                 <p className="text-gray-400">
-                  Advanced Trading Chart
+                  Live TradingView Chart
                 </p>
               </div>
 
@@ -98,66 +104,101 @@ export default function Dashboard() {
 
             </div>
 
-            <div className="h-[400px] rounded-2xl border border-gray-800 flex items-center justify-center text-gray-500">
-              TradingView Chart Area
+            <div className="rounded-2xl overflow-hidden">
+
+              <AdvancedRealTimeChart
+                theme="dark"
+                symbol="BINANCE:BTCUSDT"
+                width="100%"
+                height="600"
+                timezone="Etc/UTC"
+                locale="en"
+                hide_top_toolbar={false}
+                hide_legend={false}
+              />
+
             </div>
 
           </div>
 
-          <div className="bg-[#0b0b0b] border border-gray-800 rounded-3xl p-8">
+          <div className="space-y-8">
 
-            <h2 className="text-2xl font-bold mb-8">
-              Watchlist
-            </h2>
+            <TradingPanel />
 
-            <div className="space-y-6">
+            <div className="bg-[#0b0b0b] border border-gray-800 rounded-3xl p-8">
 
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="font-bold">BTC</h3>
-                  <p className="text-gray-400 text-sm">
-                    Bitcoin
-                  </p>
+              <h2 className="text-2xl font-bold mb-8">
+                Watchlist
+              </h2>
+
+              <div className="space-y-6">
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-bold">
+                      BTC
+                    </h3>
+
+                    <p className="text-gray-400 text-sm">
+                      Bitcoin
+                    </p>
+                  </div>
+
+                  <div className="text-right">
+                    <h3 className="font-bold">
+                      $84,520
+                    </h3>
+
+                    <p className="text-green-400 text-sm">
+                      +4.82%
+                    </p>
+                  </div>
                 </div>
 
-                <div className="text-right">
-                  <h3 className="font-bold">$84,520</h3>
-                  <p className="text-green-400 text-sm">
-                    +4.82%
-                  </p>
-                </div>
-              </div>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-bold">
+                      ETH
+                    </h3>
 
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="font-bold">ETH</h3>
-                  <p className="text-gray-400 text-sm">
-                    Ethereum
-                  </p>
-                </div>
+                    <p className="text-gray-400 text-sm">
+                      Ethereum
+                    </p>
+                  </div>
 
-                <div className="text-right">
-                  <h3 className="font-bold">$4,280</h3>
-                  <p className="text-green-400 text-sm">
-                    +2.18%
-                  </p>
-                </div>
-              </div>
+                  <div className="text-right">
+                    <h3 className="font-bold">
+                      $4,280
+                    </h3>
 
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="font-bold">SOL</h3>
-                  <p className="text-gray-400 text-sm">
-                    Solana
-                  </p>
+                    <p className="text-green-400 text-sm">
+                      +2.18%
+                    </p>
+                  </div>
                 </div>
 
-                <div className="text-right">
-                  <h3 className="font-bold">$182</h3>
-                  <p className="text-red-400 text-sm">
-                    -1.34%
-                  </p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-bold">
+                      SOL
+                    </h3>
+
+                    <p className="text-gray-400 text-sm">
+                      Solana
+                    </p>
+                  </div>
+
+                  <div className="text-right">
+                    <h3 className="font-bold">
+                      $182
+                    </h3>
+
+                    <p className="text-red-400 text-sm">
+                      -1.34%
+                    </p>
+                  </div>
                 </div>
+
               </div>
 
             </div>
