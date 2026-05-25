@@ -1,18 +1,31 @@
 import axios from "axios";
 
-const API = axios.create({
-  baseURL: "https://crypto-backend-dojp.onrender.com/api",
-});
+const API =
+  axios.create({
 
-API.interceptors.request.use((req) => {
+    baseURL:
+      "https://crypto-backend-dojp.onrender.com/api",
+  });
 
-  const token = localStorage.getItem("token");
 
-  if (token) {
-    req.headers.Authorization = `Bearer ${token}`;
+// TOKEN INTERCEPTOR
+
+API.interceptors.request.use(
+  (req) => {
+
+    const token =
+      localStorage.getItem(
+        "token"
+      );
+
+    if (token) {
+
+      req.headers.Authorization =
+        `Bearer ${token}`;
+    }
+
+    return req;
   }
-
-  return req;
-});
+);
 
 export default API;

@@ -1,26 +1,70 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+
+import {
+  useNavigate,
+  Link,
+} from "react-router-dom";
+
+import API from "../services/api";
 
 const Register = () => {
-  const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
+  const navigate =
+    useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const [formData, setFormData] =
+    useState({
 
-    localStorage.setItem("token", "cryptox_token");
+      name: "",
+      email: "",
+      password: "",
+    });
 
-    navigate("/dashboard");
-  };
+  const handleSubmit =
+    async (e) => {
+
+      e.preventDefault();
+
+      try {
+
+        const res =
+          await API.post(
+            "/auth/register",
+            formData
+          );
+
+        localStorage.setItem(
+          "token",
+          res.data.token
+        );
+
+        localStorage.setItem(
+          "user",
+          JSON.stringify(
+            res.data.user
+          )
+        );
+
+        navigate(
+          "/dashboard"
+        );
+
+      } catch (error) {
+
+        alert(
+          error.response?.data
+            ?.message ||
+            "Registration failed"
+        );
+      }
+    };
 
   return (
+
     <div className="min-h-screen bg-black flex items-center justify-center px-6">
+
       <div className="w-full max-w-md bg-[#111] border border-yellow-500/20 rounded-[40px] p-10">
+
         <h1 className="text-5xl font-black text-white">
           Register
         </h1>
@@ -30,17 +74,22 @@ const Register = () => {
         </p>
 
         <form
-          onSubmit={handleSubmit}
+          onSubmit={
+            handleSubmit
+          }
           className="mt-10 space-y-5"
         >
+
           <input
             type="text"
             placeholder="Full Name"
-            value={formData.name}
             onChange={(e) =>
               setFormData({
+
                 ...formData,
-                name: e.target.value,
+
+                name:
+                  e.target.value,
               })
             }
             className="w-full bg-black border border-yellow-500/20 rounded-2xl px-5 py-4 text-white outline-none"
@@ -49,11 +98,13 @@ const Register = () => {
           <input
             type="email"
             placeholder="Email Address"
-            value={formData.email}
             onChange={(e) =>
               setFormData({
+
                 ...formData,
-                email: e.target.value,
+
+                email:
+                  e.target.value,
               })
             }
             className="w-full bg-black border border-yellow-500/20 rounded-2xl px-5 py-4 text-white outline-none"
@@ -62,31 +113,43 @@ const Register = () => {
           <input
             type="password"
             placeholder="Password"
-            value={formData.password}
             onChange={(e) =>
               setFormData({
+
                 ...formData,
-                password: e.target.value,
+
+                password:
+                  e.target.value,
               })
             }
             className="w-full bg-black border border-yellow-500/20 rounded-2xl px-5 py-4 text-white outline-none"
           />
 
           <button className="w-full bg-yellow-500 hover:bg-yellow-400 text-black py-4 rounded-2xl font-bold transition-all">
+
             Create Account
+
           </button>
+
         </form>
 
         <p className="text-gray-500 mt-6 text-center">
+
           Already have account?{" "}
+
           <Link
             to="/login"
             className="text-yellow-400"
           >
+
             Login
+
           </Link>
+
         </p>
+
       </div>
+
     </div>
   );
 };
