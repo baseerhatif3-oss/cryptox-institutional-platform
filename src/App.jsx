@@ -1,75 +1,15 @@
 import React from "react";
 
-import {
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-
-import Home from "./pages/Home";
-
-import Login from "./pages/Login";
-
-import Register from "./pages/Register";
-
-import Dashboard from "./pages/Dashboard";
-
-import ProtectedRoute from "./components/ProtectedRoute";
-
-import {
-  useAuth,
-} from "./context/AuthContext";
-
-const App = () => {
-
-  const {
-    user,
-  } = useAuth();
+function App() {
 
   return (
 
-    <div className="bg-black min-h-screen text-white">
+    <div className="min-h-screen bg-black text-white flex items-center justify-center text-5xl font-bold">
 
-      <Routes>
-
-        <Route
-          path="/"
-          element={<Home />}
-        />
-
-        <Route
-          path="/login"
-          element={
-            user
-              ? <Navigate to="/dashboard" />
-              : <Login />
-          }
-        />
-
-        <Route
-          path="/register"
-          element={
-            user
-              ? <Navigate to="/dashboard" />
-              : <Register />
-          }
-        />
-
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-
-              <Dashboard />
-
-            </ProtectedRoute>
-          }
-        />
-
-      </Routes>
+      CryptoX Working 🚀
 
     </div>
   );
-};
+}
 
 export default App;
