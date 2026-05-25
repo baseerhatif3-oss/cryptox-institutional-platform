@@ -1,3 +1,5 @@
+import LivePriceTicker from "../LivePriceTicker";
+
 const TopNavbar = () => {
 
   return (
@@ -16,14 +18,20 @@ const TopNavbar = () => {
 
       </div>
 
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-5">
 
-        <div className="bg-yellow-400 text-black px-6 py-3 rounded-2xl font-black">
-          BTC $84,520
-        </div>
+        <LivePriceTicker />
 
-        <div className="bg-[#111] border border-yellow-500/10 px-6 py-3 rounded-2xl">
-          Baseer
+        <div className="bg-[#111] border border-yellow-500/10 px-6 py-4 rounded-2xl">
+
+          <h3 className="font-bold">
+            Baseer
+          </h3>
+
+          <p className="text-zinc-500 text-sm">
+            Verified Trader
+          </p>
+
         </div>
 
       </div>
