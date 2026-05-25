@@ -1,46 +1,70 @@
-import { FaBell, FaUserCircle } from "react-icons/fa";
+import {
+  Bell,
+  Search,
+  User,
+} from "lucide-react";
 
-const Topbar = () => {
+const TopNavbar = () => {
+
   return (
-    <div className="h-[80px] border-b border-yellow-500/20 bg-black px-8 flex items-center justify-between">
-      <div>
-        <h2 className="text-2xl font-bold text-white">
-          Global Crypto Exchange
-        </h2>
 
-        <p className="text-gray-500 text-sm">
-          Advanced Trading Platform
-        </p>
-      </div>
+    <header className="sticky top-0 z-30 bg-black/80 backdrop-blur-xl border-b border-yellow-500/10 px-4 md:px-8 py-4">
 
-      <div className="flex items-center gap-6">
-        <button className="relative text-gray-400 hover:text-yellow-400">
-          <FaBell size={22} />
+      <div className="flex items-center justify-between gap-5">
 
-          <span className="absolute -top-2 -right-2 bg-yellow-500 text-black text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
-            3
-          </span>
-        </button>
+        <div className="hidden md:flex items-center bg-[#111] border border-yellow-500/10 rounded-2xl px-4 py-3 w-[350px]">
 
-        <div className="flex items-center gap-3">
-          <FaUserCircle
-            size={36}
-            className="text-yellow-400"
+          <Search
+            size={18}
+            className="text-zinc-500"
           />
 
-          <div>
-            <p className="text-white font-semibold">
-              Baseer
-            </p>
+          <input
+            type="text"
+            placeholder="Search markets..."
+            className="bg-transparent outline-none ml-3 w-full text-sm"
+          />
 
-            <p className="text-gray-500 text-sm">
-              Verified Trader
-            </p>
-          </div>
         </div>
+
+        <div className="flex items-center gap-4 ml-auto">
+
+          <button className="relative bg-[#111] border border-yellow-500/10 p-3 rounded-2xl hover:border-yellow-400/30 transition-all">
+
+            <Bell size={20} />
+
+            <div className="absolute top-2 right-2 w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+
+          </button>
+
+          <div className="flex items-center gap-3 bg-[#111] border border-yellow-500/10 px-4 py-2 rounded-2xl">
+
+            <div className="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center text-black font-black">
+
+              B
+
+            </div>
+
+            <div className="hidden md:block">
+
+              <h3 className="font-bold">
+                Baseer
+              </h3>
+
+              <p className="text-zinc-500 text-sm">
+                Pro Trader
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
-    </div>
+
+    </header>
   );
 };
 
-export default Topbar;
+export default TopNavbar;

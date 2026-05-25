@@ -1,44 +1,48 @@
-import {
-  useEffect,
-  useState,
-} from "react";
-
-import {
-  connectSocket,
-  disconnectSocket,
-} from "../services/socketService";
-
-const LiveTicker = () => {
-
-  const [price, setPrice] =
-    useState("0");
-
-  useEffect(() => {
-
-    connectSocket(
-      (data) => {
-
-        setPrice(
-          Number(
-            data.p
-          ).toFixed(2)
-        );
-      }
-    );
-
-    return () =>
-      disconnectSocket();
-
-  }, []);
+const LiveTicker = ({
+  symbol,
+  price,
+  change,
+}) => {
 
   return (
 
-    <div className="bg-yellow-400 text-black px-6 py-3 rounded-2xl font-black text-xl">
+    <div className="bg-[#111] border border-yellow-500/10 rounded-2xl px-5 py-4 flex items-center justify-between hover:border-yellow-400/30 transition-all">
 
-      BTC/USDT:
-      ${
-        price
-      }
+      <div>
+
+        <h3 className="font-black text-lg">
+          {symbol}
+        </h3>
+
+        <p className="text-zinc-500 text-sm">
+          Live Market
+        </p>
+
+      </div>
+
+      <div className="text-right">
+
+        <h2 className="font-black text-xl">
+
+          $
+          {
+            Number(price)
+              .toLocaleString()
+          }
+
+        </h2>
+
+        <p className={`font-bold text-sm ${
+          change.includes("-")
+            ? "text-red-400"
+            : "text-green-400"
+        }`}>
+
+          {change}
+
+        </p>
+
+      </div>
 
     </div>
   );

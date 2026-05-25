@@ -15,6 +15,8 @@ import RecentActivity from "../components/RecentActivity";
 
 import RecentTransactions from "../components/RecentTransactions";
 
+import LiveTicker from "../components/LiveTicker";
+
 import API from "../services/api";
 
 import {
@@ -424,6 +426,28 @@ const Dashboard = () => {
               <TradingViewWidget />
 
             </div>
+
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <LiveTicker
+              symbol="BTCUSDT"
+              price={btcPrice}
+              change={priceChange}
+            />
+
+            <LiveTicker
+              symbol="ETHUSDT"
+              price="4280"
+              change="+2.84%"
+            />
+
+            <LiveTicker
+              symbol="SOLUSDT"
+              price="182"
+              change="+5.21%"
+            />
 
           </div>
 
