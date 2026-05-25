@@ -1,405 +1,328 @@
 import React from "react";
 
 import {
-  BrowserRouter,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
 
-import { Toaster } from "react-hot-toast";
 
-import {
-  useTheme,
-} from "./context/ThemeContext";
+// PAGES
 
-import Navbar from "./components/Navbar";
-
-import PriceTicker from "./components/PriceTicker";
-
-import Footer from "./components/Footer";
-
-import MobileBottomNav from "./components/MobileBottomNav";
-
-import Landing from "./pages/Landing";
-
-import Dashboard from "./pages/Dashboard";
-
-import Markets from "./pages/Markets";
-
-import Academy from "./pages/Academy";
-
-import Rewards from "./pages/Rewards";
-
-import Community from "./pages/Community";
-
-import AIPortfolio from "./pages/AIPortfolio";
-
-import Portfolio from "./pages/Portfolio";
-
-import SpotTrading from "./pages/SpotTrading";
-
-import Futures from "./pages/Futures";
-
-import Wallet from "./pages/Wallet";
-
-import Transactions from "./pages/Transactions";
-
-import Leaderboard from "./pages/Leaderboard";
-
-import CopyTrading from "./pages/CopyTrading";
-
-import Staking from "./pages/Staking";
-
-import NFTMarketplace from "./pages/NFTMarketplace";
-
-import Launchpad from "./pages/Launchpad";
-
-import News from "./pages/News";
-
-import AISignals from "./pages/AISignals";
-
-import Support from "./pages/Support";
-
-import Security from "./pages/Security";
-
-import BuyCrypto from "./pages/BuyCrypto";
-
-import VIP from "./pages/VIP";
-
-import Referral from "./pages/Referral";
-
-import Analytics from "./pages/Analytics";
-
-import Settings from "./pages/Settings";
-
-import Admin from "./pages/Admin";
+import Home from "./pages/Home";
 
 import Login from "./pages/Login";
 
 import Register from "./pages/Register";
 
-import KYC from "./pages/KYC";
+import Dashboard from "./pages/Dashboard";
 
-const ProtectedRoute = ({
-  children,
-}) => {
+import Trading from "./pages/Trading";
 
-  const token =
-    localStorage.getItem(
-      "token"
-    );
+import Futures from "./pages/Futures";
 
-  if (!token) {
+import Wallet from "./pages/Wallet";
 
-    return (
-      <Navigate to="/login" />
-    );
-  }
+import Markets from "./pages/Markets";
 
-  return children;
-};
+import Profile from "./pages/Profile";
 
-function App() {
+import Settings from "./pages/Settings";
 
-  const { theme } =
-    useTheme();
+import NFTMarketplace from "./pages/NFTMarketplace";
+
+import Staking from "./pages/Staking";
+
+import CopyTrading from "./pages/CopyTrading";
+
+import Launchpad from "./pages/Launchpad";
+
+import Rewards from "./pages/Rewards";
+
+import Leaderboard from "./pages/Leaderboard";
+
+import Community from "./pages/Community";
+
+import Security from "./pages/Security";
+
+import Notifications from "./pages/Notifications";
+
+import Referral from "./pages/Referral";
+
+import NotFound from "./pages/NotFound";
+
+
+// COMPONENTS
+
+import Navbar from "./components/Navbar";
+
+import MobileBottomNav from "./components/MobileBottomNav";
+
+import ProtectedRoute from "./components/ProtectedRoute";
+
+
+// AUTH
+
+import {
+  useAuth,
+} from "./context/AuthContext";
+
+
+const App = () => {
+
+  const {
+    user,
+  } = useAuth();
 
   return (
 
-    <BrowserRouter>
+    <div className="bg-black text-white min-h-screen">
 
-      <Toaster
-        position="top-right"
-      />
+      <Navbar />
 
-      <div
-        className={`min-h-screen overflow-x-hidden flex flex-col transition-all duration-300 ${
-          theme === "dark"
-            ? "bg-black text-white"
-            : "bg-gray-100 text-black"
-        }`}
-      >
+      <Routes>
 
-        {/* BACKGROUND */}
+        {/* PUBLIC ROUTES */}
 
-        <div className="fixed inset-0 -z-10">
+        <Route
+          path="/"
+          element={<Home />}
+        />
 
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,#facc15_0%,transparent_25%)] opacity-10" />
+        <Route
+          path="/login"
+          element={
+            user
+              ? (
+                <Navigate
+                  to="/dashboard"
+                />
+              )
+              : (
+                <Login />
+              )
+          }
+        />
 
-          <div className="absolute bottom-0 left-0 w-full h-full bg-[radial-gradient(circle_at_bottom_left,#2563eb_0%,transparent_25%)] opacity-10" />
+        <Route
+          path="/register"
+          element={
+            user
+              ? (
+                <Navigate
+                  to="/dashboard"
+                />
+              )
+              : (
+                <Register />
+              )
+          }
+        />
 
-        </div>
 
-        <Navbar />
+        {/* PROTECTED ROUTES */}
 
-        <PriceTicker />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
 
-        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-10 pb-28 lg:pb-10">
+              <Dashboard />
 
-          <Routes>
+            </ProtectedRoute>
+          }
+        />
 
-            <Route
-              path="/"
-              element={<Landing />}
-            />
+        <Route
+          path="/trading"
+          element={
+            <ProtectedRoute>
 
-            <Route
-              path="/login"
-              element={<Login />}
-            />
+              <Trading />
 
-            <Route
-              path="/register"
-              element={<Register />}
-            />
+            </ProtectedRoute>
+          }
+        />
 
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
+        <Route
+          path="/futures"
+          element={
+            <ProtectedRoute>
 
-            <Route
-              path="/markets"
-              element={
-                <ProtectedRoute>
-                  <Markets />
-                </ProtectedRoute>
-              }
-            />
+              <Futures />
 
-            <Route
-              path="/academy"
-              element={
-                <ProtectedRoute>
-                  <Academy />
-                </ProtectedRoute>
-              }
-            />
+            </ProtectedRoute>
+          }
+        />
 
-            <Route
-              path="/rewards"
-              element={
-                <ProtectedRoute>
-                  <Rewards />
-                </ProtectedRoute>
-              }
-            />
+        <Route
+          path="/wallet"
+          element={
+            <ProtectedRoute>
 
-            <Route
-              path="/community"
-              element={
-                <ProtectedRoute>
-                  <Community />
-                </ProtectedRoute>
-              }
-            />
+              <Wallet />
 
-            <Route
-              path="/ai-portfolio"
-              element={
-                <ProtectedRoute>
-                  <AIPortfolio />
-                </ProtectedRoute>
-              }
-            />
+            </ProtectedRoute>
+          }
+        />
 
-            <Route
-              path="/portfolio"
-              element={
-                <ProtectedRoute>
-                  <Portfolio />
-                </ProtectedRoute>
-              }
-            />
+        <Route
+          path="/markets"
+          element={
+            <ProtectedRoute>
 
-            <Route
-              path="/buy-crypto"
-              element={
-                <ProtectedRoute>
-                  <BuyCrypto />
-                </ProtectedRoute>
-              }
-            />
+              <Markets />
 
-            <Route
-              path="/spot"
-              element={
-                <ProtectedRoute>
-                  <SpotTrading />
-                </ProtectedRoute>
-              }
-            />
+            </ProtectedRoute>
+          }
+        />
 
-            <Route
-              path="/futures"
-              element={
-                <ProtectedRoute>
-                  <Futures />
-                </ProtectedRoute>
-              }
-            />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
 
-            <Route
-              path="/ai-signals"
-              element={
-                <ProtectedRoute>
-                  <AISignals />
-                </ProtectedRoute>
-              }
-            />
+              <Profile />
 
-            <Route
-              path="/copy-trading"
-              element={
-                <ProtectedRoute>
-                  <CopyTrading />
-                </ProtectedRoute>
-              }
-            />
+            </ProtectedRoute>
+          }
+        />
 
-            <Route
-              path="/staking"
-              element={
-                <ProtectedRoute>
-                  <Staking />
-                </ProtectedRoute>
-              }
-            />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
 
-            <Route
-              path="/nft"
-              element={
-                <ProtectedRoute>
-                  <NFTMarketplace />
-                </ProtectedRoute>
-              }
-            />
+              <Settings />
 
-            <Route
-              path="/launchpad"
-              element={
-                <ProtectedRoute>
-                  <Launchpad />
-                </ProtectedRoute>
-              }
-            />
+            </ProtectedRoute>
+          }
+        />
 
-            <Route
-              path="/news"
-              element={
-                <ProtectedRoute>
-                  <News />
-                </ProtectedRoute>
-              }
-            />
+        <Route
+          path="/nft"
+          element={
+            <ProtectedRoute>
 
-            <Route
-              path="/support"
-              element={
-                <ProtectedRoute>
-                  <Support />
-                </ProtectedRoute>
-              }
-            />
+              <NFTMarketplace />
 
-            <Route
-              path="/security"
-              element={
-                <ProtectedRoute>
-                  <Security />
-                </ProtectedRoute>
-              }
-            />
+            </ProtectedRoute>
+          }
+        />
 
-            <Route
-              path="/wallet"
-              element={
-                <ProtectedRoute>
-                  <Wallet />
-                </ProtectedRoute>
-              }
-            />
+        <Route
+          path="/staking"
+          element={
+            <ProtectedRoute>
 
-            <Route
-              path="/transactions"
-              element={
-                <ProtectedRoute>
-                  <Transactions />
-                </ProtectedRoute>
-              }
-            />
+              <Staking />
 
-            <Route
-              path="/vip"
-              element={
-                <ProtectedRoute>
-                  <VIP />
-                </ProtectedRoute>
-              }
-            />
+            </ProtectedRoute>
+          }
+        />
 
-            <Route
-              path="/referral"
-              element={
-                <ProtectedRoute>
-                  <Referral />
-                </ProtectedRoute>
-              }
-            />
+        <Route
+          path="/copy-trading"
+          element={
+            <ProtectedRoute>
 
-            <Route
-              path="/analytics"
-              element={
-                <ProtectedRoute>
-                  <Analytics />
-                </ProtectedRoute>
-              }
-            />
+              <CopyTrading />
 
-            <Route
-              path="/settings"
-              element={
-                <ProtectedRoute>
-                  <Settings />
-                </ProtectedRoute>
-              }
-            />
+            </ProtectedRoute>
+          }
+        />
 
-            <Route
-              path="/kyc"
-              element={
-                <ProtectedRoute>
-                  <KYC />
-                </ProtectedRoute>
-              }
-            />
+        <Route
+          path="/launchpad"
+          element={
+            <ProtectedRoute>
 
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute>
-                  <Admin />
-                </ProtectedRoute>
-              }
-            />
+              <Launchpad />
 
-          </Routes>
+            </ProtectedRoute>
+          }
+        />
 
-        </main>
+        <Route
+          path="/rewards"
+          element={
+            <ProtectedRoute>
 
-        <Footer />
+              <Rewards />
 
-        <MobileBottomNav />
+            </ProtectedRoute>
+          }
+        />
 
-      </div>
+        <Route
+          path="/leaderboard"
+          element={
+            <ProtectedRoute>
 
-    </BrowserRouter>
+              <Leaderboard />
+
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/community"
+          element={
+            <ProtectedRoute>
+
+              <Community />
+
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/security"
+          element={
+            <ProtectedRoute>
+
+              <Security />
+
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/notifications"
+          element={
+            <ProtectedRoute>
+
+              <Notifications />
+
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/referral"
+          element={
+            <ProtectedRoute>
+
+              <Referral />
+
+            </ProtectedRoute>
+          }
+        />
+
+
+        {/* 404 */}
+
+        <Route
+          path="*"
+          element={<NotFound />}
+        />
+
+      </Routes>
+
+      <MobileBottomNav />
+
+    </div>
   );
-}
+};
 
 export default App;

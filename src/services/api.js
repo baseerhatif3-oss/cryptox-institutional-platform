@@ -1,39 +1,10 @@
 import axios from "axios";
 
-const API = axios.create({
-  baseURL:
-    "https://crypto-backend-dojp.onrender.com/api",
-});
+const API =
+  axios.create({
 
-/* REQUEST INTERCEPTOR */
-
-API.interceptors.request.use(
-  (config) => {
-    const token =
-      localStorage.getItem(
-        "token"
-      );
-
-    if (token) {
-      config.headers.Authorization =
-        `Bearer ${token}`;
-    }
-
-    return config;
-  }
-);
-
-/* RESPONSE INTERCEPTOR */
-
-API.interceptors.response.use(
-  (response) =>
-    response,
-
-  (error) => {
-    return Promise.reject(
-      error
-    );
-  }
-);
+    baseURL:
+      "http://127.0.0.1:5000/api",
+  });
 
 export default API;

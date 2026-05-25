@@ -7,8 +7,12 @@ import App from "./App";
 import "./index.css";
 
 import {
-  ThemeProvider,
-} from "./context/ThemeContext";
+  BrowserRouter,
+} from "react-router-dom";
+
+import {
+  AuthProvider,
+} from "./context/AuthContext";
 
 ReactDOM.createRoot(
   document.getElementById(
@@ -18,11 +22,15 @@ ReactDOM.createRoot(
 
   <React.StrictMode>
 
-    <ThemeProvider>
+    <BrowserRouter>
 
-      <App />
+      <AuthProvider>
 
-    </ThemeProvider>
+        <App />
+
+      </AuthProvider>
+
+    </BrowserRouter>
 
   </React.StrictMode>
 );
