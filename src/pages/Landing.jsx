@@ -4,6 +4,8 @@ import {
 
 import Logo from "../components/Logo";
 
+import Footer from "../components/Footer";
+
 const Landing = () => {
 
   const stats = [
@@ -53,7 +55,7 @@ const Landing = () => {
 
           <Link
             to="/login"
-            className="text-zinc-300 hover:text-white transition-all"
+            className="hidden md:block text-zinc-300 hover:text-white transition-all"
           >
 
             Login
@@ -93,7 +95,7 @@ const Landing = () => {
 
           </div>
 
-          <h1 className="text-6xl lg:text-8xl font-black leading-tight mb-8">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-tight mb-8">
 
             Trade Crypto
             <span className="text-yellow-400">
@@ -102,17 +104,17 @@ const Landing = () => {
 
           </h1>
 
-          <p className="text-xl text-zinc-400 max-w-3xl leading-relaxed mb-10">
+          <p className="text-lg md:text-xl text-zinc-400 max-w-3xl leading-relaxed mb-10">
 
             Professional cryptocurrency exchange platform with AI-powered analytics, advanced trading tools, real-time execution, and enterprise-grade security.
 
           </p>
 
-          <div className="flex flex-wrap gap-5">
+          <div className="flex flex-col sm:flex-row gap-5">
 
             <Link
               to="/register"
-              className="bg-yellow-400 hover:bg-yellow-300 hover:scale-105 transition-all px-8 py-5 rounded-2xl text-black font-black text-lg"
+              className="bg-yellow-400 hover:bg-yellow-300 hover:scale-105 transition-all px-8 py-5 rounded-2xl text-black font-black text-lg text-center"
             >
 
               Start Trading
@@ -121,7 +123,7 @@ const Landing = () => {
 
             <Link
               to="/dashboard"
-              className="border border-yellow-500/20 hover:border-yellow-400 hover:scale-105 transition-all px-8 py-5 rounded-2xl font-bold"
+              className="border border-yellow-500/20 hover:border-yellow-400 hover:scale-105 transition-all px-8 py-5 rounded-2xl font-bold text-center"
             >
 
               Live Demo
@@ -169,7 +171,7 @@ const Landing = () => {
 
       </section>
 
-      <section className="relative z-10 px-6 lg:px-16 pb-32">
+      <section className="relative z-10 px-6 lg:px-16 pb-24">
 
         <div className="mb-16">
 
@@ -223,6 +225,41 @@ const Landing = () => {
         </div>
 
       </section>
+
+      <section className="relative z-10 px-6 lg:px-16 pb-24">
+
+        <div className="glass rounded-[40px] p-10 md:p-16 text-center">
+
+          <h2 className="text-4xl md:text-6xl font-black mb-6">
+
+            Ready to Trade?
+
+          </h2>
+
+          <p className="text-zinc-400 text-xl max-w-3xl mx-auto mb-10">
+
+            Join thousands of traders using CryptoX professional exchange infrastructure.
+
+          </p>
+
+          <Link
+            to="/register"
+            className="inline-flex bg-yellow-400 hover:bg-yellow-300 hover:scale-105 transition-all px-10 py-5 rounded-2xl text-black font-black text-xl"
+          >
+
+            Launch Exchange Account
+
+          </Link>
+
+        </div>
+
+      </section>
+
+      <div className="relative z-10 px-6 lg:px-16">
+
+        <Footer />
+
+      </div>
 
     </div>
   );
