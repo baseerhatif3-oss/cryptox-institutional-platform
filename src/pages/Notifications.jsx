@@ -5,31 +5,35 @@ const Notifications = () => {
   const notifications = [
 
     {
-      title: "BTC Buy Order Executed",
-      message: "Your BTCUSDT order has been filled successfully.",
-      time: "2 min ago",
-      type: "success",
+      title:
+        "BTC surged above $84,000",
+
+      time:
+        "2 min ago",
     },
 
     {
-      title: "AI Signal Alert",
-      message: "Strong BUY signal detected for ETHUSDT.",
-      time: "10 min ago",
-      type: "info",
+      title:
+        "New AI BUY signal generated",
+
+      time:
+        "5 min ago",
     },
 
     {
-      title: "Security Login Detected",
-      message: "New login detected from Karachi, Pakistan.",
-      time: "1 hour ago",
-      type: "warning",
+      title:
+        "System security scan completed",
+
+      time:
+        "12 min ago",
     },
 
     {
-      title: "Withdrawal Completed",
-      message: "0.15 BTC withdrawal processed successfully.",
-      time: "3 hours ago",
-      type: "success",
+      title:
+        "Futures trading volume increased",
+
+      time:
+        "25 min ago",
     },
   ];
 
@@ -39,12 +43,16 @@ const Notifications = () => {
 
       <div className="mb-10">
 
-        <h1 className="text-5xl font-black">
+        <h1 className="text-6xl font-black">
+
           Notifications
+
         </h1>
 
-        <p className="text-zinc-500 mt-2">
-          Real-time platform alerts and updates
+        <p className="text-zinc-500 text-xl mt-4">
+
+          Real-time exchange alerts and platform activity.
+
         </p>
 
       </div>
@@ -53,28 +61,57 @@ const Notifications = () => {
 
         {
           notifications.map(
-            (notification, index) => (
+            (
+              item,
+              index
+            ) => (
 
               <div
                 key={index}
-                className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6"
+                className="glass rounded-3xl p-8 hover:border-yellow-400/20 transition-all"
               >
 
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-3">
+                <div className="flex items-center justify-between gap-6">
 
-                  <h2 className="text-2xl font-black">
-                    {notification.title}
-                  </h2>
+                  <div className="flex items-center gap-5">
 
-                  <span className="text-zinc-500 text-sm">
-                    {notification.time}
+                    <div className="w-16 h-16 rounded-2xl bg-yellow-400/10 flex items-center justify-center">
+
+                      <span className="text-3xl">
+                        🔔
+                      </span>
+
+                    </div>
+
+                    <div>
+
+                      <h2 className="text-2xl font-black">
+
+                        {
+                          item.title
+                        }
+
+                      </h2>
+
+                      <p className="text-zinc-500 mt-2">
+
+                        CryptoX Exchange Notification
+
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <span className="text-yellow-400 font-bold whitespace-nowrap">
+
+                    {
+                      item.time
+                    }
+
                   </span>
 
                 </div>
-
-                <p className="text-zinc-400">
-                  {notification.message}
-                </p>
 
               </div>
             )

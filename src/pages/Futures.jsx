@@ -1,25 +1,51 @@
 import MainLayout from "../components/layout/MainLayout";
 
-import TradingViewWidget from "../components/TradingViewWidget";
-
 const Futures = () => {
 
-  const positions = [
+  const pairs = [
 
     {
-      pair: "BTCUSDT",
-      side: "LONG",
-      leverage: "20x",
-      pnl: "+$1,240",
-      positive: true,
+      pair:
+        "BTCUSDT",
+
+      leverage:
+        "125x",
+
+      volume:
+        "$18.4B",
     },
 
     {
-      pair: "ETHUSDT",
-      side: "SHORT",
-      leverage: "10x",
-      pnl: "-$420",
-      positive: false,
+      pair:
+        "ETHUSDT",
+
+      leverage:
+        "100x",
+
+      volume:
+        "$11.2B",
+    },
+
+    {
+      pair:
+        "SOLUSDT",
+
+      leverage:
+        "75x",
+
+      volume:
+        "$4.8B",
+    },
+
+    {
+      pair:
+        "BNBUSDT",
+
+      leverage:
+        "50x",
+
+      volume:
+        "$3.1B",
     },
   ];
 
@@ -27,266 +53,105 @@ const Futures = () => {
 
     <MainLayout>
 
-      <div className="mb-10">
+      <div className="relative overflow-hidden rounded-[40px] border border-yellow-500/10 bg-gradient-to-br from-yellow-400/10 via-black to-black p-10 mb-10">
 
-        <h1 className="text-5xl font-black">
-          Futures Trading
-        </h1>
+        <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-yellow-400/10 rounded-full blur-[120px]"></div>
 
-        <p className="text-zinc-500 mt-2">
-          Advanced leveraged derivatives trading
-        </p>
+        <div className="relative z-10">
+
+          <div className="inline-flex items-center gap-3 bg-red-500/10 border border-red-500/20 px-5 py-3 rounded-full mb-6">
+
+            <div className="w-3 h-3 bg-red-400 rounded-full animate-pulse"></div>
+
+            <span className="text-red-400 font-bold">
+
+              HIGH LEVERAGE TRADING
+
+            </span>
+
+          </div>
+
+          <h1 className="text-6xl font-black">
+
+            Futures
+            <span className="text-yellow-400">
+              {" "}Trading
+            </span>
+
+          </h1>
+
+          <p className="text-zinc-400 text-xl mt-6 max-w-3xl">
+
+            Professional leveraged derivatives trading with enterprise-grade execution infrastructure.
+
+          </p>
+
+        </div>
 
       </div>
 
-      <div className="grid grid-cols-1 2xl:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-        <div className="2xl:col-span-3">
+        {
+          pairs.map(
+            (
+              item,
+              index
+            ) => (
 
-          <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6 mb-8">
+              <div
+                key={index}
+                className="glass rounded-3xl p-8 hover:border-yellow-400/20 transition-all"
+              >
 
-            <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center justify-between mb-8">
 
-              <div>
+                  <h2 className="text-5xl font-black">
 
-                <h2 className="text-4xl font-black">
-                  BTCUSDT PERPETUAL
-                </h2>
+                    {
+                      item.pair
+                    }
 
-                <p className="text-zinc-500">
-                  Binance Futures Market
-                </p>
+                  </h2>
 
-              </div>
+                  <span className="bg-red-500/20 text-red-400 px-5 py-3 rounded-2xl font-black">
 
-              <div className="text-right">
+                    {
+                      item.leverage
+                    }
 
-                <h2 className="text-3xl font-black text-yellow-400">
+                  </span>
 
-                  20x
+                </div>
 
-                </h2>
+                <div className="flex items-center justify-between mb-8">
 
-                <p className="text-zinc-500">
-                  Selected Leverage
-                </p>
+                  <span className="text-zinc-500 text-lg">
 
-              </div>
+                    24H Volume
 
-            </div>
+                  </span>
 
-            <TradingViewWidget />
+                  <span className="text-green-400 text-3xl font-black">
 
-          </div>
+                    {
+                      item.volume
+                    }
 
-          <div className="bg-[#111] border border-yellow-500/10 rounded-3xl overflow-hidden">
+                  </span>
 
-            <div className="p-6 border-b border-yellow-500/10">
+                </div>
 
-              <h2 className="text-3xl font-black">
-                Open Positions
-              </h2>
+                <button className="w-full bg-yellow-400 hover:bg-yellow-300 transition-all py-4 rounded-2xl text-black font-black text-lg">
 
-            </div>
-
-            <table className="w-full">
-
-              <thead className="bg-black">
-
-                <tr>
-
-                  <th className="text-left p-5 text-yellow-400">
-                    Pair
-                  </th>
-
-                  <th className="text-left p-5 text-yellow-400">
-                    Side
-                  </th>
-
-                  <th className="text-left p-5 text-yellow-400">
-                    Leverage
-                  </th>
-
-                  <th className="text-left p-5 text-yellow-400">
-                    Unrealized PnL
-                  </th>
-
-                </tr>
-
-              </thead>
-
-              <tbody>
-
-                {
-                  positions.map(
-                    (position, index) => (
-
-                      <tr
-                        key={index}
-                        className="border-t border-yellow-500/10"
-                      >
-
-                        <td className="p-5 font-black">
-                          {position.pair}
-                        </td>
-
-                        <td className="p-5">
-
-                          <span className={`px-4 py-2 rounded-xl text-sm font-bold ${
-                            position.side === "LONG"
-                              ? "bg-green-500 text-black"
-                              : "bg-red-500 text-white"
-                          }`}>
-
-                            {position.side}
-
-                          </span>
-
-                        </td>
-
-                        <td className="p-5 font-bold">
-                          {position.leverage}
-                        </td>
-
-                        <td className={`p-5 font-bold ${
-                          position.positive
-                            ? "text-green-400"
-                            : "text-red-400"
-                        }`}>
-
-                          {position.pnl}
-
-                        </td>
-
-                      </tr>
-                    )
-                  )
-                }
-
-              </tbody>
-
-            </table>
-
-          </div>
-
-        </div>
-
-        <div className="space-y-8">
-
-          <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
-
-            <h2 className="text-3xl font-black mb-6">
-              Futures Order
-            </h2>
-
-            <div className="space-y-5">
-
-              <select className="w-full bg-black border border-yellow-500/10 rounded-2xl px-5 py-4 outline-none">
-
-                <option>
-                  Cross Margin
-                </option>
-
-                <option>
-                  Isolated Margin
-                </option>
-
-              </select>
-
-              <select className="w-full bg-black border border-yellow-500/10 rounded-2xl px-5 py-4 outline-none">
-
-                <option>
-                  5x Leverage
-                </option>
-
-                <option>
-                  10x Leverage
-                </option>
-
-                <option>
-                  20x Leverage
-                </option>
-
-                <option>
-                  50x Leverage
-                </option>
-
-              </select>
-
-              <input
-                placeholder="Position Size"
-                className="w-full bg-black border border-yellow-500/10 rounded-2xl px-5 py-4 outline-none"
-              />
-
-              <div className="grid grid-cols-2 gap-4">
-
-                <button className="bg-green-500 hover:bg-green-400 transition-all py-5 rounded-2xl font-black text-black">
-
-                  LONG
-
-                </button>
-
-                <button className="bg-red-500 hover:bg-red-400 transition-all py-5 rounded-2xl font-black text-white">
-
-                  SHORT
+                  Open Position
 
                 </button>
 
               </div>
-
-            </div>
-
-          </div>
-
-          <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
-
-            <h2 className="text-2xl font-black mb-5">
-              Risk Management
-            </h2>
-
-            <div className="space-y-4">
-
-              <div className="flex justify-between">
-
-                <span className="text-zinc-500">
-                  Margin Ratio
-                </span>
-
-                <span className="font-bold text-yellow-400">
-                  12.4%
-                </span>
-
-              </div>
-
-              <div className="flex justify-between">
-
-                <span className="text-zinc-500">
-                  Liquidation Price
-                </span>
-
-                <span className="font-bold text-red-400">
-                  $72,400
-                </span>
-
-              </div>
-
-              <div className="flex justify-between">
-
-                <span className="text-zinc-500">
-                  Maintenance Margin
-                </span>
-
-                <span className="font-bold">
-                  $2,850
-                </span>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
+            )
+          )
+        }
 
       </div>
 
