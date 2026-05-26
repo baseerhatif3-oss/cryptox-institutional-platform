@@ -2,6 +2,8 @@ import MainLayout from "../components/layout/MainLayout";
 
 import useAuth from "../hooks/useAuth";
 
+import LiveNotifications from "../components/notifications/LiveNotifications";
+
 const Dashboard = () => {
 
   const {
@@ -57,17 +59,6 @@ const Dashboard = () => {
       color:
         "text-purple-400",
     },
-  ];
-
-  const activities = [
-
-    "BTC Buy Order Executed",
-
-    "ETH Staking Rewards Added",
-
-    "AI BUY Signal Triggered",
-
-    "Security Scan Completed",
   ];
 
   return (
@@ -238,44 +229,7 @@ const Dashboard = () => {
 
         </div>
 
-        <div className="glass rounded-3xl p-8">
-
-          <h2 className="text-4xl font-black mb-8">
-
-            Recent Activity
-
-          </h2>
-
-          <div className="space-y-5">
-
-            {
-              activities.map(
-                (
-                  item,
-                  index
-                ) => (
-
-                  <div
-                    key={index}
-                    className="flex items-center gap-5 bg-black/30 border border-white/5 rounded-2xl p-5"
-                  >
-
-                    <div className="w-4 h-4 bg-green-400 rounded-full animate-pulse"></div>
-
-                    <span className="text-lg font-bold">
-
-                      {item}
-
-                    </span>
-
-                  </div>
-                )
-              )
-            }
-
-          </div>
-
-        </div>
+        <LiveNotifications />
 
       </div>
 

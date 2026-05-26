@@ -4,149 +4,18 @@ import {
   Route,
 } from "react-router-dom";
 
-import {
-  lazy,
-  Suspense,
-} from "react";
+import Landing from "./pages/Landing";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
+import Markets from "./pages/Markets";
+import Trading from "./pages/Trading";
+import Portfolio from "./pages/Portfolio";
+import Settings from "./pages/Settings";
+import SystemStatus from "./pages/SystemStatus";
+import DemoAccount from "./pages/DemoAccount";
 
 import ProtectedRoute from "./components/ProtectedRoute";
-
-import LoadingSpinner from "./components/LoadingSpinner";
-
-const Landing =
-  lazy(() =>
-    import("./pages/Landing")
-  );
-
-const Login =
-  lazy(() =>
-    import("./pages/Login")
-  );
-
-const Register =
-  lazy(() =>
-    import("./pages/Register")
-  );
-
-const Dashboard =
-  lazy(() =>
-    import("./pages/Dashboard")
-  );
-
-const Markets =
-  lazy(() =>
-    import("./pages/Markets")
-  );
-
-const Trading =
-  lazy(() =>
-    import("./pages/Trading")
-  );
-
-const Futures =
-  lazy(() =>
-    import("./pages/Futures")
-  );
-
-const CopyTrading =
-  lazy(() =>
-    import("./pages/CopyTrading")
-  );
-
-const Wallet =
-  lazy(() =>
-    import("./pages/Wallet")
-  );
-
-const Orders =
-  lazy(() =>
-    import("./pages/Orders")
-  );
-
-const Transactions =
-  lazy(() =>
-    import("./pages/Transactions")
-  );
-
-const Deposit =
-  lazy(() =>
-    import("./pages/Deposit")
-  );
-
-const Withdraw =
-  lazy(() =>
-    import("./pages/Withdraw")
-  );
-
-const Notifications =
-  lazy(() =>
-    import("./pages/Notifications")
-  );
-
-const Admin =
-  lazy(() =>
-    import("./pages/Admin")
-  );
-
-const AdminAnalytics =
-  lazy(() =>
-    import("./pages/AdminAnalytics")
-  );
-
-const KYC =
-  lazy(() =>
-    import("./pages/KYC")
-  );
-
-const SecurityCenter =
-  lazy(() =>
-    import("./pages/SecurityCenter")
-  );
-
-const AISignals =
-  lazy(() =>
-    import("./pages/AISignals")
-  );
-
-const Staking =
-  lazy(() =>
-    import("./pages/Staking")
-  );
-
-const Leaderboard =
-  lazy(() =>
-    import("./pages/Leaderboard")
-  );
-
-const Referral =
-  lazy(() =>
-    import("./pages/Referral")
-  );
-
-const Security =
-  lazy(() =>
-    import("./pages/Security")
-  );
-
-const Settings =
-  lazy(() =>
-    import("./pages/Settings")
-  );
-
-const SystemStatus =
-  lazy(() =>
-    import("./pages/SystemStatus")
-  );
-
-const AboutExchange =
-  lazy(() =>
-    import("./pages/AboutExchange")
-  );
-
-const ErrorPage =
-  lazy(() =>
-    import("./pages/ErrorPage")
-  );
 
 function App() {
 
@@ -154,244 +23,107 @@ function App() {
 
     <BrowserRouter>
 
-      <Suspense
-        fallback={
-          <LoadingSpinner />
-        }
-      >
+      <Routes>
 
-        <Routes>
+        <Route
+          path="/"
+          element={
+            <Landing />
+          }
+        />
 
-          <Route
-            path="/"
-            element={<Landing />}
-          />
+        <Route
+          path="/login"
+          element={
+            <Login />
+          }
+        />
 
-          <Route
-            path="/login"
-            element={<Login />}
-          />
+        <Route
+          path="/register"
+          element={
+            <Register />
+          }
+        />
 
-          <Route
-            path="/register"
-            element={<Register />}
-          />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
 
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
+              <Dashboard />
 
-          <Route
-            path="/markets"
-            element={
-              <ProtectedRoute>
-                <Markets />
-              </ProtectedRoute>
-            }
-          />
+            </ProtectedRoute>
+          }
+        />
 
-          <Route
-            path="/trading"
-            element={
-              <ProtectedRoute>
-                <Trading />
-              </ProtectedRoute>
-            }
-          />
+        <Route
+          path="/markets"
+          element={
+            <ProtectedRoute>
 
-          <Route
-            path="/futures"
-            element={
-              <ProtectedRoute>
-                <Futures />
-              </ProtectedRoute>
-            }
-          />
+              <Markets />
 
-          <Route
-            path="/copy-trading"
-            element={
-              <ProtectedRoute>
-                <CopyTrading />
-              </ProtectedRoute>
-            }
-          />
+            </ProtectedRoute>
+          }
+        />
 
-          <Route
-            path="/wallet"
-            element={
-              <ProtectedRoute>
-                <Wallet />
-              </ProtectedRoute>
-            }
-          />
+        <Route
+          path="/trading"
+          element={
+            <ProtectedRoute>
 
-          <Route
-            path="/orders"
-            element={
-              <ProtectedRoute>
-                <Orders />
-              </ProtectedRoute>
-            }
-          />
+              <Trading />
 
-          <Route
-            path="/transactions"
-            element={
-              <ProtectedRoute>
-                <Transactions />
-              </ProtectedRoute>
-            }
-          />
+            </ProtectedRoute>
+          }
+        />
 
-          <Route
-            path="/deposit"
-            element={
-              <ProtectedRoute>
-                <Deposit />
-              </ProtectedRoute>
-            }
-          />
+        <Route
+          path="/portfolio"
+          element={
+            <ProtectedRoute>
 
-          <Route
-            path="/withdraw"
-            element={
-              <ProtectedRoute>
-                <Withdraw />
-              </ProtectedRoute>
-            }
-          />
+              <Portfolio />
 
-          <Route
-            path="/notifications"
-            element={
-              <ProtectedRoute>
-                <Notifications />
-              </ProtectedRoute>
-            }
-          />
+            </ProtectedRoute>
+          }
+        />
 
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute>
-                <Admin />
-              </ProtectedRoute>
-            }
-          />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
 
-          <Route
-            path="/admin-analytics"
-            element={
-              <ProtectedRoute>
-                <AdminAnalytics />
-              </ProtectedRoute>
-            }
-          />
+              <Settings />
 
-          <Route
-            path="/kyc"
-            element={
-              <ProtectedRoute>
-                <KYC />
-              </ProtectedRoute>
-            }
-          />
+            </ProtectedRoute>
+          }
+        />
 
-          <Route
-            path="/security-center"
-            element={
-              <ProtectedRoute>
-                <SecurityCenter />
-              </ProtectedRoute>
-            }
-          />
+        <Route
+          path="/system-status"
+          element={
+            <ProtectedRoute>
 
-          <Route
-            path="/ai-signals"
-            element={
-              <ProtectedRoute>
-                <AISignals />
-              </ProtectedRoute>
-            }
-          />
+              <SystemStatus />
 
-          <Route
-            path="/staking"
-            element={
-              <ProtectedRoute>
-                <Staking />
-              </ProtectedRoute>
-            }
-          />
+            </ProtectedRoute>
+          }
+        />
 
-          <Route
-            path="/leaderboard"
-            element={
-              <ProtectedRoute>
-                <Leaderboard />
-              </ProtectedRoute>
-            }
-          />
+        <Route
+          path="/demo"
+          element={
+            <ProtectedRoute>
 
-          <Route
-            path="/referral"
-            element={
-              <ProtectedRoute>
-                <Referral />
-              </ProtectedRoute>
-            }
-          />
+              <DemoAccount />
 
-          <Route
-            path="/security"
-            element={
-              <ProtectedRoute>
-                <Security />
-              </ProtectedRoute>
-            }
-          />
+            </ProtectedRoute>
+          }
+        />
 
-          <Route
-            path="/settings"
-            element={
-              <ProtectedRoute>
-                <Settings />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/system-status"
-            element={
-              <ProtectedRoute>
-                <SystemStatus />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/about-exchange"
-            element={
-              <ProtectedRoute>
-                <AboutExchange />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="*"
-            element={<ErrorPage />}
-          />
-
-        </Routes>
-
-      </Suspense>
+      </Routes>
 
     </BrowserRouter>
   );
