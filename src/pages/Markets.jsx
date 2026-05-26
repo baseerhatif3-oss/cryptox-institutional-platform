@@ -5,9 +5,7 @@ import {
 
 import MainLayout from "../components/layout/MainLayout";
 
-import {
-  fetchMarkets,
-} from "../services/marketApi";
+import socket from "../services/binanceSocket";
 
 const Markets = () => {
 
@@ -19,40 +17,24 @@ const Markets = () => {
   useEffect(
     () => {
 
-      const loadMarkets =
-        async () => {
+      socket.on(
+        "market-update",
+        (
+          data
+        ) => {
 
-          try {
+          setMarkets(
+            data
+          );
+        }
+      );
 
-            const data =
-              await fetchMarkets();
+      return () => {
 
-            setMarkets(
-              data
-            );
-
-          } catch (
-            error
-          ) {
-
-            console.log(
-              error
-            );
-          }
-        };
-
-      loadMarkets();
-
-      const interval =
-        setInterval(
-          loadMarkets,
-          4000
+        socket.off(
+          "market-update"
         );
-
-      return () =>
-        clearInterval(
-          interval
-        );
+      };
 
     },
     []
@@ -70,7 +52,7 @@ const Markets = () => {
 
           <span className="text-green-400 font-bold">
 
-            LIVE MARKET ENGINE
+            BINANCE LIVE FEED
 
           </span>
 
@@ -87,7 +69,7 @@ const Markets = () => {
 
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
 
         {
           markets.map(
@@ -98,14 +80,15 @@ const Markets = () => {
 
               <div
                 key={index}
-                className="glass rounded-3xl p-8"
+                className="glass rounded-3xl p-8 border border-white/5"
               >
 
                 <div className="flex items-center justify-between mb-6">
 
-                  <h2 className="text-3xl font-black">
+                  <h2 className="text-4xl font-black">
 
                     {
+                      market.symbol ||
                       market.pair
                     }
 
@@ -119,14 +102,16 @@ const Markets = () => {
 
                   $
                   {
-                    market.price
+                    Number(
+                      market.price
+                    ).toLocaleString()
                   }
 
                 </h3>
 
                 <p className="text-green-400 text-xl font-black">
 
-                  Live Updating
+                  Real-Time Binance Data
 
                 </p>
 
