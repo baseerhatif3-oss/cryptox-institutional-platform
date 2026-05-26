@@ -14,6 +14,7 @@ import Portfolio from "./pages/Portfolio";
 import Settings from "./pages/Settings";
 import SystemStatus from "./pages/SystemStatus";
 import DemoAccount from "./pages/DemoAccount";
+import AdminDashboard from "./pages/AdminDashboard";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -118,6 +119,17 @@ function App() {
             <ProtectedRoute>
 
               <DemoAccount />
+
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+
+              <AdminDashboard />
 
             </ProtectedRoute>
           }

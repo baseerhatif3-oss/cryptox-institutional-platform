@@ -1,208 +1,271 @@
-import { useEffect, useState } from "react";
-
-import {
-  Users,
-  Wallet,
-  ArrowUpRight,
-  Activity,
-} from "lucide-react";
+import MainLayout from "../components/layout/MainLayout";
 
 const AdminDashboard = () => {
-  const [stats, setStats] =
-    useState({
-      users: 0,
-      volume: 0,
-      trades: 0,
-      active: 0,
-    });
 
-  const fetchStats = async () => {
-    try {
-      const users = JSON.parse(
-        localStorage.getItem("allUsers")
-      ) || [
-        {
-          id: 1,
-        },
-        {
-          id: 2,
-        },
-      ];
+  const metrics = [
 
-      setStats({
-        users: users.length,
-
-        volume: 2450000,
-
-        trades: 1280,
-
-        active: 342,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchStats();
-  }, []);
-
-  const statCards = [
     {
-      title: "Total Users",
-      value: stats.users,
-      icon: <Users size={28} />,
-      color: "bg-blue-600",
+      title:
+        "Total Users",
+
+      value:
+        "124,892",
     },
 
     {
-      title: "24H Volume",
-      value: `$${stats.volume.toLocaleString()}`,
-      icon: <Wallet size={28} />,
-      color: "bg-green-600",
+      title:
+        "24H Volume",
+
+      value:
+        "$48.2M",
     },
 
     {
-      title: "Total Trades",
-      value: stats.trades,
-      icon: (
-        <ArrowUpRight size={28} />
-      ),
-      color: "bg-yellow-600",
+      title:
+        "Transactions",
+
+      value:
+        "842K",
     },
 
     {
-      title: "Active Traders",
-      value: stats.active,
-      icon: <Activity size={28} />,
-      color: "bg-purple-600",
+      title:
+        "Revenue",
+
+      value:
+        "$182K",
+    },
+  ];
+
+  const users = [
+
+    {
+      name:
+        "Michael Carter",
+
+      email:
+        "michael@cryptox.io",
+
+      status:
+        "Verified",
+    },
+
+    {
+      name:
+        "Emma Wilson",
+
+      email:
+        "emma@cryptox.io",
+
+      status:
+        "Pending",
+    },
+
+    {
+      name:
+        "Daniel Lee",
+
+      email:
+        "daniel@cryptox.io",
+
+      status:
+        "Verified",
+    },
+
+    {
+      name:
+        "Sophia Adams",
+
+      email:
+        "sophia@cryptox.io",
+
+      status:
+        "Restricted",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold">
-            Admin Dashboard
-          </h1>
 
-          <p className="text-slate-400 mt-2">
-            Exchange analytics and
-            platform monitoring.
-          </p>
+    <MainLayout>
+
+      <div className="mb-10">
+
+        <div className="inline-flex items-center gap-3 bg-red-500/10 border border-red-500/20 px-5 py-3 rounded-full mb-8">
+
+          <div className="w-3 h-3 bg-red-400 rounded-full animate-pulse"></div>
+
+          <span className="text-red-400 font-bold">
+
+            ADMIN CONTROL PANEL
+
+          </span>
+
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
-          {statCards.map((card) => (
-            <div
-              key={card.title}
-              className="bg-slate-900 border border-slate-800 rounded-2xl p-6"
-            >
-              <div className="flex items-center justify-between mb-5">
-                <div
-                  className={`${card.color} w-14 h-14 rounded-2xl flex items-center justify-center`}
-                >
-                  {card.icon}
-                </div>
-              </div>
+        <h1 className="text-6xl font-black">
 
-              <h3 className="text-slate-400 mb-2">
-                {card.title}
-              </h3>
+          Exchange
+          <span className="text-yellow-400">
+            {" "}Administration
+          </span>
 
-              <h2 className="text-3xl font-bold">
-                {card.value}
-              </h2>
-            </div>
-          ))}
-        </div>
+        </h1>
 
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-            <h2 className="text-2xl font-bold mb-6">
-              Recent Exchange Activity
-            </h2>
-
-            <div className="space-y-4">
-              {[
-                "BTC Buy Order Executed",
-                "ETH Limit Order Created",
-                "New User Registered",
-                "SOL Position Opened",
-                "Portfolio Updated",
-              ].map((activity, index) => (
-                <div
-                  key={index}
-                  className="bg-slate-800 rounded-xl p-4 flex items-center justify-between"
-                >
-                  <p>{activity}</p>
-
-                  <span className="text-slate-400 text-sm">
-                    Just now
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-            <h2 className="text-2xl font-bold mb-6">
-              Top Trading Assets
-            </h2>
-
-            <div className="space-y-4">
-              {[
-                {
-                  name: "Bitcoin",
-                  symbol: "BTC",
-                  volume: "$1.2M",
-                },
-
-                {
-                  name: "Ethereum",
-                  symbol: "ETH",
-                  volume: "$980K",
-                },
-
-                {
-                  name: "Solana",
-                  symbol: "SOL",
-                  volume: "$450K",
-                },
-
-                {
-                  name: "BNB",
-                  symbol: "BNB",
-                  volume: "$310K",
-                },
-              ].map((coin) => (
-                <div
-                  key={coin.symbol}
-                  className="bg-slate-800 rounded-xl p-4 flex items-center justify-between"
-                >
-                  <div>
-                    <h3 className="font-bold">
-                      {coin.name}
-                    </h3>
-
-                    <p className="text-slate-400 text-sm">
-                      {coin.symbol}
-                    </p>
-                  </div>
-
-                  <div className="text-right">
-                    <p className="font-bold text-green-400">
-                      {coin.volume}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
       </div>
-    </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mb-10">
+
+        {
+          metrics.map(
+            (
+              item,
+              index
+            ) => (
+
+              <div
+                key={index}
+                className="glass rounded-3xl p-8"
+              >
+
+                <p className="text-zinc-500 mb-4">
+
+                  {
+                    item.title
+                  }
+
+                </p>
+
+                <h2 className="text-5xl font-black text-yellow-400">
+
+                  {
+                    item.value
+                  }
+
+                </h2>
+
+              </div>
+            )
+          )
+        }
+
+      </div>
+
+      <div className="glass rounded-3xl p-8 overflow-x-auto">
+
+        <h2 className="text-4xl font-black mb-8">
+
+          User Management
+
+        </h2>
+
+        <table className="w-full">
+
+          <thead>
+
+            <tr className="border-b border-white/10">
+
+              <th className="text-left py-4 text-zinc-500">
+
+                User
+
+              </th>
+
+              <th className="text-left py-4 text-zinc-500">
+
+                Email
+
+              </th>
+
+              <th className="text-left py-4 text-zinc-500">
+
+                KYC Status
+
+              </th>
+
+              <th className="text-left py-4 text-zinc-500">
+
+                Controls
+
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            {
+              users.map(
+                (
+                  user,
+                  index
+                ) => (
+
+                  <tr
+                    key={index}
+                    className="border-b border-white/5"
+                  >
+
+                    <td className="py-6 font-bold">
+
+                      {
+                        user.name
+                      }
+
+                    </td>
+
+                    <td className="py-6 text-zinc-400">
+
+                      {
+                        user.email
+                      }
+
+                    </td>
+
+                    <td className="py-6">
+
+                      <span className="bg-green-500/10 text-green-400 px-4 py-2 rounded-xl font-bold">
+
+                        {
+                          user.status
+                        }
+
+                      </span>
+
+                    </td>
+
+                    <td className="py-6">
+
+                      <div className="flex gap-3">
+
+                        <button className="bg-yellow-400 text-black px-4 py-2 rounded-xl font-black">
+
+                          View
+
+                        </button>
+
+                        <button className="bg-red-500 text-white px-4 py-2 rounded-xl font-black">
+
+                          Freeze
+
+                        </button>
+
+                      </div>
+
+                    </td>
+
+                  </tr>
+                )
+              )
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </MainLayout>
   );
 };
 
