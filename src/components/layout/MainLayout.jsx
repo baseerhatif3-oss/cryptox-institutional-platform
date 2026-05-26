@@ -8,19 +8,15 @@ const MainLayout = ({
 
   return (
 
-    <div className="flex bg-black text-white min-h-screen">
+    <div className="min-h-screen bg-black text-white flex">
 
       <Sidebar />
 
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 lg:ml-0 p-4 lg:p-8 overflow-hidden">
 
         <TopNavbar />
 
-        <main className="p-4 md:p-8">
-
-          {children}
-
-        </main>
+        {children}
 
       </div>
 
