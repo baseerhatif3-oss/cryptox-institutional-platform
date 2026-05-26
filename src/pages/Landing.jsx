@@ -19,6 +19,8 @@ import {
   fetchStats,
 } from "../services/statsApi";
 
+import Footer from "../components/Footer";
+
 const Landing = () => {
 
   const [
@@ -285,7 +287,7 @@ const Landing = () => {
 
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mb-20">
 
             {
               features.map(
@@ -340,6 +342,8 @@ const Landing = () => {
         </div>
 
       </div>
+
+      <Footer />
 
     </div>
   );

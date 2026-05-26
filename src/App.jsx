@@ -15,6 +15,7 @@ import Settings from "./pages/Settings";
 import SystemStatus from "./pages/SystemStatus";
 import DemoAccount from "./pages/DemoAccount";
 import AdminDashboard from "./pages/AdminDashboard";
+import TrustCenter from "./pages/TrustCenter";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -130,6 +131,17 @@ function App() {
             <ProtectedRoute>
 
               <AdminDashboard />
+
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/trust-center"
+          element={
+            <ProtectedRoute>
+
+              <TrustCenter />
 
             </ProtectedRoute>
           }
