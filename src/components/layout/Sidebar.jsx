@@ -1,287 +1,293 @@
 import {
+  LayoutDashboard,
+  LineChart,
+  CandlestickChart,
+  Wallet,
+  ClipboardList,
+  ArrowDownToLine,
+  ArrowUpFromLine,
+  Bell,
+  Shield,
+  Brain,
+  Coins,
+  Trophy,
+  Users,
+  Settings,
+  Activity,
+  BarChart3,
+  TrendingUp,
+  Copy,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+
+import {
   NavLink,
 } from "react-router-dom";
 
 import {
-  LayoutDashboard,
-  CandlestickChart,
-  Wallet,
-  ArrowLeftRight,
-  Bell,
-  Shield,
-  Settings,
-  UserCheck,
-  LineChart,
-  Users,
-  Trophy,
-  Copy,
-  Cpu,
-  Activity,
-  BarChart3,
-  X,
-} from "lucide-react";
+  useState,
+} from "react";
 
 import Logo from "../Logo";
 
 const Sidebar = () => {
+
+  const [
+    collapsed,
+    setCollapsed,
+  ] = useState(false);
 
   const links = [
 
     {
       name: "Dashboard",
       path: "/dashboard",
-      icon:
-        LayoutDashboard,
+      icon: LayoutDashboard,
     },
 
     {
       name: "Markets",
       path: "/markets",
-      icon:
-        LineChart,
+      icon: LineChart,
     },
 
     {
       name: "Trading",
       path: "/trading",
-      icon:
-        CandlestickChart,
+      icon: CandlestickChart,
     },
 
     {
       name: "Futures",
       path: "/futures",
-      icon:
-        Activity,
+      icon: TrendingUp,
     },
 
     {
       name: "Copy Trading",
       path: "/copy-trading",
-      icon:
-        Copy,
-    },
-
-    {
-      name: "AI Signals",
-      path: "/ai-signals",
-      icon:
-        Cpu,
+      icon: Copy,
     },
 
     {
       name: "Wallet",
       path: "/wallet",
-      icon:
-        Wallet,
+      icon: Wallet,
     },
 
     {
       name: "Orders",
       path: "/orders",
-      icon:
-        ArrowLeftRight,
+      icon: ClipboardList,
     },
 
     {
-      name: "Transactions",
-      path: "/transactions",
-      icon:
-        ArrowLeftRight,
+      name: "Deposit",
+      path: "/deposit",
+      icon: ArrowDownToLine,
+    },
+
+    {
+      name: "Withdraw",
+      path: "/withdraw",
+      icon: ArrowUpFromLine,
     },
 
     {
       name: "Notifications",
       path: "/notifications",
-      icon:
-        Bell,
+      icon: Bell,
     },
 
     {
-      name: "KYC",
-      path: "/kyc",
-      icon:
-        UserCheck,
+      name: "AI Signals",
+      path: "/ai-signals",
+      icon: Brain,
+    },
+
+    {
+      name: "Staking",
+      path: "/staking",
+      icon: Coins,
     },
 
     {
       name: "Leaderboard",
       path: "/leaderboard",
-      icon:
-        Trophy,
+      icon: Trophy,
     },
 
     {
       name: "Referral",
       path: "/referral",
-      icon:
-        Users,
+      icon: Users,
     },
 
     {
       name: "Security",
       path: "/security",
-      icon:
-        Shield,
-    },
-
-    {
-      name: "Security Center",
-      path: "/security-center",
-      icon:
-        Shield,
+      icon: Shield,
     },
 
     {
       name: "Admin",
       path: "/admin",
-      icon:
-        Settings,
+      icon: BarChart3,
     },
 
     {
       name: "Admin Analytics",
       path: "/admin-analytics",
-      icon:
-        BarChart3,
+      icon: Activity,
     },
 
     {
-      name: "System Status",
-      path: "/system-status",
-      icon:
-        Activity,
+      name: "About Exchange",
+      path: "/about-exchange",
+      icon: Activity,
     },
 
     {
       name: "Settings",
       path: "/settings",
-      icon:
-        Settings,
+      icon: Settings,
     },
   ];
 
   return (
 
-    <div className="w-[280px] min-h-screen bg-black border-r border-yellow-500/10 p-6 fixed lg:sticky top-0 left-0 z-50 overflow-y-auto">
+    <div className={`hidden lg:flex flex-col min-h-screen border-r border-yellow-500/10 bg-black/80 backdrop-blur-3xl sticky top-0 transition-all duration-300 ${
+      collapsed
+        ? "w-[110px]"
+        : "w-[320px]"
+    }`}>
 
-      <div className="flex items-center justify-between mb-10">
+      <div className="flex items-center justify-between p-6 border-b border-white/5">
 
-        <Logo />
+        {
+          !collapsed && (
+            <Logo />
+          )
+        }
 
-        <button className="lg:hidden bg-[#111] border border-yellow-500/10 p-2 rounded-xl">
+        <button
+          onClick={() =>
+            setCollapsed(
+              !collapsed
+            )
+          }
+          className="w-12 h-12 rounded-2xl glass flex items-center justify-center hover:border-yellow-400/30 transition-all"
+        >
 
-          <X size={18} />
+          {
+            collapsed
+              ? (
+                <ChevronRight />
+              )
+              : (
+                <ChevronLeft />
+              )
+          }
 
         </button>
 
       </div>
 
-      <div className="space-y-3">
-
-        {
-          links.map(
-            (
-              link,
-              index
-            ) => {
-
-              const Icon =
-                link.icon;
-
-              return (
-
-                <NavLink
-                  key={index}
-                  to={link.path}
-                  className={({
-                    isActive,
-                  }) =>
-                    `flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 font-semibold ${
-                      isActive
-
-                        ? "bg-yellow-400 text-black shadow-lg shadow-yellow-400/20"
-
-                        : "text-zinc-400 hover:bg-[#111] hover:text-white"
-                    }`
-                  }
-                >
-
-                  <Icon
-                    size={20}
-                  />
-
-                  <span>
-
-                    {link.name}
-
-                  </span>
-
-                </NavLink>
-              );
-            }
-          )
-        }
-
-      </div>
-
-      <div className="mt-10 bg-gradient-to-br from-yellow-400/10 to-yellow-500/5 border border-yellow-500/20 rounded-3xl p-6">
-
-        <div className="flex items-center gap-3 mb-4">
-
-          <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-
-          <span className="text-green-400 font-bold text-sm">
-
-            SYSTEM ONLINE
-
-          </span>
-
-        </div>
-
-        <h3 className="text-2xl font-black mb-3">
-
-          CryptoX Pro
-
-        </h3>
-
-        <p className="text-zinc-500 text-sm leading-relaxed mb-5">
-
-          Enterprise-grade cryptocurrency exchange with AI-powered trading infrastructure.
-
-        </p>
+      <div className="flex-1 overflow-y-auto px-4 py-6">
 
         <div className="space-y-3">
 
-          <div className="flex items-center justify-between">
+          {
+            links.map(
+              (
+                item,
+                index
+              ) => {
 
-            <span className="text-zinc-500 text-sm">
+                const Icon =
+                  item.icon;
 
-              Security
+                return (
 
-            </span>
+                  <NavLink
+                    key={index}
+                    to={item.path}
+                    className={({
+                      isActive,
+                    }) => `
+                      flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 group
+                      ${
+                        isActive
+                          ? "bg-yellow-400 text-black font-black shadow-lg shadow-yellow-400/20"
+                          : "text-zinc-400 hover:bg-white/5 hover:text-white"
+                      }
+                    `}
+                  >
 
-            <span className="text-green-400 font-bold text-sm">
+                    <Icon
+                      size={24}
+                    />
 
-              99.9%
+                    {
+                      !collapsed && (
+                        <span className="text-[16px]">
 
-            </span>
+                          {item.name}
 
-          </div>
+                        </span>
+                      )
+                    }
 
-          <div className="flex items-center justify-between">
+                  </NavLink>
+                );
+              }
+            )
+          }
 
-            <span className="text-zinc-500 text-sm">
+        </div>
 
-              Performance
+      </div>
 
-            </span>
+      <div className="p-5 border-t border-white/5">
 
-            <span className="text-yellow-400 font-bold text-sm">
+        <div className="glass rounded-3xl p-5 overflow-hidden relative">
 
-              Ultra Fast
+          <div className="absolute top-0 right-0 w-24 h-24 bg-yellow-400/10 rounded-full blur-3xl"></div>
 
-            </span>
+          <div className="relative z-10">
+
+            <div className="flex items-center gap-3 mb-4">
+
+              <div className="w-4 h-4 bg-green-400 rounded-full animate-pulse"></div>
+
+              <span className="text-green-400 font-bold text-sm">
+
+                SYSTEM ONLINE
+
+              </span>
+
+            </div>
+
+            {
+              !collapsed && (
+                <>
+
+                  <h2 className="text-2xl font-black mb-3">
+
+                    CryptoX Exchange
+
+                  </h2>
+
+                  <p className="text-zinc-500 text-sm leading-relaxed">
+
+                    Enterprise-grade crypto trading infrastructure powered by AI systems.
+
+                  </p>
+
+                </>
+              )
+            }
 
           </div>
 

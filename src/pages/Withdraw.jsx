@@ -2,123 +2,104 @@ import MainLayout from "../components/layout/MainLayout";
 
 const Withdraw = () => {
 
+  const methods = [
+
+    "USDT TRC20",
+
+    "BTC Network",
+
+    "ETH ERC20",
+
+    "Binance Pay",
+  ];
+
   return (
 
     <MainLayout>
 
-      <div className="mb-10">
+      <div className="relative overflow-hidden rounded-[40px] border border-yellow-500/10 bg-gradient-to-br from-red-500/10 via-black to-black p-10 mb-10">
 
-        <h1 className="text-5xl font-black">
-          Withdraw Funds
-        </h1>
+        <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-red-400/10 rounded-full blur-[120px]"></div>
 
-        <p className="text-zinc-500 mt-2">
-          Send crypto to external wallet
-        </p>
+        <div className="relative z-10">
+
+          <div className="inline-flex items-center gap-3 bg-red-500/10 border border-red-500/20 px-5 py-3 rounded-full mb-6">
+
+            <span className="text-red-400 font-bold">
+
+              SECURE WITHDRAWALS
+
+            </span>
+
+          </div>
+
+          <h1 className="text-6xl font-black">
+
+            Withdraw
+            <span className="text-yellow-400">
+              {" "}Assets
+            </span>
+
+          </h1>
+
+          <p className="text-zinc-400 text-xl mt-6 max-w-3xl">
+
+            Enterprise-grade withdrawal infrastructure with multi-layer security verification.
+
+          </p>
+
+        </div>
 
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-8">
+        {
+          methods.map(
+            (
+              method,
+              index
+            ) => (
 
-          <h2 className="text-3xl font-black mb-8">
-            Withdraw Crypto
-          </h2>
+              <div
+                key={index}
+                className="glass rounded-3xl p-8 hover:border-yellow-400/20 transition-all"
+              >
 
-          <div className="space-y-5">
+                <div className="flex items-center justify-between mb-8">
 
-            <select className="w-full bg-black border border-yellow-500/10 rounded-2xl px-5 py-4 outline-none">
+                  <h2 className="text-4xl font-black">
 
-              <option>
-                Bitcoin (BTC)
-              </option>
+                    {method}
 
-              <option>
-                Ethereum (ETH)
-              </option>
+                  </h2>
 
-              <option>
-                Solana (SOL)
-              </option>
+                  <div className="w-16 h-16 rounded-3xl bg-red-500/10 flex items-center justify-center">
 
-            </select>
+                    <span className="text-3xl">
+                      💸
+                    </span>
 
-            <input
-              placeholder="Wallet Address"
-              className="w-full bg-black border border-yellow-500/10 rounded-2xl px-5 py-4 outline-none"
-            />
+                  </div>
 
-            <input
-              placeholder="Amount"
-              className="w-full bg-black border border-yellow-500/10 rounded-2xl px-5 py-4 outline-none"
-            />
+                </div>
 
-            <button className="w-full bg-red-500 text-white py-5 rounded-2xl font-black text-lg">
+                <p className="text-zinc-500 mb-8">
 
-              Withdraw Funds
+                  Fast and secure crypto asset withdrawal system.
 
-            </button>
-
-          </div>
-
-        </div>
-
-        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-8">
-
-          <h2 className="text-3xl font-black mb-8">
-            Withdraw History
-          </h2>
-
-          <div className="space-y-5">
-
-            <div className="bg-black rounded-2xl p-5 flex justify-between items-center">
-
-              <div>
-
-                <h3 className="font-black">
-                  BTC Withdrawal
-                </h3>
-
-                <p className="text-zinc-500">
-                  0.10 BTC
                 </p>
 
-              </div>
+                <button className="w-full bg-yellow-400 hover:bg-yellow-300 transition-all py-4 rounded-2xl text-black font-black text-lg">
 
-              <span className="bg-green-500 text-black px-4 py-2 rounded-xl font-bold">
+                  Withdraw Now
 
-                Completed
-
-              </span>
-
-            </div>
-
-            <div className="bg-black rounded-2xl p-5 flex justify-between items-center">
-
-              <div>
-
-                <h3 className="font-black">
-                  SOL Withdrawal
-                </h3>
-
-                <p className="text-zinc-500">
-                  25 SOL
-                </p>
+                </button>
 
               </div>
-
-              <span className="bg-yellow-400 text-black px-4 py-2 rounded-xl font-bold">
-
-                Pending
-
-              </span>
-
-            </div>
-
-          </div>
-
-        </div>
+            )
+          )
+        }
 
       </div>
 
