@@ -21,6 +21,10 @@ import {
 
 import Footer from "../components/Footer";
 
+import Testimonials from "../components/Testimonials";
+
+import TrustBadges from "../components/TrustBadges";
+
 const Landing = () => {
 
   const [
@@ -287,6 +291,8 @@ const Landing = () => {
 
           </div>
 
+          <TrustBadges />
+
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mb-20">
 
             {
@@ -338,6 +344,8 @@ const Landing = () => {
             }
 
           </div>
+
+          <Testimonials />
 
         </div>
 
