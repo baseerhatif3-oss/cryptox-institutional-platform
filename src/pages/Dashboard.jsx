@@ -1,6 +1,16 @@
 import MainLayout from "../components/layout/MainLayout";
 
+import useAuth from "../hooks/useAuth";
+
 const Dashboard = () => {
+
+  const {
+    user,
+  } = useAuth();
+
+  const walletBalance =
+    user?.walletBalance ||
+    536920;
 
   const stats = [
 
@@ -9,7 +19,7 @@ const Dashboard = () => {
         "Portfolio Value",
 
       value:
-        "$536,920",
+        `$${walletBalance}`,
 
       color:
         "text-yellow-400",
@@ -111,7 +121,7 @@ const Dashboard = () => {
 
             <h2 className="text-6xl font-black text-yellow-400 mb-4">
 
-              $536K
+              ${walletBalance}
 
             </h2>
 
