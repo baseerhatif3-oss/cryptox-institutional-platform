@@ -2,9 +2,7 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import {
-  isAuthenticated,
-} from "../utils/auth";
+import useAuth from "../hooks/useAuth";
 
 import LoadingSpinner from "./LoadingSpinner";
 
@@ -12,9 +10,13 @@ const ProtectedRoute = ({
   children,
 }) => {
 
+  const {
+    user,
+    loading,
+  } = useAuth();
+
   if (
-    isAuthenticated() ===
-    null
+    loading
   ) {
 
     return (
@@ -23,7 +25,7 @@ const ProtectedRoute = ({
   }
 
   if (
-    !isAuthenticated()
+    !user
   ) {
 
     return (

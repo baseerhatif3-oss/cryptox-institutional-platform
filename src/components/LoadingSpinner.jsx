@@ -2,29 +2,23 @@ const LoadingSpinner = () => {
 
   return (
 
-    <div className="min-h-screen bg-black flex items-center justify-center overflow-hidden">
+    <div className="min-h-screen bg-black flex items-center justify-center">
 
-      <div className="relative">
+      <div className="text-center">
 
-        <div className="absolute inset-0 w-40 h-40 bg-yellow-400/10 rounded-full blur-[80px]"></div>
+        <div className="w-24 h-24 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mx-auto mb-8"></div>
 
-        <div className="relative flex flex-col items-center">
+        <h1 className="text-4xl font-black text-white mb-4">
 
-          <div className="w-24 h-24 border-4 border-yellow-400/20 border-t-yellow-400 rounded-full animate-spin"></div>
+          CryptoX
 
-          <h1 className="mt-10 text-5xl font-black text-yellow-400">
+        </h1>
 
-            CryptoX
+        <p className="text-zinc-500 text-xl">
 
-          </h1>
+          Loading Exchange...
 
-          <p className="text-zinc-500 mt-3 text-lg">
-
-            Initializing Exchange...
-
-          </p>
-
-        </div>
+        </p>
 
       </div>
 
