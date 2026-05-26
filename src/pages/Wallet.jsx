@@ -1,220 +1,201 @@
-import {
-  useEffect,
-  useState,
-} from "react";
-
 import MainLayout from "../components/layout/MainLayout";
-
-import {
-  getWallet,
-} from "../services/walletService";
 
 const Wallet = () => {
 
-  const [wallet, setWallet] =
-    useState(null);
+  const assets = [
 
-  useEffect(() => {
+    {
+      coin:
+        "BTC",
 
-    fetchWallet();
+      balance:
+        "2.48 BTC",
 
-  }, []);
+      value:
+        "$208,000",
+    },
 
-  const fetchWallet =
-    async () => {
+    {
+      coin:
+        "ETH",
 
-      try {
+      balance:
+        "18.2 ETH",
 
-        const data =
-          await getWallet();
+      value:
+        "$77,900",
+    },
 
-        setWallet(data);
+    {
+      coin:
+        "USDT",
 
-      } catch (error) {
+      balance:
+        "84,000 USDT",
 
-        console.log(error);
-      }
-    };
+      value:
+        "$84,000",
+    },
+
+    {
+      coin:
+        "SOL",
+
+      balance:
+        "920 SOL",
+
+      value:
+        "$167,000",
+    },
+  ];
 
   return (
 
     <MainLayout>
 
-      <div className="mb-10">
+      <div className="relative overflow-hidden rounded-[40px] border border-yellow-500/10 bg-gradient-to-br from-yellow-400/10 via-black to-black p-10 mb-10">
 
-        <h1 className="text-5xl font-black">
-          Wallet
-        </h1>
+        <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-yellow-400/10 rounded-full blur-[120px]"></div>
 
-        <p className="text-zinc-500 mt-2">
-          Manage your crypto assets
-        </p>
+        <div className="relative z-10">
 
-      </div>
+          <div className="inline-flex items-center gap-3 bg-yellow-400/10 border border-yellow-400/20 px-5 py-3 rounded-full mb-6">
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+            <span className="text-yellow-400 font-bold">
 
-        <div className="bg-[#111] rounded-3xl border border-yellow-500/10 p-6">
+              SECURE WALLET SYSTEM
 
-          <p className="text-zinc-500 mb-2">
-            USD Balance
+            </span>
+
+          </div>
+
+          <h1 className="text-6xl font-black">
+
+            Asset
+            <span className="text-yellow-400">
+              {" "}Wallet
+            </span>
+
+          </h1>
+
+          <p className="text-zinc-400 text-xl mt-6 max-w-3xl">
+
+            Enterprise-grade digital asset management and secure crypto storage infrastructure.
+
           </p>
-
-          <h2 className="text-5xl font-black text-yellow-400">
-
-            $
-            {
-              wallet?.usdBalance?.toLocaleString()
-              || "0"
-            }
-
-          </h2>
-
-        </div>
-
-        <div className="bg-[#111] rounded-3xl border border-yellow-500/10 p-6">
-
-          <p className="text-zinc-500 mb-2">
-            BTC Holdings
-          </p>
-
-          <h2 className="text-5xl font-black">
-
-            {
-              wallet?.btc || 0
-            }
-
-          </h2>
-
-        </div>
-
-        <div className="bg-[#111] rounded-3xl border border-yellow-500/10 p-6">
-
-          <p className="text-zinc-500 mb-2">
-            ETH Holdings
-          </p>
-
-          <h2 className="text-5xl font-black">
-
-            {
-              wallet?.eth || 0
-            }
-
-          </h2>
-
-        </div>
-
-        <div className="bg-[#111] rounded-3xl border border-yellow-500/10 p-6">
-
-          <p className="text-zinc-500 mb-2">
-            SOL Holdings
-          </p>
-
-          <h2 className="text-5xl font-black">
-
-            {
-              wallet?.sol || 0
-            }
-
-          </h2>
 
         </div>
 
       </div>
 
-      <div className="bg-[#111] rounded-3xl border border-yellow-500/10 p-8">
+      <div className="glass rounded-3xl p-8 mb-10">
 
-        <h2 className="text-3xl font-black mb-6">
-          Portfolio Overview
-        </h2>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
 
-        <div className="space-y-5">
+          <div>
 
-          <div className="bg-black rounded-2xl p-6 flex items-center justify-between">
+            <p className="text-zinc-500 mb-3">
 
-            <div>
+              Total Portfolio Value
 
-              <h3 className="text-2xl font-black">
-                Bitcoin
-              </h3>
+            </p>
 
-              <p className="text-zinc-500">
-                BTC Holdings
-              </p>
+            <h2 className="text-6xl font-black text-yellow-400">
 
-            </div>
+              $536,900
 
-            <div className="text-right">
-
-              <h2 className="text-3xl font-black text-yellow-400">
-
-                {
-                  wallet?.btc || 0
-                } BTC
-
-              </h2>
-
-            </div>
+            </h2>
 
           </div>
 
-          <div className="bg-black rounded-2xl p-6 flex items-center justify-between">
+          <div className="flex flex-wrap gap-4">
 
-            <div>
+            <button className="bg-yellow-400 hover:bg-yellow-300 transition-all px-8 py-4 rounded-2xl text-black font-black">
 
-              <h3 className="text-2xl font-black">
-                Ethereum
-              </h3>
+              Deposit
 
-              <p className="text-zinc-500">
-                ETH Holdings
-              </p>
+            </button>
 
-            </div>
+            <button className="glass px-8 py-4 rounded-2xl font-black">
 
-            <div className="text-right">
+              Withdraw
 
-              <h2 className="text-3xl font-black text-blue-400">
-
-                {
-                  wallet?.eth || 0
-                } ETH
-
-              </h2>
-
-            </div>
-
-          </div>
-
-          <div className="bg-black rounded-2xl p-6 flex items-center justify-between">
-
-            <div>
-
-              <h3 className="text-2xl font-black">
-                Solana
-              </h3>
-
-              <p className="text-zinc-500">
-                SOL Holdings
-              </p>
-
-            </div>
-
-            <div className="text-right">
-
-              <h2 className="text-3xl font-black text-purple-400">
-
-                {
-                  wallet?.sol || 0
-                } SOL
-
-              </h2>
-
-            </div>
+            </button>
 
           </div>
 
         </div>
+
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        {
+          assets.map(
+            (
+              asset,
+              index
+            ) => (
+
+              <div
+                key={index}
+                className="glass rounded-3xl p-8 hover:border-yellow-400/20 transition-all"
+              >
+
+                <div className="flex items-center justify-between mb-8">
+
+                  <div>
+
+                    <h2 className="text-5xl font-black">
+
+                      {
+                        asset.coin
+                      }
+
+                    </h2>
+
+                    <p className="text-zinc-500 mt-3">
+
+                      Available Balance
+
+                    </p>
+
+                  </div>
+
+                  <div className="w-16 h-16 rounded-3xl bg-yellow-400/10 flex items-center justify-center">
+
+                    <span className="text-3xl">
+                      💰
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <div>
+
+                  <h3 className="text-4xl font-black text-white mb-3">
+
+                    {
+                      asset.balance
+                    }
+
+                  </h3>
+
+                  <span className="text-green-400 text-2xl font-black">
+
+                    {
+                      asset.value
+                    }
+
+                  </span>
+
+                </div>
+
+              </div>
+            )
+          )
+        }
 
       </div>
 

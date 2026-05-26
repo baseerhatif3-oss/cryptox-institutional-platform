@@ -1,88 +1,78 @@
 import MainLayout from "../components/layout/MainLayout";
 
-import TradingViewWidget from "../components/TradingViewWidget";
-
-import TradingPanel from "../components/TradingPanel";
-
-import OrderBook from "../components/OrderBook";
-
-import LiveTrades from "../components/LiveTrades";
-
 const Trading = () => {
 
   return (
 
     <MainLayout>
 
-      <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6 mb-10">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
 
-        <div>
+        <div className="xl:col-span-2">
 
-          <h1 className="text-5xl font-black">
-            Advanced Trading
-          </h1>
+          <div className="glass rounded-[40px] p-10 mb-8">
 
-          <p className="text-zinc-500 mt-2">
-            Professional real-time crypto trading terminal
-          </p>
-
-        </div>
-
-        <div className="flex items-center gap-3 bg-green-500/20 px-5 py-3 rounded-2xl w-fit">
-
-          <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-
-          <span className="text-green-400 font-bold">
-            LIVE TRADING ENGINE
-          </span>
-
-        </div>
-
-      </div>
-
-      <div className="grid grid-cols-1 2xl:grid-cols-4 gap-8">
-
-        <div className="2xl:col-span-3 space-y-8">
-
-          <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
-
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5 mb-6">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-10">
 
               <div>
 
-                <h2 className="text-4xl font-black">
-                  BTC/USDT
-                </h2>
+                <h1 className="text-6xl font-black">
 
-                <p className="text-zinc-500 mt-2">
-                  Binance Spot Market
+                  BTC/USDT
+
+                </h1>
+
+                <p className="text-zinc-500 text-xl mt-4">
+
+                  Professional spot trading interface
+
                 </p>
 
               </div>
 
-              <div className="text-left md:text-right">
+              <div>
 
-                <h2 className="text-4xl font-black text-green-400">
-                  $84,520
+                <h2 className="text-5xl font-black text-green-400">
+
+                  $84,320
+
                 </h2>
 
-                <p className="text-green-400 font-bold mt-1">
-                  +2.84%
+                <p className="text-green-400 text-xl font-black mt-2">
+
+                  +4.28%
+
                 </p>
 
               </div>
 
             </div>
 
-            <TradingViewWidget />
+            <div className="h-[500px] glass rounded-3xl flex items-center justify-center">
 
-          </div>
+              <div className="text-center">
 
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                <div className="text-8xl mb-6">
 
-            <OrderBook />
+                  📊
 
-            <LiveTrades />
+                </div>
+
+                <h2 className="text-4xl font-black mb-4">
+
+                  Advanced Trading Chart
+
+                </h2>
+
+                <p className="text-zinc-500 text-xl">
+
+                  Real-time professional market visualization
+
+                </p>
+
+              </div>
+
+            </div>
 
           </div>
 
@@ -90,7 +80,89 @@ const Trading = () => {
 
         <div>
 
-          <TradingPanel />
+          <div className="glass rounded-[40px] p-8">
+
+            <h2 className="text-4xl font-black mb-8">
+
+              Place Order
+
+            </h2>
+
+            <div className="flex gap-4 mb-8">
+
+              <button className="flex-1 bg-green-500 text-white py-4 rounded-2xl font-black text-lg">
+
+                Buy
+
+              </button>
+
+              <button className="flex-1 bg-red-500 text-white py-4 rounded-2xl font-black text-lg">
+
+                Sell
+
+              </button>
+
+            </div>
+
+            <div className="space-y-6">
+
+              <div>
+
+                <label className="block text-zinc-500 mb-3">
+
+                  Price
+
+                </label>
+
+                <input
+                  type="text"
+                  placeholder="84,320"
+                  className="w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-4 outline-none"
+                />
+
+              </div>
+
+              <div>
+
+                <label className="block text-zinc-500 mb-3">
+
+                  Amount
+
+                </label>
+
+                <input
+                  type="text"
+                  placeholder="0.00 BTC"
+                  className="w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-4 outline-none"
+                />
+
+              </div>
+
+              <div>
+
+                <label className="block text-zinc-500 mb-3">
+
+                  Total
+
+                </label>
+
+                <input
+                  type="text"
+                  placeholder="$0.00"
+                  className="w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-4 outline-none"
+                />
+
+              </div>
+
+              <button className="w-full bg-yellow-400 hover:bg-yellow-300 transition-all py-5 rounded-2xl text-black font-black text-xl">
+
+                Execute Trade
+
+              </button>
+
+            </div>
+
+          </div>
 
         </div>
 

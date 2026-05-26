@@ -1,241 +1,173 @@
-import {
-  useEffect,
-  useState,
-} from "react";
-
 import MainLayout from "../components/layout/MainLayout";
-
-import {
-  getMarketPrices,
-} from "../services/marketService";
 
 const Markets = () => {
 
-  const [markets, setMarkets] =
-    useState([]);
+  const markets = [
 
-  const [loading, setLoading] =
-    useState(true);
+    {
+      pair:
+        "BTC/USDT",
 
-  useEffect(() => {
+      price:
+        "$84,320",
 
-    fetchMarkets();
+      change:
+        "+4.2%",
+    },
 
-    const interval =
-      setInterval(
-        fetchMarkets,
-        3000
-      );
+    {
+      pair:
+        "ETH/USDT",
 
-    return () =>
-      clearInterval(interval);
+      price:
+        "$4,280",
 
-  }, []);
+      change:
+        "+3.1%",
+    },
 
-  const fetchMarkets =
-    async () => {
+    {
+      pair:
+        "SOL/USDT",
 
-      try {
+      price:
+        "$182",
 
-        const data =
-          await getMarketPrices();
+      change:
+        "+8.4%",
+    },
 
-        const filtered =
-          data
-            .filter(
-              (coin) =>
-                coin.symbol.endsWith(
-                  "USDT"
-                )
-            )
-            .slice(0, 20);
+    {
+      pair:
+        "BNB/USDT",
 
-        setMarkets(filtered);
+      price:
+        "$690",
 
-      } catch (error) {
+      change:
+        "+2.9%",
+    },
 
-        console.log(error);
+    {
+      pair:
+        "XRP/USDT",
 
-      } finally {
+      price:
+        "$1.82",
 
-        setLoading(false);
-      }
-    };
+      change:
+        "+6.7%",
+    },
+
+    {
+      pair:
+        "ADA/USDT",
+
+      price:
+        "$1.14",
+
+      change:
+        "+5.2%",
+    },
+  ];
 
   return (
 
     <MainLayout>
 
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-10">
+      <div className="mb-10">
 
-        <div>
-
-          <h1 className="text-5xl font-black">
-            Live Markets
-          </h1>
-
-          <p className="text-zinc-500 mt-2">
-            Real-time Binance market data
-          </p>
-
-        </div>
-
-        <div className="flex items-center gap-2 bg-green-500/20 px-4 py-2 rounded-full w-fit">
+        <div className="inline-flex items-center gap-3 bg-green-500/10 border border-green-500/20 px-5 py-3 rounded-full mb-8">
 
           <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
 
           <span className="text-green-400 font-bold">
-            LIVE MARKET DATA
+
+            LIVE MARKETS
+
           </span>
 
         </div>
 
+        <h1 className="text-6xl font-black">
+
+          Crypto
+          <span className="text-yellow-400">
+            {" "}Markets
+          </span>
+
+        </h1>
+
+        <p className="text-zinc-500 text-xl mt-4">
+
+          Real-time cryptocurrency market tracking and exchange analytics.
+
+        </p>
+
       </div>
 
-      <div className="bg-[#111] border border-yellow-500/10 rounded-3xl overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
 
         {
-          loading ? (
+          markets.map(
+            (
+              market,
+              index
+            ) => (
 
-            <div className="p-10 text-center">
+              <div
+                key={index}
+                className="glass rounded-3xl p-8 hover:border-yellow-400/20 hover:scale-[1.02] transition-all duration-300"
+              >
 
-              <h2 className="text-3xl font-black text-yellow-400">
+                <div className="flex items-center justify-between mb-8">
 
-                Loading Markets...
+                  <h2 className="text-4xl font-black">
 
-              </h2>
+                    {
+                      market.pair
+                    }
 
-            </div>
+                  </h2>
 
-          ) : (
+                  <div className="w-14 h-14 rounded-2xl bg-yellow-400/10 flex items-center justify-center">
 
-            <div className="overflow-x-auto">
+                    <span className="text-2xl">
+                      📈
+                    </span>
 
-              <table className="w-full min-w-[900px]">
+                  </div>
 
-                <thead className="bg-black">
+                </div>
 
-                  <tr>
+                <div className="mb-6">
 
-                    <th className="text-left p-5 text-yellow-400">
-                      Symbol
-                    </th>
+                  <h3 className="text-5xl font-black text-white mb-3">
 
-                    <th className="text-left p-5 text-yellow-400">
-                      Price
-                    </th>
+                    {
+                      market.price
+                    }
 
-                    <th className="text-left p-5 text-yellow-400">
-                      24H Change
-                    </th>
+                  </h3>
 
-                    <th className="text-left p-5 text-yellow-400">
-                      Volume
-                    </th>
+                  <span className="text-green-400 text-2xl font-black">
 
-                    <th className="text-left p-5 text-yellow-400">
-                      High
-                    </th>
+                    {
+                      market.change
+                    }
 
-                    <th className="text-left p-5 text-yellow-400">
-                      Low
-                    </th>
+                  </span>
 
-                  </tr>
+                </div>
 
-                </thead>
+                <button className="w-full bg-yellow-400 hover:bg-yellow-300 transition-all py-4 rounded-2xl text-black font-black text-lg">
 
-                <tbody>
+                  Trade Now
 
-                  {
-                    markets.map(
-                      (
-                        market,
-                        index
-                      ) => (
+                </button>
 
-                        <tr
-                          key={index}
-                          className="border-t border-yellow-500/10 hover:bg-black/30 transition-all"
-                        >
-
-                          <td className="p-5 font-black">
-
-                            {
-                              market.symbol
-                            }
-
-                          </td>
-
-                          <td className="p-5 font-bold">
-
-                            $
-                            {
-                              Number(
-                                market.lastPrice
-                              ).toLocaleString()
-                            }
-
-                          </td>
-
-                          <td className={`p-5 font-bold ${
-                            Number(
-                              market.priceChangePercent
-                            ) >= 0
-                              ? "text-green-400"
-                              : "text-red-400"
-                          }`}>
-
-                            {
-                              Number(
-                                market.priceChangePercent
-                              ).toFixed(2)
-                            }%
-
-                          </td>
-
-                          <td className="p-5 text-zinc-400">
-
-                            {
-                              Number(
-                                market.volume
-                              ).toLocaleString()
-                            }
-
-                          </td>
-
-                          <td className="p-5 text-green-400 font-bold">
-
-                            $
-                            {
-                              Number(
-                                market.highPrice
-                              ).toLocaleString()
-                            }
-
-                          </td>
-
-                          <td className="p-5 text-red-400 font-bold">
-
-                            $
-                            {
-                              Number(
-                                market.lowPrice
-                              ).toLocaleString()
-                            }
-
-                          </td>
-
-                        </tr>
-                      )
-                    )
-                  }
-
-                </tbody>
-
-              </table>
-
-            </div>
+              </div>
+            )
           )
         }
 
