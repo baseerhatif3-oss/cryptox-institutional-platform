@@ -1,87 +1,39 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+body {
 
-/*
-==========================================
-GLOBAL
-==========================================
-*/
-
-html,
-body,
-#root {
-  margin: 0;
-  padding: 0;
   background: #000;
-  color: white;
-  min-height: 100%;
-  font-family: Inter, sans-serif;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-}
 
-/*
-==========================================
-SCROLLBAR
-==========================================
-*/
+  color: white;
+
+  overflow-x: hidden;
+}
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
 
-::-webkit-scrollbar-track {
-  background: #0b0b0b;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.15);
-  border-radius: 20px;
-}
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255,255,255,0.25);
-}
-
-/*
-==========================================
-INPUTS
-==========================================
-*/
-
-input,
-select,
-textarea,
-button {
-  outline: none;
-}
-
-/*
-==========================================
-SELECTION
-==========================================
-*/
-
-::selection {
   background: #facc15;
-  color: black;
+
+  border-radius: 999px;
 }
 
-/*
-==========================================
-TICKER ANIMATION
-==========================================
-*/
+.glass {
 
-@keyframes ticker {
+  background: rgba(
+    255,
+    255,
+    255,
+    0.05
+  );
 
-  0% {
-    transform: translateX(0);
-  }
+  backdrop-filter: blur(20px);
 
-  100% {
-    transform: translateX(-50%);
-  }
+  border: 1px solid rgba(
+    255,
+    255,
+    255,
+    0.08
+  );
 }

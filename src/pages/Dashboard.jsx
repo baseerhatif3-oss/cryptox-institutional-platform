@@ -17,6 +17,8 @@ import RecentTransactions from "../components/RecentTransactions";
 
 import LiveTicker from "../components/LiveTicker";
 
+import PremiumCard from "../components/PremiumCard";
+
 import API from "../services/api";
 
 import {
@@ -163,29 +165,6 @@ const Dashboard = () => {
           currentPrice
         );
 
-        if (
-          currentPrice > 85000
-        ) {
-
-          setMarketTrend(
-            "Strong Bullish"
-          );
-
-        } else if (
-          currentPrice > 80000
-        ) {
-
-          setMarketTrend(
-            "Bullish"
-          );
-
-        } else {
-
-          setMarketTrend(
-            "Neutral"
-          );
-        }
-
       } catch (error) {
 
         console.log(
@@ -208,6 +187,9 @@ const Dashboard = () => {
       value:
         `$${wallet?.usdBalance || 0}`,
 
+      subtitle:
+        "Total portfolio value",
+
       color:
         "text-yellow-400",
     },
@@ -218,6 +200,9 @@ const Dashboard = () => {
 
       value:
         `${wallet?.btc || 0} BTC`,
+
+      subtitle:
+        "Bitcoin assets",
 
       color:
         "text-orange-400",
@@ -230,6 +215,9 @@ const Dashboard = () => {
       value:
         orders.length || 0,
 
+      subtitle:
+        "Active exchange orders",
+
       color:
         "text-blue-400",
     },
@@ -240,6 +228,9 @@ const Dashboard = () => {
 
       value:
         `$${btcPrice.toLocaleString()}`,
+
+      subtitle:
+        "Real-time market value",
 
       color:
         "text-green-400",
@@ -270,108 +261,148 @@ const Dashboard = () => {
 
     <MainLayout>
 
-      <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6 mb-10">
+      <div className="relative overflow-hidden rounded-[40px] border border-yellow-500/10 bg-gradient-to-br from-yellow-400/10 via-black to-black p-10 mb-10">
 
-        <div>
+        <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-yellow-400/10 rounded-full blur-[120px]"></div>
 
-          <h1 className="text-5xl font-black text-white">
-            Trading Dashboard
-          </h1>
+        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
 
-          <p className="text-zinc-500 mt-2">
-            Monitor your portfolio and real-time trading activity
-          </p>
+          <div>
 
-        </div>
+            <div className="inline-flex items-center gap-3 bg-green-500/10 border border-green-500/20 px-5 py-3 rounded-full mb-6">
 
-        <div className="flex flex-wrap gap-4">
+              <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
 
-          <div className="flex items-center gap-3 bg-green-500/20 px-5 py-3 rounded-2xl">
+              <span className="text-green-400 font-bold">
 
-            <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                LIVE MARKET ACTIVE
 
-            <span className="text-green-400 font-bold">
-              LIVE MARKET
-            </span>
+              </span>
+
+            </div>
+
+            <h1 className="text-6xl lg:text-7xl font-black leading-tight">
+
+              Welcome to
+              <span className="text-yellow-400">
+                {" "}CryptoX
+              </span>
+
+            </h1>
+
+            <p className="text-zinc-400 text-xl mt-6 max-w-3xl leading-relaxed">
+
+              Enterprise-grade cryptocurrency trading platform with AI-powered analytics, real-time execution, and advanced exchange infrastructure.
+
+            </p>
 
           </div>
 
-          <button className="bg-yellow-400 hover:bg-yellow-300 transition-all duration-300 text-black px-8 py-4 rounded-2xl font-black shadow-lg hover:scale-105">
+          <div className="grid grid-cols-2 gap-5">
 
-            Deposit Funds
+            <div className="glass rounded-3xl p-6">
 
-          </button>
-
-        </div>
-
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-6 mb-8">
-
-        {
-          stats.map((stat, index) => (
-
-            <div
-              key={index}
-              className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6 hover:border-yellow-400/30 transition-all duration-300"
-            >
-
-              <p className="text-zinc-500 mb-3 text-sm">
-                {stat.title}
+              <p className="text-zinc-500 mb-3">
+                BTC Price
               </p>
 
-              <h2 className={`text-4xl font-black break-words ${stat.color}`}>
+              <h2 className="text-4xl font-black text-green-400">
 
-                {stat.value}
+                $
+                {
+                  btcPrice.toLocaleString()
+                }
 
               </h2>
 
             </div>
-          ))
+
+            <div className="glass rounded-3xl p-6">
+
+              <p className="text-zinc-500 mb-3">
+                24H Change
+              </p>
+
+              <h2 className={`text-4xl font-black ${
+                priceChange.includes("-")
+                  ? "text-red-400"
+                  : "text-green-400"
+              }`}>
+
+                {priceChange}
+
+              </h2>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-6 mb-10">
+
+        {
+          stats.map(
+            (
+              stat,
+              index
+            ) => (
+
+              <PremiumCard
+                key={index}
+                title={stat.title}
+                value={stat.value}
+                subtitle={stat.subtitle}
+                color={stat.color}
+              />
+            )
+          )
         }
 
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-10">
 
-        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
+        <div className="glass rounded-3xl p-8">
 
-          <p className="text-zinc-500 mb-3">
+          <p className="text-zinc-500 mb-4">
             Market Trend
           </p>
 
-          <h2 className="text-4xl font-black text-green-400">
+          <h2 className="text-5xl font-black text-green-400">
+
             {marketTrend}
-          </h2>
-
-        </div>
-
-        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
-
-          <p className="text-zinc-500 mb-3">
-            BTC 24H Change
-          </p>
-
-          <h2 className={`text-4xl font-black ${
-            priceChange.includes("-")
-              ? "text-red-400"
-              : "text-green-400"
-          }`}>
-
-            {priceChange}
 
           </h2>
 
         </div>
 
-        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
+        <div className="glass rounded-3xl p-8">
 
-          <p className="text-zinc-500 mb-3">
+          <p className="text-zinc-500 mb-4">
             Exchange Status
           </p>
 
-          <h2 className="text-4xl font-black text-blue-400">
+          <h2 className="text-5xl font-black text-blue-400">
+
             Operational
+
+          </h2>
+
+        </div>
+
+        <div className="glass rounded-3xl p-8">
+
+          <p className="text-zinc-500 mb-4">
+            Trading Volume
+          </p>
+
+          <h2 className="text-5xl font-black text-yellow-400">
+
+            $48M+
+
           </h2>
 
         </div>
@@ -382,31 +413,25 @@ const Dashboard = () => {
 
         <div className="2xl:col-span-3 space-y-8">
 
-          <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
+          <div className="glass rounded-3xl p-6">
 
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5 mb-6">
 
               <div>
 
-                <h2 className="text-4xl font-black text-white">
+                <h2 className="text-5xl font-black">
                   BTC/USDT
                 </h2>
 
-                <div className="flex items-center gap-3 mt-2">
+                <div className="flex items-center gap-3 mt-3">
 
-                  <p className="text-zinc-500">
-                    Real-Time Trading Chart
-                  </p>
+                  <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
 
-                  <div className="flex items-center gap-2 bg-green-500/20 px-3 py-1 rounded-full">
+                  <span className="text-green-400 font-bold">
 
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    LIVE CHART
 
-                    <span className="text-green-400 text-sm font-bold">
-                      LIVE
-                    </span>
-
-                  </div>
+                  </span>
 
                 </div>
 
@@ -414,7 +439,7 @@ const Dashboard = () => {
 
               <div className="text-left md:text-right">
 
-                <h2 className="text-4xl font-black text-white">
+                <h2 className="text-5xl font-black text-white">
 
                   $
                   {
@@ -423,7 +448,7 @@ const Dashboard = () => {
 
                 </h2>
 
-                <p className={`font-bold mt-1 ${
+                <p className={`font-bold text-xl mt-2 ${
                   priceChange.includes("-")
                     ? "text-red-400"
                     : "text-green-400"
