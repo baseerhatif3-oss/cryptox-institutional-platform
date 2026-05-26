@@ -138,6 +138,11 @@ const SystemStatus =
     import("./pages/SystemStatus")
   );
 
+const AboutExchange =
+  lazy(() =>
+    import("./pages/AboutExchange")
+  );
+
 const ErrorPage =
   lazy(() =>
     import("./pages/ErrorPage")
@@ -366,6 +371,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <SystemStatus />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/about-exchange"
+            element={
+              <ProtectedRoute>
+                <AboutExchange />
               </ProtectedRoute>
             }
           />
