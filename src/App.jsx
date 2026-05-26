@@ -124,6 +124,11 @@ const Settings =
     import("./pages/Settings")
   );
 
+const SystemStatus =
+  lazy(() =>
+    import("./pages/SystemStatus")
+  );
+
 const ErrorPage =
   lazy(() =>
     import("./pages/ErrorPage")
@@ -336,6 +341,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <Settings />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/system-status"
+            element={
+              <ProtectedRoute>
+                <SystemStatus />
               </ProtectedRoute>
             }
           />
