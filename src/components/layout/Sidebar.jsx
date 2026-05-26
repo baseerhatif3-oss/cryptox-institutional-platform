@@ -1,267 +1,295 @@
 import {
-  LayoutDashboard,
-  Bell,
-  CandlestickChart,
-  ChartCandlestick,
-  Wallet,
-  ClipboardList,
-  ArrowLeftRight,
-  BrainCircuit,
-  Trophy,
-  Shield,
-  Settings,
-  Landmark,
-  ArrowDownCircle,
-  ArrowUpCircle,
-  Users,
-  BadgeCheck,
-  LineChart,
-  LockKeyhole,
-  Copy,
-  Menu,
-  X,
-} from "lucide-react";
-
-import {
   NavLink,
 } from "react-router-dom";
 
 import {
-  useState,
-} from "react";
+  LayoutDashboard,
+  CandlestickChart,
+  Wallet,
+  ArrowLeftRight,
+  Bell,
+  Shield,
+  Settings,
+  UserCheck,
+  LineChart,
+  Users,
+  Trophy,
+  Copy,
+  Cpu,
+  Activity,
+  BarChart3,
+  X,
+} from "lucide-react";
+
+import Logo from "../Logo";
 
 const Sidebar = () => {
 
-  const [open, setOpen] =
-    useState(false);
-
-  const navItems = [
+  const links = [
 
     {
       name: "Dashboard",
       path: "/dashboard",
-      icon: LayoutDashboard,
-    },
-
-    {
-      name: "Notifications",
-      path: "/notifications",
-      icon: Bell,
+      icon:
+        LayoutDashboard,
     },
 
     {
       name: "Markets",
       path: "/markets",
-      icon: LineChart,
+      icon:
+        LineChart,
     },
 
     {
       name: "Trading",
       path: "/trading",
-      icon: CandlestickChart,
+      icon:
+        CandlestickChart,
     },
 
     {
       name: "Futures",
       path: "/futures",
-      icon: ChartCandlestick,
+      icon:
+        Activity,
     },
 
     {
       name: "Copy Trading",
       path: "/copy-trading",
-      icon: Copy,
-    },
-
-    {
-      name: "Wallet",
-      path: "/wallet",
-      icon: Wallet,
-    },
-
-    {
-      name: "Orders",
-      path: "/orders",
-      icon: ClipboardList,
-    },
-
-    {
-      name: "Transactions",
-      path: "/transactions",
-      icon: ArrowLeftRight,
-    },
-
-    {
-      name: "Deposit",
-      path: "/deposit",
-      icon: ArrowDownCircle,
-    },
-
-    {
-      name: "Withdraw",
-      path: "/withdraw",
-      icon: ArrowUpCircle,
-    },
-
-    {
-      name: "Admin",
-      path: "/admin",
-      icon: Users,
-    },
-
-    {
-      name: "KYC",
-      path: "/kyc",
-      icon: BadgeCheck,
-    },
-
-    {
-      name: "Security Center",
-      path: "/security-center",
-      icon: LockKeyhole,
+      icon:
+        Copy,
     },
 
     {
       name: "AI Signals",
       path: "/ai-signals",
-      icon: BrainCircuit,
+      icon:
+        Cpu,
     },
 
     {
-      name: "Staking",
-      path: "/staking",
-      icon: Landmark,
+      name: "Wallet",
+      path: "/wallet",
+      icon:
+        Wallet,
+    },
+
+    {
+      name: "Orders",
+      path: "/orders",
+      icon:
+        ArrowLeftRight,
+    },
+
+    {
+      name: "Transactions",
+      path: "/transactions",
+      icon:
+        ArrowLeftRight,
+    },
+
+    {
+      name: "Notifications",
+      path: "/notifications",
+      icon:
+        Bell,
+    },
+
+    {
+      name: "KYC",
+      path: "/kyc",
+      icon:
+        UserCheck,
     },
 
     {
       name: "Leaderboard",
       path: "/leaderboard",
-      icon: Trophy,
+      icon:
+        Trophy,
     },
 
     {
       name: "Referral",
       path: "/referral",
-      icon: Trophy,
+      icon:
+        Users,
     },
 
     {
       name: "Security",
       path: "/security",
-      icon: Shield,
+      icon:
+        Shield,
+    },
+
+    {
+      name: "Security Center",
+      path: "/security-center",
+      icon:
+        Shield,
+    },
+
+    {
+      name: "Admin",
+      path: "/admin",
+      icon:
+        Settings,
+    },
+
+    {
+      name: "Admin Analytics",
+      path: "/admin-analytics",
+      icon:
+        BarChart3,
+    },
+
+    {
+      name: "System Status",
+      path: "/system-status",
+      icon:
+        Activity,
     },
 
     {
       name: "Settings",
       path: "/settings",
-      icon: Settings,
+      icon:
+        Settings,
     },
   ];
 
   return (
 
-    <>
+    <div className="w-[280px] min-h-screen bg-black border-r border-yellow-500/10 p-6 fixed lg:sticky top-0 left-0 z-50 overflow-y-auto">
 
-      <button
-        onClick={() => setOpen(true)}
-        className="lg:hidden fixed top-5 left-5 z-50 bg-yellow-400 text-black p-3 rounded-xl"
-      >
+      <div className="flex items-center justify-between mb-10">
 
-        <Menu size={24} />
+        <Logo />
 
-      </button>
+        <button className="lg:hidden bg-[#111] border border-yellow-500/10 p-2 rounded-xl">
 
-      {
-        open && (
+          <X size={18} />
 
-          <div
-            className="fixed inset-0 bg-black/70 z-40 lg:hidden"
-            onClick={() => setOpen(false)}
-          />
-        )
-      }
+        </button>
 
-      <aside className={`
-        fixed lg:sticky top-0 left-0 z-50
-        w-[260px]
-        min-h-screen
-        bg-black
-        border-r border-yellow-500/10
-        p-5
-        flex flex-col
-        overflow-y-auto
-        transition-all duration-300
-        ${
-          open
-            ? "translate-x-0"
-            : "-translate-x-full lg:translate-x-0"
-        }
-      `}>
+      </div>
 
-        <div className="flex items-center justify-between mb-10">
+      <div className="space-y-3">
 
-          <div>
-
-            <h1 className="text-5xl font-black text-yellow-400">
-              CryptoX
-            </h1>
-
-            <p className="text-zinc-500 mt-2">
-              Exchange Platform
-            </p>
-
-          </div>
-
-          <button
-            onClick={() => setOpen(false)}
-            className="lg:hidden text-white"
-          >
-
-            <X size={28} />
-
-          </button>
-
-        </div>
-
-        <nav className="space-y-3">
-
-          {
-            navItems.map((item) => {
+        {
+          links.map(
+            (
+              link,
+              index
+            ) => {
 
               const Icon =
-                item.icon;
+                link.icon;
 
               return (
 
                 <NavLink
-                  key={item.name}
-                  to={item.path}
-                  onClick={() => setOpen(false)}
-                  className={({ isActive }) =>
-                    `flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 font-bold ${
+                  key={index}
+                  to={link.path}
+                  className={({
+                    isActive,
+                  }) =>
+                    `flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 font-semibold ${
                       isActive
-                        ? "bg-yellow-400 text-black"
-                        : "bg-[#111] text-white hover:bg-yellow-400 hover:text-black"
+
+                        ? "bg-yellow-400 text-black shadow-lg shadow-yellow-400/20"
+
+                        : "text-zinc-400 hover:bg-[#111] hover:text-white"
                     }`
                   }
                 >
 
-                  <Icon size={20} />
+                  <Icon
+                    size={20}
+                  />
 
-                  <span className="text-sm xl:text-base">
-                    {item.name}
+                  <span>
+
+                    {link.name}
+
                   </span>
 
                 </NavLink>
               );
-            })
-          }
+            }
+          )
+        }
 
-        </nav>
+      </div>
 
-      </aside>
+      <div className="mt-10 bg-gradient-to-br from-yellow-400/10 to-yellow-500/5 border border-yellow-500/20 rounded-3xl p-6">
 
-    </>
+        <div className="flex items-center gap-3 mb-4">
+
+          <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+
+          <span className="text-green-400 font-bold text-sm">
+
+            SYSTEM ONLINE
+
+          </span>
+
+        </div>
+
+        <h3 className="text-2xl font-black mb-3">
+
+          CryptoX Pro
+
+        </h3>
+
+        <p className="text-zinc-500 text-sm leading-relaxed mb-5">
+
+          Enterprise-grade cryptocurrency exchange with AI-powered trading infrastructure.
+
+        </p>
+
+        <div className="space-y-3">
+
+          <div className="flex items-center justify-between">
+
+            <span className="text-zinc-500 text-sm">
+
+              Security
+
+            </span>
+
+            <span className="text-green-400 font-bold text-sm">
+
+              99.9%
+
+            </span>
+
+          </div>
+
+          <div className="flex items-center justify-between">
+
+            <span className="text-zinc-500 text-sm">
+
+              Performance
+
+            </span>
+
+            <span className="text-yellow-400 font-bold text-sm">
+
+              Ultra Fast
+
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
   );
 };
 

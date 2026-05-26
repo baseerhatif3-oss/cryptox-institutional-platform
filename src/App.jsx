@@ -2,7 +2,6 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Navigate,
 } from "react-router-dom";
 
 import {
@@ -13,6 +12,11 @@ import {
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import LoadingSpinner from "./components/LoadingSpinner";
+
+const Landing =
+  lazy(() =>
+    import("./pages/Landing")
+  );
 
 const Login =
   lazy(() =>
@@ -155,9 +159,7 @@ function App() {
 
           <Route
             path="/"
-            element={
-              <Navigate to="/dashboard" />
-            }
+            element={<Landing />}
           />
 
           <Route
@@ -175,15 +177,6 @@ function App() {
             element={
               <ProtectedRoute>
                 <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/notifications"
-            element={
-              <ProtectedRoute>
-                <Notifications />
               </ProtectedRoute>
             }
           />
@@ -265,6 +258,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <Withdraw />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/notifications"
+            element={
+              <ProtectedRoute>
+                <Notifications />
               </ProtectedRoute>
             }
           />
