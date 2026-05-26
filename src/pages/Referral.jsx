@@ -1,77 +1,115 @@
-import React from "react";
+import MainLayout from "../components/layout/MainLayout";
 
 const Referral = () => {
 
-  const referralCode =
-    "CRYPTOX2026";
-
-  const referralLink =
-    `https://cryptox.com/register?ref=${referralCode}`;
-
   return (
 
-    <div className="space-y-10">
+    <MainLayout>
 
-      {/* HEADER */}
+      <div className="glass rounded-[40px] p-10 md:p-16 overflow-hidden relative">
 
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-
-        <div>
-
-          <h1 className="text-5xl font-black">
-            Referral Program
-          </h1>
-
-          <p className="text-gray-400 text-lg mt-3">
-            Invite friends and earn trading commissions
-          </p>
-
-        </div>
-
-        <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 px-5 py-3 rounded-2xl font-bold">
-          EARN UP TO 40%
-        </div>
-
-      </div>
-
-      {/* HERO */}
-
-      <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-gradient-to-br from-[#111] to-black p-10">
-
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,#facc15,transparent_35%)]" />
+        <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-yellow-400/10 blur-[100px] rounded-full"></div>
 
         <div className="relative z-10">
 
-          <p className="text-gray-400 text-lg">
-            Total Referral Earnings
-          </p>
+          <div className="inline-flex items-center gap-3 bg-yellow-400/10 border border-yellow-400/20 px-5 py-3 rounded-full mb-8">
 
-          <h1 className="text-6xl lg:text-7xl font-black mt-5">
-            $12,840
+            <span className="text-yellow-400 font-bold">
+
+              REFERRAL PROGRAM
+
+            </span>
+
+          </div>
+
+          <h1 className="text-5xl md:text-7xl font-black mb-8">
+
+            Invite &
+            <span className="text-yellow-400">
+              {" "}Earn
+            </span>
+
           </h1>
 
-          <div className="flex flex-wrap gap-5 mt-8">
+          <p className="text-zinc-400 text-xl max-w-3xl leading-relaxed mb-10">
 
-            <div className="bg-white/5 border border-white/10 px-6 py-4 rounded-2xl">
+            Earn commission rewards by inviting traders to the CryptoX exchange ecosystem.
 
-              <p className="text-gray-400 text-sm">
-                Total Referrals
+          </p>
+
+          <div className="glass rounded-3xl p-6 mb-10">
+
+            <p className="text-zinc-500 mb-3">
+
+              Your Referral Link
+
+            </p>
+
+            <div className="flex flex-col md:flex-row gap-4">
+
+              <input
+                type="text"
+                value="https://cryptox.exchange/ref/baseer"
+                readOnly
+                className="flex-1 bg-black/30 border border-white/10 rounded-2xl px-5 py-4 outline-none"
+              />
+
+              <button className="bg-yellow-400 hover:bg-yellow-300 transition-all px-8 py-4 rounded-2xl text-black font-black">
+
+                Copy Link
+
+              </button>
+
+            </div>
+
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <div className="glass rounded-3xl p-8">
+
+              <p className="text-zinc-500 mb-4">
+
+                Referrals
+
               </p>
 
-              <h2 className="text-3xl font-black mt-2">
-                248
+              <h2 className="text-5xl font-black text-yellow-400">
+
+                128
+
               </h2>
 
             </div>
 
-            <div className="bg-white/5 border border-white/10 px-6 py-4 rounded-2xl">
+            <div className="glass rounded-3xl p-8">
 
-              <p className="text-gray-400 text-sm">
-                Commission Rate
+              <p className="text-zinc-500 mb-4">
+
+                Earned
+
               </p>
 
-              <h2 className="text-3xl font-black mt-2">
-                40%
+              <h2 className="text-5xl font-black text-green-400">
+
+                $8,420
+
+              </h2>
+
+            </div>
+
+            <div className="glass rounded-3xl p-8">
+
+              <p className="text-zinc-500 mb-4">
+
+                Conversion
+
+              </p>
+
+              <h2 className="text-5xl font-black text-blue-400">
+
+                74%
+
               </h2>
 
             </div>
@@ -82,119 +120,7 @@ const Referral = () => {
 
       </div>
 
-      {/* REFERRAL LINK */}
-
-      <div className="bg-[#111] border border-white/10 rounded-[32px] p-8">
-
-        <h2 className="text-3xl font-black mb-8">
-          Your Referral Link
-        </h2>
-
-        <div className="bg-black border border-white/10 rounded-2xl p-5 break-all text-gray-300">
-          {referralLink}
-        </div>
-
-        <button
-          onClick={() =>
-            navigator.clipboard.writeText(
-              referralLink
-            )
-          }
-          className="mt-6 bg-yellow-500 hover:bg-yellow-600 transition px-8 py-4 rounded-2xl font-black text-black"
-        >
-
-          Copy Referral Link
-
-        </button>
-
-      </div>
-
-      {/* TABLE */}
-
-      <div className="bg-[#111] border border-white/10 rounded-[32px] overflow-hidden">
-
-        <div className="p-8 border-b border-white/10">
-
-          <h2 className="text-3xl font-black">
-            Referral History
-          </h2>
-
-        </div>
-
-        <div className="overflow-x-auto">
-
-          <table className="w-full">
-
-            <thead className="bg-black/40">
-
-              <tr>
-
-                <th className="text-left p-6 text-gray-400">
-                  User
-                </th>
-
-                <th className="text-left p-6 text-gray-400">
-                  Volume
-                </th>
-
-                <th className="text-left p-6 text-gray-400">
-                  Commission
-                </th>
-
-                <th className="text-left p-6 text-gray-400">
-                  Status
-                </th>
-
-              </tr>
-
-            </thead>
-
-            <tbody>
-
-              {[1,2,3,4].map(
-                (item) => (
-
-                  <tr
-                    key={item}
-                    className="border-t border-white/5"
-                  >
-
-                    <td className="p-6 font-semibold">
-                      Trader#{item}82
-                    </td>
-
-                    <td className="p-6">
-                      $42,000
-                    </td>
-
-                    <td className="p-6 text-green-400 font-bold">
-                      +$840
-                    </td>
-
-                    <td className="p-6">
-
-                      <span className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-2 rounded-xl text-sm font-bold">
-
-                        ACTIVE
-
-                      </span>
-
-                    </td>
-
-                  </tr>
-
-                )
-              )}
-
-            </tbody>
-
-          </table>
-
-        </div>
-
-      </div>
-
-    </div>
+    </MainLayout>
   );
 };
 

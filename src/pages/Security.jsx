@@ -1,225 +1,143 @@
-import React from "react";
+import MainLayout from "../components/layout/MainLayout";
 
 const Security = () => {
 
-  const devices = [
+  const securityItems = [
 
     {
-      device: "MacBook Pro",
-      location: "Karachi, Pakistan",
-      status: "Active Now",
+      title:
+        "Two-Factor Authentication",
+
+      status:
+        "Enabled",
     },
 
     {
-      device: "iPhone 15",
-      location: "Dubai, UAE",
-      status: "2 Hours Ago",
+      title:
+        "Anti-Phishing Protection",
+
+      status:
+        "Active",
     },
 
     {
-      device: "Windows PC",
-      location: "London, UK",
-      status: "1 Day Ago",
+      title:
+        "Device Monitoring",
+
+      status:
+        "Protected",
+    },
+
+    {
+      title:
+        "AI Fraud Detection",
+
+      status:
+        "Running",
+    },
+
+    {
+      title:
+        "Cold Wallet Storage",
+
+      status:
+        "Secured",
+    },
+
+    {
+      title:
+        "DDoS Protection",
+
+      status:
+        "Operational",
     },
   ];
 
   return (
 
-    <div className="space-y-10">
+    <MainLayout>
 
-      {/* HEADER */}
+      <div className="relative overflow-hidden rounded-[40px] border border-yellow-500/10 bg-gradient-to-br from-yellow-400/10 via-black to-black p-10 mb-10">
 
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-
-        <div>
-
-          <h1 className="text-5xl font-black">
-            Security Center
-          </h1>
-
-          <p className="text-gray-400 text-lg mt-3">
-            Protect your account with advanced security tools
-          </p>
-
-        </div>
-
-        <div className="bg-green-500/10 border border-green-500/20 text-green-400 px-5 py-3 rounded-2xl font-bold">
-          ACCOUNT SECURED
-        </div>
-
-      </div>
-
-      {/* HERO */}
-
-      <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-gradient-to-br from-[#111] to-black p-10">
-
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,#22c55e,transparent_35%)]" />
+        <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-yellow-400/10 rounded-full blur-[120px]"></div>
 
         <div className="relative z-10">
 
-          <p className="text-gray-400 text-lg">
-            Enterprise-Grade Protection
-          </p>
+          <div className="inline-flex items-center gap-3 bg-green-500/10 border border-green-500/20 px-5 py-3 rounded-full mb-6">
 
-          <h1 className="text-6xl lg:text-7xl font-black mt-5">
-            SECURITY FIRST
+            <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+
+            <span className="text-green-400 font-bold">
+
+              SECURITY SYSTEM ACTIVE
+
+            </span>
+
+          </div>
+
+          <h1 className="text-6xl font-black leading-tight">
+
+            Security
+            <span className="text-yellow-400">
+              {" "}Center
+            </span>
+
           </h1>
 
-          <p className="text-gray-400 text-lg mt-6 max-w-2xl">
-            Secure your crypto assets with institutional-grade
-            authentication and monitoring systems.
+          <p className="text-zinc-400 text-xl mt-6 max-w-3xl leading-relaxed">
+
+            Enterprise-grade protection infrastructure for exchange security and asset safety.
+
           </p>
 
         </div>
 
       </div>
 
-      {/* SECURITY OPTIONS */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-        <div className="bg-[#111] border border-white/10 rounded-[36px] p-8">
-
-          <div className="flex items-center justify-between">
-
-            <h2 className="text-3xl font-black">
-              2FA
-            </h2>
-
-            <div className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-2 rounded-xl text-sm font-bold">
-              ENABLED
-            </div>
-
-          </div>
-
-          <p className="text-gray-400 mt-5 leading-relaxed">
-            Protect your account using Google Authenticator
-            and multi-factor authentication.
-          </p>
-
-          <button className="w-full mt-8 bg-yellow-500 hover:bg-yellow-600 transition py-4 rounded-2xl font-black text-black">
-
-            Manage 2FA
-
-          </button>
-
-        </div>
-
-        <div className="bg-[#111] border border-white/10 rounded-[36px] p-8">
-
-          <div className="flex items-center justify-between">
-
-            <h2 className="text-3xl font-black">
-              Anti-Phishing
-            </h2>
-
-            <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 px-4 py-2 rounded-xl text-sm font-bold">
-              ACTIVE
-            </div>
-
-          </div>
-
-          <p className="text-gray-400 mt-5 leading-relaxed">
-            Enable anti-phishing codes to verify official
-            platform communications and emails.
-          </p>
-
-          <button className="w-full mt-8 bg-yellow-500 hover:bg-yellow-600 transition py-4 rounded-2xl font-black text-black">
-
-            Configure
-
-          </button>
-
-        </div>
-
-        <div className="bg-[#111] border border-white/10 rounded-[36px] p-8">
-
-          <div className="flex items-center justify-between">
-
-            <h2 className="text-3xl font-black">
-              Withdrawal Lock
-            </h2>
-
-            <div className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-2 rounded-xl text-sm font-bold">
-              ACTIVE
-            </div>
-
-          </div>
-
-          <p className="text-gray-400 mt-5 leading-relaxed">
-            Restrict withdrawals after password
-            or security changes for maximum safety.
-          </p>
-
-          <button className="w-full mt-8 bg-yellow-500 hover:bg-yellow-600 transition py-4 rounded-2xl font-black text-black">
-
-            Manage Lock
-
-          </button>
-
-        </div>
-
-      </div>
-
-      {/* LOGIN DEVICES */}
-
-      <div className="bg-[#111] border border-white/10 rounded-[36px] overflow-hidden">
-
-        <div className="p-8 border-b border-white/10">
-
-          <h2 className="text-3xl font-black">
-            Login Activity
-          </h2>
-
-        </div>
-
-        <div className="divide-y divide-white/5">
-
-          {devices.map(
+        {
+          securityItems.map(
             (
-              device,
+              item,
               index
             ) => (
 
               <div
                 key={index}
-                className="p-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6"
+                className="glass rounded-3xl p-8 hover:border-yellow-400/20 transition-all"
               >
 
-                <div>
+                <div className="flex items-center justify-between mb-6">
 
-                  <h3 className="text-2xl font-black">
-                    {device.device}
-                  </h3>
-
-                  <p className="text-gray-400 mt-2">
-                    {device.location}
-                  </p>
-
-                </div>
-
-                <div className="flex items-center gap-4">
+                  <div className="w-4 h-4 bg-green-400 rounded-full animate-pulse"></div>
 
                   <span className="text-green-400 font-bold">
-                    {device.status}
-                  </span>
 
-                  <button className="bg-red-500 hover:bg-red-600 transition px-5 py-3 rounded-2xl font-bold">
-                    Remove
-                  </button>
+                    {
+                      item.status
+                    }
+
+                  </span>
 
                 </div>
 
+                <h2 className="text-3xl font-black">
+
+                  {
+                    item.title
+                  }
+
+                </h2>
+
               </div>
-
             )
-          )}
-
-        </div>
+          )
+        }
 
       </div>
 
-    </div>
+    </MainLayout>
   );
 };
 

@@ -1,193 +1,126 @@
-import React from "react";
+import MainLayout from "../components/layout/MainLayout";
 
 const Leaderboard = () => {
 
   const traders = [
 
     {
-      name: "AlphaWolf",
-      pnl: "+184%",
-      volume: "$2.4M",
-      rank: "#1",
+      name:
+        "AlphaTrader",
+
+      profit:
+        "$124,000",
     },
 
     {
-      name: "CryptoTitan",
-      pnl: "+162%",
-      volume: "$1.9M",
-      rank: "#2",
+      name:
+        "CryptoWolf",
+
+      profit:
+        "$98,500",
     },
 
     {
-      name: "BullMaster",
-      pnl: "+141%",
-      volume: "$1.4M",
-      rank: "#3",
+      name:
+        "FutureKing",
+
+      profit:
+        "$84,300",
     },
 
     {
-      name: "FutureKing",
-      pnl: "+128%",
-      volume: "$1.1M",
-      rank: "#4",
-    },
+      name:
+        "MarketMaker",
 
-    {
-      name: "ETHWhale",
-      pnl: "+116%",
-      volume: "$980K",
-      rank: "#5",
+      profit:
+        "$75,100",
     },
   ];
 
   return (
 
-    <div className="space-y-10">
+    <MainLayout>
 
-      {/* HEADER */}
+      <div className="mb-10">
 
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <h1 className="text-6xl font-black">
 
-        <div>
+          Global
+          <span className="text-yellow-400">
+            {" "}Leaderboard
+          </span>
 
-          <h1 className="text-5xl font-black">
-            Leaderboard
-          </h1>
+        </h1>
 
-          <p className="text-gray-400 text-lg mt-3">
-            Top performing traders and social trading rankings
-          </p>
+        <p className="text-zinc-500 text-xl mt-4">
 
-        </div>
+          Top performing traders across CryptoX exchange.
 
-        <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 px-5 py-3 rounded-2xl font-bold">
-          TOP TRADERS
-        </div>
+        </p>
 
       </div>
 
-      {/* HERO */}
+      <div className="space-y-6">
 
-      <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-gradient-to-br from-[#111] to-black p-10">
+        {
+          traders.map(
+            (
+              trader,
+              index
+            ) => (
 
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,#facc15,transparent_35%)]" />
+              <div
+                key={index}
+                className="glass rounded-3xl p-8 flex items-center justify-between hover:border-yellow-400/20 transition-all"
+              >
 
-        <div className="relative z-10">
+                <div className="flex items-center gap-6">
 
-          <p className="text-gray-400 text-lg">
-            Global Trading Competition
-          </p>
+                  <div className="w-16 h-16 rounded-2xl bg-yellow-400 text-black flex items-center justify-center text-2xl font-black">
 
-          <h1 className="text-6xl lg:text-7xl font-black mt-5">
-            SOCIAL TRADING
-          </h1>
+                    #
+                    {
+                      index + 1
+                    }
 
-          <p className="text-gray-400 text-lg mt-6 max-w-2xl">
-            Discover elite traders, track leaderboard rankings,
-            and explore high-performing trading strategies.
-          </p>
+                  </div>
 
-        </div>
+                  <div>
 
-      </div>
+                    <h2 className="text-3xl font-black">
 
-      {/* TABLE */}
+                      {
+                        trader.name
+                      }
 
-      <div className="bg-[#111] border border-white/10 rounded-[32px] overflow-hidden">
+                    </h2>
 
-        <div className="p-8 border-b border-white/10">
+                    <p className="text-zinc-500 mt-2">
 
-          <h2 className="text-3xl font-black">
-            Top Traders Ranking
-          </h2>
+                      Verified professional trader
 
-        </div>
+                    </p>
 
-        <div className="overflow-x-auto">
+                  </div>
 
-          <table className="w-full">
+                </div>
 
-            <thead className="bg-black/40">
+                <h2 className="text-4xl font-black text-green-400">
 
-              <tr>
+                  {
+                    trader.profit
+                  }
 
-                <th className="text-left p-6 text-gray-400">
-                  Rank
-                </th>
+                </h2>
 
-                <th className="text-left p-6 text-gray-400">
-                  Trader
-                </th>
-
-                <th className="text-left p-6 text-gray-400">
-                  PNL
-                </th>
-
-                <th className="text-left p-6 text-gray-400">
-                  Volume
-                </th>
-
-                <th className="text-left p-6 text-gray-400">
-                  Status
-                </th>
-
-              </tr>
-
-            </thead>
-
-            <tbody>
-
-              {traders.map(
-                (
-                  trader,
-                  index
-                ) => (
-
-                  <tr
-                    key={index}
-                    className="border-t border-white/5"
-                  >
-
-                    <td className="p-6 font-black text-yellow-400">
-                      {trader.rank}
-                    </td>
-
-                    <td className="p-6 font-semibold">
-                      {trader.name}
-                    </td>
-
-                    <td className="p-6 text-green-400 font-bold">
-                      {trader.pnl}
-                    </td>
-
-                    <td className="p-6">
-                      {trader.volume}
-                    </td>
-
-                    <td className="p-6">
-
-                      <span className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-2 rounded-xl text-sm font-bold">
-
-                        ACTIVE
-
-                      </span>
-
-                    </td>
-
-                  </tr>
-
-                )
-              )}
-
-            </tbody>
-
-          </table>
-
-        </div>
+              </div>
+            )
+          )
+        }
 
       </div>
 
-    </div>
+    </MainLayout>
   );
 };
 
