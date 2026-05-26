@@ -1,25 +1,31 @@
 import axios from "axios";
 
-import {
-  getToken,
-  removeToken,
-} from "../utils/auth";
+const API = axios.create({
 
-const API =
-  axios.create({
+  baseURL:
+    import.meta.env.VITE_API_URL,
 
-    baseURL:
-      "https://your-backend-url.onrender.com/api",
-  });
+  headers: {
+
+    "Content-Type":
+      "application/json",
+  },
+});
 
 API.interceptors.request.use(
 
-  (config) => {
+  (
+    config
+  ) => {
 
     const token =
-      getToken();
+      localStorage.getItem(
+        "token"
+      );
 
-    if (token) {
+    if (
+      token
+    ) {
 
       config.headers.Authorization =
         `Bearer ${token}`;
@@ -28,31 +34,9 @@ API.interceptors.request.use(
     return config;
   },
 
-  (error) => {
-
-    return Promise.reject(
-      error
-    );
-  }
-);
-
-API.interceptors.response.use(
-
-  (response) =>
-    response,
-
-  (error) => {
-
-    if (
-      error.response?.status ===
-      401
-    ) {
-
-      removeToken();
-
-      window.location.href =
-        "/login";
-    }
+  (
+    error
+  ) => {
 
     return Promise.reject(
       error
