@@ -84,6 +84,11 @@ const Admin =
     import("./pages/Admin")
   );
 
+const AdminAnalytics =
+  lazy(() =>
+    import("./pages/AdminAnalytics")
+  );
+
 const KYC =
   lazy(() =>
     import("./pages/KYC")
@@ -269,6 +274,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <Admin />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin-analytics"
+            element={
+              <ProtectedRoute>
+                <AdminAnalytics />
               </ProtectedRoute>
             }
           />
