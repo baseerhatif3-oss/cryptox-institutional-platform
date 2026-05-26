@@ -1,203 +1,200 @@
+import {
+  useEffect,
+  useState,
+} from "react";
+
 import MainLayout from "../components/layout/MainLayout";
+
+import API from "../services/api";
 
 const AISignals = () => {
 
-  const signals = [
+  const [signal, setSignal] =
+    useState(null);
 
-    {
-      coin: "BTCUSDT",
-      action: "BUY",
-      confidence: "92%",
-      risk: "Low",
-      entry: "$84,200",
-      target: "$88,500",
-      positive: true,
-    },
+  const [loading, setLoading] =
+    useState(true);
 
-    {
-      coin: "ETHUSDT",
-      action: "SELL",
-      confidence: "81%",
-      risk: "Medium",
-      entry: "$4,280",
-      target: "$3,980",
-      positive: false,
-    },
+  useEffect(() => {
 
-    {
-      coin: "SOLUSDT",
-      action: "BUY",
-      confidence: "88%",
-      risk: "Low",
-      entry: "$182",
-      target: "$210",
-      positive: true,
-    },
-  ];
+    fetchSignal();
+
+    const interval =
+      setInterval(
+        fetchSignal,
+        5000
+      );
+
+    return () =>
+      clearInterval(interval);
+
+  }, []);
+
+  const fetchSignal =
+    async () => {
+
+      try {
+
+        const response =
+          await API.get(
+            "/ai/signal"
+          );
+
+        setSignal(
+          response.data.data
+        );
+
+      } catch (error) {
+
+        console.log(error);
+
+      } finally {
+
+        setLoading(false);
+      }
+    };
+
+  if (loading) {
+
+    return (
+
+      <MainLayout>
+
+        <div className="flex items-center justify-center h-[70vh]">
+
+          <h1 className="text-4xl font-black text-yellow-400 animate-pulse">
+
+            Loading AI Signals...
+
+          </h1>
+
+        </div>
+
+      </MainLayout>
+    );
+  }
 
   return (
 
     <MainLayout>
 
-      <div className="mb-10">
+      <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6 mb-10">
 
-        <h1 className="text-5xl font-black">
-          AI Trading Signals
-        </h1>
+        <div>
 
-        <p className="text-zinc-500 mt-2">
-          AI-powered market intelligence and smart trading recommendations
-        </p>
+          <h1 className="text-5xl font-black">
+            AI Trading Signals
+          </h1>
 
-      </div>
-
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-10">
-
-        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
-
-          <p className="text-zinc-500 mb-3">
-            Active Signals
+          <p className="text-zinc-500 mt-2">
+            Real-time AI market analysis engine
           </p>
-
-          <h2 className="text-5xl font-black text-yellow-400">
-            24
-          </h2>
 
         </div>
 
-        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
+        <div className="flex items-center gap-3 bg-green-500/20 px-5 py-3 rounded-2xl w-fit">
 
-          <p className="text-zinc-500 mb-3">
-            AI Accuracy
-          </p>
+          <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
 
-          <h2 className="text-5xl font-black text-green-400">
-            91%
-          </h2>
-
-        </div>
-
-        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-6">
-
-          <p className="text-zinc-500 mb-3">
-            Market Sentiment
-          </p>
-
-          <h2 className="text-5xl font-black text-blue-400">
-            Bullish
-          </h2>
+          <span className="text-green-400 font-bold">
+            AI LIVE ENGINE
+          </span>
 
         </div>
 
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
 
-        {
-          signals.map(
-            (signal, index) => (
+        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-8">
 
-              <div
-                key={index}
-                className="bg-[#111] border border-yellow-500/10 rounded-3xl p-8"
-              >
+          <p className="text-zinc-500 mb-4">
+            AI Signal
+          </p>
 
-                <div className="flex items-center justify-between mb-8">
+          <h2 className={`text-6xl font-black ${
+            signal.signal === "BUY"
+              ? "text-green-400"
+              : signal.signal === "SELL"
+              ? "text-red-400"
+              : "text-yellow-400"
+          }`}>
 
-                  <div>
+            {signal.signal}
 
-                    <h2 className="text-4xl font-black">
-                      {signal.coin}
-                    </h2>
+          </h2>
 
-                    <p className="text-zinc-500 mt-1">
-                      AI Market Analysis
-                    </p>
+        </div>
 
-                  </div>
+        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-8">
 
-                  <span className={`px-6 py-3 rounded-2xl font-black text-lg ${
-                    signal.positive
-                      ? "bg-green-500 text-black"
-                      : "bg-red-500 text-white"
-                  }`}>
+          <p className="text-zinc-500 mb-4">
+            Confidence Score
+          </p>
 
-                    {signal.action}
+          <h2 className="text-6xl font-black text-blue-400">
 
-                  </span>
+            {signal.confidence}%
 
-                </div>
+          </h2>
 
-                <div className="grid grid-cols-2 gap-6 mb-8">
+        </div>
 
-                  <div className="bg-black rounded-2xl p-5">
+        <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-8">
 
-                    <p className="text-zinc-500 mb-2">
-                      Confidence
-                    </p>
+          <p className="text-zinc-500 mb-4">
+            Market Trend
+          </p>
 
-                    <h3 className="text-3xl font-black text-yellow-400">
-                      {signal.confidence}
-                    </h3>
+          <h2 className="text-5xl font-black text-yellow-400 uppercase">
 
-                  </div>
+            {signal.trend}
 
-                  <div className="bg-black rounded-2xl p-5">
+          </h2>
 
-                    <p className="text-zinc-500 mb-2">
-                      Risk Level
-                    </p>
+        </div>
 
-                    <h3 className="text-3xl font-black">
-                      {signal.risk}
-                    </h3>
+      </div>
 
-                  </div>
+      <div className="bg-[#111] border border-yellow-500/10 rounded-3xl p-8 mt-8">
 
-                </div>
+        <h2 className="text-4xl font-black mb-6">
+          AI Analysis
+        </h2>
 
-                <div className="space-y-4 mb-8">
+        <div className="space-y-5 text-zinc-300 text-lg">
 
-                  <div className="flex justify-between">
+          <p>
+            • AI engine analyzing BTC/USDT live market conditions.
+          </p>
 
-                    <span className="text-zinc-500">
-                      Entry Price
-                    </span>
+          <p>
+            • Volume and price momentum indicate strong activity.
+          </p>
 
-                    <span className="font-bold">
-                      {signal.entry}
-                    </span>
+          <p>
+            • Market sentiment currently showing:
+            <span className="text-yellow-400 font-bold ml-2 uppercase">
+              {signal.trend}
+            </span>
+          </p>
 
-                  </div>
+          <p>
+            • Recommended action:
+            <span className={`font-bold ml-2 ${
+              signal.signal === "BUY"
+                ? "text-green-400"
+                : signal.signal === "SELL"
+                ? "text-red-400"
+                : "text-yellow-400"
+            }`}>
 
-                  <div className="flex justify-between">
+              {signal.signal}
 
-                    <span className="text-zinc-500">
-                      AI Target
-                    </span>
+            </span>
+          </p>
 
-                    <span className="font-bold text-green-400">
-                      {signal.target}
-                    </span>
-
-                  </div>
-
-                </div>
-
-                <button className={`w-full py-5 rounded-2xl font-black text-lg transition-all ${
-                  signal.positive
-                    ? "bg-green-500 hover:bg-green-400 text-black"
-                    : "bg-red-500 hover:bg-red-400 text-white"
-                }`}>
-
-                  Execute Signal
-
-                </button>
-
-              </div>
-            )
-          )
-        }
+        </div>
 
       </div>
 
