@@ -1,171 +1,159 @@
-import React from "react";
+import MainLayout from "../components/layout/MainLayout";
 
 const Portfolio = () => {
 
   const assets = [
 
     {
-      coin: "BTC",
-      balance: "0.842",
-      value: "$68,420",
-      pnl: "+18.4%",
+      coin:
+        "BTC",
+
+      allocation:
+        "42%",
     },
 
     {
-      coin: "ETH",
-      balance: "12.4",
-      value: "$49,120",
-      pnl: "+11.2%",
+      coin:
+        "ETH",
+
+      allocation:
+        "28%",
     },
 
     {
-      coin: "SOL",
-      balance: "184",
-      value: "$34,880",
-      pnl: "+26.8%",
+      coin:
+        "SOL",
+
+      allocation:
+        "18%",
     },
 
     {
-      coin: "USDT",
-      balance: "24,500",
-      value: "$24,500",
-      pnl: "+0%",
+      coin:
+        "USDT",
+
+      allocation:
+        "12%",
     },
   ];
 
   return (
 
-    <div className="space-y-10">
+    <MainLayout>
 
-      {/* HEADER */}
+      <div className="mb-10">
 
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <h1 className="text-6xl font-black">
 
-        <div>
+          Portfolio
+          <span className="text-yellow-400">
+            {" "}Analytics
+          </span>
 
-          <h1 className="text-5xl font-black">
-            Portfolio
-          </h1>
+        </h1>
 
-          <p className="text-gray-400 text-lg mt-3">
-            Track your crypto assets and performance analytics
-          </p>
+        <p className="text-zinc-500 text-xl mt-4">
 
-        </div>
+          Institutional-grade portfolio tracking and asset allocation monitoring.
 
-        <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 px-5 py-3 rounded-2xl font-bold">
-          LIVE PNL
-        </div>
+        </p>
 
       </div>
 
-      {/* HERO */}
+      <div className="glass rounded-3xl p-8 mb-10">
 
-      <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-gradient-to-br from-[#111] to-black p-10">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
 
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,#facc15,transparent_35%)]" />
+          <div>
 
-        <div className="relative z-10">
+            <p className="text-zinc-500 mb-4">
 
-          <p className="text-gray-400 text-lg">
-            Total Portfolio Value
-          </p>
+              Total Portfolio Value
 
-          <h1 className="text-6xl lg:text-7xl font-black mt-5">
-            $176,920
-          </h1>
+            </p>
 
-          <div className="mt-6 inline-flex items-center gap-3 bg-green-500/10 border border-green-500/20 text-green-400 px-5 py-3 rounded-2xl font-bold">
-            +14.8% THIS MONTH
+            <h2 className="text-7xl font-black text-yellow-400">
+
+              $536K
+
+            </h2>
+
+          </div>
+
+          <div>
+
+            <p className="text-zinc-500 mb-4">
+
+              Monthly Performance
+
+            </p>
+
+            <h2 className="text-5xl font-black text-green-400">
+
+              +18.4%
+
+            </h2>
+
           </div>
 
         </div>
 
       </div>
 
-      {/* ASSETS */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-      <div className="bg-[#111] border border-white/10 rounded-[36px] overflow-hidden">
+        {
+          assets.map(
+            (
+              item,
+              index
+            ) => (
 
-        <div className="p-8 border-b border-white/10">
+              <div
+                key={index}
+                className="glass rounded-3xl p-8"
+              >
 
-          <h2 className="text-3xl font-black">
-            Asset Allocation
-          </h2>
+                <div className="flex items-center justify-between mb-5">
 
-        </div>
+                  <h2 className="text-4xl font-black">
 
-        <div className="overflow-x-auto">
+                    {
+                      item.coin
+                    }
 
-          <table className="w-full">
+                  </h2>
 
-            <thead className="bg-black/40">
+                  <span className="text-green-400 text-3xl font-black">
 
-              <tr>
+                    {
+                      item.allocation
+                    }
 
-                <th className="text-left p-6 text-gray-400">
-                  Asset
-                </th>
+                  </span>
 
-                <th className="text-left p-6 text-gray-400">
-                  Balance
-                </th>
+                </div>
 
-                <th className="text-left p-6 text-gray-400">
-                  Value
-                </th>
+                <div className="w-full h-4 bg-black/30 rounded-full overflow-hidden">
 
-                <th className="text-left p-6 text-gray-400">
-                  PNL
-                </th>
+                  <div
+                    className="h-full bg-yellow-400 rounded-full"
+                    style={{
+                      width:
+                        item.allocation,
+                    }}
+                  ></div>
 
-              </tr>
+                </div>
 
-            </thead>
-
-            <tbody>
-
-              {assets.map(
-                (
-                  asset,
-                  index
-                ) => (
-
-                  <tr
-                    key={index}
-                    className="border-t border-white/5"
-                  >
-
-                    <td className="p-6 font-black">
-                      {asset.coin}
-                    </td>
-
-                    <td className="p-6">
-                      {asset.balance}
-                    </td>
-
-                    <td className="p-6 font-bold">
-                      {asset.value}
-                    </td>
-
-                    <td className="p-6 text-green-400 font-bold">
-                      {asset.pnl}
-                    </td>
-
-                  </tr>
-
-                )
-              )}
-
-            </tbody>
-
-          </table>
-
-        </div>
+              </div>
+            )
+          )
+        }
 
       </div>
 
-    </div>
+    </MainLayout>
   );
 };
 
