@@ -1,306 +1,156 @@
 import {
+  useEffect,
+  useState,
+} from "react";
+
+import {
   Link,
 } from "react-router-dom";
 
-import Logo from "../components/Logo";
+import {
+  ArrowRight,
+  Shield,
+  LineChart,
+  Wallet,
+  Brain,
+} from "lucide-react";
 
-import Footer from "../components/Footer";
-
-import TrustSection from "../components/TrustSection";
+import {
+  fetchStats,
+} from "../services/statsApi";
 
 const Landing = () => {
 
-  const stats = [
+  const [
+    stats,
+    setStats,
+  ] = useState(null);
 
-    {
-      title: "Users",
-      value: "120K+",
-    },
+  useEffect(
+    () => {
 
-    {
-      title: "Daily Volume",
-      value: "$48M+",
-    },
+      const loadStats =
+        async () => {
 
-    {
-      title: "Countries",
-      value: "90+",
+          try {
+
+            const data =
+              await fetchStats();
+
+            setStats(
+              data
+            );
+
+          } catch (
+            error
+          ) {
+
+            console.log(
+              error
+            );
+          }
+        };
+
+      loadStats();
+
     },
-  ];
+    []
+  );
 
   const features = [
 
-    "Advanced Trading Engine",
+    {
+      icon:
+        Shield,
 
-    "AI Trading Signals",
+      title:
+        "Enterprise Security",
 
-    "Enterprise Security",
+      description:
+        "Multi-layer institutional-grade asset protection system.",
+    },
 
-    "Live Market Data",
+    {
+      icon:
+        LineChart,
 
-    "Ultra Fast Execution",
+      title:
+        "Advanced Trading",
 
-    "Professional Analytics",
+      description:
+        "Professional trading engine with live market infrastructure.",
+    },
+
+    {
+      icon:
+        Wallet,
+
+      title:
+        "Secure Wallets",
+
+      description:
+        "Protected wallet architecture with instant transfers.",
+    },
+
+    {
+      icon:
+        Brain,
+
+      title:
+        "AI Signals",
+
+      description:
+        "AI-powered cryptocurrency market intelligence system.",
+    },
   ];
 
   return (
 
-    <div className="min-h-screen bg-black text-white overflow-hidden relative">
+    <div className="min-h-screen bg-black text-white overflow-hidden">
 
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(250,204,21,0.12),transparent_40%)]"></div>
+      <div className="relative">
 
-      <header className="relative z-10 flex items-center justify-between px-6 lg:px-16 py-6 border-b border-yellow-500/10 backdrop-blur-xl">
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top,rgba(250,204,21,0.12),transparent_45%)]"></div>
 
-        <Logo />
+        <div className="relative z-10 px-6 lg:px-16 py-10">
 
-        <div className="flex items-center gap-4">
+          <div className="flex items-center justify-between mb-24">
 
-          <Link
-            to="/login"
-            className="hidden md:block text-zinc-300 hover:text-white transition-all"
-          >
+            <div>
 
-            Login
+              <h1 className="text-4xl font-black text-yellow-400">
 
-          </Link>
+                CryptoX
 
-          <Link
-            to="/register"
-            className="bg-yellow-400 hover:bg-yellow-300 hover:scale-105 transition-all duration-300 px-6 py-3 rounded-2xl text-black font-black shadow-lg shadow-yellow-400/20"
-          >
-
-            Get Started
-
-          </Link>
-
-        </div>
-
-      </header>
-
-      <section className="relative z-10 px-6 lg:px-16 py-28">
-
-        <div className="absolute top-20 right-10 w-[400px] h-[400px] bg-yellow-400/10 blur-[120px] rounded-full"></div>
-
-        <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-yellow-500/10 blur-[120px] rounded-full"></div>
-
-        <div className="max-w-6xl relative z-10">
-
-          <div className="inline-flex items-center gap-3 bg-yellow-400/10 border border-yellow-400/20 px-5 py-3 rounded-full mb-8">
-
-            <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-
-            <span className="text-yellow-300 font-bold">
-
-              LIVE EXCHANGE PLATFORM
-
-            </span>
-
-          </div>
-
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-tight mb-8">
-
-            Trade Crypto
-            <br />
-
-            <span className="text-yellow-400">
-
-              Like a Pro
-
-            </span>
-
-          </h1>
-
-          <p className="text-lg md:text-xl text-zinc-400 max-w-3xl leading-relaxed mb-10">
-
-            Professional cryptocurrency exchange platform with AI-powered analytics, advanced trading tools, real-time execution, and enterprise-grade infrastructure.
-
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-5">
-
-            <Link
-              to="/register"
-              className="bg-yellow-400 hover:bg-yellow-300 hover:scale-105 transition-all duration-300 px-8 py-5 rounded-2xl text-black font-black text-lg text-center shadow-lg shadow-yellow-400/20"
-            >
-
-              Start Trading
-
-            </Link>
-
-            <Link
-              to="/dashboard"
-              className="border border-yellow-500/20 hover:border-yellow-400 hover:scale-105 transition-all duration-300 px-8 py-5 rounded-2xl font-bold text-center glass"
-            >
-
-              Live Demo
-
-            </Link>
-
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-16">
-
-            <div className="glass rounded-3xl p-6">
-
-              <p className="text-zinc-500 mb-3">
-
-                Trading Pairs
-
-              </p>
-
-              <h2 className="text-4xl font-black text-yellow-400">
-
-                350+
-
-              </h2>
+              </h1>
 
             </div>
 
-            <div className="glass rounded-3xl p-6">
+            <div className="flex items-center gap-5">
 
-              <p className="text-zinc-500 mb-3">
+              <Link
+                to="/login"
+                className="text-white font-bold"
+              >
 
-                Execution Speed
+                Login
 
-              </p>
+              </Link>
 
-              <h2 className="text-4xl font-black text-green-400">
+              <Link
+                to="/register"
+                className="bg-yellow-400 hover:bg-yellow-300 transition-all text-black px-6 py-3 rounded-2xl font-black"
+              >
 
-                &lt;10ms
+                Get Started
 
-              </h2>
-
-            </div>
-
-            <div className="glass rounded-3xl p-6">
-
-              <p className="text-zinc-500 mb-3">
-
-                Security Rating
-
-              </p>
-
-              <h2 className="text-4xl font-black text-blue-400">
-
-                A+
-
-              </h2>
+              </Link>
 
             </div>
 
           </div>
 
-        </div>
-
-      </section>
-
-      <section className="relative z-10 px-6 lg:px-16 pb-24">
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-          {
-            stats.map(
-              (
-                stat,
-                index
-              ) => (
-
-                <div
-                  key={index}
-                  className="glass rounded-3xl p-8 hover:scale-[1.02] transition-all duration-300"
-                >
-
-                  <p className="text-zinc-500 mb-4">
-
-                    {stat.title}
-
-                  </p>
-
-                  <h2 className="text-5xl font-black text-yellow-400">
-
-                    {stat.value}
-
-                  </h2>
-
-                </div>
-              )
-            )
-          }
-
-        </div>
-
-      </section>
-
-      <section className="relative z-10 px-6 lg:px-16 pb-24">
-
-        <div className="mb-16 text-center">
-
-          <h2 className="text-5xl md:text-6xl font-black mb-5">
-
-            Why CryptoX?
-
-          </h2>
-
-          <p className="text-zinc-500 text-lg max-w-3xl mx-auto">
-
-            Enterprise-grade infrastructure built for modern cryptocurrency trading and high-performance execution.
-
-          </p>
-
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-
-          {
-            features.map(
-              (
-                feature,
-                index
-              ) => (
-
-                <div
-                  key={index}
-                  className="glass rounded-3xl p-8 hover:border-yellow-400/30 hover:scale-[1.02] transition-all duration-300"
-                >
-
-                  <div className="w-16 h-16 bg-yellow-400/10 rounded-2xl flex items-center justify-center mb-6">
-
-                    <span className="text-yellow-400 text-3xl">
-
-                      ⚡
-
-                    </span>
-
-                  </div>
-
-                  <h3 className="text-2xl font-black mb-4">
-
-                    {feature}
-
-                  </h3>
-
-                  <p className="text-zinc-500 leading-relaxed">
-
-                    Professional-grade infrastructure optimized for speed, scalability, and advanced crypto trading operations.
-
-                  </p>
-
-                </div>
-              )
-            )
-          }
-
-        </div>
-
-      </section>
-
-      <section className="relative z-10 px-6 lg:px-16 pb-24">
-
-        <div className="glass rounded-[40px] p-10 md:p-16 overflow-hidden relative">
-
-          <div className="absolute top-0 right-0 w-[250px] h-[250px] bg-yellow-400/10 blur-[100px] rounded-full"></div>
-
-          <div className="relative z-10 text-center">
+          <div className="max-w-5xl mx-auto text-center mb-24">
 
             <div className="inline-flex items-center gap-3 bg-green-500/10 border border-green-500/20 px-5 py-3 rounded-full mb-8">
 
@@ -308,47 +158,186 @@ const Landing = () => {
 
               <span className="text-green-400 font-bold">
 
-                ENTERPRISE INFRASTRUCTURE
+                LIVE EXCHANGE SYSTEM
 
               </span>
 
             </div>
 
-            <h2 className="text-4xl md:text-6xl font-black mb-6">
+            <h1 className="text-6xl md:text-8xl font-black leading-tight mb-8">
 
-              Ready for
+              Trade Crypto
               <span className="text-yellow-400">
-                {" "}Global Scale
+                {" "}Like a Pro
               </span>
 
-            </h2>
+            </h1>
 
-            <p className="text-zinc-400 text-xl max-w-4xl mx-auto mb-10 leading-relaxed">
+            <p className="text-zinc-400 text-xl md:text-2xl leading-relaxed max-w-4xl mx-auto mb-12">
 
-              CryptoX combines real-time market infrastructure, AI-powered analytics, advanced matching systems, and enterprise-grade security into one professional exchange platform.
+              Institutional-grade cryptocurrency exchange infrastructure with AI-powered analytics and real-time market systems.
 
             </p>
 
-            <Link
-              to="/register"
-              className="inline-flex bg-yellow-400 hover:bg-yellow-300 hover:scale-105 transition-all duration-300 px-10 py-5 rounded-2xl text-black font-black text-xl shadow-lg shadow-yellow-400/20"
-            >
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
 
-              Launch Exchange Account
+              <Link
+                to="/register"
+                className="bg-yellow-400 hover:bg-yellow-300 transition-all text-black px-10 py-5 rounded-2xl font-black text-xl flex items-center gap-3"
+              >
 
-            </Link>
+                Start Trading
+
+                <ArrowRight size={24} />
+
+              </Link>
+
+              <Link
+                to="/markets"
+                className="glass px-10 py-5 rounded-2xl font-black text-xl"
+              >
+
+                Explore Markets
+
+              </Link>
+
+            </div>
+
+          </div>
+
+          <div className="grid grid-cols-2 xl:grid-cols-4 gap-6 mb-20">
+
+            <div className="glass rounded-3xl p-8 text-center">
+
+              <h2 className="text-5xl font-black text-yellow-400 mb-3">
+
+                {
+                  stats?.users ||
+                  "0"
+                }
+
+              </h2>
+
+              <p className="text-zinc-500">
+
+                Active Traders
+
+              </p>
+
+            </div>
+
+            <div className="glass rounded-3xl p-8 text-center">
+
+              <h2 className="text-5xl font-black text-green-400 mb-3">
+
+                {
+                  stats?.volume ||
+                  "$0"
+                }
+
+              </h2>
+
+              <p className="text-zinc-500">
+
+                24H Volume
+
+              </p>
+
+            </div>
+
+            <div className="glass rounded-3xl p-8 text-center">
+
+              <h2 className="text-5xl font-black text-blue-400 mb-3">
+
+                {
+                  stats?.trades ||
+                  "0"
+                }
+
+              </h2>
+
+              <p className="text-zinc-500">
+
+                Trades Executed
+
+              </p>
+
+            </div>
+
+            <div className="glass rounded-3xl p-8 text-center">
+
+              <h2 className="text-5xl font-black text-purple-400 mb-3">
+
+                {
+                  stats?.uptime ||
+                  "0%"
+                }
+
+              </h2>
+
+              <p className="text-zinc-500">
+
+                Exchange Uptime
+
+              </p>
+
+            </div>
+
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
+
+            {
+              features.map(
+                (
+                  item,
+                  index
+                ) => {
+
+                  const Icon =
+                    item.icon;
+
+                  return (
+
+                    <div
+                      key={index}
+                      className="glass rounded-3xl p-8"
+                    >
+
+                      <div className="w-16 h-16 rounded-3xl bg-yellow-400/10 flex items-center justify-center mb-6">
+
+                        <Icon
+                          size={32}
+                          className="text-yellow-400"
+                        />
+
+                      </div>
+
+                      <h2 className="text-3xl font-black mb-5">
+
+                        {
+                          item.title
+                        }
+
+                      </h2>
+
+                      <p className="text-zinc-500 leading-relaxed">
+
+                        {
+                          item.description
+                        }
+
+                      </p>
+
+                    </div>
+                  );
+                }
+              )
+            }
 
           </div>
 
         </div>
-
-      </section>
-
-      <TrustSection />
-
-      <div className="relative z-10 px-6 lg:px-16">
-
-        <Footer />
 
       </div>
 
