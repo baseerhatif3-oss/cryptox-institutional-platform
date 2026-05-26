@@ -4,6 +4,10 @@ import useAuth from "../hooks/useAuth";
 
 import LiveNotifications from "../components/notifications/LiveNotifications";
 
+import AISignals from "../components/dashboard/AISignals";
+
+import ActivityFeed from "../components/dashboard/ActivityFeed";
+
 const Dashboard = () => {
 
   const {
@@ -230,6 +234,14 @@ const Dashboard = () => {
         </div>
 
         <LiveNotifications />
+
+      </div>
+
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mt-10">
+
+        <AISignals />
+
+        <ActivityFeed />
 
       </div>
 
