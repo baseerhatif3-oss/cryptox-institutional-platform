@@ -1,9 +1,5 @@
 import MainLayout from "../components/layout/MainLayout";
 
-import {
-  walletData,
-} from "../services/walletService";
-
 const Wallet = () => {
 
   return (
@@ -12,105 +8,72 @@ const Wallet = () => {
 
       <div className="mb-10">
 
-        <div className="inline-flex items-center gap-3 bg-green-500/10 border border-green-500/20 px-5 py-3 rounded-full mb-8">
+        <h1 className="text-6xl font-black mb-4">
 
-          <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-
-          <span className="text-green-400 font-bold">
-
-            WALLET INFRASTRUCTURE ACTIVE
-
-          </span>
-
-        </div>
-
-        <h1 className="text-6xl font-black">
-
-          Asset
+          Secure
           <span className="text-yellow-400">
-            {" "}Wallets
+            {" "}Wallet
           </span>
 
         </h1>
 
+        <p className="text-zinc-500 text-xl">
+
+          Institutional-grade digital asset custody system.
+
+        </p>
+
       </div>
 
-      <div className="glass rounded-3xl p-8 overflow-x-auto">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
 
-        <table className="w-full">
+        <div className="glass rounded-3xl p-8">
 
-          <thead>
+          <p className="text-zinc-500 mb-4">
 
-            <tr className="border-b border-white/10">
+            Total Balance
 
-              <th className="text-left py-5 text-zinc-500">
+          </p>
 
-                Asset
+          <h2 className="text-6xl font-black text-yellow-400">
 
-              </th>
+            $842,420
 
-              <th className="text-left py-5 text-zinc-500">
+          </h2>
 
-                Balance
+        </div>
 
-              </th>
+        <div className="glass rounded-3xl p-8">
 
-              <th className="text-left py-5 text-zinc-500">
+          <p className="text-zinc-500 mb-4">
 
-                USD Value
+            24H Change
 
-              </th>
+          </p>
 
-            </tr>
+          <h2 className="text-6xl font-black text-green-400">
 
-          </thead>
+            +12.8%
 
-          <tbody>
+          </h2>
 
-            {
-              walletData.map(
-                (
-                  item,
-                  index
-                ) => (
+        </div>
 
-                  <tr
-                    key={index}
-                    className="border-b border-white/5"
-                  >
+        <div className="glass rounded-3xl p-8">
 
-                    <td className="py-6 text-2xl font-black text-yellow-400">
+          <p className="text-zinc-500 mb-4">
 
-                      {
-                        item.asset
-                      }
+            Assets Held
 
-                    </td>
+          </p>
 
-                    <td className="py-6 text-xl font-black">
+          <h2 className="text-6xl font-black text-blue-400">
 
-                      {
-                        item.balance
-                      }
+            24
 
-                    </td>
+          </h2>
 
-                    <td className="py-6 text-green-400 text-xl font-black">
-
-                      {
-                        item.usd
-                      }
-
-                    </td>
-
-                  </tr>
-                )
-              )
-            }
-
-          </tbody>
-
-        </table>
+        </div>
 
       </div>
 

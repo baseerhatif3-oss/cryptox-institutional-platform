@@ -1,32 +1,54 @@
+const activities = [
+
+  {
+    title:
+      "BTC Buy Order Executed",
+
+    time:
+      "2 minutes ago",
+  },
+
+  {
+    title:
+      "ETH Staking Rewards Added",
+
+    time:
+      "8 minutes ago",
+  },
+
+  {
+    title:
+      "Portfolio Rebalanced",
+
+    time:
+      "15 minutes ago",
+  },
+
+  {
+    title:
+      "SOL Position Closed",
+
+    time:
+      "22 minutes ago",
+  },
+];
+
 const ActivityFeed = () => {
-
-  const activity = [
-
-    "Large BTC whale order executed",
-
-    "ETH breakout signal triggered",
-
-    "New institutional account registered",
-
-    "SOL volatility alert activated",
-
-    "AI detected bullish momentum",
-  ];
 
   return (
 
     <div className="glass rounded-3xl p-8">
 
-      <h2 className="text-4xl font-black mb-8">
+      <h2 className="text-3xl font-black mb-8">
 
-        Exchange Activity
+        Live Activity
 
       </h2>
 
-      <div className="space-y-5">
+      <div className="space-y-6">
 
         {
-          activity.map(
+          activities.map(
             (
               item,
               index
@@ -34,16 +56,30 @@ const ActivityFeed = () => {
 
               <div
                 key={index}
-                className="bg-black/30 border border-white/5 rounded-2xl p-5 flex items-center gap-4"
+                className="flex items-center justify-between border-b border-white/5 pb-5"
               >
 
-                <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                <div className="flex items-center gap-4">
 
-                <p className="text-lg font-bold">
+                  <div className="w-4 h-4 bg-green-400 rounded-full animate-pulse"></div>
 
-                  {item}
+                  <span className="font-bold">
 
-                </p>
+                    {
+                      item.title
+                    }
+
+                  </span>
+
+                </div>
+
+                <span className="text-zinc-500 text-sm">
+
+                  {
+                    item.time
+                  }
+
+                </span>
 
               </div>
             )

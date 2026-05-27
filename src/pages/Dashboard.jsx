@@ -1,232 +1,120 @@
-import {
-  useEffect,
-  useState,
-} from "react";
-
 import MainLayout from "../components/layout/MainLayout";
 
-import AnimatedCard from "../components/ui/AnimatedCard";
+import ActivityFeed from "../components/dashboard/ActivityFeed";
 
-import {
-  TrendingUp,
-  TrendingDown,
-  DollarSign,
-  Activity,
-  Wallet,
-  ShieldCheck,
-  Globe,
-  BarChart3,
-  PieChart,
-} from "lucide-react";
+const stats = [
 
-import {
-  AreaChart,
-  Area,
-  ResponsiveContainer,
-  PieChart as RePieChart,
-  Pie,
-  Cell,
-  Tooltip,
-} from "recharts";
+  {
+    title:
+      "Portfolio Value",
 
-import ActivityFeed from "../components/ActivityFeed";
+    value:
+      "$842,420",
+
+    change:
+      "+18.4%",
+
+    color:
+      "text-yellow-400",
+  },
+
+  {
+    title:
+      "24H Profit",
+
+    value:
+      "+$24,820",
+
+    change:
+      "+12.8%",
+
+    color:
+      "text-green-400",
+  },
+
+  {
+    title:
+      "Active Trades",
+
+    value:
+      "148",
+
+    change:
+      "+22",
+
+    color:
+      "text-blue-400",
+  },
+
+  {
+    title:
+      "Win Rate",
+
+    value:
+      "82%",
+
+    change:
+      "+6.2%",
+
+    color:
+      "text-purple-400",
+  },
+];
+
+const assets = [
+
+  {
+    coin:
+      "BTC",
+
+    amount:
+      "$342,000",
+
+    profit:
+      "+12.4%",
+  },
+
+  {
+    coin:
+      "ETH",
+
+    amount:
+      "$188,000",
+
+    profit:
+      "+8.7%",
+  },
+
+  {
+    coin:
+      "SOL",
+
+    amount:
+      "$94,000",
+
+    profit:
+      "+22.1%",
+  },
+
+  {
+    coin:
+      "BNB",
+
+    amount:
+      "$76,000",
+
+    profit:
+      "+5.4%",
+  },
+];
 
 const Dashboard = () => {
-
-  const [marketData, setMarketData] =
-    useState([]);
-
-  const [globalData, setGlobalData] =
-    useState(null);
-
-  const [loading, setLoading] =
-    useState(true);
-
-  useEffect(() => {
-
-    const fetchData =
-      async () => {
-
-        try {
-
-          const markets =
-            await fetch(
-              "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,ripple&order=market_cap_desc&per_page=4&page=1&sparkline=false"
-            );
-
-          const global =
-            await fetch(
-              "https://api.coingecko.com/api/v3/global"
-            );
-
-          const marketResult =
-            await markets.json();
-
-          const globalResult =
-            await global.json();
-
-          setMarketData(
-            marketResult
-          );
-
-          setGlobalData(
-            globalResult.data
-          );
-
-        } catch (error) {
-
-          console.error(
-            "Dashboard API Error:",
-            error
-          );
-
-        } finally {
-
-          setLoading(false);
-        }
-      };
-
-    fetchData();
-
-  }, []);
-
-  const stats = [
-
-    {
-      title:
-        "Portfolio Balance",
-
-      value:
-        "$842,420",
-
-      icon:
-        DollarSign,
-
-      color:
-        "text-yellow-400",
-
-      bg:
-        "bg-yellow-400/10",
-
-      change:
-        "+12.4%",
-    },
-
-    {
-      title:
-        "24H Profit",
-
-      value:
-        "+$24,820",
-
-      icon:
-        TrendingUp,
-
-      color:
-        "text-green-400",
-
-      bg:
-        "bg-green-400/10",
-
-      change:
-        "+8.2%",
-    },
-
-    {
-      title:
-        "Open Positions",
-
-      value:
-        "18",
-
-      icon:
-        Activity,
-
-      color:
-        "text-blue-400",
-
-      bg:
-        "bg-blue-400/10",
-
-      change:
-        "+4",
-    },
-
-    {
-      title:
-        "Wallet Assets",
-
-      value:
-        "24",
-
-      icon:
-        Wallet,
-
-      color:
-        "text-purple-400",
-
-      bg:
-        "bg-purple-400/10",
-
-      change:
-        "+2",
-    },
-  ];
-
-  const portfolioData = [
-
-    { name: "Jan", value: 120000 },
-
-    { name: "Feb", value: 180000 },
-
-    { name: "Mar", value: 240000 },
-
-    { name: "Apr", value: 310000 },
-
-    { name: "May", value: 420000 },
-
-    { name: "Jun", value: 520000 },
-
-    { name: "Jul", value: 610000 },
-
-    { name: "Aug", value: 842420 },
-  ];
-
-  const allocationData = [
-
-    {
-      name: "BTC",
-      value: 48,
-    },
-
-    {
-      name: "ETH",
-      value: 28,
-    },
-
-    {
-      name: "SOL",
-      value: 14,
-    },
-
-    {
-      name: "XRP",
-      value: 10,
-    },
-  ];
-
-  const colors = [
-    "#facc15",
-    "#22c55e",
-    "#3b82f6",
-    "#a855f7",
-  ];
 
   return (
 
     <MainLayout>
 
-      <div className="mb-10">
+      <div className="mb-12">
 
         <div className="inline-flex items-center gap-3 bg-green-500/10 border border-green-500/20 px-5 py-3 rounded-full mb-8">
 
@@ -234,583 +122,273 @@ const Dashboard = () => {
 
           <span className="text-green-400 font-bold">
 
-            EXCHANGE SYSTEMS OPERATIONAL
+            LIVE PORTFOLIO ACTIVE
 
           </span>
 
         </div>
 
-        <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+        <h1 className="text-7xl font-black leading-tight mb-6">
 
-          <div>
+          Institutional
+          <span className="text-yellow-400">
+            {" "}Dashboard
+          </span>
 
-            <h1 className="text-6xl font-black mb-4">
+        </h1>
 
-              Trading
-              <span className="text-yellow-400">
-                {" "}Dashboard
-              </span>
+        <p className="text-zinc-500 text-2xl max-w-3xl leading-relaxed">
 
-            </h1>
+          Enterprise-grade cryptocurrency trading and portfolio management infrastructure.
 
-            <p className="text-zinc-500 text-xl">
-
-              Institutional-grade crypto trading infrastructure overview.
-
-            </p>
-
-          </div>
-
-          {
-            globalData && (
-
-              <AnimatedCard
-                delay={0.2}
-                className="glass rounded-3xl px-8 py-6"
-              >
-
-                <div className="flex items-center gap-4 mb-4">
-
-                  <Globe
-                    size={32}
-                    className="text-yellow-400"
-                  />
-
-                  <h2 className="text-3xl font-black">
-
-                    Global Market
-
-                  </h2>
-
-                </div>
-
-                <div className="grid grid-cols-2 gap-6">
-
-                  <div>
-
-                    <p className="text-zinc-500 mb-2">
-
-                      Market Cap
-
-                    </p>
-
-                    <h3 className="text-2xl font-black text-green-400">
-
-                      $
-                      {
-                        (
-                          globalData.total_market_cap.usd /
-                          1000000000000
-                        ).toFixed(2)
-                      }T
-
-                    </h3>
-
-                  </div>
-
-                  <div>
-
-                    <p className="text-zinc-500 mb-2">
-
-                      BTC Dominance
-
-                    </p>
-
-                    <h3 className="text-2xl font-black text-yellow-400">
-
-                      {
-                        globalData.market_cap_percentage.btc.toFixed(1)
-                      }%
-
-                    </h3>
-
-                  </div>
-
-                </div>
-
-              </AnimatedCard>
-            )
-          }
-
-        </div>
+        </p>
 
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mb-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mb-12">
 
         {
           stats.map(
             (
               item,
               index
-            ) => {
+            ) => (
 
-              const Icon =
-                item.icon;
+              <div
+                key={index}
+                className="glass rounded-3xl p-8 relative overflow-hidden"
+              >
 
-              return (
+                <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-400/5 rounded-full blur-3xl"></div>
 
-                <AnimatedCard
-                  key={index}
-                  delay={index * 0.1}
-                  className="glass rounded-3xl p-8"
-                >
+                <p className="text-zinc-500 text-lg mb-5">
 
-                  <div className="flex items-center justify-between mb-8">
+                  {
+                    item.title
+                  }
 
-                    <div className={`${item.bg} p-4 rounded-2xl`}>
+                </p>
 
-                      <Icon
-                        size={32}
-                        className={item.color}
-                      />
+                <h2 className={`text-5xl font-black mb-5 ${item.color}`}>
 
-                    </div>
+                  {
+                    item.value
+                  }
 
-                    <span className="text-green-400 font-black">
+                </h2>
 
-                      {
-                        item.change
-                      }
+                <div className="inline-flex items-center gap-2 bg-green-500/10 px-4 py-2 rounded-full">
 
-                    </span>
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
 
-                  </div>
-
-                  <h2 className="text-zinc-500 mb-3 text-lg">
+                  <span className="text-green-400 font-bold">
 
                     {
-                      item.title
+                      item.change
                     }
 
-                  </h2>
+                  </span>
 
-                  <h3 className="text-4xl font-black">
+                </div>
 
-                    {
-                      item.value
-                    }
-
-                  </h3>
-
-                </AnimatedCard>
-              );
-            }
+              </div>
+            )
           )
         }
 
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-10 mb-10">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-12">
 
-        <AnimatedCard
-          delay={0.2}
-          className="xl:col-span-2 glass rounded-3xl p-8"
-        >
+        <div className="xl:col-span-2 glass rounded-3xl p-10">
 
-          <div className="flex items-center gap-4 mb-10">
-
-            <BarChart3
-              size={40}
-              className="text-yellow-400"
-            />
+          <div className="flex items-center justify-between mb-10">
 
             <div>
 
-              <h2 className="text-4xl font-black">
+              <h2 className="text-4xl font-black mb-3">
 
-                Portfolio Performance
+                Portfolio Allocation
 
               </h2>
 
-              <p className="text-zinc-500">
+              <p className="text-zinc-500 text-lg">
 
-                Real-time growth analytics
+                Real-time institutional asset monitoring.
 
               </p>
 
             </div>
 
-          </div>
+            <div className="bg-yellow-400/10 px-5 py-3 rounded-2xl">
 
-          <div className="h-[350px]">
+              <span className="text-yellow-400 font-black">
 
-            <ResponsiveContainer
-              width="100%"
-              height="100%"
-            >
+                LIVE
 
-              <AreaChart
-                data={portfolioData}
-              >
-
-                <defs>
-
-                  <linearGradient
-                    id="colorValue"
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="1"
-                  >
-
-                    <stop
-                      offset="5%"
-                      stopColor="#facc15"
-                      stopOpacity={0.8}
-                    />
-
-                    <stop
-                      offset="95%"
-                      stopColor="#facc15"
-                      stopOpacity={0}
-                    />
-
-                  </linearGradient>
-
-                </defs>
-
-                <Tooltip />
-
-                <Area
-                  type="monotone"
-                  dataKey="value"
-                  stroke="#facc15"
-                  fillOpacity={1}
-                  fill="url(#colorValue)"
-                  strokeWidth={4}
-                />
-
-              </AreaChart>
-
-            </ResponsiveContainer>
-
-          </div>
-
-        </AnimatedCard>
-
-        <AnimatedCard
-          delay={0.3}
-          className="glass rounded-3xl p-8"
-        >
-
-          <div className="flex items-center gap-4 mb-10">
-
-            <PieChart
-              size={40}
-              className="text-yellow-400"
-            />
-
-            <div>
-
-              <h2 className="text-4xl font-black">
-
-                Allocation
-
-              </h2>
-
-              <p className="text-zinc-500">
-
-                Asset distribution
-
-              </p>
+              </span>
 
             </div>
-
-          </div>
-
-          <div className="h-[300px]">
-
-            <ResponsiveContainer
-              width="100%"
-              height="100%"
-            >
-
-              <RePieChart>
-
-                <Pie
-                  data={allocationData}
-                  dataKey="value"
-                  outerRadius={100}
-                >
-
-                  {
-                    allocationData.map(
-                      (
-                        entry,
-                        index
-                      ) => (
-
-                        <Cell
-                          key={index}
-                          fill={
-                            colors[index]
-                          }
-                        />
-                      )
-                    )
-                  }
-
-                </Pie>
-
-                <Tooltip />
-
-              </RePieChart>
-
-            </ResponsiveContainer>
-
-          </div>
-
-        </AnimatedCard>
-
-      </div>
-
-      <div className="glass rounded-3xl p-8 mb-10">
-
-        <div className="flex items-center justify-between mb-10">
-
-          <h2 className="text-4xl font-black">
-
-            Live Market Overview
-
-          </h2>
-
-          <div className="flex items-center gap-3">
-
-            <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-
-            <span className="text-green-400 font-bold">
-
-              LIVE DATA
-
-            </span>
-
-          </div>
-
-        </div>
-
-        <div className="space-y-6">
-
-          {
-            loading
-              ? (
-                [...Array(4)].map(
-                  (
-                    _,
-                    index
-                  ) => (
-
-                    <div
-                      key={index}
-                      className="glass rounded-2xl p-8 animate-pulse h-[120px]"
-                    />
-                  )
-                )
-              )
-              : (
-                marketData.map(
-                  (
-                    coin
-                  ) => {
-
-                    const positive =
-                      coin.price_change_percentage_24h >= 0;
-
-                    return (
-
-                      <AnimatedCard
-                        key={coin.id}
-                        delay={0.1}
-                        className="flex items-center justify-between bg-black/20 border border-white/5 rounded-2xl px-6 py-5"
-                      >
-
-                        <div className="flex items-center gap-5">
-
-                          <img
-                            src={coin.image}
-                            alt={coin.name}
-                            className="w-14 h-14"
-                          />
-
-                          <div>
-
-                            <h3 className="text-3xl font-black mb-2">
-
-                              {
-                                coin.symbol.toUpperCase()
-                              }
-
-                            </h3>
-
-                            <p className="text-zinc-500">
-
-                              {
-                                coin.name
-                              }
-
-                            </p>
-
-                          </div>
-
-                        </div>
-
-                        <div className="text-right">
-
-                          <h3 className="text-3xl font-black mb-2">
-
-                            $
-                            {
-                              coin.current_price.toLocaleString()
-                            }
-
-                          </h3>
-
-                          <div className="flex items-center justify-end gap-2">
-
-                            {
-                              positive
-                                ? (
-                                  <TrendingUp
-                                    size={20}
-                                    className="text-green-400"
-                                  />
-                                )
-                                : (
-                                  <TrendingDown
-                                    size={20}
-                                    className="text-red-400"
-                                  />
-                                )
-                            }
-
-                            <span
-                              className={`font-black text-lg ${
-                                positive
-                                  ? "text-green-400"
-                                  : "text-red-400"
-                              }`}
-                            >
-
-                              {
-                                coin.price_change_percentage_24h.toFixed(2)
-                              }%
-
-                            </span>
-
-                          </div>
-
-                        </div>
-
-                      </AnimatedCard>
-                    );
-                  }
-                )
-              )
-          }
-
-        </div>
-
-      </div>
-
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-10 mb-10">
-
-        <AnimatedCard
-          delay={0.2}
-          className="glass rounded-3xl p-8"
-        >
-
-          <div className="flex items-center gap-4 mb-8">
-
-            <ShieldCheck
-              size={36}
-              className="text-yellow-400"
-            />
-
-            <h2 className="text-4xl font-black">
-
-              Security
-
-            </h2>
 
           </div>
 
           <div className="space-y-8">
 
-            <div className="border-b border-white/5 pb-6">
+            {
+              assets.map(
+                (
+                  asset,
+                  index
+                ) => (
 
-              <p className="text-zinc-500 mb-3">
+                  <div
+                    key={index}
+                    className="border-b border-white/5 pb-6"
+                  >
 
-                Infrastructure Status
+                    <div className="flex items-center justify-between mb-4">
 
-              </p>
+                      <div>
 
-              <h3 className="text-2xl font-black text-green-400">
+                        <h3 className="text-3xl font-black mb-2">
 
-                Protected
+                          {
+                            asset.coin
+                          }
 
-              </h3>
+                        </h3>
+
+                        <p className="text-zinc-500">
+
+                          Digital Asset Position
+
+                        </p>
+
+                      </div>
+
+                      <div className="text-right">
+
+                        <h3 className="text-3xl font-black mb-2">
+
+                          {
+                            asset.amount
+                          }
+
+                        </h3>
+
+                        <p className="text-green-400 font-bold">
+
+                          {
+                            asset.profit
+                          }
+
+                        </p>
+
+                      </div>
+
+                    </div>
+
+                    <div className="w-full h-4 bg-black/30 rounded-full overflow-hidden">
+
+                      <div
+                        className="h-full bg-yellow-400 rounded-full"
+                        style={{
+                          width: `${70 - index * 12}%`,
+                        }}
+                      ></div>
+
+                    </div>
+
+                  </div>
+                )
+              )
+            }
+
+          </div>
+
+        </div>
+
+        <div className="glass rounded-3xl p-10">
+
+          <h2 className="text-4xl font-black mb-10">
+
+            Market Overview
+
+          </h2>
+
+          <div className="space-y-8">
+
+            <div className="flex items-center justify-between">
+
+              <span className="text-zinc-500 text-lg">
+
+                Bitcoin Dominance
+
+              </span>
+
+              <span className="text-yellow-400 font-black text-2xl">
+
+                54.2%
+
+              </span>
 
             </div>
 
-            <div className="border-b border-white/5 pb-6">
+            <div className="flex items-center justify-between">
 
-              <p className="text-zinc-500 mb-3">
+              <span className="text-zinc-500 text-lg">
 
-                Active Sessions
+                Fear & Greed Index
 
-              </p>
+              </span>
 
-              <h3 className="text-2xl font-black">
+              <span className="text-green-400 font-black text-2xl">
 
-                12 Devices
+                74
 
-              </h3>
-
-            </div>
-
-            <div className="border-b border-white/5 pb-6">
-
-              <p className="text-zinc-500 mb-3">
-
-                24H Transactions
-
-              </p>
-
-              <h3 className="text-2xl font-black">
-
-                1,284
-
-              </h3>
+              </span>
 
             </div>
 
-            <div>
+            <div className="flex items-center justify-between">
 
-              <p className="text-zinc-500 mb-3">
+              <span className="text-zinc-500 text-lg">
 
-                Exchange Uptime
+                Market Volume
 
-              </p>
+              </span>
 
-              <h3 className="text-2xl font-black text-green-400">
+              <span className="text-blue-400 font-black text-2xl">
 
-                99.99%
+                $182B
 
-              </h3>
+              </span>
+
+            </div>
+
+            <div className="flex items-center justify-between">
+
+              <span className="text-zinc-500 text-lg">
+
+                ETH Gas Fees
+
+              </span>
+
+              <span className="text-purple-400 font-black text-2xl">
+
+                22 GWEI
+
+              </span>
 
             </div>
 
           </div>
 
-        </AnimatedCard>
-
-        <div className="xl:col-span-2">
-
-          <ActivityFeed />
-
         </div>
 
       </div>
+
+      <ActivityFeed />
 
     </MainLayout>
   );
