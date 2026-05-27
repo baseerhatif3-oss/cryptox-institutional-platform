@@ -1,30 +1,24 @@
-import {
-  Shield,
-  Globe,
-  Lock,
-} from "lucide-react";
-
 const Footer = () => {
 
   return (
 
     <footer className="border-t border-white/5 mt-20">
 
-      <div className="px-6 lg:px-16 py-16">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-12">
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
 
           <div>
 
-            <h1 className="text-5xl font-black text-yellow-400 mb-5">
+            <h2 className="text-3xl font-black text-yellow-400 mb-4">
 
               CryptoX
 
-            </h1>
+            </h2>
 
             <p className="text-zinc-500 leading-relaxed">
 
-              Institutional-grade cryptocurrency exchange infrastructure powered by advanced AI trading systems.
+              Enterprise-grade cryptocurrency exchange ecosystem with advanced trading infrastructure.
 
             </p>
 
@@ -32,13 +26,13 @@ const Footer = () => {
 
           <div>
 
-            <h2 className="text-2xl font-black mb-5">
+            <h3 className="text-xl font-black mb-5">
 
               Platform
 
-            </h2>
+            </h3>
 
-            <div className="space-y-4 text-zinc-500">
+            <div className="space-y-3 text-zinc-500">
 
               <p>Spot Trading</p>
 
@@ -46,7 +40,7 @@ const Footer = () => {
 
               <p>Staking</p>
 
-              <p>Copy Trading</p>
+              <p>NFT Marketplace</p>
 
             </div>
 
@@ -54,80 +48,53 @@ const Footer = () => {
 
           <div>
 
-            <h2 className="text-2xl font-black mb-5">
+            <h3 className="text-xl font-black mb-5">
 
-              Security
+              Services
 
-            </h2>
+            </h3>
+
+            <div className="space-y-3 text-zinc-500">
+
+              <p>Launchpad</p>
+
+              <p>Crypto Card</p>
+
+              <p>Institutional APIs</p>
+
+              <p>Security Center</p>
+
+            </div>
+
+          </div>
+
+          <div>
+
+            <h3 className="text-xl font-black mb-5">
+
+              Status
+
+            </h3>
 
             <div className="space-y-4">
 
               <div className="flex items-center gap-3">
 
-                <Shield
-                  className="text-green-400"
-                  size={20}
-                />
+                <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
 
-                <span className="text-zinc-500">
+                <span className="text-green-400 font-bold">
 
-                  Multi-Layer Protection
+                  All Systems Operational
 
                 </span>
 
               </div>
 
-              <div className="flex items-center gap-3">
+              <p className="text-zinc-500">
 
-                <Lock
-                  className="text-green-400"
-                  size={20}
-                />
+                Exchange Uptime: 99.99%
 
-                <span className="text-zinc-500">
-
-                  Cold Wallet Storage
-
-                </span>
-
-              </div>
-
-              <div className="flex items-center gap-3">
-
-                <Globe
-                  className="text-green-400"
-                  size={20}
-                />
-
-                <span className="text-zinc-500">
-
-                  Global Infrastructure
-
-                </span>
-
-              </div>
-
-            </div>
-
-          </div>
-
-          <div>
-
-            <h2 className="text-2xl font-black mb-5">
-
-              Legal
-
-            </h2>
-
-            <div className="space-y-4 text-zinc-500">
-
-              <p>Privacy Policy</p>
-
-              <p>Terms of Service</p>
-
-              <p>Risk Disclosure</p>
-
-              <p>Compliance</p>
+              </p>
 
             </div>
 
@@ -135,7 +102,7 @@ const Footer = () => {
 
         </div>
 
-        <div className="border-t border-white/5 mt-14 pt-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div className="border-t border-white/5 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
 
           <p className="text-zinc-500">
 
@@ -143,17 +110,11 @@ const Footer = () => {
 
           </p>
 
-          <div className="flex items-center gap-4">
+          <p className="text-zinc-600">
 
-            <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+            Enterprise Crypto Infrastructure
 
-            <span className="text-green-400 font-bold">
-
-              All Systems Operational
-
-            </span>
-
-          </div>
+          </p>
 
         </div>
 
