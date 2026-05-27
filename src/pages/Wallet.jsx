@@ -1,13 +1,20 @@
 import MainLayout from "../components/layout/MainLayout";
 
-const wallets = [
+import {
+  Wallet as WalletIcon,
+  ShieldCheck,
+  ArrowUpRight,
+  ArrowDownLeft,
+  Bitcoin,
+} from "lucide-react";
 
+const assets = [
   {
     coin: "Bitcoin",
     symbol: "BTC",
     balance: "4.82 BTC",
     usd: "$406,000",
-    change: "+12.4%",
+    growth: "+12.4%",
   },
 
   {
@@ -15,7 +22,7 @@ const wallets = [
     symbol: "ETH",
     balance: "48.1 ETH",
     usd: "$182,000",
-    change: "+8.2%",
+    growth: "+8.2%",
   },
 
   {
@@ -23,46 +30,41 @@ const wallets = [
     symbol: "SOL",
     balance: "820 SOL",
     usd: "$94,000",
-    change: "+22.1%",
+    growth: "+18.9%",
   },
 
   {
     coin: "Tether",
     symbol: "USDT",
-    balance: "120,000 USDT",
-    usd: "$120,000",
-    change: "+0.1%",
+    balance: "128,000 USDT",
+    usd: "$128,000",
+    growth: "+0.2%",
   },
 ];
 
 const transactions = [
+  {
+    type: "Deposit",
+    amount: "$24,000",
+    asset: "BTC",
+  },
+
+  {
+    type: "Withdrawal",
+    amount: "$8,200",
+    asset: "ETH",
+  },
+
+  {
+    type: "Transfer",
+    amount: "$12,400",
+    asset: "SOL",
+  },
 
   {
     type: "Deposit",
-    asset: "BTC",
-    amount: "+0.42 BTC",
-    status: "Completed",
-  },
-
-  {
-    type: "Withdraw",
-    asset: "ETH",
-    amount: "-4.2 ETH",
-    status: "Pending",
-  },
-
-  {
-    type: "Buy Order",
-    asset: "SOL",
-    amount: "+120 SOL",
-    status: "Completed",
-  },
-
-  {
-    type: "Sell Order",
-    asset: "BNB",
-    amount: "-12 BNB",
-    status: "Completed",
+    amount: "$52,000",
+    asset: "USDT",
   },
 ];
 
@@ -72,7 +74,7 @@ const Wallet = () => {
 
     <MainLayout>
 
-      <div className="mb-12">
+      <div className="mb-10">
 
         <div className="inline-flex items-center gap-3 bg-yellow-400/10 border border-yellow-400/20 px-5 py-3 rounded-full mb-8">
 
@@ -86,9 +88,10 @@ const Wallet = () => {
 
         </div>
 
-        <h1 className="text-7xl font-black mb-5">
+        <h1 className="text-5xl md:text-7xl font-black mb-5">
 
           Digital
+
           <span className="text-yellow-400">
 
             {" "}Wallet
@@ -97,21 +100,22 @@ const Wallet = () => {
 
         </h1>
 
-        <p className="text-zinc-500 text-2xl max-w-3xl">
+        <p className="text-zinc-500 text-xl max-w-3xl">
 
-          Enterprise-grade multi-asset custody and transaction management system.
+          Enterprise-grade multi-asset custody and transaction
+          management system.
 
         </p>
 
       </div>
 
-      <div className="glass rounded-3xl p-10 mb-10">
+      <div className="glass rounded-3xl p-8 mb-10">
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
           <div>
 
-            <p className="text-zinc-500 mb-4 text-lg">
+            <p className="text-zinc-500 mb-4">
 
               Total Wallet Balance
 
@@ -127,7 +131,7 @@ const Wallet = () => {
 
           <div>
 
-            <p className="text-zinc-500 mb-4 text-lg">
+            <p className="text-zinc-500 mb-4">
 
               Monthly Growth
 
@@ -143,7 +147,7 @@ const Wallet = () => {
 
           <div>
 
-            <p className="text-zinc-500 mb-4 text-lg">
+            <p className="text-zinc-500 mb-4">
 
               Assets Managed
 
@@ -163,10 +167,10 @@ const Wallet = () => {
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-10">
 
-        <div className="xl:col-span-2 space-y-8">
+        <div className="xl:col-span-2 space-y-6">
 
           {
-            wallets.map(
+            assets.map(
               (
                 item,
                 index
@@ -174,53 +178,45 @@ const Wallet = () => {
 
                 <div
                   key={index}
-                  className="glass rounded-3xl p-8"
+                  className="glass rounded-3xl p-8 card-hover"
                 >
 
-                  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+                  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
 
-                    <div>
+                    <div className="flex items-center gap-5">
 
-                      <div className="flex items-center gap-4 mb-4">
+                      <div className="w-20 h-20 rounded-3xl bg-yellow-400 flex items-center justify-center">
 
-                        <div className="w-16 h-16 rounded-2xl bg-yellow-400 text-black flex items-center justify-center font-black text-2xl">
-
-                          {
-                            item.symbol
-                          }
-
-                        </div>
-
-                        <div>
-
-                          <h2 className="text-4xl font-black">
-
-                            {
-                              item.coin
-                            }
-
-                          </h2>
-
-                          <p className="text-zinc-500">
-
-                            {
-                              item.symbol
-                            } Wallet
-                          </p>
-
-                        </div>
+                        <Bitcoin
+                          className="text-black"
+                          size={38}
+                        />
 
                       </div>
 
-                      <p className="text-zinc-500 text-lg">
+                      <div>
 
-                        Available Balance
+                        <h2 className="text-4xl font-black mb-2">
 
-                      </p>
+                          {
+                            item.coin
+                          }
+
+                        </h2>
+
+                        <p className="text-zinc-500 text-lg">
+
+                          {
+                            item.symbol
+                          } Wallet
+
+                        </p>
+
+                      </div>
 
                     </div>
 
-                    <div className="text-right">
+                    <div className="text-left lg:text-right">
 
                       <h2 className="text-5xl font-black mb-3">
 
@@ -238,74 +234,119 @@ const Wallet = () => {
 
                       </p>
 
-                      <span className="text-green-400 font-black text-xl">
+                      <p className="text-green-400 font-black text-xl">
 
                         {
-                          item.change
+                          item.growth
                         }
 
-                      </span>
+                      </p>
 
                     </div>
 
                   </div>
 
                 </div>
+
               )
             )
           }
 
         </div>
 
-        <div className="glass rounded-3xl p-8 h-fit">
+        <div className="space-y-8">
 
-          <h2 className="text-4xl font-black mb-8">
+          <div className="glass rounded-3xl p-8">
 
-            Quick Actions
+            <h2 className="text-4xl font-black mb-8">
 
-          </h2>
+              Quick Actions
 
-          <div className="space-y-5">
+            </h2>
 
-            <button className="w-full bg-yellow-400 hover:bg-yellow-300 transition-all text-black py-5 rounded-2xl font-black text-xl">
+            <div className="space-y-5">
 
-              Deposit Funds
+              <button className="w-full bg-yellow-400 hover:bg-yellow-300 transition-all text-black py-5 rounded-2xl font-black text-xl">
 
-            </button>
+                Deposit Funds
 
-            <button className="w-full bg-green-500 hover:bg-green-400 transition-all text-black py-5 rounded-2xl font-black text-xl">
+              </button>
 
-              Buy Crypto
+              <button className="w-full bg-green-500 hover:bg-green-400 transition-all text-black py-5 rounded-2xl font-black text-xl">
 
-            </button>
+                Buy Crypto
 
-            <button className="w-full bg-blue-500 hover:bg-blue-400 transition-all text-black py-5 rounded-2xl font-black text-xl">
+              </button>
 
-              Transfer Assets
+              <button className="w-full bg-blue-500 hover:bg-blue-400 transition-all text-black py-5 rounded-2xl font-black text-xl">
 
-            </button>
+                Transfer Assets
 
-            <button className="w-full bg-red-500 hover:bg-red-400 transition-all text-white py-5 rounded-2xl font-black text-xl">
+              </button>
 
-              Withdraw
+              <button className="w-full bg-red-500 hover:bg-red-400 transition-all text-white py-5 rounded-2xl font-black text-xl">
 
-            </button>
+                Withdraw
+
+              </button>
+
+            </div>
 
           </div>
 
-          <div className="mt-10 p-6 rounded-3xl border border-green-500/20 bg-green-500/5">
+          <div className="glass rounded-3xl p-8">
 
-            <h3 className="text-2xl font-black text-green-400 mb-4">
+            <div className="flex items-center gap-4 mb-8">
 
-              Security Status
+              <ShieldCheck
+                className="text-green-400"
+                size={40}
+              />
 
-            </h3>
+              <h2 className="text-4xl font-black">
 
-            <p className="text-zinc-400 leading-relaxed">
+                Security Status
 
-              Multi-signature cold wallet infrastructure active with real-time monitoring protection.
+              </h2>
 
-            </p>
+            </div>
+
+            <div className="space-y-5">
+
+              {
+                [
+                  "2FA Protection Active",
+                  "Cold Storage Enabled",
+                  "Enterprise Encryption",
+                  "Withdrawal Protection",
+                ].map(
+                  (
+                    item,
+                    index
+                  ) => (
+
+                    <div
+                      key={index}
+                      className="flex items-center justify-between bg-black/30 rounded-2xl p-5"
+                    >
+
+                      <span className="font-semibold">
+
+                        {
+                          item
+                        }
+
+                      </span>
+
+                      <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+
+                    </div>
+
+                  )
+                )
+              }
+
+            </div>
 
           </div>
 
@@ -313,25 +354,35 @@ const Wallet = () => {
 
       </div>
 
-      <div className="glass rounded-3xl p-10">
+      <div className="glass rounded-3xl p-8">
 
         <div className="flex items-center justify-between mb-10">
 
-          <h2 className="text-5xl font-black">
+          <div>
 
-            Transaction History
+            <h2 className="text-4xl font-black mb-3">
 
-          </h2>
+              Transaction Activity
 
-          <button className="bg-yellow-400 text-black px-6 py-3 rounded-2xl font-black">
+            </h2>
 
-            Export Report
+            <p className="text-zinc-500">
 
-          </button>
+              Institutional wallet transaction monitoring.
+
+            </p>
+
+          </div>
+
+          <div className="bg-green-500/10 text-green-400 px-5 py-3 rounded-2xl font-black">
+
+            LIVE
+
+          </div>
 
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-5">
 
           {
             transactions.map(
@@ -342,56 +393,75 @@ const Wallet = () => {
 
                 <div
                   key={index}
-                  className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 border border-white/5 rounded-3xl p-6"
+                  className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 bg-black/30 border border-white/5 rounded-3xl p-6"
                 >
 
-                  <div>
+                  <div className="flex items-center gap-5">
 
-                    <h3 className="text-2xl font-black mb-2">
+                    <div className={`w-16 h-16 rounded-3xl flex items-center justify-center ${
+                      item.type === "Withdrawal"
+                        ? "bg-red-500/10 text-red-400"
+                        : "bg-green-500/10 text-green-400"
+                    }`}>
 
                       {
-                        item.type
+                        item.type === "Withdrawal"
+                          ? (
+                            <ArrowDownLeft
+                              size={30}
+                            />
+                          )
+                          : (
+                            <ArrowUpRight
+                              size={30}
+                            />
+                          )
                       }
 
-                    </h3>
+                    </div>
 
-                    <p className="text-zinc-500">
+                    <div>
 
-                      Asset:
-                      {" "}
-                      {
-                        item.asset
-                      }
+                      <h2 className="text-3xl font-black mb-2">
 
-                    </p>
+                        {
+                          item.type
+                        }
+
+                      </h2>
+
+                      <p className="text-zinc-500">
+
+                        {
+                          item.asset
+                        } Transaction
+
+                      </p>
+
+                    </div>
 
                   </div>
 
-                  <div>
+                  <div className="text-left lg:text-right">
 
-                    <h3 className="text-2xl font-black">
+                    <h2 className="text-4xl font-black text-yellow-400 mb-2">
 
                       {
                         item.amount
                       }
 
-                    </h3>
+                    </h2>
 
-                  </div>
+                    <p className="text-green-400 font-bold">
 
-                  <div>
+                      Confirmed
 
-                    <span className="bg-green-500/10 text-green-400 px-5 py-3 rounded-2xl font-black">
-
-                      {
-                        item.status
-                      }
-
-                    </span>
+                    </p>
 
                   </div>
 
                 </div>
+
               )
             )
           }
