@@ -3,143 +3,37 @@ import {
   Routes,
   Route,
   Navigate,
-  Link,
 } from "react-router-dom";
+
+import Dashboard from "./pages/Dashboard";
+import Wallet from "./pages/Wallet";
+import Portfolio from "./pages/Portfolio";
+import Futures from "./pages/Futures";
+import Staking from "./pages/Staking";
+import NFTMarketplace from "./pages/NFTMarketplace";
+import Launchpad from "./pages/Launchpad";
+import Settings from "./pages/Settings";
+import Admin from "./pages/Admin";
+import SecurityCenter from "./pages/SecurityCenter";
+import DemoAccount from "./pages/DemoAccount";
+import DemoCredentials from "./pages/DemoCredentials";
+import SystemStatus from "./pages/SystemStatus";
+import CryptoCard from "./pages/CryptoCard";
+import Trading from "./pages/Trading";
 
 function Home() {
   return (
-    <div
-      style={{
-        background: "#000",
-        color: "#fff",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: "30px",
-      }}
-    >
-      <h1
-        style={{
-          fontSize: "60px",
-          fontWeight: "bold",
-        }}
-      >
+    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center gap-8">
+      <h1 className="text-7xl font-black">
         CryptoX 🚀
       </h1>
 
-      <Link
-        to="/login"
-        style={{
-          background: "#facc15",
-          color: "#000",
-          padding: "15px 40px",
-          borderRadius: "20px",
-          textDecoration: "none",
-          fontWeight: "bold",
-          fontSize: "24px",
-        }}
+      <a
+        href="/dashboard"
+        className="bg-yellow-400 text-black px-10 py-5 rounded-2xl font-black text-2xl"
       >
-        Open Login
-      </Link>
-    </div>
-  );
-}
-
-function Login() {
-  return (
-    <div
-      style={{
-        background: "#000",
-        color: "#fff",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: "30px",
-      }}
-    >
-      <h1
-        style={{
-          fontSize: "50px",
-          fontWeight: "bold",
-        }}
-      >
-        Login Working ✅
-      </h1>
-
-      <Link
-        to="/dashboard"
-        style={{
-          background: "#22c55e",
-          color: "#000",
-          padding: "15px 40px",
-          borderRadius: "20px",
-          textDecoration: "none",
-          fontWeight: "bold",
-          fontSize: "22px",
-        }}
-      >
-        Enter Dashboard
-      </Link>
-    </div>
-  );
-}
-
-function Dashboard() {
-  return (
-    <div
-      style={{
-        background: "#000",
-        color: "#fff",
-        minHeight: "100vh",
-        padding: "40px",
-      }}
-    >
-      <h1
-        style={{
-          fontSize: "50px",
-          fontWeight: "bold",
-          marginBottom: "40px",
-        }}
-      >
-        CryptoX Dashboard 📊
-      </h1>
-
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit,minmax(250px,1fr))",
-          gap: "20px",
-        }}
-      >
-        {[
-          "Wallet",
-          "Spot Trading",
-          "Futures",
-          "Portfolio",
-          "NFT",
-          "Staking",
-          "Launchpad",
-          "Settings",
-        ].map((item) => (
-          <div
-            key={item}
-            style={{
-              background: "#111",
-              border: "1px solid #333",
-              borderRadius: "20px",
-              padding: "30px",
-              fontSize: "24px",
-              fontWeight: "bold",
-            }}
-          >
-            {item}
-          </div>
-        ))}
-      </div>
+        Enter Exchange
+      </a>
     </div>
   );
 }
@@ -148,16 +42,97 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
 
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/"
+          element={<Home />}
+        />
 
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route
+          path="/dashboard"
+          element={<Dashboard />}
+        />
+
+        <Route
+          path="/wallet"
+          element={<Wallet />}
+        />
+
+        <Route
+          path="/portfolio"
+          element={<Portfolio />}
+        />
+
+        <Route
+          path="/markets"
+          element={<Trading />}
+        />
+
+        <Route
+          path="/trading"
+          element={<Trading />}
+        />
+
+        <Route
+          path="/futures"
+          element={<Futures />}
+        />
+
+        <Route
+          path="/staking"
+          element={<Staking />}
+        />
+
+        <Route
+          path="/nft"
+          element={<NFTMarketplace />}
+        />
+
+        <Route
+          path="/launchpad"
+          element={<Launchpad />}
+        />
+
+        <Route
+          path="/settings"
+          element={<Settings />}
+        />
+
+        <Route
+          path="/admin"
+          element={<Admin />}
+        />
+
+        <Route
+          path="/trust-center"
+          element={<SecurityCenter />}
+        />
+
+        <Route
+          path="/demo"
+          element={<DemoAccount />}
+        />
+
+        <Route
+          path="/demo-credentials"
+          element={<DemoCredentials />}
+        />
+
+        <Route
+          path="/system-status"
+          element={<SystemStatus />}
+        />
+
+        <Route
+          path="/crypto-card"
+          element={<CryptoCard />}
+        />
 
         <Route
           path="*"
           element={<Navigate to="/" />}
         />
+
       </Routes>
     </BrowserRouter>
   );
