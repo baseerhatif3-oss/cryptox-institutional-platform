@@ -5,6 +5,8 @@ import {
 
 import MainLayout from "../components/layout/MainLayout";
 
+import AnimatedCard from "../components/ui/AnimatedCard";
+
 import {
   TrendingUp,
   TrendingDown,
@@ -191,7 +193,10 @@ const Portfolio = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mb-10">
 
-        <div className="glass rounded-3xl p-8">
+        <AnimatedCard
+          delay={0.1}
+          className="glass rounded-3xl p-8"
+        >
 
           <div className="flex items-center justify-between mb-6">
 
@@ -220,9 +225,12 @@ const Portfolio = () => {
 
           </h2>
 
-        </div>
+        </AnimatedCard>
 
-        <div className="glass rounded-3xl p-8">
+        <AnimatedCard
+          delay={0.2}
+          className="glass rounded-3xl p-8"
+        >
 
           <div className="flex items-center justify-between mb-6">
 
@@ -251,9 +259,12 @@ const Portfolio = () => {
 
           </h2>
 
-        </div>
+        </AnimatedCard>
 
-        <div className="glass rounded-3xl p-8">
+        <AnimatedCard
+          delay={0.3}
+          className="glass rounded-3xl p-8"
+        >
 
           <div className="flex items-center justify-between mb-6">
 
@@ -282,9 +293,12 @@ const Portfolio = () => {
 
           </h2>
 
-        </div>
+        </AnimatedCard>
 
-        <div className="glass rounded-3xl p-8">
+        <AnimatedCard
+          delay={0.4}
+          className="glass rounded-3xl p-8"
+        >
 
           <div className="flex items-center justify-between mb-6">
 
@@ -313,7 +327,7 @@ const Portfolio = () => {
 
           </h2>
 
-        </div>
+        </AnimatedCard>
 
       </div>
 
@@ -528,8 +542,9 @@ const Portfolio = () => {
 
                     return (
 
-                      <div
+                      <AnimatedCard
                         key={coin.id}
+                        delay={0.1}
                         className="flex items-center justify-between bg-black/20 border border-white/5 rounded-2xl px-6 py-5"
                       >
 
@@ -630,7 +645,7 @@ const Portfolio = () => {
 
                         </div>
 
-                      </div>
+                      </AnimatedCard>
                     );
                   }
                 )

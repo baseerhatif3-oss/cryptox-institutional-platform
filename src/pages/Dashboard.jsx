@@ -5,6 +5,8 @@ import {
 
 import MainLayout from "../components/layout/MainLayout";
 
+import AnimatedCard from "../components/ui/AnimatedCard";
+
 import {
   TrendingUp,
   TrendingDown,
@@ -262,7 +264,10 @@ const Dashboard = () => {
           {
             globalData && (
 
-              <div className="glass rounded-3xl px-8 py-6">
+              <AnimatedCard
+                delay={0.2}
+                className="glass rounded-3xl px-8 py-6"
+              >
 
                 <div className="flex items-center gap-4 mb-4">
 
@@ -323,7 +328,7 @@ const Dashboard = () => {
 
                 </div>
 
-              </div>
+              </AnimatedCard>
             )
           }
 
@@ -345,8 +350,9 @@ const Dashboard = () => {
 
               return (
 
-                <div
+                <AnimatedCard
                   key={index}
+                  delay={index * 0.1}
                   className="glass rounded-3xl p-8"
                 >
 
@@ -387,7 +393,7 @@ const Dashboard = () => {
 
                   </h3>
 
-                </div>
+                </AnimatedCard>
               );
             }
           )
@@ -397,7 +403,10 @@ const Dashboard = () => {
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-10 mb-10">
 
-        <div className="xl:col-span-2 glass rounded-3xl p-8">
+        <AnimatedCard
+          delay={0.2}
+          className="xl:col-span-2 glass rounded-3xl p-8"
+        >
 
           <div className="flex items-center gap-4 mb-10">
 
@@ -478,9 +487,12 @@ const Dashboard = () => {
 
           </div>
 
-        </div>
+        </AnimatedCard>
 
-        <div className="glass rounded-3xl p-8">
+        <AnimatedCard
+          delay={0.3}
+          className="glass rounded-3xl p-8"
+        >
 
           <div className="flex items-center gap-4 mb-10">
 
@@ -549,7 +561,7 @@ const Dashboard = () => {
 
           </div>
 
-        </div>
+        </AnimatedCard>
 
       </div>
 
@@ -606,8 +618,9 @@ const Dashboard = () => {
 
                     return (
 
-                      <div
+                      <AnimatedCard
                         key={coin.id}
+                        delay={0.1}
                         className="flex items-center justify-between bg-black/20 border border-white/5 rounded-2xl px-6 py-5"
                       >
 
@@ -688,7 +701,7 @@ const Dashboard = () => {
 
                         </div>
 
-                      </div>
+                      </AnimatedCard>
                     );
                   }
                 )
@@ -701,7 +714,10 @@ const Dashboard = () => {
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-10 mb-10">
 
-        <div className="glass rounded-3xl p-8">
+        <AnimatedCard
+          delay={0.2}
+          className="glass rounded-3xl p-8"
+        >
 
           <div className="flex items-center gap-4 mb-8">
 
@@ -786,7 +802,7 @@ const Dashboard = () => {
 
           </div>
 
-        </div>
+        </AnimatedCard>
 
         <div className="xl:col-span-2">
 
