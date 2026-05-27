@@ -16,6 +16,8 @@ import MarketTicker from "../components/ui/MarketTicker";
 
 import LiveActivity from "../components/ui/LiveActivity";
 
+import PricingSection from "../components/subscription/PricingSection";
+
 const stats = [
 
   {
@@ -310,6 +312,8 @@ const Landing = () => {
 
       <LiveActivity />
 
+      <PricingSection />
+
       <section className="relative z-10 max-w-7xl mx-auto px-6 pb-32">
 
         <div className="bg-yellow-400 rounded-[40px] text-black p-12 md:p-20 text-center">
@@ -347,6 +351,96 @@ const Landing = () => {
         </div>
 
       </section>
+
+      <footer className="border-t border-white/5">
+
+        <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-4 gap-10">
+
+          <div>
+
+            <h2 className="text-5xl font-black text-yellow-400 mb-5">
+
+              CryptoX
+
+            </h2>
+
+            <p className="text-zinc-500 leading-relaxed">
+
+              Institutional-grade cryptocurrency trading infrastructure for global digital asset markets.
+
+            </p>
+
+          </div>
+
+          <div>
+
+            <h3 className="font-black text-2xl mb-5">
+
+              Platform
+
+            </h3>
+
+            <div className="space-y-3 text-zinc-500">
+
+              <p>Markets</p>
+
+              <p>Trading</p>
+
+              <p>Wallet</p>
+
+              <p>Analytics</p>
+
+            </div>
+
+          </div>
+
+          <div>
+
+            <h3 className="font-black text-2xl mb-5">
+
+              Infrastructure
+
+            </h3>
+
+            <div className="space-y-3 text-zinc-500">
+
+              <p>Security</p>
+
+              <p>Liquidity</p>
+
+              <p>Custody</p>
+
+              <p>Institutional APIs</p>
+
+            </div>
+
+          </div>
+
+          <div>
+
+            <h3 className="font-black text-2xl mb-5">
+
+              Legal
+
+            </h3>
+
+            <div className="space-y-3 text-zinc-500">
+
+              <p>Privacy</p>
+
+              <p>Terms</p>
+
+              <p>Compliance</p>
+
+              <p>Licensing</p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </footer>
 
     </div>
   );
