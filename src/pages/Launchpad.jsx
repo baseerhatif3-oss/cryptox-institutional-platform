@@ -1,185 +1,229 @@
-import React from "react";
+import MainLayout from "../components/layout/MainLayout";
 
 const Launchpad = () => {
 
   const projects = [
 
     {
-      name: "MetaChain",
-      price: "$0.08",
-      raised: "$2.4M",
-      progress: "82%",
+      name:
+        "MetaChain",
+
+      raise:
+        "$4.2M",
+
+      participants:
+        "12K",
+
+      status:
+        "LIVE",
     },
 
     {
-      name: "AIVerse",
-      price: "$0.12",
-      raised: "$4.8M",
-      progress: "67%",
+      name:
+        "Quantum AI",
+
+      raise:
+        "$8.8M",
+
+      participants:
+        "24K",
+
+      status:
+        "UPCOMING",
     },
 
     {
-      name: "FutureX",
-      price: "$0.05",
-      raised: "$1.9M",
-      progress: "91%",
+      name:
+        "DeFi Nexus",
+
+      raise:
+        "$2.1M",
+
+      participants:
+        "8K",
+
+      status:
+        "COMPLETED",
     },
   ];
 
   return (
 
-    <div className="space-y-10">
+    <MainLayout>
 
-      {/* HEADER */}
+      <div className="mb-10">
 
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <div className="inline-flex items-center gap-3 bg-cyan-500/10 border border-cyan-500/20 px-5 py-3 rounded-full mb-8">
 
-        <div>
+          <div className="w-3 h-3 bg-cyan-400 rounded-full animate-pulse"></div>
 
-          <h1 className="text-5xl font-black">
-            Launchpad
-          </h1>
+          <span className="text-cyan-400 font-bold">
 
-          <p className="text-gray-400 text-lg mt-3">
-            Invest early in next-generation crypto projects
-          </p>
+            WEB3 FUNDRAISING ACTIVE
+
+          </span>
 
         </div>
 
-        <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 px-5 py-3 rounded-2xl font-bold">
-          TOKEN SALES
+        <h1 className="text-6xl font-black">
+
+          Crypto
+          <span className="text-yellow-400">
+            {" "}Launchpad
+          </span>
+
+        </h1>
+
+      </div>
+
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-10">
+
+        <div className="glass rounded-3xl p-8">
+
+          <p className="text-zinc-500 mb-4">
+
+            Total Raised
+
+          </p>
+
+          <h2 className="text-5xl font-black text-yellow-400">
+
+            $84M
+
+          </h2>
+
+        </div>
+
+        <div className="glass rounded-3xl p-8">
+
+          <p className="text-zinc-500 mb-4">
+
+            Investors
+
+          </p>
+
+          <h2 className="text-5xl font-black text-green-400">
+
+            120K
+
+          </h2>
+
+        </div>
+
+        <div className="glass rounded-3xl p-8">
+
+          <p className="text-zinc-500 mb-4">
+
+            Projects Funded
+
+          </p>
+
+          <h2 className="text-5xl font-black text-blue-400">
+
+            42
+
+          </h2>
+
         </div>
 
       </div>
 
-      {/* HERO */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-      <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-gradient-to-br from-[#111] to-black p-10">
+        {
+          projects.map(
+            (
+              item,
+              index
+            ) => (
 
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,#facc15,transparent_35%)]" />
+              <div
+                key={index}
+                className="glass rounded-3xl p-8"
+              >
 
-        <div className="relative z-10">
+                <div className="flex items-center justify-between mb-8">
 
-          <p className="text-gray-400 text-lg">
-            Web3 Startup Funding
-          </p>
+                  <h2 className="text-4xl font-black">
 
-          <h1 className="text-6xl lg:text-7xl font-black mt-5">
-            CRYPTO LAUNCHPAD
-          </h1>
+                    {
+                      item.name
+                    }
 
-          <p className="text-gray-400 text-lg mt-6 max-w-2xl">
-            Discover high-potential blockchain startups
-            and participate in early-stage token offerings.
-          </p>
-
-        </div>
-
-      </div>
-
-      {/* PROJECTS */}
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-        {projects.map(
-          (
-            project,
-            index
-          ) => (
-
-            <div
-              key={index}
-              className="relative overflow-hidden bg-[#111] border border-white/10 rounded-[36px] p-8"
-            >
-
-              <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_right,#facc15,transparent_35%)]" />
-
-              <div className="relative z-10">
-
-                <div className="flex items-center justify-between">
-
-                  <h2 className="text-3xl font-black">
-                    {project.name}
                   </h2>
 
-                  <span className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-2 rounded-xl text-sm font-bold">
-                    ACTIVE
-                  </span>
+                  <div
+                    className={`px-4 py-2 rounded-xl font-black ${
+                      item.status === "LIVE"
+                        ? "bg-green-500 text-white"
+                        : item.status === "UPCOMING"
+                        ? "bg-yellow-400 text-black"
+                        : "bg-zinc-700 text-white"
+                    }`}
+                  >
+
+                    {
+                      item.status
+                    }
+
+                  </div>
 
                 </div>
 
-                <div className="space-y-6 mt-10">
+                <div className="space-y-5 mb-8">
 
-                  <div>
+                  <div className="flex items-center justify-between">
 
-                    <p className="text-gray-400">
-                      Token Price
-                    </p>
+                    <span className="text-zinc-500">
 
-                    <h3 className="text-5xl font-black text-yellow-400 mt-2">
-                      {project.price}
-                    </h3>
+                      Raised
+
+                    </span>
+
+                    <span className="text-green-400 font-black">
+
+                      {
+                        item.raise
+                      }
+
+                    </span>
 
                   </div>
 
                   <div className="flex items-center justify-between">
 
-                    <span className="text-gray-400">
-                      Raised
+                    <span className="text-zinc-500">
+
+                      Participants
+
                     </span>
 
-                    <span className="font-bold">
-                      {project.raised}
+                    <span className="text-yellow-400 font-black">
+
+                      {
+                        item.participants
+                      }
+
                     </span>
-
-                  </div>
-
-                  <div>
-
-                    <div className="flex items-center justify-between mb-3">
-
-                      <span className="text-gray-400">
-                        Progress
-                      </span>
-
-                      <span className="font-bold">
-                        {project.progress}
-                      </span>
-
-                    </div>
-
-                    <div className="w-full h-3 bg-black rounded-full overflow-hidden">
-
-                      <div
-                        className="h-full bg-yellow-400 rounded-full"
-                        style={{
-                          width:
-                            project.progress,
-                        }}
-                      />
-
-                    </div>
 
                   </div>
 
                 </div>
 
-                <button className="w-full mt-10 bg-yellow-500 hover:bg-yellow-600 transition py-4 rounded-2xl font-black text-black">
+                <button className="w-full bg-yellow-400 hover:bg-yellow-300 transition-all text-black py-4 rounded-2xl font-black text-xl">
 
-                  Participate
+                  View Project
 
                 </button>
 
               </div>
-
-            </div>
-
+            )
           )
-        )}
+        }
 
       </div>
 
-    </div>
+    </MainLayout>
   );
 };
 

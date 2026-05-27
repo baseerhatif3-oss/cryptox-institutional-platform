@@ -12,6 +12,7 @@ import {
   TrendingUp,
   Gem,
   ImageIcon,
+  Rocket,
 } from "lucide-react";
 
 import {
@@ -86,6 +87,17 @@ const Sidebar = () => {
 
       icon:
         ImageIcon,
+    },
+
+    {
+      name:
+        "Launchpad",
+
+      path:
+        "/launchpad",
+
+      icon:
+        Rocket,
     },
 
     {
