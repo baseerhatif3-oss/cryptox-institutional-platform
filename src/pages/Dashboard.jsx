@@ -1,64 +1,79 @@
 import MainLayout from "../components/layout/MainLayout";
 
-import ActivityFeed from "../components/dashboard/ActivityFeed";
-import StatsGrid from "../components/dashboard/StatsGrid";
-import Testimonials from "../components/dashboard/Testimonials";
+import AIInsights from "../components/dashboard/AIInsights";
+
+import Watchlist from "../components/dashboard/Watchlist";
+
+import {
+  TrendingUp,
+  Wallet,
+  BarChart3,
+  Activity,
+  ArrowUpRight,
+  ArrowDownRight,
+} from "lucide-react";
 
 const stats = [
-
   {
-    title: "Portfolio Value",
-    value: "$842,420",
-    change: "+18.4%",
+    title: "Portfolio Balance",
+    value: "$842,450",
+    change: "+12.8%",
+    icon: Wallet,
     color: "text-yellow-400",
   },
 
   {
     title: "24H Profit",
-    value: "+$24,820",
-    change: "+12.8%",
+    value: "$18,240",
+    change: "+4.2%",
+    icon: TrendingUp,
     color: "text-green-400",
   },
 
   {
     title: "Active Trades",
-    value: "148",
-    change: "+22",
+    value: "128",
+    change: "+18%",
+    icon: BarChart3,
     color: "text-blue-400",
   },
 
   {
-    title: "Win Rate",
-    value: "82%",
-    change: "+6.2%",
+    title: "Market Activity",
+    value: "98%",
+    change: "+2.1%",
+    icon: Activity,
     color: "text-purple-400",
   },
 ];
 
-const assets = [
-
+const trades = [
   {
-    coin: "BTC",
-    amount: "$342,000",
-    profit: "+12.4%",
+    pair: "BTC/USDT",
+    type: "BUY",
+    amount: "$84,220",
+    status: "Completed",
   },
 
   {
-    coin: "ETH",
-    amount: "$188,000",
-    profit: "+8.7%",
+    pair: "ETH/USDT",
+    type: "SELL",
+    amount: "$4,180",
+    status: "Completed",
   },
 
   {
-    coin: "SOL",
-    amount: "$94,000",
-    profit: "+22.1%",
+    pair: "SOL/USDT",
+    type: "BUY",
+    amount: "$182",
+    status: "Processing",
   },
 
   {
-    coin: "BNB",
-    amount: "$76,000",
-    profit: "+5.4%",
+    pair: "BNB/USDT",
+    type: "BUY",
+    amount: "$704",
+    status: "Completed",
   },
 ];
 
@@ -76,15 +91,16 @@ const Dashboard = () => {
 
           <span className="text-green-400 font-bold">
 
-            LIVE PORTFOLIO ACTIVE
+            LIVE INSTITUTIONAL INFRASTRUCTURE
 
           </span>
 
         </div>
 
-        <h1 className="text-7xl font-black leading-tight mb-6">
+        <h1 className="text-6xl xl:text-7xl font-black mb-6">
 
           Institutional
+
           <span className="text-yellow-400">
 
             {" "}Dashboard
@@ -93,9 +109,10 @@ const Dashboard = () => {
 
         </h1>
 
-        <p className="text-zinc-500 text-2xl max-w-3xl leading-relaxed">
+        <p className="text-zinc-500 text-xl max-w-3xl leading-relaxed">
 
-          Enterprise-grade cryptocurrency trading and portfolio management infrastructure.
+          Monitor digital asset performance, institutional liquidity,
+          portfolio exposure, and enterprise-grade market analytics.
 
         </p>
 
@@ -108,47 +125,61 @@ const Dashboard = () => {
             (
               item,
               index
-            ) => (
+            ) => {
 
-              <div
-                key={index}
-                className="glass rounded-3xl p-8 relative overflow-hidden"
-              >
+              const Icon =
+                item.icon;
 
-                <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-400/5 rounded-full blur-3xl"></div>
+              return (
 
-                <p className="text-zinc-500 text-lg mb-5">
+                <div
+                  key={index}
+                  className="glass rounded-[32px] p-8 card-hover"
+                >
 
-                  {
-                    item.title
-                  }
+                  <div className="flex items-center justify-between mb-8">
 
-                </p>
+                    <div className={`w-16 h-16 rounded-3xl bg-black/40 flex items-center justify-center ${item.color}`}>
 
-                <h2 className={`text-5xl font-black mb-5 ${item.color}`}>
+                      <Icon
+                        size={34}
+                      />
 
-                  {
-                    item.value
-                  }
+                    </div>
 
-                </h2>
+                    <div className="flex items-center gap-2 text-green-400 font-bold">
 
-                <div className="inline-flex items-center gap-2 bg-green-500/10 px-4 py-2 rounded-full">
+                      <ArrowUpRight
+                        size={18}
+                      />
 
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                      {
+                        item.change
+                      }
 
-                  <span className="text-green-400 font-bold">
+                    </div>
+
+                  </div>
+
+                  <p className="text-zinc-500 text-lg mb-3">
 
                     {
-                      item.change
+                      item.title
                     }
 
-                  </span>
+                  </p>
+
+                  <h2 className="text-5xl font-black">
+
+                    {
+                      item.value
+                    }
+
+                  </h2>
 
                 </div>
-
-              </div>
-            )
+              );
+            }
           )
         }
 
@@ -156,7 +187,7 @@ const Dashboard = () => {
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-12">
 
-        <div className="xl:col-span-2 glass rounded-3xl p-10">
+        <div className="xl:col-span-2 glass rounded-[32px] p-8">
 
           <div className="flex items-center justify-between mb-10">
 
@@ -164,98 +195,57 @@ const Dashboard = () => {
 
               <h2 className="text-4xl font-black mb-3">
 
-                Portfolio Allocation
+                Portfolio Performance
 
               </h2>
 
-              <p className="text-zinc-500 text-lg">
+              <p className="text-zinc-500">
 
-                Real-time institutional asset monitoring.
+                Institutional asset growth and trading activity.
 
               </p>
 
             </div>
 
-            <div className="bg-yellow-400/10 px-5 py-3 rounded-2xl">
+            <div className="bg-green-500/10 border border-green-500/20 text-green-400 px-5 py-3 rounded-2xl font-bold">
 
-              <span className="text-yellow-400 font-black">
-
-                LIVE
-
-              </span>
+              +18.4%
 
             </div>
 
           </div>
 
-          <div className="space-y-8">
+          <div className="h-[320px] flex items-end gap-4">
 
             {
-              assets.map(
+              [
+                120,
+                180,
+                140,
+                260,
+                220,
+                300,
+                280,
+                340,
+                380,
+                420,
+                390,
+                460,
+              ].map(
                 (
-                  asset,
+                  item,
                   index
                 ) => (
 
                   <div
                     key={index}
-                    className="border-b border-white/5 pb-6"
-                  >
+                    className="flex-1 bg-gradient-to-t from-yellow-400 to-yellow-300 rounded-t-3xl hover:opacity-80 transition-all"
+                    style={{
+                      height:
+                        `${item}px`,
+                    }}
+                  ></div>
 
-                    <div className="flex items-center justify-between mb-4">
-
-                      <div>
-
-                        <h3 className="text-3xl font-black mb-2">
-
-                          {
-                            asset.coin
-                          }
-
-                        </h3>
-
-                        <p className="text-zinc-500">
-
-                          Digital Asset Position
-
-                        </p>
-
-                      </div>
-
-                      <div className="text-right">
-
-                        <h3 className="text-3xl font-black mb-2">
-
-                          {
-                            asset.amount
-                          }
-
-                        </h3>
-
-                        <p className="text-green-400 font-bold">
-
-                          {
-                            asset.profit
-                          }
-
-                        </p>
-
-                      </div>
-
-                    </div>
-
-                    <div className="w-full h-4 bg-black/30 rounded-full overflow-hidden">
-
-                      <div
-                        className="h-full bg-yellow-400 rounded-full"
-                        style={{
-                          width: `${70 - index * 12}%`,
-                        }}
-                      ></div>
-
-                    </div>
-
-                  </div>
                 )
               )
             }
@@ -264,77 +254,97 @@ const Dashboard = () => {
 
         </div>
 
-        <div className="glass rounded-3xl p-10">
+        <div className="glass rounded-[32px] p-8">
 
-          <h2 className="text-4xl font-black mb-10">
+          <div className="flex items-center justify-between mb-8">
 
-            Market Overview
+            <h2 className="text-4xl font-black">
 
-          </h2>
+              Market Sentiment
+
+            </h2>
+
+            <div className="w-5 h-5 bg-green-400 rounded-full animate-pulse"></div>
+
+          </div>
 
           <div className="space-y-8">
 
-            <div className="flex items-center justify-between">
+            <div>
 
-              <span className="text-zinc-500 text-lg">
+              <div className="flex items-center justify-between mb-4">
 
-                Bitcoin Dominance
+                <span className="text-zinc-500">
 
-              </span>
+                  Bitcoin
 
-              <span className="text-yellow-400 font-black text-2xl">
+                </span>
 
-                54.2%
+                <span className="text-green-400 font-bold">
 
-              </span>
+                  Bullish
 
-            </div>
+                </span>
 
-            <div className="flex items-center justify-between">
+              </div>
 
-              <span className="text-zinc-500 text-lg">
+              <div className="w-full h-4 bg-black/30 rounded-full overflow-hidden">
 
-                Fear & Greed Index
+                <div className="h-full bg-green-400 rounded-full w-[84%]"></div>
 
-              </span>
-
-              <span className="text-green-400 font-black text-2xl">
-
-                74
-
-              </span>
+              </div>
 
             </div>
 
-            <div className="flex items-center justify-between">
+            <div>
 
-              <span className="text-zinc-500 text-lg">
+              <div className="flex items-center justify-between mb-4">
 
-                Market Volume
+                <span className="text-zinc-500">
 
-              </span>
+                  Ethereum
 
-              <span className="text-blue-400 font-black text-2xl">
+                </span>
 
-                $182B
+                <span className="text-yellow-400 font-bold">
 
-              </span>
+                  Neutral
+
+                </span>
+
+              </div>
+
+              <div className="w-full h-4 bg-black/30 rounded-full overflow-hidden">
+
+                <div className="h-full bg-yellow-400 rounded-full w-[68%]"></div>
+
+              </div>
 
             </div>
 
-            <div className="flex items-center justify-between">
+            <div>
 
-              <span className="text-zinc-500 text-lg">
+              <div className="flex items-center justify-between mb-4">
 
-                ETH Gas Fees
+                <span className="text-zinc-500">
 
-              </span>
+                  Solana
 
-              <span className="text-purple-400 font-black text-2xl">
+                </span>
 
-                22 GWEI
+                <span className="text-green-400 font-bold">
 
-              </span>
+                  Strong Buy
+
+                </span>
+
+              </div>
+
+              <div className="w-full h-4 bg-black/30 rounded-full overflow-hidden">
+
+                <div className="h-full bg-green-400 rounded-full w-[92%]"></div>
+
+              </div>
 
             </div>
 
@@ -344,21 +354,138 @@ const Dashboard = () => {
 
       </div>
 
-      <ActivityFeed />
+      <div className="glass rounded-[32px] p-8 mb-12">
 
-      <div className="mt-10">
+        <div className="flex items-center justify-between mb-10">
 
-        <StatsGrid />
+          <div>
+
+            <h2 className="text-4xl font-black mb-3">
+
+              Recent Transactions
+
+            </h2>
+
+            <p className="text-zinc-500">
+
+              Institutional trading activity and execution history.
+
+            </p>
+
+          </div>
+
+          <button className="bg-yellow-400 hover:bg-yellow-300 transition-all text-black px-6 py-3 rounded-2xl font-black">
+
+            View All
+
+          </button>
+
+        </div>
+
+        <div className="space-y-5">
+
+          {
+            trades.map(
+              (
+                trade,
+                index
+              ) => (
+
+                <div
+                  key={index}
+                  className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 bg-black/30 border border-white/5 rounded-3xl p-6"
+                >
+
+                  <div className="flex items-center gap-5">
+
+                    <div className={`w-16 h-16 rounded-3xl flex items-center justify-center ${
+                      trade.type === "BUY"
+                        ? "bg-green-500/10 text-green-400"
+                        : "bg-red-500/10 text-red-400"
+                    }`}>
+
+                      {
+                        trade.type === "BUY"
+                          ? (
+                            <ArrowUpRight
+                              size={30}
+                            />
+                          )
+                          : (
+                            <ArrowDownRight
+                              size={30}
+                            />
+                          )
+                      }
+
+                    </div>
+
+                    <div>
+
+                      <h3 className="text-3xl font-black mb-2">
+
+                        {
+                          trade.pair
+                        }
+
+                      </h3>
+
+                      <p className="text-zinc-500">
+
+                        {
+                          trade.type
+                        } order executed
+
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <div className="text-left lg:text-right">
+
+                    <h3 className="text-3xl font-black text-yellow-400 mb-2">
+
+                      {
+                        trade.amount
+                      }
+
+                    </h3>
+
+                    <p className={`font-bold ${
+                      trade.status === "Completed"
+                        ? "text-green-400"
+                        : "text-yellow-400"
+                    }`}>
+
+                      {
+                        trade.status
+                      }
+
+                    </p>
+
+                  </div>
+
+                </div>
+
+              )
+            )
+          }
+
+        </div>
 
       </div>
 
-      <div className="mt-10">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
 
-        <Testimonials />
+        <AIInsights />
+
+        <Watchlist />
 
       </div>
 
     </MainLayout>
+
   );
 };
 

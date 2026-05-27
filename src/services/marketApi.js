@@ -1,12 +1,40 @@
-import API from "./api";
+import axios from "axios";
 
-export const fetchMarkets =
+const API =
+  axios.create({
+
+    baseURL:
+      "https://api.coingecko.com/api/v3",
+  });
+
+export const getMarkets =
   async () => {
 
     const response =
       await API.get(
-        "/api/markets/live"
+
+        "/coins/markets",
+
+        {
+          params: {
+
+            vs_currency:
+              "usd",
+
+            order:
+              "market_cap_desc",
+
+            per_page:
+              10,
+
+            page:
+              1,
+
+            sparkline:
+              false,
+          },
+        }
       );
 
-    return response.data.markets;
+    return response.data;
   };
