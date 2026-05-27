@@ -1,60 +1,36 @@
-import { useEffect, useState } from "react";
-
 import MainLayout from "../components/layout/MainLayout";
 
 import OrderBook from "../components/trading/OrderBook";
-
 import LiveTrades from "../components/trading/LiveTrades";
 
-import {
-  TrendingUp,
-  TrendingDown,
-  Activity,
-  DollarSign,
-  BarChart3,
-} from "lucide-react";
+const pairs = [
+
+  {
+    pair: "BTC/USDT",
+    price: "$84,320",
+    change: "+4.8%",
+  },
+
+  {
+    pair: "ETH/USDT",
+    price: "$4,820",
+    change: "+2.1%",
+  },
+
+  {
+    pair: "SOL/USDT",
+    price: "$182",
+    change: "+8.4%",
+  },
+
+  {
+    pair: "BNB/USDT",
+    price: "$710",
+    change: "+1.4%",
+  },
+];
 
 const Trading = () => {
-
-  const [marketData, setMarketData] =
-    useState([]);
-
-  const [loading, setLoading] =
-    useState(true);
-
-  useEffect(() => {
-
-    const fetchMarketData =
-      async () => {
-
-        try {
-
-          const response =
-            await fetch(
-              "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,ripple&order=market_cap_desc&per_page=4&page=1&sparkline=false"
-            );
-
-          const data =
-            await response.json();
-
-          setMarketData(data);
-
-        } catch (error) {
-
-          console.error(
-            "Market API Error:",
-            error
-          );
-
-        } finally {
-
-          setLoading(false);
-        }
-      };
-
-    fetchMarketData();
-
-  }, []);
 
   return (
 
@@ -74,220 +50,101 @@ const Trading = () => {
 
         </div>
 
-        <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+        <h1 className="text-6xl font-black mb-4">
 
-          <div>
+          Professional
+          <span className="text-yellow-400">
 
-            <h1 className="text-6xl font-black mb-4">
+            {" "}Trading
 
-              Professional
-              <span className="text-yellow-400">
-                {" "}Trading
-              </span>
+          </span>
 
-            </h1>
+        </h1>
 
-            <p className="text-zinc-500 text-xl">
+        <p className="text-zinc-500 text-xl max-w-3xl">
 
-              Institutional-grade cryptocurrency trading infrastructure.
+          Institutional-grade multi-asset trading infrastructure with live order execution simulation.
 
-            </p>
-
-          </div>
-
-          <div className="flex items-center gap-4">
-
-            <div className="glass rounded-2xl px-6 py-4">
-
-              <p className="text-zinc-500 mb-2">
-
-                24H Volume
-
-              </p>
-
-              <h3 className="text-2xl font-black text-green-400">
-
-                $12.4B
-
-              </h3>
-
-            </div>
-
-            <div className="glass rounded-2xl px-6 py-4">
-
-              <p className="text-zinc-500 mb-2">
-
-                Active Traders
-
-              </p>
-
-              <h3 className="text-2xl font-black text-yellow-400">
-
-                182K
-
-              </h3>
-
-            </div>
-
-          </div>
-
-        </div>
+        </p>
 
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-10">
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-8 mb-8">
 
         {
-          loading
-            ? (
-              [...Array(4)].map(
-                (_, index) => (
+          pairs.map(
+            (
+              item,
+              index
+            ) => (
 
-                  <div
-                    key={index}
-                    className="glass rounded-3xl p-6 animate-pulse h-[140px]"
-                  />
-                )
-              )
+              <div
+                key={index}
+                className="glass rounded-3xl p-6"
+              >
+
+                <div className="flex items-center justify-between mb-4">
+
+                  <h2 className="text-2xl font-black">
+
+                    {
+                      item.pair
+                    }
+
+                  </h2>
+
+                  <span className="text-green-400 font-bold">
+
+                    {
+                      item.change
+                    }
+
+                  </span>
+
+                </div>
+
+                <h3 className="text-4xl font-black text-yellow-400">
+
+                  {
+                    item.price
+                  }
+
+                </h3>
+
+              </div>
             )
-            : (
-              marketData.map(
-                (
-                  coin
-                ) => {
-
-                  const positive =
-                    coin.price_change_percentage_24h >= 0;
-
-                  return (
-
-                    <div
-                      key={coin.id}
-                      className="glass rounded-3xl p-6"
-                    >
-
-                      <div className="flex items-center justify-between mb-6">
-
-                        <div className="flex items-center gap-4">
-
-                          <img
-                            src={coin.image}
-                            alt={coin.name}
-                            className="w-12 h-12"
-                          />
-
-                          <div>
-
-                            <h2 className="text-2xl font-black">
-
-                              {
-                                coin.symbol.toUpperCase()
-                              }
-
-                            </h2>
-
-                            <p className="text-zinc-500">
-
-                              {
-                                coin.name
-                              }
-
-                            </p>
-
-                          </div>
-
-                        </div>
-
-                        {
-                          positive
-                            ? (
-                              <TrendingUp
-                                className="text-green-400"
-                                size={28}
-                              />
-                            )
-                            : (
-                              <TrendingDown
-                                className="text-red-400"
-                                size={28}
-                              />
-                            )
-                        }
-
-                      </div>
-
-                      <h3 className="text-3xl font-black mb-3">
-
-                        $
-                        {
-                          coin.current_price.toLocaleString()
-                        }
-
-                      </h3>
-
-                      <p
-                        className={`font-black text-lg ${
-                          positive
-                            ? "text-green-400"
-                            : "text-red-400"
-                        }`}
-                      >
-
-                        {
-                          coin.price_change_percentage_24h.toFixed(2)
-                        }%
-
-                      </p>
-
-                    </div>
-                  );
-                }
-              )
-            )
+          )
         }
 
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
 
-        <div className="xl:col-span-2">
+        <div className="xl:col-span-2 space-y-8">
 
-          <div className="glass rounded-3xl p-8 h-[650px] relative overflow-hidden">
+          <div className="glass rounded-3xl p-8 h-[600px] flex flex-col">
 
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-yellow-400/5 to-transparent pointer-events-none"></div>
+            <div className="flex items-center justify-between mb-8">
 
-            <div className="flex items-center justify-between mb-8 relative z-10">
+              <div>
 
-              <div className="flex items-center gap-4">
+                <h2 className="text-4xl font-black mb-3">
 
-                <BarChart3
-                  size={36}
-                  className="text-yellow-400"
-                />
+                  BTC/USDT Chart
 
-                <div>
+                </h2>
 
-                  <h2 className="text-4xl font-black">
+                <p className="text-zinc-500">
 
-                    BTC / USDT
+                  Real-time institutional market visualization.
 
-                  </h2>
-
-                  <p className="text-zinc-500">
-
-                    Real-time Trading Terminal
-
-                  </p>
-
-                </div>
+                </p>
 
               </div>
 
-              <div className="flex items-center gap-3 bg-green-500/10 border border-green-500/20 px-4 py-2 rounded-full">
+              <div className="bg-yellow-400/10 px-5 py-3 rounded-2xl">
 
-                <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-
-                <span className="text-green-400 font-bold">
+                <span className="text-yellow-400 font-black">
 
                   LIVE
 
@@ -297,82 +154,77 @@ const Trading = () => {
 
             </div>
 
-            <div className="h-[500px] flex items-center justify-center relative z-10">
+            <div className="flex-1 rounded-3xl border border-white/5 bg-black/40 flex items-center justify-center">
 
               <div className="text-center">
 
-                <Activity
-                  size={80}
-                  className="text-yellow-400 mx-auto mb-8"
-                />
-
                 <h2 className="text-5xl font-black text-yellow-400 mb-6">
 
-                  Advanced Trading Terminal
+                  TradingView Live Chart
 
                 </h2>
 
-                <p className="text-zinc-500 text-2xl max-w-2xl leading-relaxed">
+                <p className="text-zinc-500 text-xl">
 
-                  Professional multi-asset trading infrastructure with institutional-grade liquidity systems.
+                  Real-time Binance market integration active.
 
                 </p>
-
-                <div className="flex items-center justify-center gap-8 mt-10">
-
-                  <div className="glass rounded-2xl px-6 py-4">
-
-                    <p className="text-zinc-500 mb-2">
-
-                      Spread
-
-                    </p>
-
-                    <h3 className="text-2xl font-black text-green-400">
-
-                      0.01%
-
-                    </h3>
-
-                  </div>
-
-                  <div className="glass rounded-2xl px-6 py-4">
-
-                    <p className="text-zinc-500 mb-2">
-
-                      Liquidity
-
-                    </p>
-
-                    <h3 className="text-2xl font-black text-yellow-400">
-
-                      High
-
-                    </h3>
-
-                  </div>
-
-                  <div className="glass rounded-2xl px-6 py-4">
-
-                    <p className="text-zinc-500 mb-2">
-
-                      Fees
-
-                    </p>
-
-                    <h3 className="text-2xl font-black text-blue-400">
-
-                      0.1%
-
-                    </h3>
-
-                  </div>
-
-                </div>
 
               </div>
 
             </div>
+
+          </div>
+
+          <div className="glass rounded-3xl p-8">
+
+            <div className="flex items-center justify-between mb-8">
+
+              <h2 className="text-4xl font-black">
+
+                Quick Trade
+
+              </h2>
+
+              <div className="flex gap-3">
+
+                <button className="bg-green-500 text-black px-6 py-3 rounded-2xl font-black">
+
+                  BUY
+
+                </button>
+
+                <button className="bg-red-500 text-white px-6 py-3 rounded-2xl font-black">
+
+                  SELL
+
+                </button>
+
+              </div>
+
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+              <input
+                type="text"
+                placeholder="Amount"
+                className="bg-black/40 border border-white/10 rounded-2xl px-5 py-5 outline-none"
+              />
+
+              <input
+                type="text"
+                placeholder="Price"
+                className="bg-black/40 border border-white/10 rounded-2xl px-5 py-5 outline-none"
+              />
+
+            </div>
+
+            <button className="w-full mt-6 bg-yellow-400 hover:bg-yellow-300 transition-all py-5 rounded-2xl text-black font-black text-xl">
+
+              Execute Trade
+
+            </button>
 
           </div>
 
@@ -384,52 +236,27 @@ const Trading = () => {
 
           <LiveTrades />
 
-          <div className="glass rounded-3xl p-6">
+          <div className="glass rounded-3xl p-8">
 
-            <div className="flex items-center gap-4 mb-6">
+            <h2 className="text-3xl font-black mb-8">
 
-              <DollarSign
-                size={32}
-                className="text-yellow-400"
-              />
+              Trading Stats
 
-              <h2 className="text-3xl font-black">
+            </h2>
 
-                Market Stats
-
-              </h2>
-
-            </div>
-
-            <div className="space-y-5">
+            <div className="space-y-6">
 
               <div className="flex items-center justify-between">
 
                 <span className="text-zinc-500">
 
-                  BTC Dominance
+                  24H Volume
 
                 </span>
 
-                <span className="font-black text-yellow-400">
+                <span className="font-black">
 
-                  52.4%
-
-                </span>
-
-              </div>
-
-              <div className="flex items-center justify-between">
-
-                <span className="text-zinc-500">
-
-                  Fear & Greed
-
-                </span>
-
-                <span className="font-black text-green-400">
-
-                  Greed 74
+                  $2.8B
 
                 </span>
 
@@ -443,9 +270,9 @@ const Trading = () => {
 
                 </span>
 
-                <span className="font-black text-blue-400">
+                <span className="font-black">
 
-                  $18.2B
+                  $982M
 
                 </span>
 
@@ -455,13 +282,29 @@ const Trading = () => {
 
                 <span className="text-zinc-500">
 
-                  Funding Rate
+                  Long Ratio
 
                 </span>
 
-                <span className="font-black text-green-400">
+                <span className="text-green-400 font-black">
 
-                  +0.012%
+                  68%
+
+                </span>
+
+              </div>
+
+              <div className="flex items-center justify-between">
+
+                <span className="text-zinc-500">
+
+                  Short Ratio
+
+                </span>
+
+                <span className="text-red-400 font-black">
+
+                  32%
 
                 </span>
 
