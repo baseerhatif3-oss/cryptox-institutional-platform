@@ -1,208 +1,112 @@
-import {
-  LayoutDashboard,
-  CandlestickChart,
-  Wallet,
-  Shield,
-  BarChart3,
-  Settings,
-  Monitor,
-  Users,
-  PlayCircle,
-} from "lucide-react";
+const links = [
 
-import {
-  NavLink,
-} from "react-router-dom";
+  {
+    name:
+      "Dashboard",
 
-const Sidebar = () => {
+    path:
+      "/dashboard",
 
-  const links = [
+    icon:
+      LayoutDashboard,
+  },
 
-    {
-      name:
-        "Dashboard",
+  {
+    name:
+      "Markets",
 
-      path:
-        "/dashboard",
+    path:
+      "/markets",
 
-      icon:
-        LayoutDashboard,
-    },
+    icon:
+      CandlestickChart,
+  },
 
-    {
-      name:
-        "Markets",
+  {
+    name:
+      "Trading",
 
-      path:
-        "/markets",
+    path:
+      "/trading",
 
-      icon:
-        CandlestickChart,
-    },
+    icon:
+      BarChart3,
+  },
 
-    {
-      name:
-        "Trading",
+  {
+    name:
+      "Portfolio",
 
-      path:
-        "/trading",
+    path:
+      "/portfolio",
 
-      icon:
-        BarChart3,
-    },
+    icon:
+      Wallet,
+  },
 
-    {
-      name:
-        "Portfolio",
+  {
+    name:
+      "Wallet",
 
-      path:
-        "/portfolio",
+    path:
+      "/wallet",
 
-      icon:
-        Wallet,
-    },
+    icon:
+      Wallet,
+  },
 
-    {
-      name:
-        "Demo Trading",
+  {
+    name:
+      "Demo Trading",
 
-      path:
-        "/demo",
+    path:
+      "/demo",
 
-      icon:
-        PlayCircle,
-    },
+    icon:
+      PlayCircle,
+  },
 
-    {
-      name:
-        "System Status",
+  {
+    name:
+      "System Status",
 
-      path:
-        "/system-status",
+    path:
+      "/system-status",
 
-      icon:
-        Monitor,
-    },
+    icon:
+      Monitor,
+  },
 
-    {
-      name:
-        "Admin",
+  {
+    name:
+      "Admin",
 
-      path:
-        "/admin",
+    path:
+      "/admin",
 
-      icon:
-        Users,
-    },
+    icon:
+      Users,
+  },
 
-    {
-      name:
-        "Settings",
+  {
+    name:
+      "Trust Center",
 
-      path:
-        "/settings",
+    path:
+      "/trust-center",
 
-      icon:
-        Settings,
-    },
-  ];
+    icon:
+      Shield,
+  },
 
-  return (
+  {
+    name:
+      "Settings",
 
-    <div className="w-[300px] min-h-screen bg-black border-r border-white/5 p-8 hidden xl:flex flex-col">
+    path:
+      "/settings",
 
-      <div className="mb-14">
-
-        <h1 className="text-5xl font-black text-yellow-400">
-
-          CryptoX
-
-        </h1>
-
-        <p className="text-zinc-500 mt-3">
-
-          Enterprise Exchange
-
-        </p>
-
-      </div>
-
-      <div className="flex flex-col gap-4">
-
-        {
-          links.map(
-            (
-              item,
-              index
-            ) => {
-
-              const Icon =
-                item.icon;
-
-              return (
-
-                <NavLink
-                  key={index}
-                  to={
-                    item.path
-                  }
-                  className={(
-                    {
-                      isActive,
-                    }
-                  ) =>
-
-                    `flex items-center gap-4 px-6 py-5 rounded-2xl font-bold transition-all ${
-                      isActive
-                        ? "bg-yellow-400 text-black"
-                        : "text-zinc-400 hover:bg-white/5"
-                    }`
-                  }
-                >
-
-                  <Icon
-                    size={24}
-                  />
-
-                  {
-                    item.name
-                  }
-
-                </NavLink>
-              );
-            }
-          )
-        }
-
-      </div>
-
-      <div className="mt-auto glass rounded-3xl p-6">
-
-        <div className="flex items-center gap-4 mb-4">
-
-          <Shield
-            className="text-green-400"
-            size={28}
-          />
-
-          <h2 className="text-2xl font-black">
-
-            Security
-
-          </h2>
-
-        </div>
-
-        <p className="text-zinc-500 leading-relaxed">
-
-          Institutional-grade multi-layer security infrastructure active.
-
-        </p>
-
-      </div>
-
-    </div>
-  );
-};
-
-export default Sidebar;
+    icon:
+      Settings,
+  },
+];

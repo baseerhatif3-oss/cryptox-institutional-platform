@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import Markets from "./pages/Markets";
 import Trading from "./pages/Trading";
 import Portfolio from "./pages/Portfolio";
+import Wallet from "./pages/Wallet";
 import Settings from "./pages/Settings";
 import SystemStatus from "./pages/SystemStatus";
 import DemoAccount from "./pages/DemoAccount";
@@ -87,6 +88,17 @@ function App() {
             <ProtectedRoute>
 
               <Portfolio />
+
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/wallet"
+          element={
+            <ProtectedRoute>
+
+              <Wallet />
 
             </ProtectedRoute>
           }

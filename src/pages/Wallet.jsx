@@ -2,50 +2,62 @@ import MainLayout from "../components/layout/MainLayout";
 
 const Wallet = () => {
 
-  const assets = [
+  const transactions = [
 
     {
-      coin:
+      type:
+        "Deposit",
+
+      asset:
         "BTC",
 
-      balance:
-        "2.48 BTC",
+      amount:
+        "+0.42 BTC",
 
-      value:
-        "$208,000",
+      status:
+        "Completed",
     },
 
     {
-      coin:
+      type:
+        "Withdrawal",
+
+      asset:
         "ETH",
 
-      balance:
-        "18.2 ETH",
+      amount:
+        "-2.1 ETH",
 
-      value:
-        "$77,900",
+      status:
+        "Pending",
     },
 
     {
-      coin:
+      type:
+        "Deposit",
+
+      asset:
         "USDT",
 
-      balance:
-        "84,000 USDT",
+      amount:
+        "+12,000 USDT",
 
-      value:
-        "$84,000",
+      status:
+        "Completed",
     },
 
     {
-      coin:
+      type:
+        "Withdrawal",
+
+      asset:
         "SOL",
 
-      balance:
-        "920 SOL",
+      amount:
+        "-80 SOL",
 
-      value:
-        "$167,000",
+      status:
+        "Completed",
     },
   ];
 
@@ -53,72 +65,142 @@ const Wallet = () => {
 
     <MainLayout>
 
-      <div className="relative overflow-hidden rounded-[40px] border border-yellow-500/10 bg-gradient-to-br from-yellow-400/10 via-black to-black p-10 mb-10">
+      <div className="mb-10">
 
-        <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-yellow-400/10 rounded-full blur-[120px]"></div>
+        <div className="inline-flex items-center gap-3 bg-green-500/10 border border-green-500/20 px-5 py-3 rounded-full mb-8">
 
-        <div className="relative z-10">
+          <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
 
-          <div className="inline-flex items-center gap-3 bg-yellow-400/10 border border-yellow-400/20 px-5 py-3 rounded-full mb-6">
+          <span className="text-green-400 font-bold">
 
-            <span className="text-yellow-400 font-bold">
+            WALLET INFRASTRUCTURE ACTIVE
 
-              SECURE WALLET SYSTEM
+          </span>
 
-            </span>
+        </div>
 
-          </div>
+        <h1 className="text-6xl font-black">
 
-          <h1 className="text-6xl font-black">
+          Asset
+          <span className="text-yellow-400">
+            {" "}Wallet
+          </span>
 
-            Asset
-            <span className="text-yellow-400">
-              {" "}Wallet
-            </span>
+        </h1>
 
-          </h1>
+      </div>
 
-          <p className="text-zinc-400 text-xl mt-6 max-w-3xl">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-10">
 
-            Enterprise-grade digital asset management and secure crypto storage infrastructure.
+        <div className="glass rounded-3xl p-8">
+
+          <p className="text-zinc-500 mb-4">
+
+            Total Assets
 
           </p>
 
+          <h2 className="text-6xl font-black text-yellow-400">
+
+            $536K
+
+          </h2>
+
+        </div>
+
+        <div className="glass rounded-3xl p-8">
+
+          <p className="text-zinc-500 mb-4">
+
+            Available Balance
+
+          </p>
+
+          <h2 className="text-6xl font-black text-green-400">
+
+            $412K
+
+          </h2>
+
+        </div>
+
+        <div className="glass rounded-3xl p-8">
+
+          <p className="text-zinc-500 mb-4">
+
+            Pending Transfers
+
+          </p>
+
+          <h2 className="text-6xl font-black text-blue-400">
+
+            $28K
+
+          </h2>
+
         </div>
 
       </div>
 
-      <div className="glass rounded-3xl p-8 mb-10">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-10">
 
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div className="glass rounded-3xl p-8">
 
-          <div>
+          <h2 className="text-4xl font-black mb-8">
 
-            <p className="text-zinc-500 mb-3">
+            Deposit Funds
 
-              Total Portfolio Value
+          </h2>
 
-            </p>
+          <div className="space-y-6">
 
-            <h2 className="text-6xl font-black text-yellow-400">
+            <input
+              type="text"
+              placeholder="Asset (BTC, ETH, USDT)"
+              className="w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-4 outline-none"
+            />
 
-              $536,900
+            <input
+              type="number"
+              placeholder="Amount"
+              className="w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-4 outline-none"
+            />
 
-            </h2>
+            <button className="w-full bg-yellow-400 hover:bg-yellow-300 transition-all text-black py-4 rounded-2xl font-black text-xl">
 
-          </div>
-
-          <div className="flex flex-wrap gap-4">
-
-            <button className="bg-yellow-400 hover:bg-yellow-300 transition-all px-8 py-4 rounded-2xl text-black font-black">
-
-              Deposit
+              Generate Deposit Address
 
             </button>
 
-            <button className="glass px-8 py-4 rounded-2xl font-black">
+          </div>
 
-              Withdraw
+        </div>
+
+        <div className="glass rounded-3xl p-8">
+
+          <h2 className="text-4xl font-black mb-8">
+
+            Withdraw Funds
+
+          </h2>
+
+          <div className="space-y-6">
+
+            <input
+              type="text"
+              placeholder="Wallet Address"
+              className="w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-4 outline-none"
+            />
+
+            <input
+              type="number"
+              placeholder="Amount"
+              className="w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-4 outline-none"
+            />
+
+            <button className="w-full bg-red-500 hover:bg-red-400 transition-all text-white py-4 rounded-2xl font-black text-xl">
+
+              Request Withdrawal
 
             </button>
 
@@ -128,74 +210,106 @@ const Wallet = () => {
 
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="glass rounded-3xl p-8 overflow-x-auto">
 
-        {
-          assets.map(
-            (
-              asset,
-              index
-            ) => (
+        <h2 className="text-4xl font-black mb-8">
 
-              <div
-                key={index}
-                className="glass rounded-3xl p-8 hover:border-yellow-400/20 transition-all"
-              >
+          Transaction History
 
-                <div className="flex items-center justify-between mb-8">
+        </h2>
 
-                  <div>
+        <table className="w-full">
 
-                    <h2 className="text-5xl font-black">
+          <thead>
+
+            <tr className="border-b border-white/10">
+
+              <th className="text-left py-4 text-zinc-500">
+
+                Type
+
+              </th>
+
+              <th className="text-left py-4 text-zinc-500">
+
+                Asset
+
+              </th>
+
+              <th className="text-left py-4 text-zinc-500">
+
+                Amount
+
+              </th>
+
+              <th className="text-left py-4 text-zinc-500">
+
+                Status
+
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            {
+              transactions.map(
+                (
+                  item,
+                  index
+                ) => (
+
+                  <tr
+                    key={index}
+                    className="border-b border-white/5"
+                  >
+
+                    <td className="py-6 font-bold">
 
                       {
-                        asset.coin
+                        item.type
                       }
 
-                    </h2>
+                    </td>
 
-                    <p className="text-zinc-500 mt-3">
+                    <td className="py-6 text-zinc-400">
 
-                      Available Balance
+                      {
+                        item.asset
+                      }
 
-                    </p>
+                    </td>
 
-                  </div>
+                    <td className="py-6 font-bold text-yellow-400">
 
-                  <div className="w-16 h-16 rounded-3xl bg-yellow-400/10 flex items-center justify-center">
+                      {
+                        item.amount
+                      }
 
-                    <span className="text-3xl">
-                      💰
-                    </span>
+                    </td>
 
-                  </div>
+                    <td className="py-6">
 
-                </div>
+                      <span className="bg-green-500/10 text-green-400 px-4 py-2 rounded-xl font-bold">
 
-                <div>
+                        {
+                          item.status
+                        }
 
-                  <h3 className="text-4xl font-black text-white mb-3">
+                      </span>
 
-                    {
-                      asset.balance
-                    }
+                    </td>
 
-                  </h3>
+                  </tr>
+                )
+              )
+            }
 
-                  <span className="text-green-400 text-2xl font-black">
+          </tbody>
 
-                    {
-                      asset.value
-                    }
-
-                  </span>
-
-                </div>
-
-              </div>
-            )
-          )
-        }
+        </table>
 
       </div>
 
