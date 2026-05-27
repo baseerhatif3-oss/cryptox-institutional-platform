@@ -10,6 +10,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Markets from "./pages/Markets";
 import Trading from "./pages/Trading";
+import Futures from "./pages/Futures";
 import Portfolio from "./pages/Portfolio";
 import Wallet from "./pages/Wallet";
 import Settings from "./pages/Settings";
@@ -79,6 +80,17 @@ function App() {
             <ProtectedRoute>
 
               <Trading />
+
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/futures"
+          element={
+            <ProtectedRoute>
+
+              <Futures />
 
             </ProtectedRoute>
           }

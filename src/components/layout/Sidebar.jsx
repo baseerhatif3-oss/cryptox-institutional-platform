@@ -5,10 +5,11 @@ import {
   Shield,
   BarChart3,
   Settings,
-  Monitor,
+ Monitor,
   Users,
   PlayCircle,
   KeyRound,
+  TrendingUp,
 } from "lucide-react";
 
 import {
@@ -50,6 +51,17 @@ const Sidebar = () => {
 
       icon:
         BarChart3,
+    },
+
+    {
+      name:
+        "Futures",
+
+      path:
+        "/futures",
+
+      icon:
+        TrendingUp,
     },
 
     {
@@ -161,7 +173,7 @@ const Sidebar = () => {
 
       </div>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 overflow-y-auto pr-2">
 
         {
           links.map(
@@ -188,8 +200,8 @@ const Sidebar = () => {
 
                     `flex items-center gap-4 px-6 py-5 rounded-2xl font-bold transition-all ${
                       isActive
-                        ? "bg-yellow-400 text-black"
-                        : "text-zinc-400 hover:bg-white/5"
+                        ? "bg-yellow-400 text-black shadow-2xl shadow-yellow-400/20"
+                        : "text-zinc-400 hover:bg-white/5 hover:text-white"
                     }`
                   }
                 >
@@ -210,7 +222,7 @@ const Sidebar = () => {
 
       </div>
 
-      <div className="mt-auto glass rounded-3xl p-6">
+      <div className="mt-auto glass rounded-3xl p-6 border border-green-500/10">
 
         <div className="flex items-center gap-4 mb-4">
 
@@ -227,11 +239,23 @@ const Sidebar = () => {
 
         </div>
 
-        <p className="text-zinc-500 leading-relaxed">
+        <p className="text-zinc-500 leading-relaxed mb-5">
 
           Institutional-grade multi-layer security infrastructure active.
 
         </p>
+
+        <div className="flex items-center gap-3">
+
+          <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+
+          <span className="text-green-400 font-bold">
+
+            Systems Operational
+
+          </span>
+
+        </div>
 
       </div>
 

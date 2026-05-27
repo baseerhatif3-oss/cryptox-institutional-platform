@@ -2,17 +2,17 @@ import MainLayout from "../components/layout/MainLayout";
 
 const Futures = () => {
 
-  const pairs = [
+  const positions = [
 
     {
       pair:
         "BTCUSDT",
 
       leverage:
-        "125x",
+        "25x",
 
-      volume:
-        "$18.4B",
+      pnl:
+        "+$12,840",
     },
 
     {
@@ -20,10 +20,10 @@ const Futures = () => {
         "ETHUSDT",
 
       leverage:
-        "100x",
+        "10x",
 
-      volume:
-        "$11.2B",
+      pnl:
+        "+$4,220",
     },
 
     {
@@ -31,21 +31,10 @@ const Futures = () => {
         "SOLUSDT",
 
       leverage:
-        "75x",
-
-      volume:
-        "$4.8B",
-    },
-
-    {
-      pair:
-        "BNBUSDT",
-
-      leverage:
         "50x",
 
-      volume:
-        "$3.1B",
+      pnl:
+        "-$1,920",
     },
   ];
 
@@ -53,105 +42,293 @@ const Futures = () => {
 
     <MainLayout>
 
-      <div className="relative overflow-hidden rounded-[40px] border border-yellow-500/10 bg-gradient-to-br from-yellow-400/10 via-black to-black p-10 mb-10">
+      <div className="mb-10">
 
-        <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-yellow-400/10 rounded-full blur-[120px]"></div>
+        <div className="inline-flex items-center gap-3 bg-red-500/10 border border-red-500/20 px-5 py-3 rounded-full mb-8">
 
-        <div className="relative z-10">
+          <div className="w-3 h-3 bg-red-400 rounded-full animate-pulse"></div>
 
-          <div className="inline-flex items-center gap-3 bg-red-500/10 border border-red-500/20 px-5 py-3 rounded-full mb-6">
+          <span className="text-red-400 font-bold">
 
-            <div className="w-3 h-3 bg-red-400 rounded-full animate-pulse"></div>
+            FUTURES ENGINE ACTIVE
 
-            <span className="text-red-400 font-bold">
+          </span>
 
-              HIGH LEVERAGE TRADING
+        </div>
 
-            </span>
+        <h1 className="text-6xl font-black">
 
-          </div>
+          Futures
+          <span className="text-yellow-400">
+            {" "}Trading
+          </span>
 
-          <h1 className="text-6xl font-black">
+        </h1>
 
-            Futures
-            <span className="text-yellow-400">
-              {" "}Trading
-            </span>
+      </div>
 
-          </h1>
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-8 mb-10">
 
-          <p className="text-zinc-400 text-xl mt-6 max-w-3xl">
+        <div className="glass rounded-3xl p-8">
 
-            Professional leveraged derivatives trading with enterprise-grade execution infrastructure.
+          <p className="text-zinc-500 mb-4">
+
+            Open Interest
 
           </p>
+
+          <h2 className="text-5xl font-black text-yellow-400">
+
+            $82M
+
+          </h2>
+
+        </div>
+
+        <div className="glass rounded-3xl p-8">
+
+          <p className="text-zinc-500 mb-4">
+
+            24H Volume
+
+          </p>
+
+          <h2 className="text-5xl font-black text-green-400">
+
+            $412M
+
+          </h2>
+
+        </div>
+
+        <div className="glass rounded-3xl p-8">
+
+          <p className="text-zinc-500 mb-4">
+
+            Active Traders
+
+          </p>
+
+          <h2 className="text-5xl font-black text-blue-400">
+
+            24K
+
+          </h2>
+
+        </div>
+
+        <div className="glass rounded-3xl p-8">
+
+          <p className="text-zinc-500 mb-4">
+
+            Liquidations
+
+          </p>
+
+          <h2 className="text-5xl font-black text-red-400">
+
+            $8.2M
+
+          </h2>
 
         </div>
 
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="glass rounded-3xl p-8 mb-10">
 
-        {
-          pairs.map(
-            (
-              item,
-              index
-            ) => (
+        <h2 className="text-4xl font-black mb-8">
 
-              <div
-                key={index}
-                className="glass rounded-3xl p-8 hover:border-yellow-400/20 transition-all"
-              >
+          Open Positions
 
-                <div className="flex items-center justify-between mb-8">
+        </h2>
 
-                  <h2 className="text-5xl font-black">
+        <table className="w-full">
 
-                    {
-                      item.pair
-                    }
+          <thead>
 
-                  </h2>
+            <tr className="border-b border-white/10">
 
-                  <span className="bg-red-500/20 text-red-400 px-5 py-3 rounded-2xl font-black">
+              <th className="text-left py-4 text-zinc-500">
 
-                    {
-                      item.leverage
-                    }
+                Pair
 
-                  </span>
+              </th>
 
-                </div>
+              <th className="text-left py-4 text-zinc-500">
 
-                <div className="flex items-center justify-between mb-8">
+                Leverage
 
-                  <span className="text-zinc-500 text-lg">
+              </th>
 
-                    24H Volume
+              <th className="text-left py-4 text-zinc-500">
 
-                  </span>
+                PNL
 
-                  <span className="text-green-400 text-3xl font-black">
+              </th>
 
-                    {
-                      item.volume
-                    }
+            </tr>
 
-                  </span>
+          </thead>
 
-                </div>
+          <tbody>
 
-                <button className="w-full bg-yellow-400 hover:bg-yellow-300 transition-all py-4 rounded-2xl text-black font-black text-lg">
+            {
+              positions.map(
+                (
+                  item,
+                  index
+                ) => (
 
-                  Open Position
+                  <tr
+                    key={index}
+                    className="border-b border-white/5"
+                  >
 
-                </button>
+                    <td className="py-6 font-black">
 
-              </div>
-            )
-          )
-        }
+                      {
+                        item.pair
+                      }
+
+                    </td>
+
+                    <td className="py-6 text-yellow-400 font-black">
+
+                      {
+                        item.leverage
+                      }
+
+                    </td>
+
+                    <td
+                      className={`py-6 font-black ${
+                        item.pnl.includes(
+                          "+"
+                        )
+                          ? "text-green-400"
+                          : "text-red-400"
+                      }`}
+                    >
+
+                      {
+                        item.pnl
+                      }
+
+                    </td>
+
+                  </tr>
+                )
+              )
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+
+        <div className="glass rounded-3xl p-8">
+
+          <h2 className="text-4xl font-black mb-8">
+
+            Open Position
+
+          </h2>
+
+          <div className="space-y-6">
+
+            <input
+              type="text"
+              placeholder="Trading Pair"
+              className="w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-4 outline-none"
+            />
+
+            <input
+              type="number"
+              placeholder="Leverage"
+              className="w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-4 outline-none"
+            />
+
+            <input
+              type="number"
+              placeholder="Position Size"
+              className="w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-4 outline-none"
+            />
+
+            <button className="w-full bg-green-500 hover:bg-green-400 transition-all text-white py-4 rounded-2xl font-black text-xl">
+
+              Open Long
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <div className="glass rounded-3xl p-8">
+
+          <h2 className="text-4xl font-black mb-8">
+
+            Risk Metrics
+
+          </h2>
+
+          <div className="space-y-6">
+
+            <div className="flex items-center justify-between">
+
+              <span className="text-zinc-500">
+
+                Liquidation Price
+
+              </span>
+
+              <span className="text-red-400 text-2xl font-black">
+
+                $78,200
+
+              </span>
+
+            </div>
+
+            <div className="flex items-center justify-between">
+
+              <span className="text-zinc-500">
+
+                Margin Ratio
+
+              </span>
+
+              <span className="text-yellow-400 text-2xl font-black">
+
+                42%
+
+              </span>
+
+            </div>
+
+            <div className="flex items-center justify-between">
+
+              <span className="text-zinc-500">
+
+                Unrealized PNL
+
+              </span>
+
+              <span className="text-green-400 text-2xl font-black">
+
+                +$8,240
+
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
