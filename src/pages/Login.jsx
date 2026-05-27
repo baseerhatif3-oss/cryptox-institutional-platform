@@ -7,22 +7,10 @@ import {
   Link,
 } from "react-router-dom";
 
-import {
-  ShieldCheck,
-} from "lucide-react";
-
-import {
-  useAuth,
-} from "../context/AuthContext";
-
 const Login = () => {
 
   const navigate =
     useNavigate();
-
-  const {
-    login,
-  } = useAuth();
 
   const [
     email,
@@ -34,41 +22,24 @@ const Login = () => {
     setPassword,
   ] = useState("");
 
-  const [
-    loading,
-    setLoading,
-  ] = useState(false);
-
   const handleSubmit =
-    async (
+    (
       e
     ) => {
 
       e.preventDefault();
 
-      setLoading(
-        true
+      localStorage.setItem(
+        "cryptox_user",
+        JSON.stringify(
+          {
+            email,
+          }
+        )
       );
 
-      setTimeout(
-        () => {
-
-          login(
-            {
-              email,
-            }
-          );
-
-          navigate(
-            "/dashboard"
-          );
-
-          setLoading(
-            false
-          );
-
-        },
-        1500
+      navigate(
+        "/dashboard"
       );
     };
 
@@ -76,34 +47,19 @@ const Login = () => {
 
     <div className="min-h-screen bg-black flex items-center justify-center px-6">
 
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(250,204,21,0.12),transparent_45%)]"></div>
+      <div className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-3xl p-10">
 
-      <div className="relative z-10 w-full max-w-md glass rounded-3xl p-10">
+        <h1 className="text-5xl font-black text-yellow-400 mb-4 text-center">
 
-        <div className="text-center mb-10">
+          CryptoX
 
-          <div className="w-20 h-20 bg-yellow-400 rounded-3xl flex items-center justify-center mx-auto mb-6">
+        </h1>
 
-            <ShieldCheck
-              size={40}
-              className="text-black"
-            />
+        <p className="text-zinc-500 text-center mb-10">
 
-          </div>
+          Secure Exchange Login
 
-          <h1 className="text-5xl font-black text-yellow-400 mb-4">
-
-            CryptoX
-
-          </h1>
-
-          <p className="text-zinc-500 text-lg">
-
-            Secure Exchange Login
-
-          </p>
-
-        </div>
+        </p>
 
         <form
           onSubmit={
@@ -112,67 +68,42 @@ const Login = () => {
           className="space-y-6"
         >
 
-          <div>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(
+              e
+            ) =>
+              setEmail(
+                e.target.value
+              )
+            }
+            className="w-full bg-black border border-zinc-700 rounded-2xl px-5 py-4 text-white outline-none"
+            required
+          />
 
-            <label className="block text-zinc-400 mb-3 font-bold">
-
-              Email
-
-            </label>
-
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(
-                e
-              ) =>
-                setEmail(
-                  e.target.value
-                )
-              }
-              placeholder="Enter your email"
-              className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 outline-none text-white focus:border-yellow-400 transition-all"
-            />
-
-          </div>
-
-          <div>
-
-            <label className="block text-zinc-400 mb-3 font-bold">
-
-              Password
-
-            </label>
-
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={(
-                e
-              ) =>
-                setPassword(
-                  e.target.value
-                )
-              }
-              placeholder="Enter your password"
-              className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 outline-none text-white focus:border-yellow-400 transition-all"
-            />
-
-          </div>
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(
+              e
+            ) =>
+              setPassword(
+                e.target.value
+              )
+            }
+            className="w-full bg-black border border-zinc-700 rounded-2xl px-5 py-4 text-white outline-none"
+            required
+          />
 
           <button
             type="submit"
-            disabled={loading}
             className="w-full bg-yellow-400 hover:bg-yellow-300 transition-all text-black py-4 rounded-2xl font-black text-xl"
           >
 
-            {
-              loading
-                ? "Authenticating..."
-                : "Login"
-            }
+            Login
 
           </button>
 
@@ -180,20 +111,14 @@ const Login = () => {
 
         <div className="mt-8 text-center">
 
-          <p className="text-zinc-500">
+          <Link
+            to="/register"
+            className="text-yellow-400 font-bold"
+          >
 
-            Don't have an account?
+            Create Account
 
-            <Link
-              to="/register"
-              className="text-yellow-400 font-bold ml-2"
-            >
-
-              Register
-
-            </Link>
-
-          </p>
+          </Link>
 
         </div>
 
