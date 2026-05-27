@@ -1,4 +1,5 @@
 import {
+  Bell,
   Search,
   LogOut,
 } from "lucide-react";
@@ -12,69 +13,104 @@ const TopNavbar = () => {
   const navigate =
     useNavigate();
 
-  const handleLogout =
-    () => {
-
-      localStorage.removeItem(
-        "token"
-      );
-
-      localStorage.removeItem(
+  const user =
+    JSON.parse(
+      localStorage.getItem(
         "user"
-      );
+      ) ||
+      localStorage.getItem(
+        "cryptox_user"
+      ) ||
+      "{}"
+    );
 
-      navigate(
-        "/login"
-      );
-    };
+  const logout = () => {
+
+    localStorage.removeItem(
+      "token"
+    );
+
+    localStorage.removeItem(
+      "user"
+    );
+
+    localStorage.removeItem(
+      "cryptox_user"
+    );
+
+    navigate(
+      "/login"
+    );
+  };
 
   return (
 
-    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-10">
+    <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 mb-10">
 
-      <div>
+      <div className="relative w-full xl:w-[420px]">
 
-        <h1 className="text-4xl font-black text-white">
+        <Search
+          className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-500"
+          size={20}
+        />
 
-          CryptoX Exchange
-
-        </h1>
-
-        <p className="text-zinc-500 text-lg mt-2">
-
-          Enterprise cryptocurrency trading platform
-
-        </p>
+        <input
+          type="text"
+          placeholder="Search markets, assets, analytics..."
+          className="w-full bg-black/40 border border-white/10 rounded-2xl pl-14 pr-5 py-4 outline-none"
+        />
 
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-5">
 
-        <div className="relative">
+        <button className="relative w-14 h-14 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-center">
 
-          <Search
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500"
-            size={20}
-          />
+          <Bell size={22} />
 
-          <input
-            type="text"
-            placeholder="Search markets..."
-            className="bg-black/30 border border-white/10 rounded-2xl pl-12 pr-5 py-4 outline-none w-[280px]"
-          />
+          <div className="absolute top-3 right-3 w-3 h-3 bg-yellow-400 rounded-full"></div>
+
+        </button>
+
+        <div className="glass rounded-2xl px-6 py-4 flex items-center gap-4">
+
+          <div className="w-12 h-12 rounded-2xl bg-yellow-400 text-black flex items-center justify-center font-black text-xl">
+
+            {
+              user?.name
+                ? user.name[0]
+                : "C"
+            }
+
+          </div>
+
+          <div>
+
+            <h2 className="font-black">
+
+              {
+                user?.name ||
+                "Crypto Trader"
+              }
+
+            </h2>
+
+            <p className="text-zinc-500 text-sm">
+
+              Institutional Account
+
+            </p>
+
+          </div>
 
         </div>
 
         <button
-          onClick={
-            handleLogout
-          }
-          className="bg-red-500 hover:bg-red-400 transition-all px-6 py-4 rounded-2xl text-white font-black flex items-center gap-3"
+          onClick={logout}
+          className="bg-red-500 hover:bg-red-400 transition-all w-14 h-14 rounded-2xl flex items-center justify-center"
         >
 
-          <LogOut size={20} />
-
-          Logout
+          <LogOut size={22} />
 
         </button>
 

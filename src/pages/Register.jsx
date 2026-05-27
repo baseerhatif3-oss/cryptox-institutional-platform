@@ -7,15 +7,6 @@ import {
   Link,
 } from "react-router-dom";
 
-import {
-  User,
-  Mail,
-  Lock,
-  ShieldCheck,
-} from "lucide-react";
-
-import toast from "react-hot-toast";
-
 const Register = () => {
 
   const navigate =
@@ -59,23 +50,22 @@ const Register = () => {
 
       e.preventDefault();
 
-      setLoading(true);
-
-      toast.loading(
-        "Creating secure account..."
+      setLoading(
+        true
       );
 
       setTimeout(() => {
 
-        toast.dismiss();
-
-        toast.success(
-          "Account created successfully"
+        localStorage.setItem(
+          "token",
+          "cryptox_demo_token"
         );
 
         localStorage.setItem(
-          "cryptox_user",
+          "user",
           JSON.stringify({
+            name:
+              formData.name,
             email:
               formData.email,
           })
@@ -90,40 +80,28 @@ const Register = () => {
 
   return (
 
-    <div className="min-h-screen bg-black text-white flex items-center justify-center px-6 relative overflow-hidden">
+    <div className="min-h-screen bg-black flex items-center justify-center px-6 relative overflow-hidden">
 
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-yellow-400/10 via-transparent to-green-500/5"></div>
+      <div className="absolute w-[600px] h-[600px] bg-green-500/10 blur-[140px] rounded-full"></div>
 
-      <div className="glass rounded-[40px] p-10 xl:p-14 border border-white/10 w-full max-w-2xl relative z-10">
+      <div className="glass rounded-[40px] p-10 w-full max-w-xl relative z-10">
 
-        <div className="flex items-center gap-4 mb-10">
+        <h1 className="text-6xl font-black mb-4 text-center">
 
-          <div className="bg-yellow-400/10 p-4 rounded-2xl">
+          Create
+          <span className="text-yellow-400">
 
-            <ShieldCheck
-              size={36}
-              className="text-yellow-400"
-            />
+            {" "}Account
 
-          </div>
+          </span>
 
-          <div>
+        </h1>
 
-            <h1 className="text-5xl font-black">
+        <p className="text-zinc-500 text-lg text-center mb-10">
 
-              Create Account
+          Access institutional cryptocurrency infrastructure.
 
-            </h1>
-
-            <p className="text-zinc-500 text-lg mt-2">
-
-              Join the CryptoX exchange ecosystem.
-
-            </p>
-
-          </div>
-
-        </div>
+        </p>
 
         <form
           onSubmit={
@@ -132,128 +110,72 @@ const Register = () => {
           className="space-y-6"
         >
 
-          <div>
+          <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            value={
+              formData.name
+            }
+            onChange={
+              handleChange
+            }
+            required
+            className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-5 outline-none"
+          />
 
-            <label className="block text-zinc-400 mb-3">
+          <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            value={
+              formData.email
+            }
+            onChange={
+              handleChange
+            }
+            required
+            className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-5 outline-none"
+          />
 
-              Full Name
-
-            </label>
-
-            <div className="relative">
-
-              <User
-                size={20}
-                className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-500"
-              />
-
-              <input
-                type="text"
-                name="name"
-                value={
-                  formData.name
-                }
-                onChange={
-                  handleChange
-                }
-                required
-                className="w-full bg-black/30 border border-white/10 rounded-2xl pl-14 pr-5 py-5 outline-none focus:border-yellow-400 transition-all"
-              />
-
-            </div>
-
-          </div>
-
-          <div>
-
-            <label className="block text-zinc-400 mb-3">
-
-              Email Address
-
-            </label>
-
-            <div className="relative">
-
-              <Mail
-                size={20}
-                className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-500"
-              />
-
-              <input
-                type="email"
-                name="email"
-                value={
-                  formData.email
-                }
-                onChange={
-                  handleChange
-                }
-                required
-                className="w-full bg-black/30 border border-white/10 rounded-2xl pl-14 pr-5 py-5 outline-none focus:border-yellow-400 transition-all"
-              />
-
-            </div>
-
-          </div>
-
-          <div>
-
-            <label className="block text-zinc-400 mb-3">
-
-              Password
-
-            </label>
-
-            <div className="relative">
-
-              <Lock
-                size={20}
-                className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-500"
-              />
-
-              <input
-                type="password"
-                name="password"
-                value={
-                  formData.password
-                }
-                onChange={
-                  handleChange
-                }
-                required
-                className="w-full bg-black/30 border border-white/10 rounded-2xl pl-14 pr-5 py-5 outline-none focus:border-yellow-400 transition-all"
-              />
-
-            </div>
-
-          </div>
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={
+              formData.password
+            }
+            onChange={
+              handleChange
+            }
+            required
+            className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-5 outline-none"
+          />
 
           <button
             type="submit"
-            disabled={
-              loading
-            }
-            className="w-full bg-yellow-400 hover:bg-yellow-300 transition-all py-5 rounded-2xl text-black font-black text-xl shadow-2xl shadow-yellow-400/20"
+            disabled={loading}
+            className="w-full bg-yellow-400 hover:bg-yellow-300 transition-all py-5 rounded-2xl text-black font-black text-xl"
           >
 
             {
               loading
                 ? "Creating Account..."
-                : "Create Exchange Account"
+                : "Launch Account"
             }
 
           </button>
 
         </form>
 
-        <p className="text-zinc-500 text-center mt-10">
+        <p className="text-zinc-500 text-center mt-8">
 
           Already have an account?
           {" "}
 
           <Link
             to="/login"
-            className="text-yellow-400 font-black"
+            className="text-yellow-400 font-bold"
           >
 
             Login
