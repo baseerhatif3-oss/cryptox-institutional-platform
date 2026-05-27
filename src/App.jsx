@@ -33,6 +33,14 @@ import NFTMarketplace from "./pages/NFTMarketplace";
 
 import Launchpad from "./pages/Launchpad";
 
+import About from "./pages/About";
+
+import Contact from "./pages/Contact";
+
+import Privacy from "./pages/Privacy";
+
+import Terms from "./pages/Terms";
+
 import NotFound from "./pages/NotFound";
 
 import Loader from "./components/ui/Loader";
@@ -183,6 +191,26 @@ function App() {
 
             </ProtectedRoute>
           }
+        />
+
+        <Route
+          path="/about"
+          element={<About />}
+        />
+
+        <Route
+          path="/contact"
+          element={<Contact />}
+        />
+
+        <Route
+          path="/privacy"
+          element={<Privacy />}
+        />
+
+        <Route
+          path="/terms"
+          element={<Terms />}
         />
 
         <Route
