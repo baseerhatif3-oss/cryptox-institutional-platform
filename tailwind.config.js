@@ -1,5 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-
 export default {
 
   content: [
@@ -11,7 +10,30 @@ export default {
 
   theme: {
 
-    extend: {},
+    extend: {
+
+      animation: {
+
+        ticker:
+          "ticker 25s linear infinite",
+      },
+
+      keyframes: {
+
+        ticker: {
+
+          "0%": {
+            transform:
+              "translateX(0)",
+          },
+
+          "100%": {
+            transform:
+              "translateX(-50%)",
+          },
+        },
+      },
+    },
   },
 
   plugins: [],

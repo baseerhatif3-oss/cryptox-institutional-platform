@@ -1,46 +1,48 @@
-const LiveTicker = ({
-  symbol,
-  price,
-  change,
-}) => {
+const LiveTicker = () => {
+
+  const items = [
+
+    "BTC $84,320 ▲ 3.2%",
+
+    "ETH $4,280 ▲ 2.4%",
+
+    "SOL $182 ▲ 6.1%",
+
+    "BNB $690 ▲ 1.2%",
+
+    "XRP $1.22 ▲ 5.4%",
+  ];
 
   return (
 
-    <div className="bg-[#111] border border-yellow-500/10 rounded-2xl px-5 py-4 flex items-center justify-between hover:border-yellow-400/30 transition-all">
+    <div className="w-full overflow-hidden border-y border-white/5 bg-black/40 backdrop-blur-xl py-4">
 
-      <div>
+      <div className="flex gap-16 animate-[ticker_25s_linear_infinite] whitespace-nowrap">
 
-        <h3 className="font-black text-lg">
-          {symbol}
-        </h3>
+        {
+          [...items, ...items].map(
+            (
+              item,
+              index
+            ) => (
 
-        <p className="text-zinc-500 text-sm">
-          Live Market
-        </p>
+              <div
+                key={index}
+                className="flex items-center gap-3"
+              >
 
-      </div>
+                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
 
-      <div className="text-right">
+                <span className="text-green-400 font-black text-lg">
 
-        <h2 className="font-black text-xl">
+                  {item}
 
-          $
-          {
-            Number(price)
-              .toLocaleString()
-          }
+                </span>
 
-        </h2>
-
-        <p className={`font-bold text-sm ${
-          change.includes("-")
-            ? "text-red-400"
-            : "text-green-400"
-        }`}>
-
-          {change}
-
-        </p>
+              </div>
+            )
+          )
+        }
 
       </div>
 
