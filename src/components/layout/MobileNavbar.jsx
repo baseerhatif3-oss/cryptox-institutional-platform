@@ -2,55 +2,54 @@ import {
   LayoutDashboard,
   CandlestickChart,
   Wallet,
-  BarChart3,
+  Settings,
+  User,
 } from "lucide-react";
 
 import {
   NavLink,
 } from "react-router-dom";
 
+const links = [
+
+  {
+    name: "Dashboard",
+    path: "/dashboard",
+    icon: LayoutDashboard,
+  },
+
+  {
+    name: "Markets",
+    path: "/markets",
+    icon: CandlestickChart,
+  },
+
+  {
+    name: "Wallet",
+    path: "/wallet",
+    icon: Wallet,
+  },
+
+  {
+    name: "Admin",
+    path: "/admin",
+    icon: User,
+  },
+
+  {
+    name: "Settings",
+    path: "/settings",
+    icon: Settings,
+  },
+];
+
 const MobileNavbar = () => {
-
-  const links = [
-
-    {
-      icon:
-        LayoutDashboard,
-
-      path:
-        "/dashboard",
-    },
-
-    {
-      icon:
-        CandlestickChart,
-
-      path:
-        "/markets",
-    },
-
-    {
-      icon:
-        BarChart3,
-
-      path:
-        "/trading",
-    },
-
-    {
-      icon:
-        Wallet,
-
-      path:
-        "/wallet",
-    },
-  ];
 
   return (
 
-    <div className="xl:hidden fixed bottom-0 left-0 w-full z-50 border-t border-white/5 bg-black/95 backdrop-blur-xl px-6 py-5">
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-xl border-t border-white/10 xl:hidden">
 
-      <div className="flex items-center justify-between">
+      <div className="grid grid-cols-5">
 
         {
           links.map(
@@ -75,17 +74,23 @@ const MobileNavbar = () => {
                     }
                   ) =>
 
-                    `p-4 rounded-2xl transition-all ${
+                    `flex flex-col items-center justify-center py-4 gap-2 transition-all ${
                       isActive
-                        ? "bg-yellow-400 text-black"
+                        ? "text-yellow-400"
                         : "text-zinc-500"
                     }`
                   }
                 >
 
-                  <Icon
-                    size={26}
-                  />
+                  <Icon size={22} />
+
+                  <span className="text-xs font-bold">
+
+                    {
+                      item.name
+                    }
+
+                  </span>
 
                 </NavLink>
               );

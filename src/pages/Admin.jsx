@@ -1,284 +1,211 @@
 import MainLayout from "../components/layout/MainLayout";
 
+const users = [
+
+  {
+    name: "Michael Chen",
+    email: "michael@cryptox.com",
+    status: "Verified",
+  },
+
+  {
+    name: "Sarah Williams",
+    email: "sarah@cryptox.com",
+    status: "Pending",
+  },
+
+  {
+    name: "David Kim",
+    email: "david@cryptox.com",
+    status: "Verified",
+  },
+];
+
 const Admin = () => {
-
-  const stats = [
-
-    {
-      title:
-        "Active Users",
-
-      value:
-        "124,892",
-
-      color:
-        "text-blue-400",
-    },
-
-    {
-      title:
-        "24H Volume",
-
-      value:
-        "$48.2M",
-
-      color:
-        "text-green-400",
-    },
-
-    {
-      title:
-        "Open Orders",
-
-      value:
-        "18,420",
-
-      color:
-        "text-yellow-400",
-    },
-
-    {
-      title:
-        "Revenue",
-
-      value:
-        "$1.2M",
-
-      color:
-        "text-purple-400",
-    },
-  ];
-
-  const systems = [
-
-    "Matching Engine",
-
-    "AI Signal Engine",
-
-    "Wallet Infrastructure",
-
-    "WebSocket Cluster",
-
-    "Redis Cache",
-
-    "Database Cluster",
-  ];
 
   return (
 
     <MainLayout>
 
-      <div className="relative overflow-hidden rounded-[40px] border border-yellow-500/10 bg-gradient-to-br from-yellow-400/10 via-black to-black p-10 mb-10">
+      <div className="mb-12">
 
-        <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-yellow-400/10 rounded-full blur-[120px]"></div>
+        <div className="inline-flex items-center gap-3 bg-red-500/10 border border-red-500/20 px-5 py-3 rounded-full mb-8">
 
-        <div className="relative z-10">
+          <div className="w-3 h-3 bg-red-400 rounded-full animate-pulse"></div>
 
-          <div className="inline-flex items-center gap-3 bg-green-500/10 border border-green-500/20 px-5 py-3 rounded-full mb-6">
+          <span className="text-red-400 font-bold">
 
-            <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+            ADMIN CONTROL CENTER
 
-            <span className="text-green-400 font-bold">
+          </span>
 
-              ADMIN CONTROL CENTER
+        </div>
 
-            </span>
+        <h1 className="text-7xl font-black mb-5">
 
-          </div>
+          Platform
+          <span className="text-yellow-400">
 
-          <h1 className="text-6xl font-black">
+            {" "}Administration
 
-            Exchange
-            <span className="text-yellow-400">
-              {" "}Administration
-            </span>
+          </span>
 
-          </h1>
+        </h1>
 
-          <p className="text-zinc-400 text-xl mt-6 max-w-3xl">
+        <p className="text-zinc-500 text-2xl max-w-3xl">
 
-            Enterprise-grade exchange monitoring and operational management infrastructure.
+          Institutional-grade operational monitoring and user management infrastructure.
+
+        </p>
+
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mb-12">
+
+        <div className="glass rounded-3xl p-8">
+
+          <p className="text-zinc-500 mb-4">
+
+            Total Users
 
           </p>
 
+          <h2 className="text-5xl font-black text-yellow-400">
+
+            1.2M+
+
+          </h2>
+
+        </div>
+
+        <div className="glass rounded-3xl p-8">
+
+          <p className="text-zinc-500 mb-4">
+
+            Daily Volume
+
+          </p>
+
+          <h2 className="text-5xl font-black text-green-400">
+
+            $12B
+
+          </h2>
+
+        </div>
+
+        <div className="glass rounded-3xl p-8">
+
+          <p className="text-zinc-500 mb-4">
+
+            Active Trades
+
+          </p>
+
+          <h2 className="text-5xl font-black text-blue-400">
+
+            842K
+
+          </h2>
+
+        </div>
+
+        <div className="glass rounded-3xl p-8">
+
+          <p className="text-zinc-500 mb-4">
+
+            System Health
+
+          </p>
+
+          <h2 className="text-5xl font-black text-green-400">
+
+            99.99%
+
+          </h2>
+
         </div>
 
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mb-10">
+      <div className="glass rounded-3xl p-10">
 
-        {
-          stats.map(
-            (
-              item,
-              index
-            ) => (
+        <div className="flex items-center justify-between mb-10">
 
-              <div
-                key={index}
-                className="glass rounded-3xl p-8"
-              >
+          <h2 className="text-5xl font-black">
 
-                <p className="text-zinc-500 mb-4">
-
-                  {
-                    item.title
-                  }
-
-                </p>
-
-                <h2 className={`text-5xl font-black ${item.color}`}>
-
-                  {
-                    item.value
-                  }
-
-                </h2>
-
-              </div>
-            )
-          )
-        }
-
-      </div>
-
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-
-        <div className="glass rounded-3xl p-8">
-
-          <h2 className="text-4xl font-black mb-8">
-
-            Infrastructure Systems
+            User Management
 
           </h2>
 
-          <div className="space-y-5">
+          <button className="bg-yellow-400 text-black px-6 py-4 rounded-2xl font-black">
 
-            {
-              systems.map(
-                (
-                  item,
-                  index
-                ) => (
+            Export Data
 
-                  <div
-                    key={index}
-                    className="flex items-center justify-between bg-black/30 border border-white/5 rounded-2xl p-5"
-                  >
+          </button>
 
-                    <span className="text-xl font-bold">
+        </div>
 
-                      {item}
+        <div className="space-y-6">
+
+          {
+            users.map(
+              (
+                user,
+                index
+              ) => (
+
+                <div
+                  key={index}
+                  className="border border-white/5 rounded-3xl p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-6"
+                >
+
+                  <div>
+
+                    <h3 className="text-3xl font-black mb-2">
+
+                      {
+                        user.name
+                      }
+
+                    </h3>
+
+                    <p className="text-zinc-500">
+
+                      {
+                        user.email
+                      }
+
+                    </p>
+
+                  </div>
+
+                  <div className="flex items-center gap-4">
+
+                    <span className={`px-5 py-3 rounded-2xl font-black ${
+                      user.status === "Verified"
+                        ? "bg-green-500/10 text-green-400"
+                        : "bg-yellow-400/10 text-yellow-400"
+                    }`}>
+
+                      {
+                        user.status
+                      }
 
                     </span>
 
-                    <div className="flex items-center gap-3">
+                    <button className="bg-blue-500 hover:bg-blue-400 transition-all px-5 py-3 rounded-2xl font-black">
 
-                      <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                      View
 
-                      <span className="text-green-400 font-bold">
-
-                        Operational
-
-                      </span>
-
-                    </div>
+                    </button>
 
                   </div>
-                )
+
+                </div>
               )
-            }
-
-          </div>
-
-        </div>
-
-        <div className="glass rounded-3xl p-8">
-
-          <h2 className="text-4xl font-black mb-8">
-
-            Exchange Metrics
-
-          </h2>
-
-          <div className="space-y-8">
-
-            <div>
-
-              <div className="flex items-center justify-between mb-3">
-
-                <span className="text-zinc-400 text-lg">
-
-                  Infrastructure Health
-
-                </span>
-
-                <span className="text-green-400 font-black">
-
-                  99%
-                </span>
-
-              </div>
-
-              <div className="w-full h-4 bg-black/30 rounded-full overflow-hidden">
-
-                <div className="h-full w-[99%] bg-green-400 rounded-full"></div>
-
-              </div>
-
-            </div>
-
-            <div>
-
-              <div className="flex items-center justify-between mb-3">
-
-                <span className="text-zinc-400 text-lg">
-
-                  Exchange Performance
-
-                </span>
-
-                <span className="text-yellow-400 font-black">
-
-                  97%
-                </span>
-
-              </div>
-
-              <div className="w-full h-4 bg-black/30 rounded-full overflow-hidden">
-
-                <div className="h-full w-[97%] bg-yellow-400 rounded-full"></div>
-
-              </div>
-
-            </div>
-
-            <div>
-
-              <div className="flex items-center justify-between mb-3">
-
-                <span className="text-zinc-400 text-lg">
-
-                  Security Protection
-
-                </span>
-
-                <span className="text-blue-400 font-black">
-
-                  98%
-                </span>
-
-              </div>
-
-              <div className="w-full h-4 bg-black/30 rounded-full overflow-hidden">
-
-                <div className="h-full w-[98%] bg-blue-400 rounded-full"></div>
-
-              </div>
-
-            </div>
-
-          </div>
+            )
+          }
 
         </div>
 

@@ -3,205 +3,74 @@ import {
   CandlestickChart,
   Wallet,
   Shield,
-  BarChart3,
   Settings,
-  Monitor,
-  Users,
-  PlayCircle,
-  KeyRound,
-  TrendingUp,
-  Gem,
-  ImageIcon,
   Rocket,
-  CreditCard,
+  ImageIcon,
+  Users,
 } from "lucide-react";
 
 import {
   NavLink,
 } from "react-router-dom";
 
-import Logo from "../Logo";
+const links = [
+
+  {
+    name: "Dashboard",
+    path: "/dashboard",
+    icon: LayoutDashboard,
+  },
+
+  {
+    name: "Markets",
+    path: "/markets",
+    icon: CandlestickChart,
+  },
+
+  {
+    name: "Trading",
+    path: "/trading",
+    icon: CandlestickChart,
+  },
+
+  {
+    name: "Portfolio",
+    path: "/portfolio",
+    icon: Wallet,
+  },
+
+  {
+    name: "Wallet",
+    path: "/wallet",
+    icon: Wallet,
+  },
+
+  {
+    name: "NFT Market",
+    path: "/nft",
+    icon: ImageIcon,
+  },
+
+  {
+    name: "Launchpad",
+    path: "/launchpad",
+    icon: Rocket,
+  },
+
+  {
+    name: "Admin",
+    path: "/admin",
+    icon: Users,
+  },
+
+  {
+    name: "Settings",
+    path: "/settings",
+    icon: Settings,
+  },
+];
 
 const Sidebar = () => {
-
-  const links = [
-
-    {
-      name:
-        "Dashboard",
-
-      path:
-        "/dashboard",
-
-      icon:
-        LayoutDashboard,
-    },
-
-    {
-      name:
-        "Markets",
-
-      path:
-        "/markets",
-
-      icon:
-        CandlestickChart,
-    },
-
-    {
-      name:
-        "Trading",
-
-      path:
-        "/trading",
-
-      icon:
-        BarChart3,
-    },
-
-    {
-      name:
-        "Futures",
-
-      path:
-        "/futures",
-
-      icon:
-        TrendingUp,
-    },
-
-    {
-      name:
-        "Staking",
-
-      path:
-        "/staking",
-
-      icon:
-        Gem,
-    },
-
-    {
-      name:
-        "NFT Market",
-
-      path:
-        "/nft",
-
-      icon:
-        ImageIcon,
-    },
-
-    {
-      name:
-        "Launchpad",
-
-      path:
-        "/launchpad",
-
-      icon:
-        Rocket,
-    },
-
-    {
-      name:
-        "Crypto Card",
-
-      path:
-        "/crypto-card",
-
-      icon:
-        CreditCard,
-    },
-
-    {
-      name:
-        "Portfolio",
-
-      path:
-        "/portfolio",
-
-      icon:
-        Wallet,
-    },
-
-    {
-      name:
-        "Wallet",
-
-      path:
-        "/wallet",
-
-      icon:
-        Wallet,
-    },
-
-    {
-      name:
-        "Demo Trading",
-
-      path:
-        "/demo",
-
-      icon:
-        PlayCircle,
-    },
-
-    {
-      name:
-        "Demo Access",
-
-      path:
-        "/demo-credentials",
-
-      icon:
-        KeyRound,
-    },
-
-    {
-      name:
-        "System Status",
-
-      path:
-        "/system-status",
-
-      icon:
-        Monitor,
-    },
-
-    {
-      name:
-        "Admin",
-
-      path:
-        "/admin",
-
-      icon:
-        Users,
-    },
-
-    {
-      name:
-        "Trust Center",
-
-      path:
-        "/trust-center",
-
-      icon:
-        Shield,
-    },
-
-    {
-      name:
-        "Settings",
-
-      path:
-        "/settings",
-
-      icon:
-        Settings,
-    },
-  ];
 
   return (
 
@@ -209,11 +78,15 @@ const Sidebar = () => {
 
       <div className="mb-14">
 
-        <Logo />
+        <h1 className="text-5xl font-black text-yellow-400">
+
+          CryptoX
+
+        </h1>
 
       </div>
 
-      <div className="flex flex-col gap-4 overflow-y-auto pr-2">
+      <div className="flex flex-col gap-4">
 
         {
           links.map(
@@ -240,15 +113,13 @@ const Sidebar = () => {
 
                     `flex items-center gap-4 px-6 py-5 rounded-2xl font-bold transition-all ${
                       isActive
-                        ? "bg-yellow-400 text-black shadow-2xl shadow-yellow-400/20"
+                        ? "bg-yellow-400 text-black"
                         : "text-zinc-400 hover:bg-white/5 hover:text-white"
                     }`
                   }
                 >
 
-                  <Icon
-                    size={24}
-                  />
+                  <Icon size={24} />
 
                   {
                     item.name
@@ -281,7 +152,7 @@ const Sidebar = () => {
 
         <p className="text-zinc-500 leading-relaxed mb-5">
 
-          Institutional-grade multi-layer security infrastructure active.
+          Institutional-grade multi-layer protection active.
 
         </p>
 
