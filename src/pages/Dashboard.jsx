@@ -4,6 +4,8 @@ import AIInsights from "../components/dashboard/AIInsights";
 
 import Watchlist from "../components/dashboard/Watchlist";
 
+import NotificationPanel from "../components/ui/NotificationPanel";
+
 import {
   TrendingUp,
   Wallet,
@@ -476,11 +478,13 @@ const Dashboard = () => {
 
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
 
         <AIInsights />
 
         <Watchlist />
+
+        <NotificationPanel />
 
       </div>
 

@@ -1,82 +1,91 @@
 import {
   Bell,
   Search,
-  LogOut,
-  Crown,
+  Settings,
 } from "lucide-react";
 
 const TopNavbar = () => {
 
   return (
 
-    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-10">
+    <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 mb-10">
 
-      <div className="relative w-full lg:w-[420px]">
+      <div>
 
-        <Search
-          className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-600"
-          size={20}
-        />
+        <h1 className="text-4xl font-black mb-3">
 
-        <input
-          type="text"
-          placeholder="Search markets, assets, analytics..."
-          className="w-full bg-black border border-white/10 rounded-2xl pl-14 pr-5 py-4 outline-none text-white placeholder:text-zinc-600 focus:border-yellow-400/40 transition-all"
-        />
+          Institutional Trading Infrastructure
+
+        </h1>
+
+        <p className="text-zinc-500 text-lg">
+
+          Enterprise-grade digital asset ecosystem.
+
+        </p>
 
       </div>
 
-      <div className="flex items-center justify-between lg:justify-end gap-4">
+      <div className="flex items-center gap-4">
 
-        <button className="relative w-14 h-14 rounded-2xl border border-white/10 bg-black flex items-center justify-center">
+        <div className="hidden md:flex items-center gap-4 bg-black/30 border border-white/10 rounded-2xl px-5 py-4 min-w-[320px]">
 
-          <Bell
-            className="text-zinc-300"
+          <Search
+            className="text-zinc-500"
             size={20}
           />
 
-          <div className="absolute top-3 right-3 w-3 h-3 bg-yellow-400 rounded-full"></div>
+          <input
+            type="text"
+            placeholder="Search markets, assets, analytics..."
+            className="bg-transparent outline-none w-full"
+          />
+
+        </div>
+
+        <button className="w-14 h-14 rounded-2xl bg-black/30 border border-white/10 flex items-center justify-center relative">
+
+          <Bell
+            size={22}
+          />
+
+          <div className="absolute top-3 right-3 w-3 h-3 rounded-full bg-green-400 animate-pulse"></div>
 
         </button>
 
-        <div className="hidden md:flex items-center gap-4 bg-black border border-white/10 rounded-2xl px-5 py-3">
+        <button className="w-14 h-14 rounded-2xl bg-black/30 border border-white/10 flex items-center justify-center">
 
-          <div className="w-14 h-14 rounded-2xl bg-yellow-400 text-black flex items-center justify-center font-black text-xl">
+          <Settings
+            size={22}
+          />
 
-            C
+        </button>
+
+        <div className="flex items-center gap-4 bg-yellow-400 text-black px-5 py-3 rounded-2xl">
+
+          <div className="w-12 h-12 rounded-xl bg-black text-yellow-400 flex items-center justify-center font-black text-xl">
+
+            B
 
           </div>
 
           <div>
 
-            <h3 className="font-bold text-lg">
+            <h2 className="font-black text-lg">
 
-              Crypto Trader
+              Baseer
 
-            </h3>
+            </h2>
 
-            <div className="flex items-center gap-2 text-zinc-500 text-sm">
+            <p className="text-sm font-semibold">
 
-              <Crown
-                size={14}
-                className="text-yellow-400"
-              />
+              Enterprise Account
 
-              Institutional Account
-
-            </div>
+            </p>
 
           </div>
 
         </div>
-
-        <button className="w-14 h-14 rounded-2xl bg-red-500 hover:bg-red-400 transition-all flex items-center justify-center">
-
-          <LogOut
-            size={20}
-          />
-
-        </button>
 
       </div>
 
