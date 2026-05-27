@@ -4,41 +4,111 @@ const Footer = () => {
 
     <footer className="border-t border-white/5 mt-20">
 
-      <div className="max-w-7xl mx-auto px-8 py-10 flex flex-col xl:flex-row items-center justify-between gap-6">
+      <div className="max-w-7xl mx-auto px-8 py-12">
 
-        <div>
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-10">
 
-          <h2 className="text-3xl font-black text-yellow-400 mb-2">
+          <div>
 
-            CryptoX
+            <h2 className="text-4xl font-black text-yellow-400 mb-4">
 
-          </h2>
+              CryptoX
 
-          <p className="text-zinc-500">
+            </h2>
 
-            Institutional cryptocurrency trading infrastructure.
+            <p className="text-zinc-500 leading-relaxed text-lg max-w-md">
 
-          </p>
+              Institutional-grade cryptocurrency trading ecosystem built for global digital asset markets.
+
+            </p>
+
+          </div>
+
+          <div>
+
+            <h3 className="text-2xl font-black mb-5">
+
+              Platform
+
+            </h3>
+
+            <div className="space-y-3 text-zinc-500">
+
+              <p>
+                Trading
+              </p>
+
+              <p>
+                Markets
+              </p>
+
+              <p>
+                Portfolio
+              </p>
+
+              <p>
+                Wallet
+              </p>
+
+            </div>
+
+          </div>
+
+          <div>
+
+            <h3 className="text-2xl font-black mb-5">
+
+              Infrastructure
+
+            </h3>
+
+            <div className="space-y-3 text-zinc-500">
+
+              <p>
+                Security
+              </p>
+
+              <p>
+                Liquidity
+              </p>
+
+              <p>
+                Analytics
+              </p>
+
+              <p>
+                Institutional APIs
+              </p>
+
+            </div>
+
+          </div>
 
         </div>
 
-        <div className="flex items-center gap-8 text-zinc-500 font-bold">
+        <div className="border-t border-white/5 mt-10 pt-8 flex flex-col xl:flex-row items-center justify-between gap-5">
 
-          <span>
-            Security
-          </span>
+          <p className="text-zinc-500">
 
-          <span>
-            Trading
-          </span>
+            © 2026 CryptoX. All rights reserved.
 
-          <span>
-            Portfolio
-          </span>
+          </p>
 
-          <span>
-            Analytics
-          </span>
+          <div className="flex items-center gap-6 text-zinc-500">
+
+            <span>
+              Privacy
+            </span>
+
+            <span>
+              Terms
+            </span>
+
+            <span>
+              Security
+            </span>
+
+          </div>
 
         </div>
 
