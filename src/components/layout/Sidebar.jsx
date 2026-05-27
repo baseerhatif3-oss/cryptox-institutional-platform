@@ -1,112 +1,230 @@
-const links = [
+import {
+  LayoutDashboard,
+  CandlestickChart,
+  Wallet,
+ Shield,
+  BarChart3,
+  Settings,
+  Monitor,
+  Users,
+  PlayCircle,
+} from "lucide-react";
 
-  {
-    name:
-      "Dashboard",
+import {
+  NavLink,
+} from "react-router-dom";
 
-    path:
-      "/dashboard",
+const Sidebar = () => {
 
-    icon:
-      LayoutDashboard,
-  },
+  const links = [
 
-  {
-    name:
-      "Markets",
+    {
+      name:
+        "Dashboard",
 
-    path:
-      "/markets",
+      path:
+        "/dashboard",
 
-    icon:
-      CandlestickChart,
-  },
+      icon:
+        LayoutDashboard,
+    },
 
-  {
-    name:
-      "Trading",
+    {
+      name:
+        "Markets",
 
-    path:
-      "/trading",
+      path:
+        "/markets",
 
-    icon:
-      BarChart3,
-  },
+      icon:
+        CandlestickChart,
+    },
 
-  {
-    name:
-      "Portfolio",
+    {
+      name:
+        "Trading",
 
-    path:
-      "/portfolio",
+      path:
+        "/trading",
 
-    icon:
-      Wallet,
-  },
+      icon:
+        BarChart3,
+    },
 
-  {
-    name:
-      "Wallet",
+    {
+      name:
+        "Portfolio",
 
-    path:
-      "/wallet",
+      path:
+        "/portfolio",
 
-    icon:
-      Wallet,
-  },
+      icon:
+        Wallet,
+    },
 
-  {
-    name:
-      "Demo Trading",
+    {
+      name:
+        "Wallet",
 
-    path:
-      "/demo",
+      path:
+        "/wallet",
 
-    icon:
-      PlayCircle,
-  },
+      icon:
+        Wallet,
+    },
 
-  {
-    name:
-      "System Status",
+    {
+      name:
+        "Demo Trading",
 
-    path:
-      "/system-status",
+      path:
+        "/demo",
 
-    icon:
-      Monitor,
-  },
+      icon:
+        PlayCircle,
+    },
 
-  {
-    name:
-      "Admin",
+    {
+      name:
+        "System Status",
 
-    path:
-      "/admin",
+      path:
+        "/system-status",
 
-    icon:
-      Users,
-  },
+      icon:
+        Monitor,
+    },
 
-  {
-    name:
-      "Trust Center",
+    {
+      name:
+        "Admin",
 
-    path:
-      "/trust-center",
+      path:
+        "/admin",
 
-    icon:
-      Shield,
-  },
+      icon:
+        Users,
+    },
 
-  {
-    name:
-      "Settings",
+    {
+      name:
+        "Trust Center",
 
-    path:
-      "/settings",
+      path:
+        "/trust-center",
 
-    icon:
-      Settings,
-  },
-];
+      icon:
+        Shield,
+    },
+
+    {
+      name:
+        "Settings",
+
+      path:
+        "/settings",
+
+      icon:
+        Settings,
+    },
+  ];
+
+  return (
+
+    <div className="w-[300px] min-h-screen bg-black border-r border-white/5 p-8 hidden xl:flex flex-col">
+
+      <div className="mb-14">
+
+        <h1 className="text-5xl font-black text-yellow-400">
+
+          CryptoX
+
+        </h1>
+
+        <p className="text-zinc-500 mt-3">
+
+          Enterprise Exchange
+
+        </p>
+
+      </div>
+
+      <div className="flex flex-col gap-4">
+
+        {
+          links.map(
+            (
+              item,
+              index
+            ) => {
+
+              const Icon =
+                item.icon;
+
+              return (
+
+                <NavLink
+                  key={index}
+                  to={
+                    item.path
+                  }
+                  className={(
+                    {
+                      isActive,
+                    }
+                  ) =>
+
+                    `flex items-center gap-4 px-6 py-5 rounded-2xl font-bold transition-all ${
+                      isActive
+                        ? "bg-yellow-400 text-black"
+                        : "text-zinc-400 hover:bg-white/5"
+                    }`
+                  }
+                >
+
+                  <Icon
+                    size={24}
+                  />
+
+                  {
+                    item.name
+                  }
+
+                </NavLink>
+              );
+            }
+          )
+        }
+
+      </div>
+
+      <div className="mt-auto glass rounded-3xl p-6">
+
+        <div className="flex items-center gap-4 mb-4">
+
+          <Shield
+            className="text-green-400"
+            size={28}
+          />
+
+          <h2 className="text-2xl font-black">
+
+            Security
+
+          </h2>
+
+        </div>
+
+        <p className="text-zinc-500 leading-relaxed">
+
+          Institutional-grade multi-layer security infrastructure active.
+
+        </p>
+
+      </div>
+
+    </div>
+  );
+};
+
+export default Sidebar;
