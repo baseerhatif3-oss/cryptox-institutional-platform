@@ -1,29 +1,24 @@
 import MainLayout from "../components/layout/MainLayout";
 
 const nfts = [
-
   {
-    title:
-      "Cyber Ape",
-
-    price:
-      "12 ETH",
+    name: "Cyber Ape X",
+    price: "18 ETH",
   },
 
   {
-    title:
-      "Meta Samurai",
-
-    price:
-      "8 ETH",
+    name: "Meta Samurai",
+    price: "12 ETH",
   },
 
   {
-    title:
-      "Quantum Punk",
+    name: "Quantum Artifact",
+    price: "24 ETH",
+  },
 
-    price:
-      "15 ETH",
+  {
+    name: "Neo Vision",
+    price: "9 ETH",
   },
 ];
 
@@ -35,24 +30,27 @@ const NFTMarketplace = () => {
 
       <div className="mb-10">
 
-        <h1 className="text-6xl font-black mb-4">
+        <h1 className="text-5xl md:text-7xl font-black mb-5">
 
           NFT
+
           <span className="text-yellow-400">
+
             {" "}Marketplace
+
           </span>
 
         </h1>
 
         <p className="text-zinc-500 text-xl">
 
-          Premium digital collectibles and Web3 assets.
+          Institutional digital collectibles marketplace infrastructure.
 
         </p>
 
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
 
         {
           nfts.map(
@@ -63,44 +61,43 @@ const NFTMarketplace = () => {
 
               <div
                 key={index}
-                className="glass rounded-3xl overflow-hidden"
+                className="glass rounded-3xl overflow-hidden card-hover"
               >
 
-                <div className="h-72 bg-gradient-to-br from-yellow-400/20 to-purple-500/20"></div>
+                <div className="h-[280px] bg-gradient-to-br from-yellow-400/30 to-purple-500/20"></div>
 
-                <div className="p-8">
+                <div className="p-6">
 
                   <h2 className="text-3xl font-black mb-4">
 
                     {
-                      item.title
+                      item.name
                     }
 
                   </h2>
 
-                  <p className="text-zinc-500 mb-6">
+                  <div className="flex items-center justify-between">
 
-                    Floor Price
+                    <span className="text-yellow-400 font-black text-2xl">
 
-                  </p>
+                      {
+                        item.price
+                      }
 
-                  <h3 className="text-4xl font-black text-yellow-400 mb-6">
+                    </span>
 
-                    {
-                      item.price
-                    }
+                    <button className="bg-yellow-400 hover:bg-yellow-300 transition-all text-black px-5 py-3 rounded-2xl font-black">
 
-                  </h3>
+                      Buy
 
-                  <button className="w-full bg-yellow-400 hover:bg-yellow-300 transition-all text-black py-4 rounded-2xl font-black">
+                    </button>
 
-                    Buy NFT
-
-                  </button>
+                  </div>
 
                 </div>
 
               </div>
+
             )
           )
         }
