@@ -21,6 +21,9 @@ import NotFound from "./pages/NotFound";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
+import FeatureSection from "./components/home/FeatureSection";
+import CTASection from "./components/home/CTASection";
+
 function LandingPage() {
 
   return (
@@ -201,6 +204,10 @@ function LandingPage() {
           </div>
 
         </section>
+
+        <FeatureSection />
+
+        <CTASection />
 
       </div>
 

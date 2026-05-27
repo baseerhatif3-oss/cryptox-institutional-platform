@@ -12,12 +12,12 @@ html,
 body,
 #root {
   min-height: 100%;
-  background: black;
+  background: #000;
 }
 
 body {
   font-family: Inter, sans-serif;
-  background: #000;
+  background: black;
   color: white;
   overflow-x: hidden;
 }
@@ -41,59 +41,30 @@ body {
   border: 1px solid rgba(255,255,255,0.05);
 }
 
-.gradient-border {
-  position: relative;
-}
-
-.gradient-border::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  padding: 1px;
-  border-radius: inherit;
-  background: linear-gradient(
-    135deg,
-    rgba(250,204,21,0.8),
-    rgba(34,197,94,0.5)
-  );
-  -webkit-mask:
-    linear-gradient(#fff 0 0)
-    content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-}
-
-input,
 button,
-textarea {
+a,
+input {
   transition: all 0.3s ease;
 }
 
-input:focus,
-textarea:focus {
+button:hover,
+a:hover {
+  transform: translateY(-2px);
+}
+
+input:focus {
   border-color: #facc15;
   box-shadow: 0 0 0 2px rgba(250,204,21,0.15);
 }
 
-button:hover {
-  transform: translateY(-2px);
-}
+.gradient-text {
+  background: linear-gradient(
+    135deg,
+    #facc15,
+    #22c55e
+  );
 
-.recharts-tooltip-wrapper {
-  outline: none !important;
-}
+  -webkit-background-clip: text;
 
-.recharts-default-tooltip {
-  background: #111 !important;
-  border: 1px solid rgba(255,255,255,0.1) !important;
-  border-radius: 16px !important;
-}
-
-.recharts-tooltip-label {
-  color: white !important;
-}
-
-.recharts-tooltip-item {
-  color: #facc15 !important;
+  -webkit-text-fill-color: transparent;
 }

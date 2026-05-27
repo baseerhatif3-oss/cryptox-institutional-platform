@@ -9,6 +9,9 @@ const ProtectedRoute = ({
   const user =
     localStorage.getItem(
       "cryptox_user"
+    ) ||
+    localStorage.getItem(
+      "token"
     );
 
   if (!user) {
