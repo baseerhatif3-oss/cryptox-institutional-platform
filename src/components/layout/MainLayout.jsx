@@ -4,6 +4,8 @@ import TopNavbar from "./TopNavbar";
 
 import MobileNavbar from "./MobileNavbar";
 
+import Footer from "./Footer";
+
 const MainLayout = ({
   children,
 }) => {
@@ -14,15 +16,17 @@ const MainLayout = ({
 
       <Sidebar />
 
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 flex flex-col">
 
-        <div className="p-6 lg:p-10 pb-32 xl:pb-10">
+        <div className="flex-1 p-6 lg:p-10 pb-32 xl:pb-10">
 
           <TopNavbar />
 
           {children}
 
         </div>
+
+        <Footer />
 
       </div>
 

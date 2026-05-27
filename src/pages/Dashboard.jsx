@@ -1,110 +1,64 @@
 import MainLayout from "../components/layout/MainLayout";
 
 import ActivityFeed from "../components/dashboard/ActivityFeed";
+import StatsGrid from "../components/dashboard/StatsGrid";
+import Testimonials from "../components/dashboard/Testimonials";
 
 const stats = [
 
   {
-    title:
-      "Portfolio Value",
-
-    value:
-      "$842,420",
-
-    change:
-      "+18.4%",
-
-    color:
-      "text-yellow-400",
+    title: "Portfolio Value",
+    value: "$842,420",
+    change: "+18.4%",
+    color: "text-yellow-400",
   },
 
   {
-    title:
-      "24H Profit",
-
-    value:
-      "+$24,820",
-
-    change:
-      "+12.8%",
-
-    color:
-      "text-green-400",
+    title: "24H Profit",
+    value: "+$24,820",
+    change: "+12.8%",
+    color: "text-green-400",
   },
 
   {
-    title:
-      "Active Trades",
-
-    value:
-      "148",
-
-    change:
-      "+22",
-
-    color:
-      "text-blue-400",
+    title: "Active Trades",
+    value: "148",
+    change: "+22",
+    color: "text-blue-400",
   },
 
   {
-    title:
-      "Win Rate",
-
-    value:
-      "82%",
-
-    change:
-      "+6.2%",
-
-    color:
-      "text-purple-400",
+    title: "Win Rate",
+    value: "82%",
+    change: "+6.2%",
+    color: "text-purple-400",
   },
 ];
 
 const assets = [
 
   {
-    coin:
-      "BTC",
-
-    amount:
-      "$342,000",
-
-    profit:
-      "+12.4%",
+    coin: "BTC",
+    amount: "$342,000",
+    profit: "+12.4%",
   },
 
   {
-    coin:
-      "ETH",
-
-    amount:
-      "$188,000",
-
-    profit:
-      "+8.7%",
+    coin: "ETH",
+    amount: "$188,000",
+    profit: "+8.7%",
   },
 
   {
-    coin:
-      "SOL",
-
-    amount:
-      "$94,000",
-
-    profit:
-      "+22.1%",
+    coin: "SOL",
+    amount: "$94,000",
+    profit: "+22.1%",
   },
 
   {
-    coin:
-      "BNB",
-
-    amount:
-      "$76,000",
-
-    profit:
-      "+5.4%",
+    coin: "BNB",
+    amount: "$76,000",
+    profit: "+5.4%",
   },
 ];
 
@@ -132,7 +86,9 @@ const Dashboard = () => {
 
           Institutional
           <span className="text-yellow-400">
+
             {" "}Dashboard
+
           </span>
 
         </h1>
@@ -389,6 +345,18 @@ const Dashboard = () => {
       </div>
 
       <ActivityFeed />
+
+      <div className="mt-10">
+
+        <StatsGrid />
+
+      </div>
+
+      <div className="mt-10">
+
+        <Testimonials />
+
+      </div>
 
     </MainLayout>
   );
