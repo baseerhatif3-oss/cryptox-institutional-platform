@@ -1,72 +1,46 @@
-function NotFound() {
+import {
+  Link,
+} from "react-router-dom";
+
+const NotFound = () => {
+
   return (
-    <div
-      style={{
-        background:
-          "#020617",
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent:
-          "center",
-        alignItems: "center",
-        flexDirection:
-          "column",
-        color: "white",
-        fontFamily:
-          "Arial",
-        padding: "20px",
-        textAlign: "center",
-      }}
-    >
-      <h1
-        style={{
-          fontSize: "90px",
-          marginBottom:
-            "10px",
-        }}
-      >
-        404
-      </h1>
 
-      <h2>
-        Page Not Found
-      </h2>
+    <div className="min-h-screen bg-black flex items-center justify-center text-white px-6">
 
-      <p
-        style={{
-          color: "#94a3b8",
-          marginTop: "10px",
-        }}
-      >
-        The page you are
-        looking for does
-        not exist.
-      </p>
+      <div className="text-center">
 
-      <button
-        onClick={() => {
-          window.location.href =
-            "/dashboard";
-        }}
-        style={{
-          marginTop: "30px",
-          padding:
-            "14px 24px",
-          border: "none",
-          borderRadius:
-            "10px",
-          background:
-            "#2563eb",
-          color: "white",
-          cursor:
-            "pointer",
-          fontSize: "16px",
-        }}
-      >
-        Go Dashboard
-      </button>
+        <h1 className="text-9xl font-black text-yellow-400 mb-8">
+
+          404
+
+        </h1>
+
+        <h2 className="text-5xl font-black mb-6">
+
+          Page Not Found
+
+        </h2>
+
+        <p className="text-zinc-500 text-xl mb-10 max-w-2xl">
+
+          The requested trading resource could not be located on the CryptoX infrastructure.
+
+        </p>
+
+        <Link
+          to="/dashboard"
+          className="bg-yellow-400 hover:bg-yellow-300 transition-all text-black px-10 py-5 rounded-2xl font-black text-xl"
+        >
+
+          Return to Exchange
+
+        </Link>
+
+      </div>
+
     </div>
   );
-}
+};
 
 export default NotFound;

@@ -2,6 +2,8 @@ import Sidebar from "./Sidebar";
 
 import TopNavbar from "./TopNavbar";
 
+import MobileNavbar from "./MobileNavbar";
+
 const MainLayout = ({
   children,
 }) => {
@@ -12,13 +14,19 @@ const MainLayout = ({
 
       <Sidebar />
 
-      <div className="flex-1 lg:ml-0 p-4 lg:p-8 overflow-hidden">
+      <div className="flex-1 min-w-0">
 
-        <TopNavbar />
+        <div className="p-6 lg:p-10 pb-32 xl:pb-10">
 
-        {children}
+          <TopNavbar />
+
+          {children}
+
+        </div>
 
       </div>
+
+      <MobileNavbar />
 
     </div>
   );

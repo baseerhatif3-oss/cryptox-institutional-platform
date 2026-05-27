@@ -17,6 +17,7 @@ import SystemStatus from "./pages/SystemStatus";
 import DemoAccount from "./pages/DemoAccount";
 import AdminDashboard from "./pages/AdminDashboard";
 import TrustCenter from "./pages/TrustCenter";
+import NotFound from "./pages/NotFound";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -156,6 +157,13 @@ function App() {
               <TrustCenter />
 
             </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="*"
+          element={
+            <NotFound />
           }
         />
 
