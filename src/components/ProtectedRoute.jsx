@@ -2,13 +2,15 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import useAuth from "../hooks/useAuth";
+import {
+  useAuth,
+} from "../context/AuthContext";
 
-import LoadingSpinner from "./LoadingSpinner";
-
-const ProtectedRoute = ({
-  children,
-}) => {
+const ProtectedRoute = (
+  {
+    children,
+  }
+) => {
 
   const {
     user,
@@ -20,7 +22,12 @@ const ProtectedRoute = ({
   ) {
 
     return (
-      <LoadingSpinner />
+
+      <div className="min-h-screen bg-black flex items-center justify-center text-white text-3xl font-black">
+
+        Loading...
+
+      </div>
     );
   }
 

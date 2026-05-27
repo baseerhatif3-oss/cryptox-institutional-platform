@@ -1,52 +1,108 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
-const AuthContext = createContext();
+const AuthContext =
+  createContext();
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = (
+  {
+    children,
+  }
+) => {
 
-  const [user, setUser] = useState(null);
+  const [
+    user,
+    setUser,
+  ] = useState(
+    null
+  );
 
-  useEffect(() => {
+  const [
+    loading,
+    setLoading,
+  ] = useState(
+    true
+  );
 
-    const token = localStorage.getItem("token");
+  useEffect(
+    () => {
 
-    const savedUser = localStorage.getItem("user");
+      const storedUser =
+        localStorage.getItem(
+          "cryptox_user"
+        );
 
-    if (token && savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
+      if (
+        storedUser
+      ) {
 
-  }, []);
+        setUser(
+          JSON.parse(
+            storedUser
+          )
+        );
+      }
 
-  const login = (token, userData) => {
+      setLoading(
+        false
+      );
 
-    localStorage.setItem("token", token);
+    },
+    []
+  );
 
-    localStorage.setItem("user", JSON.stringify(userData));
+  const login = (
+    userData
+  ) => {
 
-    setUser(userData);
+    localStorage.setItem(
+      "cryptox_user",
+      JSON.stringify(
+        userData
+      )
+    );
+
+    setUser(
+      userData
+    );
   };
 
   const logout = () => {
 
-    localStorage.removeItem("token");
+    localStorage.removeItem(
+      "cryptox_user"
+    );
 
-    localStorage.removeItem("user");
-
-    setUser(null);
+    setUser(
+      null
+    );
   };
 
   return (
+
     <AuthContext.Provider
       value={{
         user,
         login,
         logout,
+        loading,
       }}
     >
-      {children}
+
+      {
+        children
+      }
+
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth =
+  () =>
+    useContext(
+      AuthContext
+    );
