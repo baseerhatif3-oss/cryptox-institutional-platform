@@ -6,34 +6,34 @@ const NotFound = () => {
 
   return (
 
-    <div className="min-h-screen bg-black flex items-center justify-center text-white px-6">
+    <div className="min-h-screen bg-black text-white flex items-center justify-center px-6">
 
-      <div className="text-center">
+      <div className="text-center max-w-2xl">
 
-        <h1 className="text-9xl font-black text-yellow-400 mb-8">
+        <h1 className="text-[180px] font-black leading-none text-yellow-400 mb-6">
 
           404
 
         </h1>
 
-        <h2 className="text-5xl font-black mb-6">
+        <h2 className="text-6xl font-black mb-6">
 
-          Page Not Found
+          Market Not Found
 
         </h2>
 
-        <p className="text-zinc-500 text-xl mb-10 max-w-2xl">
+        <p className="text-zinc-500 text-2xl mb-12 leading-relaxed">
 
-          The requested trading resource could not be located on the CryptoX infrastructure.
+          The requested trading infrastructure endpoint could not be located.
 
         </p>
 
         <Link
-          to="/dashboard"
-          className="bg-yellow-400 hover:bg-yellow-300 transition-all text-black px-10 py-5 rounded-2xl font-black text-xl"
+          to="/"
+          className="inline-flex bg-yellow-400 hover:bg-yellow-300 transition-all text-black px-10 py-5 rounded-3xl font-black text-xl"
         >
 
-          Return to Exchange
+          Return Home
 
         </Link>
 
