@@ -1,3 +1,8 @@
+import {
+  useEffect,
+  useState,
+} from "react";
+
 import MainLayout from "../components/layout/MainLayout";
 
 import {
@@ -7,11 +12,81 @@ import {
   Activity,
   Wallet,
   ShieldCheck,
+  Globe,
+  BarChart3,
+  PieChart,
 } from "lucide-react";
+
+import {
+  AreaChart,
+  Area,
+  ResponsiveContainer,
+  PieChart as RePieChart,
+  Pie,
+  Cell,
+  Tooltip,
+} from "recharts";
 
 import ActivityFeed from "../components/ActivityFeed";
 
 const Dashboard = () => {
+
+  const [marketData, setMarketData] =
+    useState([]);
+
+  const [globalData, setGlobalData] =
+    useState(null);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  useEffect(() => {
+
+    const fetchData =
+      async () => {
+
+        try {
+
+          const markets =
+            await fetch(
+              "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,ripple&order=market_cap_desc&per_page=4&page=1&sparkline=false"
+            );
+
+          const global =
+            await fetch(
+              "https://api.coingecko.com/api/v3/global"
+            );
+
+          const marketResult =
+            await markets.json();
+
+          const globalResult =
+            await global.json();
+
+          setMarketData(
+            marketResult
+          );
+
+          setGlobalData(
+            globalResult.data
+          );
+
+        } catch (error) {
+
+          console.error(
+            "Dashboard API Error:",
+            error
+          );
+
+        } finally {
+
+          setLoading(false);
+        }
+      };
+
+    fetchData();
+
+  }, []);
 
   const stats = [
 
@@ -96,63 +171,53 @@ const Dashboard = () => {
     },
   ];
 
-  const marketData = [
+  const portfolioData = [
+
+    { name: "Jan", value: 120000 },
+
+    { name: "Feb", value: 180000 },
+
+    { name: "Mar", value: 240000 },
+
+    { name: "Apr", value: 310000 },
+
+    { name: "May", value: 420000 },
+
+    { name: "Jun", value: 520000 },
+
+    { name: "Jul", value: 610000 },
+
+    { name: "Aug", value: 842420 },
+  ];
+
+  const allocationData = [
 
     {
-      pair:
-        "BTC/USDT",
-
-      price:
-        "$84,320",
-
-      change:
-        "+3.2%",
-
-      positive:
-        true,
+      name: "BTC",
+      value: 48,
     },
 
     {
-      pair:
-        "ETH/USDT",
-
-      price:
-        "$4,280",
-
-      change:
-        "+2.4%",
-
-      positive:
-        true,
+      name: "ETH",
+      value: 28,
     },
 
     {
-      pair:
-        "SOL/USDT",
-
-      price:
-        "$182",
-
-      change:
-        "+6.1%",
-
-      positive:
-        true,
+      name: "SOL",
+      value: 14,
     },
 
     {
-      pair:
-        "XRP/USDT",
-
-      price:
-        "$1.22",
-
-      change:
-        "-1.8%",
-
-      positive:
-        false,
+      name: "XRP",
+      value: 10,
     },
+  ];
+
+  const colors = [
+    "#facc15",
+    "#22c55e",
+    "#3b82f6",
+    "#a855f7",
   ];
 
   return (
@@ -173,20 +238,96 @@ const Dashboard = () => {
 
         </div>
 
-        <h1 className="text-6xl font-black mb-4">
+        <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
 
-          Trading
-          <span className="text-yellow-400">
-            {" "}Dashboard
-          </span>
+          <div>
 
-        </h1>
+            <h1 className="text-6xl font-black mb-4">
 
-        <p className="text-zinc-500 text-xl">
+              Trading
+              <span className="text-yellow-400">
+                {" "}Dashboard
+              </span>
 
-          Institutional-grade crypto trading infrastructure overview.
+            </h1>
 
-        </p>
+            <p className="text-zinc-500 text-xl">
+
+              Institutional-grade crypto trading infrastructure overview.
+
+            </p>
+
+          </div>
+
+          {
+            globalData && (
+
+              <div className="glass rounded-3xl px-8 py-6">
+
+                <div className="flex items-center gap-4 mb-4">
+
+                  <Globe
+                    size={32}
+                    className="text-yellow-400"
+                  />
+
+                  <h2 className="text-3xl font-black">
+
+                    Global Market
+
+                  </h2>
+
+                </div>
+
+                <div className="grid grid-cols-2 gap-6">
+
+                  <div>
+
+                    <p className="text-zinc-500 mb-2">
+
+                      Market Cap
+
+                    </p>
+
+                    <h3 className="text-2xl font-black text-green-400">
+
+                      $
+                      {
+                        (
+                          globalData.total_market_cap.usd /
+                          1000000000000
+                        ).toFixed(2)
+                      }T
+
+                    </h3>
+
+                  </div>
+
+                  <div>
+
+                    <p className="text-zinc-500 mb-2">
+
+                      BTC Dominance
+
+                    </p>
+
+                    <h3 className="text-2xl font-black text-yellow-400">
+
+                      {
+                        globalData.market_cap_percentage.btc.toFixed(1)
+                      }%
+
+                    </h3>
+
+                  </div>
+
+                </div>
+
+              </div>
+            )
+          }
+
+        </div>
 
       </div>
 
@@ -258,114 +399,307 @@ const Dashboard = () => {
 
         <div className="xl:col-span-2 glass rounded-3xl p-8">
 
-          <div className="flex items-center justify-between mb-10">
+          <div className="flex items-center gap-4 mb-10">
 
-            <h2 className="text-4xl font-black">
+            <BarChart3
+              size={40}
+              className="text-yellow-400"
+            />
 
-              Market Overview
+            <div>
 
-            </h2>
+              <h2 className="text-4xl font-black">
 
-            <div className="flex items-center gap-3">
+                Portfolio Performance
 
-              <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+              </h2>
 
-              <span className="text-green-400 font-bold">
+              <p className="text-zinc-500">
 
-                LIVE MARKET
+                Real-time growth analytics
 
-              </span>
+              </p>
 
             </div>
 
           </div>
 
-          <div className="space-y-6">
+          <div className="h-[350px]">
 
-            {
-              marketData.map(
-                (
-                  item,
-                  index
-                ) => (
+            <ResponsiveContainer
+              width="100%"
+              height="100%"
+            >
 
-                  <div
-                    key={index}
-                    className="flex items-center justify-between bg-black/20 border border-white/5 rounded-2xl px-6 py-5"
+              <AreaChart
+                data={portfolioData}
+              >
+
+                <defs>
+
+                  <linearGradient
+                    id="colorValue"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
                   >
 
-                    <div>
+                    <stop
+                      offset="5%"
+                      stopColor="#facc15"
+                      stopOpacity={0.8}
+                    />
 
-                      <h3 className="text-2xl font-black mb-2">
+                    <stop
+                      offset="95%"
+                      stopColor="#facc15"
+                      stopOpacity={0}
+                    />
 
-                        {
-                          item.pair
-                        }
+                  </linearGradient>
 
-                      </h3>
+                </defs>
 
-                      <p className="text-zinc-500">
+                <Tooltip />
 
-                        Spot Trading Pair
+                <Area
+                  type="monotone"
+                  dataKey="value"
+                  stroke="#facc15"
+                  fillOpacity={1}
+                  fill="url(#colorValue)"
+                  strokeWidth={4}
+                />
 
-                      </p>
+              </AreaChart>
 
-                    </div>
-
-                    <div className="text-right">
-
-                      <h3 className="text-3xl font-black mb-2">
-
-                        {
-                          item.price
-                        }
-
-                      </h3>
-
-                      <div className="flex items-center justify-end gap-2">
-
-                        {
-                          item.positive
-                            ? (
-                              <TrendingUp
-                                size={20}
-                                className="text-green-400"
-                              />
-                            )
-                            : (
-                              <TrendingDown
-                                size={20}
-                                className="text-red-400"
-                              />
-                            )
-                        }
-
-                        <span
-                          className={`font-black text-lg ${
-                            item.positive
-                              ? "text-green-400"
-                              : "text-red-400"
-                          }`}
-                        >
-
-                          {
-                            item.change
-                          }
-
-                        </span>
-
-                      </div>
-
-                    </div>
-
-                  </div>
-                )
-              )
-            }
+            </ResponsiveContainer>
 
           </div>
 
         </div>
+
+        <div className="glass rounded-3xl p-8">
+
+          <div className="flex items-center gap-4 mb-10">
+
+            <PieChart
+              size={40}
+              className="text-yellow-400"
+            />
+
+            <div>
+
+              <h2 className="text-4xl font-black">
+
+                Allocation
+
+              </h2>
+
+              <p className="text-zinc-500">
+
+                Asset distribution
+
+              </p>
+
+            </div>
+
+          </div>
+
+          <div className="h-[300px]">
+
+            <ResponsiveContainer
+              width="100%"
+              height="100%"
+            >
+
+              <RePieChart>
+
+                <Pie
+                  data={allocationData}
+                  dataKey="value"
+                  outerRadius={100}
+                >
+
+                  {
+                    allocationData.map(
+                      (
+                        entry,
+                        index
+                      ) => (
+
+                        <Cell
+                          key={index}
+                          fill={
+                            colors[index]
+                          }
+                        />
+                      )
+                    )
+                  }
+
+                </Pie>
+
+                <Tooltip />
+
+              </RePieChart>
+
+            </ResponsiveContainer>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div className="glass rounded-3xl p-8 mb-10">
+
+        <div className="flex items-center justify-between mb-10">
+
+          <h2 className="text-4xl font-black">
+
+            Live Market Overview
+
+          </h2>
+
+          <div className="flex items-center gap-3">
+
+            <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+
+            <span className="text-green-400 font-bold">
+
+              LIVE DATA
+
+            </span>
+
+          </div>
+
+        </div>
+
+        <div className="space-y-6">
+
+          {
+            loading
+              ? (
+                [...Array(4)].map(
+                  (
+                    _,
+                    index
+                  ) => (
+
+                    <div
+                      key={index}
+                      className="glass rounded-2xl p-8 animate-pulse h-[120px]"
+                    />
+                  )
+                )
+              )
+              : (
+                marketData.map(
+                  (
+                    coin
+                  ) => {
+
+                    const positive =
+                      coin.price_change_percentage_24h >= 0;
+
+                    return (
+
+                      <div
+                        key={coin.id}
+                        className="flex items-center justify-between bg-black/20 border border-white/5 rounded-2xl px-6 py-5"
+                      >
+
+                        <div className="flex items-center gap-5">
+
+                          <img
+                            src={coin.image}
+                            alt={coin.name}
+                            className="w-14 h-14"
+                          />
+
+                          <div>
+
+                            <h3 className="text-3xl font-black mb-2">
+
+                              {
+                                coin.symbol.toUpperCase()
+                              }
+
+                            </h3>
+
+                            <p className="text-zinc-500">
+
+                              {
+                                coin.name
+                              }
+
+                            </p>
+
+                          </div>
+
+                        </div>
+
+                        <div className="text-right">
+
+                          <h3 className="text-3xl font-black mb-2">
+
+                            $
+                            {
+                              coin.current_price.toLocaleString()
+                            }
+
+                          </h3>
+
+                          <div className="flex items-center justify-end gap-2">
+
+                            {
+                              positive
+                                ? (
+                                  <TrendingUp
+                                    size={20}
+                                    className="text-green-400"
+                                  />
+                                )
+                                : (
+                                  <TrendingDown
+                                    size={20}
+                                    className="text-red-400"
+                                  />
+                                )
+                            }
+
+                            <span
+                              className={`font-black text-lg ${
+                                positive
+                                  ? "text-green-400"
+                                  : "text-red-400"
+                              }`}
+                            >
+
+                              {
+                                coin.price_change_percentage_24h.toFixed(2)
+                              }%
+
+                            </span>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+                    );
+                  }
+                )
+              )
+          }
+
+        </div>
+
+      </div>
+
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-10 mb-10">
 
         <div className="glass rounded-3xl p-8">
 
@@ -454,9 +788,13 @@ const Dashboard = () => {
 
         </div>
 
-      </div>
+        <div className="xl:col-span-2">
 
-      <ActivityFeed />
+          <ActivityFeed />
+
+        </div>
+
+      </div>
 
     </MainLayout>
   );
