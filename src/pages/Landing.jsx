@@ -4,8 +4,6 @@ import {
   BarChart3,
   Wallet,
   Globe,
-  TrendingUp,
-  CheckCircle2,
 } from "lucide-react";
 
 import {
@@ -18,8 +16,9 @@ import LiveActivity from "../components/ui/LiveActivity";
 
 import PricingSection from "../components/subscription/PricingSection";
 
-const stats = [
+import TrustSection from "../components/ui/TrustSection";
 
+const stats = [
   {
     title: "$12.8B+",
     subtitle: "24H Trading Volume",
@@ -42,29 +41,28 @@ const stats = [
 ];
 
 const features = [
-
   {
     icon: BarChart3,
     title: "Advanced Trading",
-    desc: "Professional-grade spot and futures trading infrastructure with ultra-low latency execution.",
+    desc: "Institutional-grade spot and futures infrastructure.",
   },
 
   {
     icon: Wallet,
     title: "Secure Custody",
-    desc: "Multi-layer institutional wallet architecture with cold storage security protocols.",
+    desc: "Multi-layer cold storage and enterprise wallet security.",
   },
 
   {
     icon: ShieldCheck,
     title: "Enterprise Security",
-    desc: "Bank-level infrastructure protection with AI fraud monitoring and encrypted systems.",
+    desc: "AI-driven protection and bank-level infrastructure.",
   },
 
   {
     icon: Globe,
     title: "Global Liquidity",
-    desc: "Deep liquidity pools and worldwide crypto market accessibility for institutional traders.",
+    desc: "Worldwide digital asset accessibility and liquidity.",
   },
 ];
 
@@ -74,7 +72,7 @@ const Landing = () => {
 
     <div className="min-h-screen bg-black text-white overflow-hidden">
 
-      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top,rgba(250,204,21,0.12),transparent_35%)] pointer-events-none"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(250,204,21,0.12),transparent_35%)]"></div>
 
       <header className="relative z-10 border-b border-white/5">
 
@@ -114,9 +112,7 @@ const Landing = () => {
 
               Launch Platform
 
-              <ArrowRight
-                size={18}
-              />
+              <ArrowRight size={18} />
 
             </Link>
 
@@ -143,6 +139,7 @@ const Landing = () => {
           <h1 className="text-6xl md:text-8xl font-black leading-[0.95] mb-10">
 
             The Future Of
+
             <span className="text-yellow-400">
 
               {" "}Institutional
@@ -157,8 +154,9 @@ const Landing = () => {
 
           <p className="text-zinc-400 text-xl md:text-2xl leading-relaxed max-w-4xl mb-14">
 
-            CryptoX delivers enterprise-grade cryptocurrency trading,
-            digital asset custody, analytics infrastructure, and institutional liquidity systems for global capital markets.
+            Enterprise-grade cryptocurrency trading ecosystem,
+            digital asset custody, analytics infrastructure,
+            and institutional liquidity systems.
 
           </p>
 
@@ -171,9 +169,7 @@ const Landing = () => {
 
               Access Platform
 
-              <ArrowRight
-                size={22}
-              />
+              <ArrowRight size={22} />
 
             </Link>
 
@@ -225,6 +221,7 @@ const Landing = () => {
                   </p>
 
                 </div>
+
               )
             )
           }
@@ -240,6 +237,7 @@ const Landing = () => {
           <h2 className="text-5xl md:text-6xl font-black mb-6">
 
             Built For
+
             <span className="text-yellow-400">
 
               {" "}Scale
@@ -250,8 +248,8 @@ const Landing = () => {
 
           <p className="text-zinc-500 text-xl max-w-3xl">
 
-            Enterprise-grade systems engineered for institutions, hedge funds,
-            digital asset managers, and modern crypto-native trading firms.
+            Enterprise-grade systems engineered for institutions,
+            hedge funds, and digital asset firms.
 
           </p>
 
@@ -278,9 +276,7 @@ const Landing = () => {
 
                     <div className="w-20 h-20 rounded-3xl bg-yellow-400 text-black flex items-center justify-center mb-8">
 
-                      <Icon
-                        size={38}
-                      />
+                      <Icon size={38} />
 
                     </div>
 
@@ -301,6 +297,7 @@ const Landing = () => {
                     </p>
 
                   </div>
+
                 );
               }
             )
@@ -313,6 +310,8 @@ const Landing = () => {
       <LiveActivity />
 
       <PricingSection />
+
+      <TrustSection />
 
       <section className="relative z-10 max-w-7xl mx-auto px-6 pb-32">
 
@@ -330,8 +329,8 @@ const Landing = () => {
 
           <p className="text-black/70 text-xl max-w-3xl mx-auto mb-12">
 
-            Access institutional-grade crypto infrastructure, advanced trading systems,
-            digital asset management tools, and enterprise liquidity solutions.
+            Access institutional-grade crypto infrastructure,
+            advanced trading systems, and enterprise liquidity solutions.
 
           </p>
 
@@ -342,9 +341,7 @@ const Landing = () => {
 
             Launch Institutional Account
 
-            <ArrowRight
-              size={22}
-            />
+            <ArrowRight size={22} />
 
           </Link>
 
@@ -366,7 +363,7 @@ const Landing = () => {
 
             <p className="text-zinc-500 leading-relaxed">
 
-              Institutional-grade cryptocurrency trading infrastructure for global digital asset markets.
+              Institutional-grade cryptocurrency infrastructure.
 
             </p>
 
@@ -443,6 +440,7 @@ const Landing = () => {
       </footer>
 
     </div>
+
   );
 };
 
