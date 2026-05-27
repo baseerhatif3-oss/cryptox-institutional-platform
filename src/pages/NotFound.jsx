@@ -8,38 +8,39 @@ const NotFound = () => {
 
     <div className="min-h-screen bg-black text-white flex items-center justify-center px-6">
 
-      <div className="text-center max-w-2xl">
+      <div className="text-center">
 
-        <h1 className="text-[180px] font-black leading-none text-yellow-400 mb-6">
+        <h1 className="text-[160px] font-black text-yellow-400 leading-none mb-6">
 
           404
 
         </h1>
 
-        <h2 className="text-6xl font-black mb-6">
+        <h2 className="text-5xl font-black mb-6">
 
-          Market Not Found
+          Page Not Found
 
         </h2>
 
-        <p className="text-zinc-500 text-2xl mb-12 leading-relaxed">
+        <p className="text-zinc-500 text-xl mb-10 max-w-2xl">
 
-          The requested trading infrastructure endpoint could not be located.
+          The requested institutional resource could not be located.
 
         </p>
 
         <Link
-          to="/"
-          className="inline-flex bg-yellow-400 hover:bg-yellow-300 transition-all text-black px-10 py-5 rounded-3xl font-black text-xl"
+          to="/dashboard"
+          className="bg-yellow-400 hover:bg-yellow-300 transition-all text-black px-10 py-5 rounded-3xl font-black text-xl inline-flex"
         >
 
-          Return Home
+          Return To Platform
 
         </Link>
 
       </div>
 
     </div>
+
   );
 };
 

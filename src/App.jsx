@@ -2,15 +2,12 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Navigate,
 } from "react-router-dom";
 
 import {
   useEffect,
   useState,
 } from "react";
-
-import Loader from "./components/ui/Loader";
 
 import Landing from "./pages/Landing";
 
@@ -28,15 +25,21 @@ import Portfolio from "./pages/Portfolio";
 
 import Wallet from "./pages/Wallet";
 
-import NFTMarketplace from "./pages/NFTMarketplace";
-
-import Launchpad from "./pages/Launchpad";
-
 import Admin from "./pages/Admin";
 
 import Settings from "./pages/Settings";
 
-const App = () => {
+import NFTMarketplace from "./pages/NFTMarketplace";
+
+import Launchpad from "./pages/Launchpad";
+
+import NotFound from "./pages/NotFound";
+
+import Loader from "./components/ui/Loader";
+
+import ProtectedRoute from "./components/auth/ProtectedRoute";
+
+function App() {
 
   const [
     loading,
@@ -60,7 +63,6 @@ const App = () => {
   if (loading) {
 
     return <Loader />;
-
   }
 
   return (
@@ -71,99 +73,128 @@ const App = () => {
 
         <Route
           path="/"
-          element={
-            <Landing />
-          }
+          element={<Landing />}
         />
 
         <Route
           path="/login"
-          element={
-            <Login />
-          }
+          element={<Login />}
         />
 
         <Route
           path="/register"
-          element={
-            <Register />
-          }
+          element={<Register />}
         />
 
         <Route
           path="/dashboard"
           element={
-            <Dashboard />
+            <ProtectedRoute>
+
+              <Dashboard />
+
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/markets"
           element={
-            <Markets />
+            <ProtectedRoute>
+
+              <Markets />
+
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/trading"
           element={
-            <Trading />
+            <ProtectedRoute>
+
+              <Trading />
+
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/portfolio"
           element={
-            <Portfolio />
+            <ProtectedRoute>
+
+              <Portfolio />
+
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/wallet"
           element={
-            <Wallet />
-          }
-        />
+            <ProtectedRoute>
 
-        <Route
-          path="/nft"
-          element={
-            <NFTMarketplace />
-          }
-        />
+              <Wallet />
 
-        <Route
-          path="/launchpad"
-          element={
-            <Launchpad />
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/admin"
           element={
-            <Admin />
+            <ProtectedRoute>
+
+              <Admin />
+
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/settings"
           element={
-            <Settings />
+            <ProtectedRoute>
+
+              <Settings />
+
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/nft"
+          element={
+            <ProtectedRoute>
+
+              <NFTMarketplace />
+
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/launchpad"
+          element={
+            <ProtectedRoute>
+
+              <Launchpad />
+
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="*"
-          element={
-            <Navigate to="/" />
-          }
+          element={<NotFound />}
         />
 
       </Routes>
 
     </BrowserRouter>
+
   );
-};
+}
 
 export default App;

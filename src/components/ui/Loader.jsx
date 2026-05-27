@@ -2,7 +2,7 @@ const Loader = () => {
 
   return (
 
-    <div className="fixed inset-0 z-[9999] bg-black flex items-center justify-center">
+    <div className="fixed inset-0 bg-black flex items-center justify-center z-[9999]">
 
       <div className="text-center">
 
@@ -16,13 +16,14 @@ const Loader = () => {
 
         <p className="text-zinc-500 text-xl">
 
-          Institutional Infrastructure Loading...
+          Initializing Institutional Infrastructure...
 
         </p>
 
       </div>
 
     </div>
+
   );
 };
 
