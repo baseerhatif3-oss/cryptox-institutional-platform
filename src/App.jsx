@@ -1,4 +1,60 @@
-function App() {
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+} from "react-router-dom";
+
+function Home() {
+
+  return (
+
+    <div
+      style={{
+        background: "black",
+        color: "white",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "30px",
+      }}
+    >
+
+      <h1
+        style={{
+          fontSize: "60px",
+          fontWeight: "bold",
+        }}
+      >
+
+        CryptoX 🚀
+
+      </h1>
+
+      <Link
+        to="/login"
+        style={{
+          background: "#facc15",
+          color: "black",
+          padding: "15px 40px",
+          borderRadius: "20px",
+          textDecoration: "none",
+          fontWeight: "bold",
+          fontSize: "24px",
+        }}
+      >
+
+        Open Login
+
+      </Link>
+
+    </div>
+  );
+}
+
+function Login() {
 
   return (
 
@@ -15,9 +71,33 @@ function App() {
       }}
     >
 
-      CRYPTOX LIVE 🚀
+      LOGIN WORKING ✅
 
     </div>
+  );
+}
+
+function App() {
+
+  return (
+
+    <BrowserRouter>
+
+      <Routes>
+
+        <Route
+          path="/"
+          element={<Home />}
+        />
+
+        <Route
+          path="/login"
+          element={<Login />}
+        />
+
+      </Routes>
+
+    </BrowserRouter>
   );
 }
 
