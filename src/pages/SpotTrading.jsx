@@ -1,11 +1,9 @@
 function SpotTrading() {
-
   return (
-
     <div
       style={{
-        background: "black",
-        color: "white",
+        background: "#000",
+        color: "#fff",
         minHeight: "100vh",
         display: "flex",
         alignItems: "center",
@@ -14,9 +12,7 @@ function SpotTrading() {
         fontWeight: "bold",
       }}
     >
-
       Spot Trading 🚀
-
     </div>
   );
 }
