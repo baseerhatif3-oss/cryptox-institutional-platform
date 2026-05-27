@@ -7,6 +7,8 @@ import {
   Link,
 } from "react-router-dom";
 
+import toast from "react-hot-toast";
+
 const Register = () => {
 
   const navigate =
@@ -69,6 +71,10 @@ const Register = () => {
             email:
               formData.email,
           })
+        );
+
+        toast.success(
+          "Institutional account created"
         );
 
         navigate(

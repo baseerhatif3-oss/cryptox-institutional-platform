@@ -23,6 +23,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 import FeatureSection from "./components/home/FeatureSection";
 import CTASection from "./components/home/CTASection";
+import MarketTicker from "./components/home/MarketTicker";
+import TrustSection from "./components/home/TrustSection";
 
 function LandingPage() {
 
@@ -69,6 +71,8 @@ function LandingPage() {
           </div>
 
         </nav>
+
+        <MarketTicker />
 
         <section className="max-w-7xl mx-auto px-8 pt-24 pb-24">
 
@@ -206,6 +210,8 @@ function LandingPage() {
         </section>
 
         <FeatureSection />
+
+        <TrustSection />
 
         <CTASection />
 

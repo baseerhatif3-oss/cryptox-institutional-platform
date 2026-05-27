@@ -7,6 +7,8 @@ import {
   Link,
 } from "react-router-dom";
 
+import toast from "react-hot-toast";
+
 const Login = () => {
 
   const navigate =
@@ -47,6 +49,10 @@ const Login = () => {
               "Crypto Trader",
             email,
           })
+        );
+
+        toast.success(
+          "Welcome back to CryptoX"
         );
 
         navigate(
