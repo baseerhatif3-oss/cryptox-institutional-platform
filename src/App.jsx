@@ -15,6 +15,7 @@ import Wallet from "./pages/Wallet";
 import Settings from "./pages/Settings";
 import SystemStatus from "./pages/SystemStatus";
 import DemoAccount from "./pages/DemoAccount";
+import DemoCredentials from "./pages/DemoCredentials";
 import AdminDashboard from "./pages/AdminDashboard";
 import TrustCenter from "./pages/TrustCenter";
 import NotFound from "./pages/NotFound";
@@ -133,6 +134,17 @@ function App() {
             <ProtectedRoute>
 
               <DemoAccount />
+
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/demo-credentials"
+          element={
+            <ProtectedRoute>
+
+              <DemoCredentials />
 
             </ProtectedRoute>
           }

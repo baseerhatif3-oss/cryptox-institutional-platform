@@ -2,12 +2,13 @@ import {
   LayoutDashboard,
   CandlestickChart,
   Wallet,
- Shield,
+  Shield,
   BarChart3,
   Settings,
   Monitor,
   Users,
   PlayCircle,
+  KeyRound,
 } from "lucide-react";
 
 import {
@@ -82,6 +83,17 @@ const Sidebar = () => {
 
       icon:
         PlayCircle,
+    },
+
+    {
+      name:
+        "Demo Access",
+
+      path:
+        "/demo-credentials",
+
+      icon:
+        KeyRound,
     },
 
     {

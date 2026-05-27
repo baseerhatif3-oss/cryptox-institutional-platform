@@ -1,102 +1,56 @@
-# 🚀 CryptoX Exchange Platform
+# CryptoX Exchange
 
-A modern full-stack cryptocurrency trading platform built using the MERN stack.
+Enterprise-grade cryptocurrency exchange infrastructure built with React, Node.js, MongoDB, and real-time Binance market integrations.
 
----
+## Features
 
-# 🌐 Live Demo
+- Live Binance Market Data
+- Real-Time Trading Terminal
+- AI Trading Signals
+- Portfolio Management
+- Wallet Infrastructure
+- Admin Dashboard
+- Demo Trading Accounts
+- Institutional UI/UX
+- Mobile Responsive Architecture
+- Exchange Analytics
+- Trust Center
+- System Monitoring
 
-## Frontend
-https://your-frontend-url.vercel.app
+## Technology Stack
 
-## Backend API
-https://your-backend-url.onrender.com
-
----
-
-# ✨ Features
-
-- 🔐 JWT Authentication
-- 📊 Live Crypto Prices
-- 📈 TradingView Charts
-- 💰 Buy/Sell System
-- 📁 Portfolio Analytics
-- 👛 Wallet Management
-- 📜 Transaction History
-- ⭐ Crypto Watchlist
-- 🌙 Modern Dark UI
-- 📱 Responsive Design
-
----
-
-# 🛠️ Tech Stack
-
-## Frontend
-- React.js
+### Frontend
+- React
 - Vite
-- Axios
-- React Router
-- Recharts
-- TradingView Widget
+- TailwindCSS
+- Socket.IO
+- TradingView
 
-## Backend
+### Backend
 - Node.js
 - Express.js
 - MongoDB
 - JWT Authentication
-- Mongoose
+- WebSockets
 
----
+## Demo Accounts
 
-# 📸 Screenshots
+### Trader
+Email: trader@cryptox.io
+Password: Trader123
 
----
+### Admin
+Email: admin@cryptox.io
+Password: Admin123
 
-## 🔐 Login Page
+## Deployment
 
-![Login](./frontend/public/screenshots/login.png)
+Frontend:
+- Vercel
 
----
+Backend:
+- Render
 
-## 📊 Dashboard
+## Status
 
-![Dashboard](./frontend/public/screenshots/dashboard.png)
-
----
-
-## 📈 Trading Section
-
-![Trading](./frontend/public/screenshots/trading.png)
-
----
-
-## 📁 Portfolio Analytics
-
-![Portfolio](./frontend/public/screenshots/portfolio.png)
-
----
-
-## 👛 Wallet
-
-![Wallet](./frontend/public/screenshots/wallet.png)
-
----
-
-## 📜 Transactions
-
-![Transactions](./frontend/public/screenshots/transactions.png)
-
----
-
-## ⭐ Watchlist
-
-![Watchlist](./frontend/public/screenshots/watchlist.png)
-
----
-
-# ⚙️ Installation
-
-## Clone Repository
-
-```bash
-git clone https://github.com/YOUR_USERNAME/crypto-platform.git
+Production-Ready MVP
