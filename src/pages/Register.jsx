@@ -14,6 +14,8 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
+import toast from "react-hot-toast";
+
 const Register = () => {
 
   const navigate =
@@ -59,7 +61,17 @@ const Register = () => {
 
       setLoading(true);
 
+      toast.loading(
+        "Creating secure account..."
+      );
+
       setTimeout(() => {
+
+        toast.dismiss();
+
+        toast.success(
+          "Account created successfully"
+        );
 
         localStorage.setItem(
           "cryptox_user",

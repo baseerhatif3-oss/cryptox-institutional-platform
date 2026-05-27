@@ -14,6 +14,8 @@ import {
   TrendingUp,
 } from "lucide-react";
 
+import toast from "react-hot-toast";
+
 const Login = () => {
 
   const navigate =
@@ -43,7 +45,17 @@ const Login = () => {
 
       setLoading(true);
 
+      toast.loading(
+        "Connecting to exchange..."
+      );
+
       setTimeout(() => {
+
+        toast.dismiss();
+
+        toast.success(
+          "Login successful"
+        );
 
         localStorage.setItem(
           "cryptox_user",
