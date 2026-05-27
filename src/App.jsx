@@ -4,12 +4,28 @@ import {
   Route,
 } from "react-router-dom";
 
-import Landing from "./pages/Landing";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
+function Landing() {
 
-import ProtectedRoute from "./components/ProtectedRoute";
+  return (
+
+    <div
+      style={{
+        background: "black",
+        color: "white",
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: "40px",
+        fontWeight: "bold",
+      }}
+    >
+
+      CryptoX Working 🚀
+
+    </div>
+  );
+}
 
 function App() {
 
@@ -21,34 +37,7 @@ function App() {
 
         <Route
           path="/"
-          element={
-            <Landing />
-          }
-        />
-
-        <Route
-          path="/login"
-          element={
-            <Login />
-          }
-        />
-
-        <Route
-          path="/register"
-          element={
-            <Register />
-          }
-        />
-
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-
-              <Dashboard />
-
-            </ProtectedRoute>
-          }
+          element={<Landing />}
         />
 
       </Routes>
