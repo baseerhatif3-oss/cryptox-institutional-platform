@@ -1,34 +1,38 @@
 import MainLayout from "../components/layout/MainLayout";
 
-import useAuth from "../hooks/useAuth";
+import {
+  TrendingUp,
+  TrendingDown,
+  DollarSign,
+  Activity,
+  Wallet,
+  ShieldCheck,
+} from "lucide-react";
 
-import LiveNotifications from "../components/notifications/LiveNotifications";
-
-import AISignals from "../components/dashboard/AISignals";
-
-import ActivityFeed from "../components/dashboard/ActivityFeed";
+import ActivityFeed from "../components/ActivityFeed";
 
 const Dashboard = () => {
-
-  const {
-    user,
-  } = useAuth();
-
-  const walletBalance =
-    user?.walletBalance ||
-    536920;
 
   const stats = [
 
     {
       title:
-        "Portfolio Value",
+        "Portfolio Balance",
 
       value:
-        `$${walletBalance}`,
+        "$842,420",
+
+      icon:
+        DollarSign,
 
       color:
         "text-yellow-400",
+
+      bg:
+        "bg-yellow-400/10",
+
+      change:
+        "+12.4%",
     },
 
     {
@@ -36,10 +40,19 @@ const Dashboard = () => {
         "24H Profit",
 
       value:
-        "+$18,420",
+        "+$24,820",
+
+      icon:
+        TrendingUp,
 
       color:
         "text-green-400",
+
+      bg:
+        "bg-green-400/10",
+
+      change:
+        "+8.2%",
     },
 
     {
@@ -49,19 +62,96 @@ const Dashboard = () => {
       value:
         "18",
 
+      icon:
+        Activity,
+
       color:
         "text-blue-400",
+
+      bg:
+        "bg-blue-400/10",
+
+      change:
+        "+4",
     },
 
     {
       title:
-        "AI Accuracy",
+        "Wallet Assets",
 
       value:
-        "94%",
+        "24",
+
+      icon:
+        Wallet,
 
       color:
         "text-purple-400",
+
+      bg:
+        "bg-purple-400/10",
+
+      change:
+        "+2",
+    },
+  ];
+
+  const marketData = [
+
+    {
+      pair:
+        "BTC/USDT",
+
+      price:
+        "$84,320",
+
+      change:
+        "+3.2%",
+
+      positive:
+        true,
+    },
+
+    {
+      pair:
+        "ETH/USDT",
+
+      price:
+        "$4,280",
+
+      change:
+        "+2.4%",
+
+      positive:
+        true,
+    },
+
+    {
+      pair:
+        "SOL/USDT",
+
+      price:
+        "$182",
+
+      change:
+        "+6.1%",
+
+      positive:
+        true,
+    },
+
+    {
+      pair:
+        "XRP/USDT",
+
+      price:
+        "$1.22",
+
+      change:
+        "-1.8%",
+
+      positive:
+        false,
     },
   ];
 
@@ -69,66 +159,34 @@ const Dashboard = () => {
 
     <MainLayout>
 
-      <div className="relative overflow-hidden rounded-[40px] border border-yellow-500/10 bg-gradient-to-br from-yellow-400/10 via-black to-black p-10 mb-10">
+      <div className="mb-10">
 
-        <div className="absolute top-0 right-0 w-[350px] h-[350px] bg-yellow-400/10 rounded-full blur-[140px]"></div>
+        <div className="inline-flex items-center gap-3 bg-green-500/10 border border-green-500/20 px-5 py-3 rounded-full mb-8">
 
-        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-10">
+          <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
 
-          <div>
+          <span className="text-green-400 font-bold">
 
-            <div className="inline-flex items-center gap-3 bg-green-500/10 border border-green-500/20 px-5 py-3 rounded-full mb-8">
+            EXCHANGE SYSTEMS OPERATIONAL
 
-              <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-
-              <span className="text-green-400 font-bold">
-
-                EXCHANGE LIVE
-
-              </span>
-
-            </div>
-
-            <h1 className="text-6xl md:text-7xl font-black leading-tight">
-
-              Trading
-              <span className="text-yellow-400">
-                {" "}Dashboard
-              </span>
-
-            </h1>
-
-            <p className="text-zinc-400 text-xl mt-6 max-w-3xl leading-relaxed">
-
-              Professional cryptocurrency trading infrastructure with AI-powered market analytics.
-
-            </p>
-
-          </div>
-
-          <div className="glass rounded-3xl p-8 min-w-[320px]">
-
-            <p className="text-zinc-500 mb-4">
-
-              Total Balance
-
-            </p>
-
-            <h2 className="text-6xl font-black text-yellow-400 mb-4">
-
-              ${walletBalance}
-
-            </h2>
-
-            <span className="text-green-400 text-2xl font-black">
-
-              +12.8% This Month
-
-            </span>
-
-          </div>
+          </span>
 
         </div>
+
+        <h1 className="text-6xl font-black mb-4">
+
+          Trading
+          <span className="text-yellow-400">
+            {" "}Dashboard
+          </span>
+
+        </h1>
+
+        <p className="text-zinc-500 text-xl">
+
+          Institutional-grade crypto trading infrastructure overview.
+
+        </p>
 
       </div>
 
@@ -139,91 +197,82 @@ const Dashboard = () => {
             (
               item,
               index
-            ) => (
+            ) => {
 
-              <div
-                key={index}
-                className="glass rounded-3xl p-8 hover:border-yellow-400/20 transition-all"
-              >
+              const Icon =
+                item.icon;
 
-                <p className="text-zinc-500 mb-4">
+              return (
 
-                  {
-                    item.title
-                  }
+                <div
+                  key={index}
+                  className="glass rounded-3xl p-8"
+                >
 
-                </p>
+                  <div className="flex items-center justify-between mb-8">
 
-                <h2 className={`text-5xl font-black ${item.color}`}>
+                    <div className={`${item.bg} p-4 rounded-2xl`}>
 
-                  {
-                    item.value
-                  }
+                      <Icon
+                        size={32}
+                        className={item.color}
+                      />
 
-                </h2>
+                    </div>
 
-              </div>
-            )
+                    <span className="text-green-400 font-black">
+
+                      {
+                        item.change
+                      }
+
+                    </span>
+
+                  </div>
+
+                  <h2 className="text-zinc-500 mb-3 text-lg">
+
+                    {
+                      item.title
+                    }
+
+                  </h2>
+
+                  <h3 className="text-4xl font-black">
+
+                    {
+                      item.value
+                    }
+
+                  </h3>
+
+                </div>
+              );
+            }
           )
         }
 
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-10 mb-10">
 
-        <div className="glass rounded-3xl p-8">
+        <div className="xl:col-span-2 glass rounded-3xl p-8">
 
-          <h2 className="text-4xl font-black mb-8">
+          <div className="flex items-center justify-between mb-10">
 
-            Market Overview
+            <h2 className="text-4xl font-black">
 
-          </h2>
+              Market Overview
 
-          <div className="space-y-6">
+            </h2>
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
 
-              <span className="text-zinc-400 text-lg">
+              <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
 
-                BTC/USDT
+              <span className="text-green-400 font-bold">
 
-              </span>
-
-              <span className="text-green-400 text-2xl font-black">
-
-                $84,320
-
-              </span>
-
-            </div>
-
-            <div className="flex items-center justify-between">
-
-              <span className="text-zinc-400 text-lg">
-
-                ETH/USDT
-
-              </span>
-
-              <span className="text-green-400 text-2xl font-black">
-
-                $4,280
-
-              </span>
-
-            </div>
-
-            <div className="flex items-center justify-between">
-
-              <span className="text-zinc-400 text-lg">
-
-                SOL/USDT
-
-              </span>
-
-              <span className="text-green-400 text-2xl font-black">
-
-                $182
+                LIVE MARKET
 
               </span>
 
@@ -231,19 +280,183 @@ const Dashboard = () => {
 
           </div>
 
+          <div className="space-y-6">
+
+            {
+              marketData.map(
+                (
+                  item,
+                  index
+                ) => (
+
+                  <div
+                    key={index}
+                    className="flex items-center justify-between bg-black/20 border border-white/5 rounded-2xl px-6 py-5"
+                  >
+
+                    <div>
+
+                      <h3 className="text-2xl font-black mb-2">
+
+                        {
+                          item.pair
+                        }
+
+                      </h3>
+
+                      <p className="text-zinc-500">
+
+                        Spot Trading Pair
+
+                      </p>
+
+                    </div>
+
+                    <div className="text-right">
+
+                      <h3 className="text-3xl font-black mb-2">
+
+                        {
+                          item.price
+                        }
+
+                      </h3>
+
+                      <div className="flex items-center justify-end gap-2">
+
+                        {
+                          item.positive
+                            ? (
+                              <TrendingUp
+                                size={20}
+                                className="text-green-400"
+                              />
+                            )
+                            : (
+                              <TrendingDown
+                                size={20}
+                                className="text-red-400"
+                              />
+                            )
+                        }
+
+                        <span
+                          className={`font-black text-lg ${
+                            item.positive
+                              ? "text-green-400"
+                              : "text-red-400"
+                          }`}
+                        >
+
+                          {
+                            item.change
+                          }
+
+                        </span>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+                )
+              )
+            }
+
+          </div>
+
         </div>
 
-        <LiveNotifications />
+        <div className="glass rounded-3xl p-8">
+
+          <div className="flex items-center gap-4 mb-8">
+
+            <ShieldCheck
+              size={36}
+              className="text-yellow-400"
+            />
+
+            <h2 className="text-4xl font-black">
+
+              Security
+
+            </h2>
+
+          </div>
+
+          <div className="space-y-8">
+
+            <div className="border-b border-white/5 pb-6">
+
+              <p className="text-zinc-500 mb-3">
+
+                Infrastructure Status
+
+              </p>
+
+              <h3 className="text-2xl font-black text-green-400">
+
+                Protected
+
+              </h3>
+
+            </div>
+
+            <div className="border-b border-white/5 pb-6">
+
+              <p className="text-zinc-500 mb-3">
+
+                Active Sessions
+
+              </p>
+
+              <h3 className="text-2xl font-black">
+
+                12 Devices
+
+              </h3>
+
+            </div>
+
+            <div className="border-b border-white/5 pb-6">
+
+              <p className="text-zinc-500 mb-3">
+
+                24H Transactions
+
+              </p>
+
+              <h3 className="text-2xl font-black">
+
+                1,284
+
+              </h3>
+
+            </div>
+
+            <div>
+
+              <p className="text-zinc-500 mb-3">
+
+                Exchange Uptime
+
+              </p>
+
+              <h3 className="text-2xl font-black text-green-400">
+
+                99.99%
+
+              </h3>
+
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mt-10">
-
-        <AISignals />
-
-        <ActivityFeed />
-
-      </div>
+      <ActivityFeed />
 
     </MainLayout>
   );
