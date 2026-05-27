@@ -1,78 +1,83 @@
 import {
   Bell,
   Search,
-  User,
+  LogOut,
 } from "lucide-react";
+
+import toast from "react-hot-toast";
 
 const TopNavbar = () => {
 
+  const handleLogout =
+    () => {
+
+      localStorage.removeItem(
+        "cryptox_user"
+      );
+
+      toast.success(
+        "Logged out successfully"
+      );
+
+      window.location.href =
+        "/login";
+    };
+
   return (
 
-    <div className="sticky top-0 z-40 mb-8">
+    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-10">
 
-      <div className="glass rounded-3xl px-6 py-5 flex items-center justify-between gap-5">
+      <div>
 
-        <div className="flex items-center gap-4 flex-1">
+        <h1 className="text-4xl font-black mb-2">
 
-          <div className="hidden md:flex items-center gap-3 bg-black/30 border border-white/10 rounded-2xl px-5 py-3 w-full max-w-xl">
+          Welcome Back
 
-            <Search
-              size={20}
-              className="text-zinc-500"
-            />
+        </h1>
 
-            <input
-              type="text"
-              placeholder="Search markets..."
-              className="bg-transparent outline-none w-full text-white placeholder:text-zinc-500"
-            />
+        <p className="text-zinc-500 text-lg">
 
-          </div>
+          Monitor your trading ecosystem in real time.
 
-        </div>
+        </p>
 
-        <div className="flex items-center gap-4">
+      </div>
 
-          <button className="relative w-14 h-14 glass rounded-2xl flex items-center justify-center hover:border-yellow-400/30 transition-all">
+      <div className="flex items-center gap-4">
 
-            <Bell
-              size={22}
-            />
+        <div className="relative">
 
-            <div className="absolute top-3 right-3 w-3 h-3 bg-yellow-400 rounded-full animate-pulse"></div>
+          <Search
+            size={20}
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500"
+          />
 
-          </button>
-
-          <div className="flex items-center gap-4 glass rounded-2xl px-5 py-3">
-
-            <div className="w-12 h-12 rounded-2xl bg-yellow-400 flex items-center justify-center">
-
-              <User
-                size={20}
-                className="text-black"
-              />
-
-            </div>
-
-            <div className="hidden md:block">
-
-              <h3 className="font-black">
-
-                Baseer
-
-              </h3>
-
-              <p className="text-zinc-500 text-sm">
-
-                Pro Trader
-
-              </p>
-
-            </div>
-
-          </div>
+          <input
+            type="text"
+            placeholder="Search assets..."
+            className="bg-black/30 border border-white/10 rounded-2xl pl-12 pr-5 py-4 outline-none w-[260px]"
+          />
 
         </div>
+
+        <button className="w-14 h-14 rounded-2xl bg-black/30 border border-white/10 flex items-center justify-center hover:border-yellow-400 transition-all">
+
+          <Bell size={22} />
+
+        </button>
+
+        <button
+          onClick={
+            handleLogout
+          }
+          className="bg-red-500 hover:bg-red-400 transition-all px-6 py-4 rounded-2xl font-black flex items-center gap-3"
+        >
+
+          <LogOut size={20} />
+
+          Logout
+
+        </button>
 
       </div>
 
