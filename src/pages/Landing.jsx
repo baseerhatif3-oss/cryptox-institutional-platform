@@ -12,6 +12,10 @@ import {
   Link,
 } from "react-router-dom";
 
+import MarketTicker from "../components/ui/MarketTicker";
+
+import LiveActivity from "../components/ui/LiveActivity";
+
 const stats = [
 
   {
@@ -120,6 +124,8 @@ const Landing = () => {
 
       </header>
 
+      <MarketTicker />
+
       <section className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-24">
 
         <div className="max-w-5xl">
@@ -136,7 +142,9 @@ const Landing = () => {
 
             The Future Of
             <span className="text-yellow-400">
+
               {" "}Institutional
+
             </span>
 
             <br />
@@ -195,7 +203,7 @@ const Landing = () => {
 
                 <div
                   key={index}
-                  className="bg-zinc-950 border border-white/5 rounded-3xl p-8"
+                  className="bg-zinc-950 border border-white/5 rounded-3xl p-8 card-hover"
                 >
 
                   <h2 className="text-4xl md:text-5xl font-black text-yellow-400 mb-4">
@@ -231,7 +239,9 @@ const Landing = () => {
 
             Built For
             <span className="text-yellow-400">
+
               {" "}Scale
+
             </span>
 
           </h2>
@@ -261,7 +271,7 @@ const Landing = () => {
 
                   <div
                     key={index}
-                    className="bg-zinc-950 border border-white/5 rounded-[32px] p-10 hover:border-yellow-400/20 transition-all"
+                    className="bg-zinc-950 border border-white/5 rounded-[32px] p-10 card-hover"
                   >
 
                     <div className="w-20 h-20 rounded-3xl bg-yellow-400 text-black flex items-center justify-center mb-8">
@@ -298,158 +308,7 @@ const Landing = () => {
 
       </section>
 
-      <section className="relative z-10 max-w-7xl mx-auto px-6 pb-28">
-
-        <div className="bg-gradient-to-br from-yellow-400/10 to-transparent border border-yellow-400/10 rounded-[40px] p-10 md:p-16">
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
-
-            <div>
-
-              <div className="inline-flex items-center gap-3 bg-yellow-400/10 border border-yellow-400/20 px-5 py-3 rounded-full text-yellow-400 mb-8">
-
-                <TrendingUp
-                  size={18}
-                />
-
-                Institutional Expansion
-
-              </div>
-
-              <h2 className="text-5xl md:text-7xl font-black leading-tight mb-8">
-
-                Global Digital
-                <span className="text-yellow-400">
-                  {" "}Asset
-                </span>
-
-                <br />
-
-                Infrastructure
-
-              </h2>
-
-              <p className="text-zinc-400 text-xl leading-relaxed mb-10">
-
-                Powering next-generation cryptocurrency trading, portfolio management,
-                liquidity aggregation, and secure digital asset operations.
-
-              </p>
-
-              <div className="space-y-5">
-
-                {
-                  [
-                    "Institutional-grade infrastructure",
-                    "Real-time market systems",
-                    "Enterprise security architecture",
-                    "Professional analytics ecosystem",
-                  ].map(
-                    (
-                      item,
-                      index
-                    ) => (
-
-                      <div
-                        key={index}
-                        className="flex items-center gap-4"
-                      >
-
-                        <CheckCircle2
-                          className="text-green-400"
-                          size={24}
-                        />
-
-                        <span className="text-lg text-zinc-300">
-
-                          {
-                            item
-                          }
-
-                        </span>
-
-                      </div>
-                    )
-                  )
-                }
-
-              </div>
-
-            </div>
-
-            <div className="grid grid-cols-2 gap-6">
-
-              <div className="bg-black border border-white/5 rounded-3xl p-8">
-
-                <p className="text-zinc-500 mb-4">
-
-                  Trading Volume
-
-                </p>
-
-                <h3 className="text-5xl font-black text-yellow-400">
-
-                  $48B
-
-                </h3>
-
-              </div>
-
-              <div className="bg-black border border-white/5 rounded-3xl p-8">
-
-                <p className="text-zinc-500 mb-4">
-
-                  Active Traders
-
-                </p>
-
-                <h3 className="text-5xl font-black text-green-400">
-
-                  1.2M
-
-                </h3>
-
-              </div>
-
-              <div className="bg-black border border-white/5 rounded-3xl p-8">
-
-                <p className="text-zinc-500 mb-4">
-
-                  API Requests
-
-                </p>
-
-                <h3 className="text-5xl font-black text-blue-400">
-
-                  8B+
-
-                </h3>
-
-              </div>
-
-              <div className="bg-black border border-white/5 rounded-3xl p-8">
-
-                <p className="text-zinc-500 mb-4">
-
-                  Uptime
-
-                </p>
-
-                <h3 className="text-5xl font-black text-purple-400">
-
-                  99.99%
-
-                </h3>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
+      <LiveActivity />
 
       <section className="relative z-10 max-w-7xl mx-auto px-6 pb-32">
 
@@ -458,6 +317,7 @@ const Landing = () => {
           <h2 className="text-5xl md:text-7xl font-black mb-8 leading-tight">
 
             Start Trading The
+
             <br />
 
             Future Of Finance
@@ -487,96 +347,6 @@ const Landing = () => {
         </div>
 
       </section>
-
-      <footer className="border-t border-white/5">
-
-        <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-4 gap-10">
-
-          <div>
-
-            <h2 className="text-5xl font-black text-yellow-400 mb-5">
-
-              CryptoX
-
-            </h2>
-
-            <p className="text-zinc-500 leading-relaxed">
-
-              Institutional-grade cryptocurrency trading infrastructure for global digital asset markets.
-
-            </p>
-
-          </div>
-
-          <div>
-
-            <h3 className="font-black text-2xl mb-5">
-
-              Platform
-
-            </h3>
-
-            <div className="space-y-3 text-zinc-500">
-
-              <p>Markets</p>
-
-              <p>Trading</p>
-
-              <p>Wallet</p>
-
-              <p>Analytics</p>
-
-            </div>
-
-          </div>
-
-          <div>
-
-            <h3 className="font-black text-2xl mb-5">
-
-              Infrastructure
-
-            </h3>
-
-            <div className="space-y-3 text-zinc-500">
-
-              <p>Security</p>
-
-              <p>Liquidity</p>
-
-              <p>Custody</p>
-
-              <p>Institutional APIs</p>
-
-            </div>
-
-          </div>
-
-          <div>
-
-            <h3 className="font-black text-2xl mb-5">
-
-              Legal
-
-            </h3>
-
-            <div className="space-y-3 text-zinc-500">
-
-              <p>Privacy</p>
-
-              <p>Terms</p>
-
-              <p>Compliance</p>
-
-              <p>Licensing</p>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </footer>
 
     </div>
   );

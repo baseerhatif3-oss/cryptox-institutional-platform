@@ -5,6 +5,13 @@ import {
   Navigate,
 } from "react-router-dom";
 
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import Loader from "./components/ui/Loader";
+
 import Landing from "./pages/Landing";
 
 import Login from "./pages/Login";
@@ -30,6 +37,31 @@ import Admin from "./pages/Admin";
 import Settings from "./pages/Settings";
 
 const App = () => {
+
+  const [
+    loading,
+    setLoading,
+  ] = useState(true);
+
+  useEffect(() => {
+
+    const timer =
+      setTimeout(() => {
+
+        setLoading(false);
+
+      }, 1800);
+
+    return () =>
+      clearTimeout(timer);
+
+  }, []);
+
+  if (loading) {
+
+    return <Loader />;
+
+  }
 
   return (
 
