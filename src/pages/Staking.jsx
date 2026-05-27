@@ -2,38 +2,39 @@ import MainLayout from "../components/layout/MainLayout";
 
 const Staking = () => {
 
-  const stakingPools = [
+  const pools = [
 
     {
-      coin:
-        "USDT",
-
-      apy:
-        "12%",
-    },
-
-    {
-      coin:
-        "BTC",
-
-      apy:
-        "8.5%",
-    },
-
-    {
-      coin:
+      asset:
         "ETH",
 
       apy:
-        "10%",
+        "12.8%",
+
+      locked:
+        "$12.4M",
     },
 
     {
-      coin:
+      asset:
         "SOL",
 
       apy:
-        "15%",
+        "18.2%",
+
+      locked:
+        "$8.1M",
+    },
+
+    {
+      asset:
+        "BNB",
+
+      apy:
+        "9.4%",
+
+      locked:
+        "$18.7M",
     },
   ];
 
@@ -42,6 +43,18 @@ const Staking = () => {
     <MainLayout>
 
       <div className="mb-10">
+
+        <div className="inline-flex items-center gap-3 bg-purple-500/10 border border-purple-500/20 px-5 py-3 rounded-full mb-8">
+
+          <div className="w-3 h-3 bg-purple-400 rounded-full animate-pulse"></div>
+
+          <span className="text-purple-400 font-bold">
+
+            STAKING ENGINE ACTIVE
+
+          </span>
+
+        </div>
 
         <h1 className="text-6xl font-black">
 
@@ -52,55 +65,65 @@ const Staking = () => {
 
         </h1>
 
-        <p className="text-zinc-500 text-xl mt-4">
-
-          Earn passive rewards with institutional-grade staking pools.
-
-        </p>
-
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
         {
-          stakingPools.map(
+          pools.map(
             (
-              pool,
+              item,
               index
             ) => (
 
               <div
                 key={index}
-                className="glass rounded-3xl p-8 hover:border-yellow-400/20 transition-all"
+                className="glass rounded-3xl p-8"
               >
 
                 <div className="flex items-center justify-between mb-8">
 
-                  <h2 className="text-5xl font-black">
+                  <h2 className="text-5xl font-black text-yellow-400">
 
                     {
-                      pool.coin
+                      item.asset
                     }
 
                   </h2>
 
-                  <span className="text-green-400 text-4xl font-black">
+                  <div className="bg-green-500/10 border border-green-500/20 px-4 py-2 rounded-xl">
 
-                    {
-                      pool.apy
-                    }
+                    <span className="text-green-400 font-black">
 
-                  </span>
+                      {
+                        item.apy
+                      } APY
+
+                    </span>
+
+                  </div>
 
                 </div>
 
-                <p className="text-zinc-500 mb-8">
+                <div className="mb-8">
 
-                  Flexible staking with enterprise-grade infrastructure security.
+                  <p className="text-zinc-500 mb-3">
 
-                </p>
+                    Total Locked
 
-                <button className="w-full bg-yellow-400 hover:bg-yellow-300 transition-all py-4 rounded-2xl text-black font-black text-lg">
+                  </p>
+
+                  <h3 className="text-4xl font-black">
+
+                    {
+                      item.locked
+                    }
+
+                  </h3>
+
+                </div>
+
+                <button className="w-full bg-yellow-400 hover:bg-yellow-300 transition-all text-black py-4 rounded-2xl font-black text-xl">
 
                   Stake Now
 

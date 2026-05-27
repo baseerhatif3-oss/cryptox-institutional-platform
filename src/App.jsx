@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import Markets from "./pages/Markets";
 import Trading from "./pages/Trading";
 import Futures from "./pages/Futures";
+import Staking from "./pages/Staking";
 import Portfolio from "./pages/Portfolio";
 import Wallet from "./pages/Wallet";
 import Settings from "./pages/Settings";
@@ -91,6 +92,17 @@ function App() {
             <ProtectedRoute>
 
               <Futures />
+
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/staking"
+          element={
+            <ProtectedRoute>
+
+              <Staking />
 
             </ProtectedRoute>
           }

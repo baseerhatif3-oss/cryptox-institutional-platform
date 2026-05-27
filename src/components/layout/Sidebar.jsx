@@ -5,11 +5,12 @@ import {
   Shield,
   BarChart3,
   Settings,
- Monitor,
+  Monitor,
   Users,
   PlayCircle,
   KeyRound,
   TrendingUp,
+  Gem,
 } from "lucide-react";
 
 import {
@@ -62,6 +63,17 @@ const Sidebar = () => {
 
       icon:
         TrendingUp,
+    },
+
+    {
+      name:
+        "Staking",
+
+      path:
+        "/staking",
+
+      icon:
+        Gem,
     },
 
     {
