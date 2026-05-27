@@ -9,6 +9,10 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Trading from "./pages/Trading";
 import Portfolio from "./pages/Portfolio";
+import Markets from "./pages/Markets";
+import SystemStatus from "./pages/SystemStatus";
+import Settings from "./pages/Settings";
+import DemoTrading from "./pages/DemoTrading";
 import NotFound from "./pages/NotFound";
 
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -20,10 +24,6 @@ function LandingPage() {
     <div className="min-h-screen bg-black text-white overflow-hidden relative">
 
       <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 via-transparent to-green-500/10"></div>
-
-      <div className="absolute w-[600px] h-[600px] bg-yellow-400/10 blur-[150px] rounded-full top-[-200px] left-[-200px]"></div>
-
-      <div className="absolute w-[500px] h-[500px] bg-green-500/10 blur-[150px] rounded-full bottom-[-200px] right-[-200px]"></div>
 
       <div className="relative z-10">
 
@@ -90,7 +90,7 @@ function LandingPage() {
 
               <p className="text-zinc-400 text-2xl leading-relaxed mb-12 max-w-2xl">
 
-                Institutional-grade digital asset trading ecosystem with real-time analytics, advanced portfolio management, and enterprise infrastructure.
+                Institutional-grade digital asset trading ecosystem with real-time analytics and enterprise infrastructure.
 
               </p>
 
@@ -98,7 +98,7 @@ function LandingPage() {
 
                 <a
                   href="/register"
-                  className="bg-yellow-400 hover:bg-yellow-300 transition-all text-black px-10 py-5 rounded-3xl font-black text-xl shadow-2xl shadow-yellow-400/20 text-center"
+                  className="bg-yellow-400 hover:bg-yellow-300 transition-all text-black px-10 py-5 rounded-3xl font-black text-xl text-center"
                 >
 
                   Launch Platform
@@ -242,6 +242,42 @@ function App() {
           element={
             <ProtectedRoute>
               <Portfolio />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/markets"
+          element={
+            <ProtectedRoute>
+              <Markets />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/system-status"
+          element={
+            <ProtectedRoute>
+              <SystemStatus />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/demo"
+          element={
+            <ProtectedRoute>
+              <DemoTrading />
             </ProtectedRoute>
           }
         />

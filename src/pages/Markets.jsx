@@ -5,40 +5,37 @@ import {
 
 import MainLayout from "../components/layout/MainLayout";
 
-import socket from "../services/binanceSocket";
+import AnimatedCard from "../components/ui/AnimatedCard";
+
+import {
+  TrendingUp,
+  TrendingDown,
+} from "lucide-react";
 
 const Markets = () => {
 
-  const [
-    markets,
-    setMarkets,
-  ] = useState([]);
+  const [coins, setCoins] =
+    useState([]);
 
-  useEffect(
-    () => {
+  useEffect(() => {
 
-      socket.on(
-        "market-update",
-        (
-          data
-        ) => {
+    const fetchCoins =
+      async () => {
 
-          setMarkets(
-            data
+        const response =
+          await fetch(
+            "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=12&page=1&sparkline=false"
           );
-        }
-      );
 
-      return () => {
+        const data =
+          await response.json();
 
-        socket.off(
-          "market-update"
-        );
+        setCoins(data);
       };
 
-    },
-    []
-  );
+    fetchCoins();
+
+  }, []);
 
   return (
 
@@ -46,19 +43,7 @@ const Markets = () => {
 
       <div className="mb-10">
 
-        <div className="inline-flex items-center gap-3 bg-green-500/10 border border-green-500/20 px-5 py-3 rounded-full mb-8">
-
-          <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-
-          <span className="text-green-400 font-bold">
-
-            BINANCE LIVE FEED
-
-          </span>
-
-        </div>
-
-        <h1 className="text-6xl font-black">
+        <h1 className="text-6xl font-black mb-4">
 
           Live
           <span className="text-yellow-400">
@@ -67,56 +52,116 @@ const Markets = () => {
 
         </h1>
 
+        <p className="text-zinc-500 text-xl">
+
+          Real-time institutional crypto market monitoring.
+
+        </p>
+
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
 
         {
-          markets.map(
+          coins.map(
             (
-              market,
+              coin,
               index
-            ) => (
+            ) => {
 
-              <div
-                key={index}
-                className="glass rounded-3xl p-8 border border-white/5"
-              >
+              const positive =
+                coin.price_change_percentage_24h >= 0;
 
-                <div className="flex items-center justify-between mb-6">
+              return (
 
-                  <h2 className="text-4xl font-black">
+                <AnimatedCard
+                  key={coin.id}
+                  delay={index * 0.05}
+                  className="glass rounded-3xl p-8"
+                >
 
-                    {
-                      market.symbol ||
-                      market.pair
-                    }
+                  <div className="flex items-center justify-between">
 
-                  </h2>
+                    <div className="flex items-center gap-5">
 
-                  <div className="w-4 h-4 bg-green-400 rounded-full animate-pulse"></div>
+                      <img
+                        src={coin.image}
+                        alt={coin.name}
+                        className="w-16 h-16"
+                      />
 
-                </div>
+                      <div>
 
-                <h3 className="text-5xl font-black text-yellow-400 mb-4">
+                        <h2 className="text-3xl font-black mb-2">
 
-                  $
-                  {
-                    Number(
-                      market.price
-                    ).toLocaleString()
-                  }
+                          {
+                            coin.symbol.toUpperCase()
+                          }
 
-                </h3>
+                        </h2>
 
-                <p className="text-green-400 text-xl font-black">
+                        <p className="text-zinc-500">
 
-                  Real-Time Binance Data
+                          {
+                            coin.name
+                          }
 
-                </p>
+                        </p>
 
-              </div>
-            )
+                      </div>
+
+                    </div>
+
+                    <div className="text-right">
+
+                      <h2 className="text-3xl font-black mb-3">
+
+                        $
+                        {
+                          coin.current_price.toLocaleString()
+                        }
+
+                      </h2>
+
+                      <div className="flex items-center justify-end gap-2">
+
+                        {
+                          positive
+                            ? (
+                              <TrendingUp
+                                className="text-green-400"
+                              />
+                            )
+                            : (
+                              <TrendingDown
+                                className="text-red-400"
+                              />
+                            )
+                        }
+
+                        <span
+                          className={`font-black ${
+                            positive
+                              ? "text-green-400"
+                              : "text-red-400"
+                          }`}
+                        >
+
+                          {
+                            coin.price_change_percentage_24h.toFixed(2)
+                          }%
+
+                        </span>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </AnimatedCard>
+              );
+            }
           )
         }
 

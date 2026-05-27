@@ -1,149 +1,107 @@
 import MainLayout from "../components/layout/MainLayout";
 
-import useAuth from "../hooks/useAuth";
-
 const Settings = () => {
-
-  const {
-    user,
-  } = useAuth();
 
   return (
 
     <MainLayout>
 
-      <div className="glass rounded-[40px] p-10 md:p-16">
+      <div className="mb-10">
 
-        <div className="mb-12">
+        <h1 className="text-6xl font-black mb-4">
 
-          <h1 className="text-6xl font-black">
+          Account
+          <span className="text-yellow-400">
+            {" "}Settings
+          </span>
 
-            Account
-            <span className="text-yellow-400">
-              {" "}Settings
-            </span>
+        </h1>
 
-          </h1>
+        <p className="text-zinc-500 text-xl">
 
-          <p className="text-zinc-500 text-xl mt-4">
+          Manage your institutional trading preferences.
 
-            Manage your CryptoX account preferences and security settings.
+        </p>
 
-          </p>
+      </div>
 
-        </div>
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
 
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
+        <div className="glass rounded-3xl p-8">
 
-          <div className="glass rounded-3xl p-8">
+          <h2 className="text-3xl font-black mb-8">
 
-            <h2 className="text-3xl font-black mb-8">
+            Profile Settings
 
-              Profile Information
+          </h2>
 
-            </h2>
+          <div className="space-y-6">
 
-            <div className="space-y-6">
+            <input
+              type="text"
+              placeholder="Full Name"
+              className="w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-5 outline-none"
+            />
 
-              <div>
+            <input
+              type="email"
+              placeholder="Email Address"
+              className="w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-5 outline-none"
+            />
 
-                <label className="block text-zinc-500 mb-3">
+            <button className="bg-yellow-400 hover:bg-yellow-300 transition-all text-black px-8 py-4 rounded-2xl font-black">
 
-                  Full Name
+              Save Changes
 
-                </label>
-
-                <input
-                  type="text"
-                  value={
-                    user?.name || ""
-                  }
-                  readOnly
-                  className="w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-4 outline-none"
-                />
-
-              </div>
-
-              <div>
-
-                <label className="block text-zinc-500 mb-3">
-
-                  Email Address
-
-                </label>
-
-                <input
-                  type="email"
-                  value={
-                    user?.email || ""
-                  }
-                  readOnly
-                  className="w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-4 outline-none"
-                />
-
-              </div>
-
-            </div>
+            </button>
 
           </div>
 
-          <div className="glass rounded-3xl p-8">
+        </div>
 
-            <h2 className="text-3xl font-black mb-8">
+        <div className="glass rounded-3xl p-8">
 
-              Security Controls
+          <h2 className="text-3xl font-black mb-8">
 
-            </h2>
+            Security Preferences
 
-            <div className="space-y-6">
+          </h2>
 
-              <div className="flex items-center justify-between bg-black/30 border border-white/5 rounded-2xl p-5">
+          <div className="space-y-6">
 
-                <span className="text-lg font-bold">
+            <div className="flex items-center justify-between">
 
-                  Two-Factor Authentication
+              <span className="text-xl">
 
-                </span>
+                Two-Factor Authentication
 
-                <button className="bg-green-500 px-5 py-2 rounded-xl font-black">
+              </span>
 
-                  Enabled
+              <div className="w-14 h-8 bg-green-400 rounded-full"></div>
 
-                </button>
+            </div>
 
-              </div>
+            <div className="flex items-center justify-between">
 
-              <div className="flex items-center justify-between bg-black/30 border border-white/5 rounded-2xl p-5">
+              <span className="text-xl">
 
-                <span className="text-lg font-bold">
+                Email Alerts
 
-                  Email Verification
+              </span>
 
-                </span>
+              <div className="w-14 h-8 bg-green-400 rounded-full"></div>
 
-                <button className="bg-green-500 px-5 py-2 rounded-xl font-black">
+            </div>
 
-                  Verified
+            <div className="flex items-center justify-between">
 
-                </button>
+              <span className="text-xl">
 
-              </div>
+                Login Notifications
 
-              <div className="flex items-center justify-between bg-black/30 border border-white/5 rounded-2xl p-5">
+              </span>
 
-                <span className="text-lg font-bold">
-
-                  Anti-Phishing Protection
-
-                </span>
-
-                <button className="bg-yellow-400 text-black px-5 py-2 rounded-xl font-black">
-
-                  Active
-
-                </button>
-
-              </div>
+              <div className="w-14 h-8 bg-green-400 rounded-full"></div>
 
             </div>
 
