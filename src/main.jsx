@@ -6,10 +6,6 @@ import App from "./App";
 import "./index.css";
 
 import {
-  BrowserRouter,
-} from "react-router-dom";
-
-import {
   AuthProvider,
 } from "./context/AuthContext";
 
@@ -21,15 +17,11 @@ ReactDOM.createRoot(
 
   <React.StrictMode>
 
-    <BrowserRouter>
+    <AuthProvider>
 
-      <AuthProvider>
+      <App />
 
-        <App />
-
-      </AuthProvider>
-
-    </BrowserRouter>
+    </AuthProvider>
 
   </React.StrictMode>
 );
