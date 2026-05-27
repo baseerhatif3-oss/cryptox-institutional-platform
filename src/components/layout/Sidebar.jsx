@@ -13,6 +13,7 @@ import {
   Gem,
   ImageIcon,
   Rocket,
+  CreditCard,
 } from "lucide-react";
 
 import {
@@ -98,6 +99,17 @@ const Sidebar = () => {
 
       icon:
         Rocket,
+    },
+
+    {
+      name:
+        "Crypto Card",
+
+      path:
+        "/crypto-card",
+
+      icon:
+        CreditCard,
     },
 
     {

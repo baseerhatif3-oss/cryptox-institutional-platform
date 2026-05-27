@@ -13,6 +13,8 @@ import Trading from "./pages/Trading";
 import Futures from "./pages/Futures";
 import Staking from "./pages/Staking";
 import NFTMarketplace from "./pages/NFTMarketplace";
+import Launchpad from "./pages/Launchpad";
+import CryptoCard from "./pages/CryptoCard";
 import Portfolio from "./pages/Portfolio";
 import Wallet from "./pages/Wallet";
 import Settings from "./pages/Settings";
@@ -115,6 +117,28 @@ function App() {
             <ProtectedRoute>
 
               <NFTMarketplace />
+
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/launchpad"
+          element={
+            <ProtectedRoute>
+
+              <Launchpad />
+
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/crypto-card"
+          element={
+            <ProtectedRoute>
+
+              <CryptoCard />
 
             </ProtectedRoute>
           }
