@@ -11,6 +11,7 @@ import {
   KeyRound,
   TrendingUp,
   Gem,
+  ImageIcon,
 } from "lucide-react";
 
 import {
@@ -74,6 +75,17 @@ const Sidebar = () => {
 
       icon:
         Gem,
+    },
+
+    {
+      name:
+        "NFT Market",
+
+      path:
+        "/nft",
+
+      icon:
+        ImageIcon,
     },
 
     {

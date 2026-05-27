@@ -12,6 +12,7 @@ import Markets from "./pages/Markets";
 import Trading from "./pages/Trading";
 import Futures from "./pages/Futures";
 import Staking from "./pages/Staking";
+import NFTMarketplace from "./pages/NFTMarketplace";
 import Portfolio from "./pages/Portfolio";
 import Wallet from "./pages/Wallet";
 import Settings from "./pages/Settings";
@@ -103,6 +104,17 @@ function App() {
             <ProtectedRoute>
 
               <Staking />
+
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/nft"
+          element={
+            <ProtectedRoute>
+
+              <NFTMarketplace />
 
             </ProtectedRoute>
           }
