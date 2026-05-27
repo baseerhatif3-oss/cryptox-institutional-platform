@@ -1,23 +1,46 @@
-import API from "./api";
+export const walletData = [
 
-export const getWallet =
-  async () => {
+  {
+    asset:
+      "BTC",
 
-    const response =
-      await API.get(
-        "/wallet"
-      );
+    balance:
+      "2.4821",
 
-    return response.data;
-};
+    usd:
+      "$208,000",
+  },
 
-export const getTransactions =
-  async () => {
+  {
+    asset:
+      "ETH",
 
-    const response =
-      await API.get(
-        "/transactions"
-      );
+    balance:
+      "18.22",
 
-    return response.data;
-};
+    usd:
+      "$72,400",
+  },
+
+  {
+    asset:
+      "SOL",
+
+    balance:
+      "422",
+
+    usd:
+      "$76,000",
+  },
+
+  {
+    asset:
+      "USDT",
+
+    balance:
+      "124,000",
+
+    usd:
+      "$124,000",
+  },
+];

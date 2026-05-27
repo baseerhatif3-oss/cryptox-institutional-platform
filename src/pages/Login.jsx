@@ -7,42 +7,37 @@ import {
   Link,
 } from "react-router-dom";
 
-import API from "../services/api";
+import {
+  ShieldCheck,
+} from "lucide-react";
+
+import {
+  useAuth,
+} from "../context/AuthContext";
 
 const Login = () => {
 
   const navigate =
     useNavigate();
 
-  const [
-    formData,
-    setFormData,
-  ] = useState({
+  const {
+    login,
+  } = useAuth();
 
-    email: "",
-    password: "",
-  });
+  const [
+    email,
+    setEmail,
+  ] = useState("");
+
+  const [
+    password,
+    setPassword,
+  ] = useState("");
 
   const [
     loading,
     setLoading,
   ] = useState(false);
-
-  const handleChange =
-    (
-      e
-    ) => {
-
-      setFormData({
-
-        ...formData,
-
-        [
-          e.target.name
-        ]:
-          e.target.value,
-      });
-    };
 
   const handleSubmit =
     async (
@@ -51,68 +46,64 @@ const Login = () => {
 
       e.preventDefault();
 
-      try {
+      setLoading(
+        true
+      );
 
-        setLoading(
-          true
-        );
+      setTimeout(
+        () => {
 
-        const response =
-          await API.post(
-            "/api/auth/login",
-            formData
+          login(
+            {
+              email,
+            }
           );
 
-        localStorage.setItem(
-          "token",
-          response.data.token
-        );
+          navigate(
+            "/dashboard"
+          );
 
-        localStorage.setItem(
-          "user",
-          JSON.stringify(
-            response.data.user
-          )
-        );
+          setLoading(
+            false
+          );
 
-        navigate(
-          "/dashboard"
-        );
-
-      } catch (
-        error
-      ) {
-
-        alert(
-          error.response?.data?.message ||
-          "Login failed"
-        );
-
-      } finally {
-
-        setLoading(
-          false
-        );
-      }
+        },
+        1500
+      );
     };
 
   return (
 
-    <div className="min-h-screen bg-black text-white flex items-center justify-center px-6">
+    <div className="min-h-screen bg-black flex items-center justify-center px-6">
 
-      <div className="glass rounded-[40px] p-10 w-full max-w-xl">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(250,204,21,0.12),transparent_45%)]"></div>
 
-        <h1 className="text-5xl font-black mb-4">
+      <div className="relative z-10 w-full max-w-md glass rounded-3xl p-10">
 
-          Login
+        <div className="text-center mb-10">
 
-        </h1>
+          <div className="w-20 h-20 bg-yellow-400 rounded-3xl flex items-center justify-center mx-auto mb-6">
 
-        <p className="text-zinc-500 text-lg mb-10">
+            <ShieldCheck
+              size={40}
+              className="text-black"
+            />
 
-          Access your CryptoX trading account.
+          </div>
 
-        </p>
+          <h1 className="text-5xl font-black text-yellow-400 mb-4">
+
+            CryptoX
+
+          </h1>
+
+          <p className="text-zinc-500 text-lg">
+
+            Secure Exchange Login
+
+          </p>
+
+        </div>
 
         <form
           onSubmit={
@@ -123,7 +114,7 @@ const Login = () => {
 
           <div>
 
-            <label className="block text-zinc-400 mb-3">
+            <label className="block text-zinc-400 mb-3 font-bold">
 
               Email
 
@@ -131,22 +122,24 @@ const Login = () => {
 
             <input
               type="email"
-              name="email"
-              value={
-                formData.email
-              }
-              onChange={
-                handleChange
-              }
               required
-              className="w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-4 outline-none"
+              value={email}
+              onChange={(
+                e
+              ) =>
+                setEmail(
+                  e.target.value
+                )
+              }
+              placeholder="Enter your email"
+              className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 outline-none text-white focus:border-yellow-400 transition-all"
             />
 
           </div>
 
           <div>
 
-            <label className="block text-zinc-400 mb-3">
+            <label className="block text-zinc-400 mb-3 font-bold">
 
               Password
 
@@ -154,30 +147,30 @@ const Login = () => {
 
             <input
               type="password"
-              name="password"
-              value={
-                formData.password
-              }
-              onChange={
-                handleChange
-              }
               required
-              className="w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-4 outline-none"
+              value={password}
+              onChange={(
+                e
+              ) =>
+                setPassword(
+                  e.target.value
+                )
+              }
+              placeholder="Enter your password"
+              className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 outline-none text-white focus:border-yellow-400 transition-all"
             />
 
           </div>
 
           <button
             type="submit"
-            disabled={
-              loading
-            }
-            className="w-full bg-yellow-400 hover:bg-yellow-300 transition-all py-5 rounded-2xl text-black font-black text-xl"
+            disabled={loading}
+            className="w-full bg-yellow-400 hover:bg-yellow-300 transition-all text-black py-4 rounded-2xl font-black text-xl"
           >
 
             {
               loading
-                ? "Please wait..."
+                ? "Authenticating..."
                 : "Login"
             }
 
@@ -185,21 +178,24 @@ const Login = () => {
 
         </form>
 
-        <p className="text-zinc-500 text-center mt-8">
+        <div className="mt-8 text-center">
 
-          Don’t have an account?
-          {" "}
+          <p className="text-zinc-500">
 
-          <Link
-            to="/register"
-            className="text-yellow-400 font-bold"
-          >
+            Don't have an account?
 
-            Register
+            <Link
+              to="/register"
+              className="text-yellow-400 font-bold ml-2"
+            >
 
-          </Link>
+              Register
 
-        </p>
+            </Link>
+
+          </p>
+
+        </div>
 
       </div>
 

@@ -2,27 +2,29 @@ const Logo = () => {
 
   return (
 
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-4">
 
-      <div className="w-12 h-12 rounded-2xl bg-yellow-400 flex items-center justify-center shadow-lg shadow-yellow-400/30">
+      <div className="w-14 h-14 rounded-2xl bg-yellow-400 flex items-center justify-center">
 
-        <span className="text-black text-2xl font-black">
-          ₿
+        <span className="text-black text-3xl font-black">
+
+          X
+
         </span>
 
       </div>
 
       <div>
 
-        <h1 className="text-2xl font-black text-white tracking-wide">
+        <h1 className="text-3xl font-black text-yellow-400">
 
           CryptoX
 
         </h1>
 
-        <p className="text-xs text-zinc-500 -mt-1">
+        <p className="text-zinc-500 text-sm">
 
-          NEXT GEN EXCHANGE
+          Enterprise Exchange
 
         </p>
 

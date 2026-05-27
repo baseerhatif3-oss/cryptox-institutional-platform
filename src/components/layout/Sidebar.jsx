@@ -20,6 +20,8 @@ import {
   NavLink,
 } from "react-router-dom";
 
+import Logo from "../Logo";
+
 const Sidebar = () => {
 
   const links = [
@@ -207,17 +209,7 @@ const Sidebar = () => {
 
       <div className="mb-14">
 
-        <h1 className="text-5xl font-black text-yellow-400">
-
-          CryptoX
-
-        </h1>
-
-        <p className="text-zinc-500 mt-3">
-
-          Enterprise Exchange
-
-        </p>
+        <Logo />
 
       </div>
 
