@@ -1,7 +1,15 @@
 import MainLayout from "../components/layout/MainLayout";
 
-const users = [
+import {
+  Shield,
+  Users,
+  Activity,
+  DollarSign,
+  Server,
+  Globe,
+} from "lucide-react";
 
+const users = [
   {
     name: "Michael Chen",
     email: "michael@cryptox.com",
@@ -19,6 +27,12 @@ const users = [
     email: "david@cryptox.com",
     status: "Verified",
   },
+
+  {
+    name: "Emma Johnson",
+    email: "emma@cryptox.com",
+    status: "Verified",
+  },
 ];
 
 const Admin = () => {
@@ -27,7 +41,7 @@ const Admin = () => {
 
     <MainLayout>
 
-      <div className="mb-12">
+      <div className="mb-10">
 
         <div className="inline-flex items-center gap-3 bg-red-500/10 border border-red-500/20 px-5 py-3 rounded-full mb-8">
 
@@ -41,9 +55,10 @@ const Admin = () => {
 
         </div>
 
-        <h1 className="text-7xl font-black mb-5">
+        <h1 className="text-5xl md:text-7xl font-black mb-5">
 
           Platform
+
           <span className="text-yellow-400">
 
             {" "}Administration
@@ -52,19 +67,25 @@ const Admin = () => {
 
         </h1>
 
-        <p className="text-zinc-500 text-2xl max-w-3xl">
+        <p className="text-zinc-500 text-xl max-w-3xl">
 
-          Institutional-grade operational monitoring and user management infrastructure.
+          Institutional-grade operational monitoring and
+          user management infrastructure.
 
         </p>
 
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mb-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-10">
 
-        <div className="glass rounded-3xl p-8">
+        <div className="glass rounded-3xl p-8 card-hover">
 
-          <p className="text-zinc-500 mb-4">
+          <Users
+            className="text-yellow-400 mb-6"
+            size={42}
+          />
+
+          <p className="text-zinc-500 mb-3">
 
             Total Users
 
@@ -78,9 +99,14 @@ const Admin = () => {
 
         </div>
 
-        <div className="glass rounded-3xl p-8">
+        <div className="glass rounded-3xl p-8 card-hover">
 
-          <p className="text-zinc-500 mb-4">
+          <DollarSign
+            className="text-green-400 mb-6"
+            size={42}
+          />
+
+          <p className="text-zinc-500 mb-3">
 
             Daily Volume
 
@@ -94,9 +120,14 @@ const Admin = () => {
 
         </div>
 
-        <div className="glass rounded-3xl p-8">
+        <div className="glass rounded-3xl p-8 card-hover">
 
-          <p className="text-zinc-500 mb-4">
+          <Activity
+            className="text-blue-400 mb-6"
+            size={42}
+          />
+
+          <p className="text-zinc-500 mb-3">
 
             Active Trades
 
@@ -110,9 +141,14 @@ const Admin = () => {
 
         </div>
 
-        <div className="glass rounded-3xl p-8">
+        <div className="glass rounded-3xl p-8 card-hover">
 
-          <p className="text-zinc-500 mb-4">
+          <Shield
+            className="text-green-400 mb-6"
+            size={42}
+          />
+
+          <p className="text-zinc-500 mb-3">
 
             System Health
 
@@ -128,81 +164,283 @@ const Admin = () => {
 
       </div>
 
-      <div className="glass rounded-3xl p-10">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-10">
 
-        <div className="flex items-center justify-between mb-10">
+        <div className="xl:col-span-2 glass rounded-3xl p-8">
 
-          <h2 className="text-5xl font-black">
+          <div className="flex items-center justify-between mb-10">
 
-            User Management
+            <h2 className="text-5xl font-black">
 
-          </h2>
+              User Management
 
-          <button className="bg-yellow-400 text-black px-6 py-4 rounded-2xl font-black">
+            </h2>
 
-            Export Data
+            <button className="bg-yellow-400 hover:bg-yellow-300 transition-all text-black px-6 py-4 rounded-2xl font-black">
 
-          </button>
+              Export Data
+
+            </button>
+
+          </div>
+
+          <div className="space-y-5">
+
+            {
+              users.map(
+                (
+                  item,
+                  index
+                ) => (
+
+                  <div
+                    key={index}
+                    className="bg-black/30 border border-white/5 rounded-3xl p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-5"
+                  >
+
+                    <div>
+
+                      <h2 className="text-4xl font-black mb-2">
+
+                        {
+                          item.name
+                        }
+
+                      </h2>
+
+                      <p className="text-zinc-500 text-lg">
+
+                        {
+                          item.email
+                        }
+
+                      </p>
+
+                    </div>
+
+                    <div className="flex items-center gap-4">
+
+                      <div className={`px-5 py-3 rounded-2xl font-black ${
+                        item.status === "Verified"
+                          ? "bg-green-500/10 text-green-400"
+                          : "bg-yellow-400/10 text-yellow-400"
+                      }`}>
+
+                        {
+                          item.status
+                        }
+
+                      </div>
+
+                      <button className="bg-blue-500 hover:bg-blue-400 transition-all px-6 py-3 rounded-2xl font-black">
+
+                        View
+
+                      </button>
+
+                    </div>
+
+                  </div>
+
+                )
+              )
+            }
+
+          </div>
 
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-8">
+
+          <div className="glass rounded-3xl p-8">
+
+            <div className="flex items-center gap-4 mb-8">
+
+              <Server
+                className="text-green-400"
+                size={38}
+              />
+
+              <h2 className="text-4xl font-black">
+
+                Server Status
+
+              </h2>
+
+            </div>
+
+            <div className="space-y-5">
+
+              {
+                [
+                  "Trading Engine Online",
+                  "Database Stable",
+                  "API Response Normal",
+                  "WebSocket Active",
+                ].map(
+                  (
+                    item,
+                    index
+                  ) => (
+
+                    <div
+                      key={index}
+                      className="flex items-center justify-between bg-black/30 rounded-2xl p-5"
+                    >
+
+                      <span className="font-semibold">
+
+                        {
+                          item
+                        }
+
+                      </span>
+
+                      <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+
+                    </div>
+
+                  )
+                )
+              }
+
+            </div>
+
+          </div>
+
+          <div className="glass rounded-3xl p-8">
+
+            <div className="flex items-center gap-4 mb-8">
+
+              <Globe
+                className="text-yellow-400"
+                size={38}
+              />
+
+              <h2 className="text-4xl font-black">
+
+                Global Regions
+
+              </h2>
+
+            </div>
+
+            <div className="space-y-5">
+
+              {
+                [
+                  "United States",
+                  "United Kingdom",
+                  "Singapore",
+                  "Dubai",
+                  "Hong Kong",
+                ].map(
+                  (
+                    item,
+                    index
+                  ) => (
+
+                    <div
+                      key={index}
+                      className="bg-black/30 rounded-2xl p-5 flex items-center justify-between"
+                    >
+
+                      <span className="font-semibold text-lg">
+
+                        {
+                          item
+                        }
+
+                      </span>
+
+                      <span className="text-green-400 font-black">
+
+                        Active
+
+                      </span>
+
+                    </div>
+
+                  )
+                )
+              }
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div className="glass rounded-3xl p-8">
+
+        <div className="flex items-center justify-between mb-10">
+
+          <div>
+
+            <h2 className="text-5xl font-black mb-3">
+
+              Security Monitoring
+
+            </h2>
+
+            <p className="text-zinc-500 text-lg">
+
+              Enterprise-grade infrastructure protection and live monitoring.
+
+            </p>
+
+          </div>
+
+          <div className="bg-green-500/10 text-green-400 px-5 py-3 rounded-2xl font-black">
+
+            PROTECTED
+
+          </div>
+
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
 
           {
-            users.map(
+            [
+              "DDoS Protection",
+              "Cold Wallet Security",
+              "Encrypted APIs",
+              "2FA Authentication",
+            ].map(
               (
-                user,
+                item,
                 index
               ) => (
 
                 <div
                   key={index}
-                  className="border border-white/5 rounded-3xl p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-6"
+                  className="bg-black/30 border border-white/5 rounded-3xl p-6"
                 >
 
-                  <div>
+                  <Shield
+                    className="text-green-400 mb-5"
+                    size={34}
+                  />
 
-                    <h3 className="text-3xl font-black mb-2">
+                  <h2 className="text-2xl font-black mb-3">
 
-                      {
-                        user.name
-                      }
+                    {
+                      item
+                    }
 
-                    </h3>
+                  </h2>
 
-                    <p className="text-zinc-500">
+                  <p className="text-green-400 font-bold">
 
-                      {
-                        user.email
-                      }
+                    ACTIVE
 
-                    </p>
-
-                  </div>
-
-                  <div className="flex items-center gap-4">
-
-                    <span className={`px-5 py-3 rounded-2xl font-black ${
-                      user.status === "Verified"
-                        ? "bg-green-500/10 text-green-400"
-                        : "bg-yellow-400/10 text-yellow-400"
-                    }`}>
-
-                      {
-                        user.status
-                      }
-
-                    </span>
-
-                    <button className="bg-blue-500 hover:bg-blue-400 transition-all px-5 py-3 rounded-2xl font-black">
-
-                      View
-
-                    </button>
-
-                  </div>
+                  </p>
 
                 </div>
+
               )
             )
           }
@@ -212,6 +450,7 @@ const Admin = () => {
       </div>
 
     </MainLayout>
+
   );
 };
 
