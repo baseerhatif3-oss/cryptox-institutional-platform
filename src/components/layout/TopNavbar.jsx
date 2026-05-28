@@ -24,7 +24,7 @@ const TopNavbar = () => {
         </p>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 flex-wrap">
 
         <div className="hidden md:flex items-center gap-4 bg-black/30 border border-white/10 rounded-2xl px-5 py-4 min-w-[320px]">
 
@@ -38,6 +38,7 @@ const TopNavbar = () => {
             placeholder="Search markets, assets, analytics..."
             className="bg-transparent outline-none w-full text-white"
           />
+
         </div>
 
         <button className="w-14 h-14 rounded-2xl bg-black/30 border border-white/10 flex items-center justify-center relative">
@@ -86,10 +87,11 @@ const TopNavbar = () => {
         </div>
 
       </div>
+
     </div>
   );
 };
 
 export default TopNavbar;
 
-// force vercel redeploy
+// new deploy test 999
