@@ -14,23 +14,16 @@ const TopNavbar = () => {
   const [open, setOpen] = useState(false);
 
   return (
-
     <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 mb-10">
 
       <div>
-
         <h1 className="text-4xl font-black mb-3">
-
           Institutional Trading Infrastructure
-
         </h1>
 
         <p className="text-zinc-500 text-lg">
-
           Enterprise-grade digital asset ecosystem.
-
         </p>
-
       </div>
 
       <div className="flex items-center gap-4">
@@ -80,20 +73,16 @@ const TopNavbar = () => {
             <div className="text-left">
 
               <h2 className="font-black text-lg">
-
                 Baseer
-
               </h2>
 
               <p className="text-sm font-semibold">
-
                 Enterprise Account
-
               </p>
 
             </div>
 
-            <ChevronDown size={20} />
+            <ChevronDown size={18} />
 
           </button>
 
