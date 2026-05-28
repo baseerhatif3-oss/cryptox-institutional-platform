@@ -2,9 +2,37 @@ import {
   Bell,
   Search,
   Settings,
+  ChevronDown,
+  LogOut,
+  User,
 } from "lucide-react";
 
+import {
+  useState,
+} from "react";
+
+import {
+  useNavigate,
+} from "react-router-dom";
+
 const TopNavbar = () => {
+
+  const [
+    open,
+    setOpen,
+  ] = useState(false);
+
+  const navigate =
+    useNavigate();
+
+  const handleLogout = () => {
+
+    localStorage.removeItem(
+      "token"
+    );
+
+    navigate("/login");
+  };
 
   return (
 
@@ -26,7 +54,7 @@ const TopNavbar = () => {
 
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 flex-wrap">
 
         <div className="hidden md:flex items-center gap-4 bg-black/30 border border-white/10 rounded-2xl px-5 py-4 min-w-[320px]">
 
@@ -61,29 +89,81 @@ const TopNavbar = () => {
 
         </button>
 
-        <div className="flex items-center gap-4 bg-yellow-400 text-black px-5 py-3 rounded-2xl">
+        <div className="relative">
 
-          <div className="w-12 h-12 rounded-xl bg-black text-yellow-400 flex items-center justify-center font-black text-xl">
+          <button
+            onClick={() =>
+              setOpen(!open)
+            }
+            className="flex items-center gap-4 bg-yellow-400 text-black px-5 py-3 rounded-2xl hover:scale-[1.02]"
+          >
 
-            B
+            <div className="w-12 h-12 rounded-xl bg-black text-yellow-400 flex items-center justify-center font-black text-xl">
 
-          </div>
+              B
 
-          <div>
+            </div>
 
-            <h2 className="font-black text-lg">
+            <div className="text-left hidden sm:block">
 
-              Baseer
+              <h2 className="font-black text-lg">
 
-            </h2>
+                Baseer
 
-            <p className="text-sm font-semibold">
+              </h2>
 
-              Enterprise Account
+              <p className="text-sm font-semibold">
 
-            </p>
+                Enterprise Account
 
-          </div>
+              </p>
+
+            </div>
+
+            <ChevronDown
+              size={18}
+            />
+
+          </button>
+
+          {
+            open && (
+
+              <div className="absolute right-0 mt-4 w-64 glass rounded-3xl p-4 z-50">
+
+                <button
+                  className="w-full flex items-center gap-3 px-4 py-4 rounded-2xl hover:bg-white/5 transition-all"
+                >
+
+                  <User size={20} />
+
+                  <span className="font-semibold">
+
+                    Profile
+
+                  </span>
+
+                </button>
+
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-3 px-4 py-4 rounded-2xl hover:bg-red-500/10 text-red-400 transition-all"
+                >
+
+                  <LogOut size={20} />
+
+                  <span className="font-semibold">
+
+                    Logout
+
+                  </span>
+
+                </button>
+
+              </div>
+
+            )
+          }
 
         </div>
 
